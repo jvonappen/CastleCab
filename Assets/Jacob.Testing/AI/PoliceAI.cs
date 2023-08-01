@@ -10,6 +10,21 @@ using UnityEditor;
 
 public class PoliceAI : MonoBehaviour
 {
+
+    //[Header("Dishonour ")]
+    //[Tooltip("Both starting and Max value.")]
+    //[SerializeField] private float startingDishonour = 100;
+    //[Tooltip("The value at which the AI deems it important to replenish this need.")]
+    //[SerializeField] private float minHungerThreshold = 40;
+    //[Tooltip("The value the AI will complete refilling this need.")]
+    //[SerializeField] private float maxHungerThreshold = 100;
+    //[Tooltip("The rate this need will deplete over time.")]
+    //[SerializeField] private float hungerDepletionRate = 0.5f;
+    //[Tooltip("Rate at which this need will replenish.")]
+    //[SerializeField] private float hungerReplenishmentRate = 5;
+    //[Tooltip("List of spots the AI can find food to refill Hunger need.")]
+    //[SerializeField] private TargetSpots[] availableFoodSpots;
+
     //[Header("Alert")]
     [Tooltip("Distance the AI will chase away the player.")]
     [SerializeField] private float chasingRange = 3;
