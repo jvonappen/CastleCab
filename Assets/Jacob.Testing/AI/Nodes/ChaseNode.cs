@@ -7,6 +7,7 @@ public class ChaseNode : Node
 {
     private Transform target;
     private NavMeshAgent agent;
+   
 
     public ChaseNode(Transform target, NavMeshAgent agent)
     {

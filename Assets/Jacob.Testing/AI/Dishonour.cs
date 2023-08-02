@@ -13,6 +13,14 @@ public class Dishonour : MonoBehaviour
     [SerializeField] private float medPriorityValue;
     [SerializeField] private float highPriorityValue;
 
+    [Header("Set Dishonour Levels")]
+    [SerializeField] private int oneStar;
+    [SerializeField] private int twoStar;
+    [SerializeField] private int threeStar;
+    public static float _oneStar;
+    public static float _twoStar;
+    public static float _threeStar;
+
 
     [Header("Debug")]
     [SerializeField] private float currentDishonourLevel;

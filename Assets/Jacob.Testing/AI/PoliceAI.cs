@@ -10,34 +10,47 @@ using UnityEditor;
 
 public class PoliceAI : MonoBehaviour
 {
-
-    //[Header("Dishonour ")]
-    //[Tooltip("Both starting and Max value.")]
-    //[SerializeField] private float startingDishonour = 100;
-    //[Tooltip("The value at which the AI deems it important to replenish this need.")]
-    //[SerializeField] private float minHungerThreshold = 40;
-    //[Tooltip("The value the AI will complete refilling this need.")]
-    //[SerializeField] private float maxHungerThreshold = 100;
-    //[Tooltip("The rate this need will deplete over time.")]
-    //[SerializeField] private float hungerDepletionRate = 0.5f;
-    //[Tooltip("Rate at which this need will replenish.")]
-    //[SerializeField] private float hungerReplenishmentRate = 5;
-    //[Tooltip("List of spots the AI can find food to refill Hunger need.")]
-    //[SerializeField] private TargetSpots[] availableFoodSpots;
-
-    //[Header("Alert")]
-    [Tooltip("Distance the AI will chase away the player.")]
-    [SerializeField] private float chasingRange = 3;
-    [Tooltip("Distance the AI will become alert to the player.")]
-    [SerializeField] private float awareRange = 5;
-    //[Tooltip("The Player")]
     [SerializeField] private Transform playerTransform;
+    [Tooltip("Distance the AI will look at the player.")]
+    [SerializeField] private float awareRange = 5;
+    [Tooltip("The speed the animal moves. If left at 0, the speed will default to the navMesh speed.")]
+    [SerializeField] private float normalMovementSpeed = 3.5f;
 
-    //[Header("Wander")]
-    [Tooltip("The center of the wandering radius. Use a fixed object to keep the wander area fixed. Use the animal itself, to have complete free roam.")]
+    //chase, speed, wander
+    private float startChasingRange = 0;
+    private float startSpeed;
+    private float startWanderRange;
+    private float startAwareRange;
+   
+    [Header("Wander")]
+    [Tooltip("The center of the wandering radius. Use a fixed object to keep the wander area fixed. Use the object itself, to have complete free roam.")]
     [SerializeField] private Transform wanderTransform;
     [Tooltip("How far the AI will wander from the wander tranform.")]
     [SerializeField] private float wanderRange = 25;
+
+    [Header("Dishonour Level One")]
+    [Tooltip("Distance the AI will chase away the player.")]
+    [SerializeField] private float chasingRange1 = 5;
+    [Tooltip("Speed modifier for a level one Dishonour Level.")]
+    [SerializeField] private float chaseSpeed1 = 5;
+    [Tooltip("Distance the AI will search for the player.")]
+    [SerializeField] private float searchRange1 = 5;
+
+    [Header("Dishonour Level Two")]
+    [Tooltip("Distance the AI will chase away the player.")]
+    [SerializeField] private float chasingRange2 = 10;
+    [Tooltip("Speed modifier for a level two Dishonour Level.")]
+    [SerializeField] private float chaseSpeed2 = 10;
+    [Tooltip("Distance the AI will search for the player.")]
+    [SerializeField] private float searchRange2 = 10;
+
+    [Header("Dishonour Level Three")]
+    [Tooltip("Distance the AI will chase away the player.")]
+    [SerializeField] private float chasingRange3 = 20;
+    [Tooltip("Speed modifier for a level three Dishonour Level.")]
+    [SerializeField] private float chaseSpeed3 = 15f;
+    [Tooltip("Distance the AI will search for the player.")]
+    [SerializeField] private float searchRange3 = 15;
 
     [Header("UI Notification")]
     [Tooltip("Optional GUI to be displayed above the AI.")]
@@ -48,8 +61,7 @@ public class PoliceAI : MonoBehaviour
     private NavMeshAgent agent;
     private Node topNode;
 
-    [Tooltip("The speed the animal moves. If left at 0, the speed will default to the navMesh speed.")]
-    [SerializeField] private float normalMovementSpeed = 3.5f;
+
 
     private void Awake()
     {
@@ -57,11 +69,10 @@ public class PoliceAI : MonoBehaviour
     }
 
     private void Start()
-    {
-        
+    {     
         SetMovementSpeed();
         BuildAnimalBehaviourTree();
-        //ResetChecks();
+        BaseValues();
     }
 
 
@@ -74,7 +85,7 @@ public class PoliceAI : MonoBehaviour
         //Alert and Chase
         ChaseNode chaseNode = new ChaseNode(playerTransform, agent);
         AlertNode awareNode = new AlertNode(agent, this, playerTransform);
-        RangeNode chasingRangeNode = new RangeNode(chasingRange, playerTransform, transform, chaseUI);
+        RangeNode chasingRangeNode = new RangeNode(startChasingRange, playerTransform, transform, chaseUI);
         RangeNode awareRangeNode = new RangeNode(awareRange, playerTransform, transform, alertUI);
         Sequence chaseSequence = new Sequence(new List<Node> { chasingRangeNode, chaseNode, });
         Sequence awareSequence = new Sequence(new List<Node> { awareRangeNode, awareNode });
@@ -87,6 +98,7 @@ public class PoliceAI : MonoBehaviour
     private void Update()
     {
         topNode.Evaluate();
+        DishonourEvaluate();
     }
 
     private void SetMovementSpeed()
@@ -96,6 +108,40 @@ public class PoliceAI : MonoBehaviour
             agent.speed = normalMovementSpeed;
         }
         else { normalMovementSpeed = agent.speed; }
+    }
 
+    private void DishonourEvaluate()
+    {
+        if(Dishonour.dishonourLevel > Dishonour._oneStar)
+        {
+            startChasingRange = chasingRange1;
+            normalMovementSpeed = chaseSpeed1;
+            wanderRange = searchRange1;
+        }
+        if (Dishonour.dishonourLevel > Dishonour._twoStar)
+        {
+            startChasingRange = chasingRange2;
+            normalMovementSpeed = chaseSpeed2;
+            wanderRange = searchRange2;
+        }
+        if (Dishonour.dishonourLevel > Dishonour._threeStar)
+        {
+            startChasingRange = chasingRange3;
+            normalMovementSpeed = chaseSpeed3;
+            awareRange = searchRange3;
+        }
+        if(Dishonour.dishonourLevel < Dishonour._oneStar)
+        {
+            startChasingRange = 0;
+            normalMovementSpeed = startSpeed;
+            wanderRange = startWanderRange;
+        }
+    }
+
+    private void BaseValues()
+    {
+        startChasingRange = 0;
+        startWanderRange = wanderRange;
+        startSpeed = normalMovementSpeed;
     }
 }
