@@ -12783,7 +12783,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2012484679495063924}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35ce2e72b16b01c45b32919d0b54a5ee, type: 3}
   m_Name: 
@@ -47999,6 +47999,7 @@ GameObject:
   - component: {fileID: 758230476}
   - component: {fileID: 758230478}
   - component: {fileID: 758230477}
+  - component: {fileID: 2012484679495063926}
   m_Layer: 0
   m_Name: Donkey
   m_TagString: Player
@@ -48027,6 +48028,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2012484679495063926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2012484679495063924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 003a04a7e3b33944e9d1f971125be68a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _accelerationInput: 0
+  _steeringInput: 0
+  _moveAcceleration: 50
+  _maxSpeed: 15
+  _drag: 0.98
+  _steerAngle: 10
+  _traction: 1.5
+  _reverseSpeed: 5
 --- !u!137 &2012484680245154332
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
@@ -48681,7 +48702,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6479406695149272612
 Transform:
   m_ObjectHideFlags: 0
