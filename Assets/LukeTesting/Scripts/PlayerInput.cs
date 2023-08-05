@@ -8,7 +8,7 @@ public class PlayerInput : MonoBehaviour
     private PlayerControls _playerInput;
     [SerializeField] private float _accelerationInput;
     [SerializeField] private float _steeringInput;
-    //[SerializeField] private float _handbrakeInput;
+    [SerializeField] private float _jumpInput;
 
     [SerializeField] private float _moveAcceleration = 50f;
     [SerializeField] private float _maxSpeed = 15f;
@@ -16,11 +16,21 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private float _steerAngle = 5f;
     [SerializeField] private float _traction = 1f;
     [SerializeField] private float _reverseSpeed = 5f;
-    private Vector3 _moveSpeed;
     
+    private Vector3 _moveSpeed;
+
+    private Rigidbody _playerRb;
+    private bool _grounded;
+    private float _groundRayLength = 2f;
+    [SerializeField] private LayerMask _whatIsGround;
+    [SerializeField] Transform _groundRayPoint;
+    [SerializeField] private float _jumpHeight = 10f;
+
+
     private void Awake()
     {
         _playerInput = new PlayerControls();
+        _playerRb = GetComponent<Rigidbody>();
     }
 
     private void OnEnable()
@@ -30,8 +40,8 @@ public class PlayerInput : MonoBehaviour
         _playerInput.Controls.Acceleration.canceled += OnReleaseAccelerate;
         _playerInput.Controls.Steering.performed += OnSteering;
         _playerInput.Controls.Steering.canceled += OnReleaseSteering;
-        //_playerInput.Controls.Handbrake.performed += OnHandbrake;
-        //_playerInput.Controls.Handbrake.canceled += OnReleaseHandbrake;
+        _playerInput.Controls.Jump.performed += OnJump;
+        _playerInput.Controls.Jump.canceled += OnReleaseJump;
     }
 
     private void OnDisable()
@@ -41,28 +51,37 @@ public class PlayerInput : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //Moving
-        _moveSpeed += transform.forward * _moveAcceleration * _accelerationInput * Time.deltaTime;
-        transform.position += _moveSpeed * Time.deltaTime; //continues moving even when key is not pressed
+        _grounded = false;
+        RaycastHit hit;
 
-        //Steering
-        transform.Rotate(Vector3.up * _steeringInput, _moveSpeed.magnitude * _steerAngle * Time.deltaTime);
-
-        //Drag
-        _moveSpeed *= _drag;
-        if (_accelerationInput > 0)
+        if (Physics.Raycast(_groundRayPoint.position, -transform.up, out hit, _groundRayLength, _whatIsGround))
         {
-            _moveSpeed = Vector3.ClampMagnitude(_moveSpeed, _maxSpeed);
-        } 
-        else //Slow speed for reveresing
-        {
-            _moveSpeed = Vector3.ClampMagnitude(_moveSpeed, _reverseSpeed);
+            _grounded = true;
         }
 
-        //Traction
-        Debug.DrawRay(transform.position, _moveSpeed.normalized * 5);
-        Debug.DrawRay(transform.position, transform.forward * 5, Color.blue);
-        _moveSpeed = Vector3.Lerp(_moveSpeed.normalized, transform.forward, _traction *  Time.deltaTime) * _moveSpeed.magnitude;
+        if (_grounded)
+        {
+            //Moving
+            _moveSpeed += transform.forward * _moveAcceleration * _accelerationInput * Time.deltaTime;
+            transform.position += _moveSpeed * Time.deltaTime; //continues moving even when key is not pressed
+
+            //Steering
+            transform.Rotate(Vector3.up * _steeringInput, _moveSpeed.magnitude * _steerAngle * Time.deltaTime);
+
+            //Drag
+            _moveSpeed *= _drag;
+            if (_accelerationInput > 0)
+            {
+                _moveSpeed = Vector3.ClampMagnitude(_moveSpeed, _maxSpeed);
+            }
+            else //Slow speed for reveresing
+            {
+                _moveSpeed = Vector3.ClampMagnitude(_moveSpeed, _reverseSpeed);
+            }
+
+            //Traction
+            _moveSpeed = Vector3.Lerp(_moveSpeed.normalized, transform.forward, _traction * Time.deltaTime) * _moveSpeed.magnitude;
+        }
     }
 
     private void OnAccelerate(InputAction.CallbackContext value)
@@ -85,13 +104,13 @@ public class PlayerInput : MonoBehaviour
         _steeringInput = 0;
     }
 
-    //private void OnHandbrake(InputAction.CallbackContext value)
-    //{
-    //    _handbrakeInput = value.ReadValue<float>();
-    //}
+    private void OnJump(InputAction.CallbackContext value)
+    {
+        _jumpInput = value.ReadValue<float>();
+    }
 
-    //private void OnReleaseHandbrake(InputAction.CallbackContext value)
-    //{
-    //    _handbrakeInput = 0;
-    //}
+    private void OnReleaseJump(InputAction.CallbackContext value)
+    {
+        _jumpInput = 0;
+    }
 }
