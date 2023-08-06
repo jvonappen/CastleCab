@@ -12,16 +12,10 @@ public class PoliceAI : MonoBehaviour
 {
     [SerializeField] private Transform playerTransform;
     [Tooltip("Distance the AI will look at the player.")]
-    [SerializeField] private float awareRange = 5;
+    [SerializeField] private float awareRange;
     [Tooltip("The speed the animal moves. If left at 0, the speed will default to the navMesh speed.")]
-    [SerializeField] private float normalMovementSpeed = 3.5f;
+    [SerializeField] private float movementSpeed = 3.5f;
 
-    //chase, speed, wander
-    private float startChasingRange = 0;
-    private float startSpeed;
-    private float startWanderRange;
-    private float startAwareRange;
-   
     [Header("Wander")]
     [Tooltip("The center of the wandering radius. Use a fixed object to keep the wander area fixed. Use the object itself, to have complete free roam.")]
     [SerializeField] private Transform wanderTransform;
@@ -52,96 +46,139 @@ public class PoliceAI : MonoBehaviour
     [Tooltip("Distance the AI will search for the player.")]
     [SerializeField] private float searchRange3 = 15;
 
-    [Header("UI Notification")]
-    [Tooltip("Optional GUI to be displayed above the AI.")]
-    [SerializeField] private bool usingGUI = true;
-    [SerializeField] private GameObject alertUI;
-    [SerializeField] private GameObject chaseUI;
-
     private NavMeshAgent agent;
-    private Node topNode;
+    private Transform thisTransform;
+
+    //Dishonour Stuff
+
+    [Header("Debug")]
+    [SerializeField] private float chasingRange0; //how long for chase
+    [SerializeField] private float chaseSpeed0; // speed
+    [SerializeField] private float searchRange0; //aka wander
+
 
 
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-    }
-
-    private void Start()
-    {     
-        SetMovementSpeed();
-        BuildAnimalBehaviourTree();
-        BaseValues();
-    }
-
-
-
-    private void BuildAnimalBehaviourTree() /* Tree works from bottom up */
-    {
-        //Wander
-        WanderNode wanderNode = new WanderNode(wanderTransform, agent, wanderRange); //use 'transform' to set center on agent.
-
-        //Alert and Chase
-        ChaseNode chaseNode = new ChaseNode(playerTransform, agent);
-        AlertNode awareNode = new AlertNode(agent, this, playerTransform);
-        RangeNode chasingRangeNode = new RangeNode(startChasingRange, playerTransform, transform, chaseUI);
-        RangeNode awareRangeNode = new RangeNode(awareRange, playerTransform, transform, alertUI);
-        Sequence chaseSequence = new Sequence(new List<Node> { chasingRangeNode, chaseNode, });
-        Sequence awareSequence = new Sequence(new List<Node> { awareRangeNode, awareNode });
-
-        //Top Selector
-        topNode = new Selector(new List<Node> { chaseSequence, awareSequence, wanderNode });
-        //--------------------------------------------------------------------------------------------------------------
+        thisTransform = agent.transform;
     }
 
     private void Update()
     {
-        topNode.Evaluate();
         DishonourEvaluate();
+        //WanderEvaluate();
+        //InRange(searchRange0, playerTransform, wanderTransform);
+        
     }
 
-    private void SetMovementSpeed()
-    {
-        if (normalMovementSpeed > 0)
-        {
-            agent.speed = normalMovementSpeed;
-        }
-        else { normalMovementSpeed = agent.speed; }
-    }
 
     private void DishonourEvaluate()
     {
-        if(Dishonour.dishonourLevel > Dishonour._oneStar)
+        if (Dishonour.dishonourLevel < Dishonour._oneStar)
         {
-            startChasingRange = chasingRange1;
-            normalMovementSpeed = chaseSpeed1;
-            wanderRange = searchRange1;
+            DishonourZero();
         }
-        if (Dishonour.dishonourLevel > Dishonour._twoStar)
+        if (Dishonour.dishonourLevel >= Dishonour._oneStar)
         {
-            startChasingRange = chasingRange2;
-            normalMovementSpeed = chaseSpeed2;
-            wanderRange = searchRange2;
+            DishonourOne();
         }
-        if (Dishonour.dishonourLevel > Dishonour._threeStar)
+        if (Dishonour.dishonourLevel >= Dishonour._twoStar)
         {
-            startChasingRange = chasingRange3;
-            normalMovementSpeed = chaseSpeed3;
-            awareRange = searchRange3;
+            DishonourTwo();
         }
-        if(Dishonour.dishonourLevel < Dishonour._oneStar)
+        if (Dishonour.dishonourLevel >= Dishonour._threeStar)
         {
-            startChasingRange = 0;
-            normalMovementSpeed = startSpeed;
-            wanderRange = startWanderRange;
+            DishonourThree();
+        }
+        InRange();
+        agent.speed= searchRange0;
+    }
+
+    private void DishonourZero()   { chasingRange0 = 0;             chaseSpeed0 = movementSpeed; searchRange0 = wanderRange; }
+    private void DishonourOne()    { chasingRange0 = chasingRange1; chaseSpeed0 = chaseSpeed1; searchRange0 = searchRange1; }
+    private void DishonourTwo()    { chasingRange0 = chasingRange2; chaseSpeed0 = chaseSpeed2; searchRange0 = searchRange2; }
+    private void DishonourThree()  { chasingRange0 = chasingRange3; chaseSpeed0 = chaseSpeed3; searchRange0 = searchRange3; }
+
+    private void WanderAllOver()
+    {
+        float RD = agent.remainingDistance;
+        float SD = agent.stoppingDistance;
+
+        if (RD <= SD)
+        {
+            Vector3 point;
+            if (FindRandomPoint(wanderTransform.position, searchRange0, out point)) //pass in centrepoint and radius of area
+            {
+                agent.SetDestination(point);
+            }
         }
     }
 
-    private void BaseValues()
+    bool FindRandomPoint(Vector3 center, float range, out Vector3 result)
     {
-        startChasingRange = 0;
-        startWanderRange = wanderRange;
-        startSpeed = normalMovementSpeed;
+
+        Vector3 randomPoint = center + UnityEngine.Random.insideUnitSphere * range; //random point in a sphere 
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(randomPoint, out hit, 10.0f, NavMesh.AllAreas))
+        {
+            result = hit.position;
+            return true;
+        }
+
+        result = Vector3.zero;
+        return false;
     }
+
+    private void WanderEvaluate()
+    {
+        WanderAllOver();
+        if (agent.isStopped != true)
+        {
+            Debug.Log("Wandering Around");           
+        }
+        else
+        {
+            Debug.Log("Wandering Done");
+            WanderAllOver();
+        }
+    }
+
+    private void Chase()
+    {
+
+        float distance = Vector3.Distance(playerTransform.position, agent.transform.position);
+        if (distance > chasingRange0)
+        {
+            agent.isStopped = false;
+            agent.SetDestination(playerTransform.position);
+            Debug.Log("isChasing State");
+        }
+        //else
+        //{
+        //   //agent.isStopped = true;
+        //    Debug.Log("Chase complete");
+        //    //WanderEvaluate();
+        //}
+
+    }
+
+    private void InRange() //float range, Transform target, Transform origin
+    {
+        //searchRange0 = range;
+        //playerTransform = target;
+        //thisTransform = origin;
+
+        float distance = Vector3.Distance(playerTransform.position, thisTransform.position);
+        if (distance < chasingRange0)
+        {
+            Chase();
+        }
+        else if (distance > chasingRange0) { WanderAllOver(); }
+
+    }
+
+
+
 }
