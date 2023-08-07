@@ -11,16 +11,16 @@ using UnityEditor;
 public class PoliceAI : MonoBehaviour
 {
     [SerializeField] private Transform playerTransform;
-    [Tooltip("Distance the AI will look at the player.")]
-    [SerializeField] private float awareRange;
-    [Tooltip("The speed the animal moves. If left at 0, the speed will default to the navMesh speed.")]
-    [SerializeField] private float movementSpeed = 3.5f;
+    //[Tooltip("Distance the AI will look at the player.")]
+    //[SerializeField] private float awareRange;
 
     [Header("Wander")]
     [Tooltip("The center of the wandering radius. Use a fixed object to keep the wander area fixed. Use the object itself, to have complete free roam.")]
     [SerializeField] private Transform wanderTransform;
     [Tooltip("How far the AI will wander from the wander tranform.")]
     [SerializeField] private float wanderRange = 25;
+    [Tooltip("The normal speed the gaurd moves. If left at 0, the speed will default to the navMesh speed.")]
+    [SerializeField] private float movementSpeed = 3.5f;
 
     [Header("Dishonour Level One")]
     [Tooltip("Distance the AI will chase away the player.")]

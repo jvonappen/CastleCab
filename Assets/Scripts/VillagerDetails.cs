@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class VillagerDetails : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class VillagerDetails : MonoBehaviour
     [SerializeField] public GameObject destination;
 
     [SerializeField] public int dollarsGiven;
+
+    public static bool isInCart = false;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -24,6 +27,9 @@ public class VillagerDetails : MonoBehaviour
             //atDestination = false;
             this.gameObject.GetComponent<CapsuleCollider>().enabled = false; 
             this.gameObject.GetComponentInChildren<Canvas>().enabled = false;
+
+            this.gameObject.GetComponent<NavMeshAgent>().enabled = false;
+            isInCart = true;
         }
     }
 }

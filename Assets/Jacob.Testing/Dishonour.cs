@@ -17,6 +17,7 @@ public class Dishonour : MonoBehaviour
     [SerializeField] private int oneStar;
     [SerializeField] private int twoStar;
     [SerializeField] private int threeStar;
+    [SerializeField] private int maxDishonourCap = 100;
     public static int _oneStar;
     public static int _twoStar;
     public static int _threeStar;
@@ -44,7 +45,7 @@ public class Dishonour : MonoBehaviour
 
     void Update()
     {
-        currentDishonourLevel = dishonourLevel;
+        DishonourUpdate();
         DishonourDepletion();
         StarGUI();
     }
@@ -95,5 +96,12 @@ public class Dishonour : MonoBehaviour
         }
     }
 
-
+    private void DishonourUpdate()
+    {
+        currentDishonourLevel = dishonourLevel;
+        if(dishonourLevel >= maxDishonourCap)
+        {
+            dishonourLevel = maxDishonourCap;
+        }
+    }
 }
