@@ -49,15 +49,10 @@ public class PoliceAI : MonoBehaviour
     private NavMeshAgent agent;
     private Transform thisTransform;
 
-    //Dishonour Stuff
-
     [Header("Debug")]
     [SerializeField] private float chasingRange0; //how long for chase
     [SerializeField] private float chaseSpeed0; // speed
     [SerializeField] private float searchRange0; //aka wander
-
-
-
 
     private void Awake()
     {
@@ -68,9 +63,7 @@ public class PoliceAI : MonoBehaviour
     private void Update()
     {
         DishonourEvaluate();
-        //WanderEvaluate();
-        //InRange(searchRange0, playerTransform, wanderTransform);
-        
+        //Chase();     
     }
 
 
@@ -130,55 +123,23 @@ public class PoliceAI : MonoBehaviour
         result = Vector3.zero;
         return false;
     }
-
-    private void WanderEvaluate()
-    {
-        WanderAllOver();
-        if (agent.isStopped != true)
-        {
-            Debug.Log("Wandering Around");           
-        }
-        else
-        {
-            Debug.Log("Wandering Done");
-            WanderAllOver();
-        }
-    }
-
     private void Chase()
     {
-
         float distance = Vector3.Distance(playerTransform.position, agent.transform.position);
-        if (distance > chasingRange0)
+        if (distance < chasingRange0)
         {
             agent.isStopped = false;
             agent.SetDestination(playerTransform.position);
             Debug.Log("isChasing State");
         }
-        //else
-        //{
-        //   //agent.isStopped = true;
-        //    Debug.Log("Chase complete");
-        //    //WanderEvaluate();
-        //}
-
     }
-
-    private void InRange() //float range, Transform target, Transform origin
+    private void InRange()
     {
-        //searchRange0 = range;
-        //playerTransform = target;
-        //thisTransform = origin;
-
         float distance = Vector3.Distance(playerTransform.position, thisTransform.position);
         if (distance < chasingRange0)
         {
             Chase();
         }
-        else if (distance > chasingRange0) { WanderAllOver(); }
-
+        if (distance > chasingRange0) { WanderAllOver(); }
     }
-
-
-
 }
