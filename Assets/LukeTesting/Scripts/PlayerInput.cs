@@ -19,7 +19,7 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private LayerMask _whatIsGround;
     [SerializeField] private Transform _groundRayPoint;
     [SerializeField] private float _groundRayLength = 0.5f;
-    private bool _grounded;
+    [SerializeField] private bool _grounded;
     private float _speedInput;
 
     private void Awake()
@@ -64,7 +64,7 @@ public class PlayerInput : MonoBehaviour
         }
 
         //Update positon
-        //transform.position = _sphereRB.transform.position;
+        transform.position = _sphereRB.transform.position;
         Debug.DrawRay(_groundRayPoint.position, -Vector3.up, Color.red);
     }
 
@@ -83,7 +83,7 @@ public class PlayerInput : MonoBehaviour
         {
             _sphereRB.drag = _dragOnGround;
             _sphereRB.AddForce(transform.forward * _speedInput);
-            _groundRayLength = 0.5f;
+            _groundRayLength = 1.5f;
         }
         else//add gravity when in air
         {
@@ -92,6 +92,7 @@ public class PlayerInput : MonoBehaviour
             _groundRayLength = 1.5f;
         }
 
+        //control in air
         float angle = Vector3.Angle(transform.up, Vector3.up);
         if (angle > maxTippingAngle)
         {

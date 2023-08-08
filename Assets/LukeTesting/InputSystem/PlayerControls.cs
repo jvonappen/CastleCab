@@ -46,7 +46,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Jump"",
+                    ""name"": ""Brake"",
                     ""type"": ""Button"",
                     ""id"": ""de50846d-b4af-488d-a331-1a22d8de9ee8"",
                     ""expectedControlType"": ""Button"",
@@ -129,7 +129,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Jump"",
+                    ""action"": ""Brake"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -142,7 +142,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Controls = asset.FindActionMap("Controls", throwIfNotFound: true);
         m_Controls_Acceleration = m_Controls.FindAction("Acceleration", throwIfNotFound: true);
         m_Controls_Steering = m_Controls.FindAction("Steering", throwIfNotFound: true);
-        m_Controls_Jump = m_Controls.FindAction("Jump", throwIfNotFound: true);
+        m_Controls_Brake = m_Controls.FindAction("Brake", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -204,14 +204,14 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private IControlsActions m_ControlsActionsCallbackInterface;
     private readonly InputAction m_Controls_Acceleration;
     private readonly InputAction m_Controls_Steering;
-    private readonly InputAction m_Controls_Jump;
+    private readonly InputAction m_Controls_Brake;
     public struct ControlsActions
     {
         private @PlayerControls m_Wrapper;
         public ControlsActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Acceleration => m_Wrapper.m_Controls_Acceleration;
         public InputAction @Steering => m_Wrapper.m_Controls_Steering;
-        public InputAction @Jump => m_Wrapper.m_Controls_Jump;
+        public InputAction @Brake => m_Wrapper.m_Controls_Brake;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -227,9 +227,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Steering.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnSteering;
                 @Steering.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnSteering;
                 @Steering.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnSteering;
-                @Jump.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnJump;
-                @Jump.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnJump;
-                @Jump.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnJump;
+                @Brake.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnBrake;
+                @Brake.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnBrake;
+                @Brake.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnBrake;
             }
             m_Wrapper.m_ControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -240,9 +240,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Steering.started += instance.OnSteering;
                 @Steering.performed += instance.OnSteering;
                 @Steering.canceled += instance.OnSteering;
-                @Jump.started += instance.OnJump;
-                @Jump.performed += instance.OnJump;
-                @Jump.canceled += instance.OnJump;
+                @Brake.started += instance.OnBrake;
+                @Brake.performed += instance.OnBrake;
+                @Brake.canceled += instance.OnBrake;
             }
         }
     }
@@ -251,6 +251,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     {
         void OnAcceleration(InputAction.CallbackContext context);
         void OnSteering(InputAction.CallbackContext context);
-        void OnJump(InputAction.CallbackContext context);
+        void OnBrake(InputAction.CallbackContext context);
     }
 }
