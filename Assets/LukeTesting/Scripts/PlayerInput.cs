@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,11 +22,9 @@ public class PlayerInput : MonoBehaviour
     private bool _grounded;
     private float _speedInput;
 
-
     private void Awake()
     {
         _playerInput = new PlayerControls();
-
         _sphereRB.transform.parent = null;
     }
 
