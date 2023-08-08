@@ -130,7 +130,8 @@ public class PoliceAI : MonoBehaviour
         {
             agent.isStopped = false;
             agent.SetDestination(playerTransform.position);
-            Debug.Log("isChasing State");
+            //Debug.Log("isChasing State");
+            DishonourIncrease();
         }
     }
     private void InRange()
@@ -141,5 +142,10 @@ public class PoliceAI : MonoBehaviour
             Chase();
         }
         if (distance > chasingRange0) { WanderAllOver(); }
+    }
+
+    private void DishonourIncrease()
+    {
+     Dishonour.dishonourLevel += Time.deltaTime * Dishonour._dishonourDepletionRef + 1;
     }
 }

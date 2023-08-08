@@ -7,6 +7,7 @@ public class Dishonour : MonoBehaviour
     public static float dishonourLevel;
     
     [SerializeField] private int dishonourDepletionRate;
+    public static int _dishonourDepletionRef;
 
     [Header("Dishonour Values")]
     [SerializeField] private int lowPriorityValue;
@@ -40,6 +41,8 @@ public class Dishonour : MonoBehaviour
         _oneStar = oneStar;
         _twoStar = twoStar;
         _threeStar = threeStar;
+
+        _dishonourDepletionRef = dishonourDepletionRate;
     }
 
 

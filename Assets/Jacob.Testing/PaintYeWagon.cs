@@ -5,20 +5,35 @@ using UnityEngine;
 public class PaintYeWagon : MonoBehaviour
 {
     [SerializeField] private GameObject wagon;
-   // public Paint[] paint;
+    [SerializeField] private int cost;
+    [SerializeField] private Canvas paintYeWagonCanvas;
+
+    private void Start()
+    {
+        paintYeWagonCanvas.enabled = false;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         PaintMeWagon();
     }
 
+    private void OnTriggerExit(Collider other)
+    {
+        paintYeWagonCanvas.enabled = false;
+    }
+
     void PaintMeWagon()
     {
-        if (Dishonour.dishonourLevel > Dishonour._oneStar)
+        if (Dishonour.dishonourLevel >= Dishonour._oneStar && DollarDisplay.dollarValue >= cost)
         {
-            wagon.GetComponent<Material>().SetColor(name, Color.red);
-
-            //wagon.SetColor(2, Color.green);
+            wagon.GetComponent<Renderer>().material.color = Color.green;
+            Dishonour.dishonourLevel = 0;
+            DollarDisplay.dollarValue = DollarDisplay.dollarValue - cost;
+        }
+        if (Dishonour.dishonourLevel >= Dishonour._oneStar && DollarDisplay.dollarValue < cost)
+        {
+            paintYeWagonCanvas.enabled = true;
         }
     }
 
