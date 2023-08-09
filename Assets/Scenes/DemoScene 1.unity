@@ -8905,6 +8905,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dollarDisplay: {fileID: 1957706660}
+  startingDollars: 0
 --- !u!1 &567566385
 GameObject:
   m_ObjectHideFlags: 0
@@ -48779,15 +48780,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1992f3886f1d6984382bb470c8cd1b74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chasingRange: 30
-  awareRange: 10
   playerTransform: {fileID: 2012484679495063925}
   wanderTransform: {fileID: 6479406695149272612}
   wanderRange: 10
-  usingGUI: 1
-  alertUI: {fileID: 0}
-  chaseUI: {fileID: 0}
-  normalMovementSpeed: 10
+  movementSpeed: 3.5
+  chasingRange1: 5
+  chaseSpeed1: 5
+  searchRange1: 5
+  chasingRange2: 10
+  chaseSpeed2: 10
+  searchRange2: 10
+  chasingRange3: 20
+  chaseSpeed3: 15
+  searchRange3: 15
+  chasingRange0: 0
+  chaseSpeed0: 0
+  searchRange0: 0
 --- !u!195 &6479406695149272617
 NavMeshAgent:
   m_ObjectHideFlags: 0

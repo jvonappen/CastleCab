@@ -10,6 +10,8 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private float _steeringInput;
 
     [SerializeField] private Rigidbody _sphereRB;
+    [SerializeField] private GameObject _wagon;
+    [SerializeField] private ParticleSystem[] _dustTrail;
     [SerializeField] private float _forwardAcceleration = 8f;
     [SerializeField] private float _reverseAcceleration = 4f;
     [SerializeField] private float _turnStrength = 180f;
@@ -20,12 +22,14 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private Transform _groundRayPoint;
     [SerializeField] private float _groundRayLength = 0.5f;
     [SerializeField] private bool _grounded;
+    [SerializeField] private ConfigurableJoint _joint;
     private float _speedInput;
 
     private void Awake()
     {
         _playerInput = new PlayerControls();
         _sphereRB.transform.parent = null;
+        _joint = _wagon.GetComponent<ConfigurableJoint>();
     }
 
     private void OnEnable()
@@ -57,10 +61,17 @@ public class PlayerInput : MonoBehaviour
         _speedInput = _accelerationInput > 0 ? _forwardAcceleration : _reverseAcceleration;
         _speedInput *= 1000f * _accelerationInput;
 
-        //Steering
-        if (_grounded)
+        //Adjust wagon movement for reversing
+        _joint.angularYMotion = _accelerationInput < 0 ? ConfigurableJointMotion.Locked : ConfigurableJointMotion.Limited;
+
+        //Adjust Particles
+        if(_accelerationInput > 0 && _grounded)
         {
-            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, _steeringInput * _turnStrength * Time.deltaTime * _accelerationInput, 0f));
+            PlayDustParticles();
+        }
+        else
+        {
+            StopDustParticles();
         }
 
         //Update positon
@@ -83,13 +94,14 @@ public class PlayerInput : MonoBehaviour
         {
             _sphereRB.drag = _dragOnGround;
             _sphereRB.AddForce(transform.forward * _speedInput);
-            _groundRayLength = 1.5f;
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, _steeringInput * _turnStrength * Time.deltaTime * _accelerationInput, 0f));
         }
         else//add gravity when in air
         {
+            StopDustParticles();
+
             _sphereRB.drag = 0.0f;
             _sphereRB.AddForce(Vector3.up * -_gravityForce * 100f);
-            _groundRayLength = 1.5f;
         }
 
         //control in air
@@ -97,6 +109,22 @@ public class PlayerInput : MonoBehaviour
         if (angle > maxTippingAngle)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.FromToRotation(transform.up, Vector3.up), Mathf.InverseLerp(angle, 0, maxTippingAngle));
+        }
+    }
+
+    private void PlayDustParticles()
+    {
+        for (int i = 0; i < _dustTrail.Length; i++)
+        {
+            _dustTrail[i].Play();
+        }
+    }
+
+    private void StopDustParticles()
+    {
+        for (int i = 0; i < _dustTrail.Length; i++)
+        {
+            _dustTrail[i].Stop();
         }
     }
 
