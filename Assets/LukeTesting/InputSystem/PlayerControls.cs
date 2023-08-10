@@ -46,7 +46,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Brake"",
+                    ""name"": ""ResetPlayer"",
                     ""type"": ""Button"",
                     ""id"": ""de50846d-b4af-488d-a331-1a22d8de9ee8"",
                     ""expectedControlType"": ""Button"",
@@ -129,7 +129,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Brake"",
+                    ""action"": ""ResetPlayer"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -142,7 +142,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Controls = asset.FindActionMap("Controls", throwIfNotFound: true);
         m_Controls_Acceleration = m_Controls.FindAction("Acceleration", throwIfNotFound: true);
         m_Controls_Steering = m_Controls.FindAction("Steering", throwIfNotFound: true);
-        m_Controls_Brake = m_Controls.FindAction("Brake", throwIfNotFound: true);
+        m_Controls_ResetPlayer = m_Controls.FindAction("ResetPlayer", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -204,14 +204,14 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private IControlsActions m_ControlsActionsCallbackInterface;
     private readonly InputAction m_Controls_Acceleration;
     private readonly InputAction m_Controls_Steering;
-    private readonly InputAction m_Controls_Brake;
+    private readonly InputAction m_Controls_ResetPlayer;
     public struct ControlsActions
     {
         private @PlayerControls m_Wrapper;
         public ControlsActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Acceleration => m_Wrapper.m_Controls_Acceleration;
         public InputAction @Steering => m_Wrapper.m_Controls_Steering;
-        public InputAction @Brake => m_Wrapper.m_Controls_Brake;
+        public InputAction @ResetPlayer => m_Wrapper.m_Controls_ResetPlayer;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -227,9 +227,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Steering.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnSteering;
                 @Steering.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnSteering;
                 @Steering.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnSteering;
-                @Brake.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnBrake;
-                @Brake.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnBrake;
-                @Brake.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnBrake;
+                @ResetPlayer.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnResetPlayer;
+                @ResetPlayer.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnResetPlayer;
+                @ResetPlayer.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnResetPlayer;
             }
             m_Wrapper.m_ControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -240,9 +240,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Steering.started += instance.OnSteering;
                 @Steering.performed += instance.OnSteering;
                 @Steering.canceled += instance.OnSteering;
-                @Brake.started += instance.OnBrake;
-                @Brake.performed += instance.OnBrake;
-                @Brake.canceled += instance.OnBrake;
+                @ResetPlayer.started += instance.OnResetPlayer;
+                @ResetPlayer.performed += instance.OnResetPlayer;
+                @ResetPlayer.canceled += instance.OnResetPlayer;
             }
         }
     }
@@ -251,6 +251,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     {
         void OnAcceleration(InputAction.CallbackContext context);
         void OnSteering(InputAction.CallbackContext context);
-        void OnBrake(InputAction.CallbackContext context);
+        void OnResetPlayer(InputAction.CallbackContext context);
     }
 }
