@@ -14,6 +14,7 @@ public class MiniMapCam : MonoBehaviour
     private void Awake()
     {
         miniMapCamera = m_Camera;
+        MapClamp.minimapCamTransform = m_Camera.transform;
     }
 
     private void LateUpdate()

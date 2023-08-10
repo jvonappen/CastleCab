@@ -11,6 +11,7 @@ using UnityEditor;
 public class PoliceAI : MonoBehaviour
 {
     [SerializeField] private Transform playerTransform;
+    [SerializeField] private GameObject piggySiren;
     //[Tooltip("Distance the AI will look at the player.")]
     //[SerializeField] private float awareRange;
 
@@ -53,7 +54,7 @@ public class PoliceAI : MonoBehaviour
     [SerializeField] private float chasingRange0; //how long for chase
     [SerializeField] private float chaseSpeed0; // speed
     [SerializeField] private float searchRange0; //aka wander
-
+    [SerializeField] private bool sirenToggle;
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -63,7 +64,6 @@ public class PoliceAI : MonoBehaviour
     private void Update()
     {
         DishonourEvaluate();
-        //Chase();     
     }
 
 
@@ -132,6 +132,7 @@ public class PoliceAI : MonoBehaviour
             agent.SetDestination(playerTransform.position);
             //Debug.Log("isChasing State");
             DishonourIncrease();
+
         }
     }
     private void InRange()
@@ -140,6 +141,7 @@ public class PoliceAI : MonoBehaviour
         if (distance < chasingRange0)
         {
             Chase();
+            
         }
         if (distance > chasingRange0) { WanderAllOver(); }
     }
@@ -148,4 +150,10 @@ public class PoliceAI : MonoBehaviour
     {
      Dishonour.dishonourLevel += Time.deltaTime * Dishonour._dishonourDepletionRef + 1;
     }
+
+    //private void TurnOnSiren()
+    //{
+    //    if(playSiren == true) { piggySiren.SetActive(true); }
+    //    else if(playSiren == false) { piggySiren.SetActive(!false); }
+    //}
 }

@@ -50,7 +50,7 @@ public class Dishonour : MonoBehaviour
     {
         DishonourUpdate();
         DishonourDepletion();
-        StarGUI();
+        StarGUI();      
     }
 
 
