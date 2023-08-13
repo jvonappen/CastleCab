@@ -10,6 +10,13 @@ public class ArriveAtObjective : MonoBehaviour
     [SerializeField] private GameObject exitLocation;
 
     [SerializeField] private VillagerDetails villager;
+
+    [SerializeField] private Canvas minimapMarker; //temp
+
+    private void Start()
+    {
+        minimapMarker.enabled = false; //temp
+    }
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Hello");
@@ -26,6 +33,8 @@ public class ArriveAtObjective : MonoBehaviour
 
             DollarDisplay.dollarValue = DollarDisplay.dollarValue + villager.dollarsGiven;
             AudioManager.Instance.PlaySFX("Money");
+
+            minimapMarker.enabled = false; //temp
 
         }
     }

@@ -12,6 +12,13 @@ public class VillagerDetails : MonoBehaviour
 
     public static bool isInCart = false;
 
+    [SerializeField] private Canvas minimapLocationMarker; //change this temp fix
+
+    [SerializeField] private Canvas minimapQuestMarker;//temp
+    private void Start()
+    {
+        minimapLocationMarker.enabled = false; //temp
+    }
     private void OnTriggerEnter(Collider other)
     {
         if(!CartDetails.isOccupied && other.tag == "Player")
@@ -30,6 +37,9 @@ public class VillagerDetails : MonoBehaviour
 
             this.gameObject.GetComponent<NavMeshAgent>().enabled = false;
             isInCart = true;
+
+            minimapLocationMarker.enabled = true; //temp
+            minimapQuestMarker.enabled = false ; //temp
         }
     }
 }

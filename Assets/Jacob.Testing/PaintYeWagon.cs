@@ -15,7 +15,11 @@ public class PaintYeWagon : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        PaintMeWagon();
+        if(other.tag == "Player")
+        {
+            PaintMeWagon();
+        }
+        
     }
 
     private void OnTriggerExit(Collider other)

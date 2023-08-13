@@ -5,8 +5,11 @@ using UnityEngine;
 public class CharacterMover : MonoBehaviour
 {
     public float speed = 10;
+    [SerializeField] private float boost = 0.1f;
+    [SerializeField] private float speedMAX = 20;
+    private float _originalSpeed;
 
-    CharacterController cc;
+   CharacterController cc;
     Vector2 moveInput = new Vector2();
 
     bool jumpInput;
@@ -20,22 +23,25 @@ public class CharacterMover : MonoBehaviour
 
     public float mass = 200;
 
+    //[SerializeField] private GameObject dustTrail;
+    [SerializeField] private ParticleSystem[] _dustTrail;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        cc = GetComponent<CharacterController>();
+        _originalSpeed = speed;
+    }
 
     void Update()
     {
         moveInput.x = Input.GetAxis("Horizontal");
         moveInput.y = Input.GetAxis("Vertical");
         jumpInput = Input.GetButton("Jump");   /* Disabled jumping */
+        DriftControls();
 
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        cc = GetComponent<CharacterController>();
-    }
-
-    // Update is called once per frame
     void FixedUpdate()
     {
         // find the horizontal unit vector facing forward from the camera
@@ -100,4 +106,49 @@ public class CharacterMover : MonoBehaviour
             hit.rigidbody.AddForceAtPosition(velocity * mass, hit.point);
         }
     }
+
+    private void DriftControls()
+    {
+        if(moveInput.x != 0 && moveInput.y != 0)
+        {
+            PlayDustParticles();
+            if(speed < speedMAX)
+            {
+                speed = speed + boost * Time.fixedDeltaTime;
+            }
+            else if(speed > speedMAX) { speed = speedMAX; }
+            
+        }
+        else
+        {
+            StopDustParticles();
+            if (speed > _originalSpeed)
+            {
+                speed = speed - boost * Time.fixedDeltaTime;
+            }
+            if(speed <= _originalSpeed) 
+            {
+                
+                speed = _originalSpeed;
+            }
+
+        }
+    }
+
+    private void PlayDustParticles()
+    {
+        for (int i = 0; i < _dustTrail.Length; i++)
+        {
+            _dustTrail[i].Play();
+        }
+    }
+
+    private void StopDustParticles()
+    {
+        for (int i = 0; i < _dustTrail.Length; i++)
+        {
+            _dustTrail[i].Stop();
+        }
+    }
+
 }
