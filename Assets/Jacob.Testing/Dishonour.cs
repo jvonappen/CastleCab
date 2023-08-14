@@ -28,9 +28,6 @@ public class Dishonour : MonoBehaviour
     [SerializeField] private GameObject star2;
     [SerializeField] private GameObject star3;
 
-
-
-
     [Header("Debug")]
     [SerializeField] private float startingDishonourLevel;
     [SerializeField] private float currentDishonourLevel;

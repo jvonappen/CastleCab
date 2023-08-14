@@ -129,9 +129,9 @@ public class PoliceAI : MonoBehaviour
         if (distance < chasingRange0)
         {
             agent.isStopped = false;
-            agent.SetDestination(playerTransform.position);
-            //Debug.Log("isChasing State");
+            agent.SetDestination(playerTransform.position);           
             DishonourIncrease();
+            //Debug.Log("isChasing State");
 
         }
     }

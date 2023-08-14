@@ -15,9 +15,10 @@ public class VillagerDetails : MonoBehaviour
     [SerializeField] private Canvas minimapLocationMarker; //change this temp fix
 
     [SerializeField] private Canvas minimapQuestMarker;//temp
-    [SerializeField] private NavMeshAgent agent; //temp
+    
+    private NavMeshAgent agent;
 
-    private void Start()
+    private void Awake()
     {
         minimapLocationMarker.enabled = false; //temp
         agent = this.gameObject.GetComponent<NavMeshAgent>();
@@ -38,8 +39,7 @@ public class VillagerDetails : MonoBehaviour
             this.gameObject.GetComponent<CapsuleCollider>().enabled = false; 
             this.gameObject.GetComponentInChildren<Canvas>().enabled = false;
 
-            //this.gameObject.GetComponent<NavMeshAgent>().enabled = false; //temp
-            this.agent.enabled = false; //temp
+            this.agent.enabled = false;
             isInCart = true;
 
             minimapLocationMarker.enabled = true; //temp
