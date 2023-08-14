@@ -20,14 +20,14 @@ public class VillagerAI : MonoBehaviour
 
     private void Awake()
     {
-        agent = GetComponent<NavMeshAgent>();
-        thisTransform = agent.transform;
+        agent = this.gameObject.GetComponent<NavMeshAgent>();
+        thisTransform = this.agent.transform;
         agent.speed = movementSpeed;
     }
 
     private void Update()
     {
-        if (VillagerDetails.isInCart == false)
+        if (agent.enabled == true)
         {
             Wander();
         }
@@ -36,15 +36,15 @@ public class VillagerAI : MonoBehaviour
 
     private void Wander()
     {
-        float RD = agent.remainingDistance;
-        float SD = agent.stoppingDistance;
+        float RD = this.agent.remainingDistance;
+        float SD = this.agent.stoppingDistance;
 
         if (RD <= SD)
         {
             Vector3 point;
             if (FindRandomPoint(wanderTransform.position, wanderRange, out point)) //pass in centrepoint and radius of area
             {
-                agent.SetDestination(point);
+                this.agent.SetDestination(point);
             }
         }
     }

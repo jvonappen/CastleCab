@@ -15,17 +15,20 @@ public class VillagerDetails : MonoBehaviour
     [SerializeField] private Canvas minimapLocationMarker; //change this temp fix
 
     [SerializeField] private Canvas minimapQuestMarker;//temp
+    [SerializeField] private NavMeshAgent agent; //temp
+
     private void Start()
     {
         minimapLocationMarker.enabled = false; //temp
+        agent = this.gameObject.GetComponent<NavMeshAgent>();
     }
     private void OnTriggerEnter(Collider other)
     {
         if(!CartDetails.isOccupied && other.tag == "Player")
         {
             AudioManager.Instance.PlaySFX("In");
-            transform.parent = cartTarget.transform;
-            transform.position = cartTarget.transform.position;
+            this.transform.parent = this.cartTarget.transform;
+            this.transform.position = this.cartTarget.transform.position;
 
             CartDetails.cartDestinationTarget = destination;
             CartDetails.isOccupied = true;
@@ -35,7 +38,8 @@ public class VillagerDetails : MonoBehaviour
             this.gameObject.GetComponent<CapsuleCollider>().enabled = false; 
             this.gameObject.GetComponentInChildren<Canvas>().enabled = false;
 
-            this.gameObject.GetComponent<NavMeshAgent>().enabled = false;
+            //this.gameObject.GetComponent<NavMeshAgent>().enabled = false; //temp
+            this.agent.enabled = false; //temp
             isInCart = true;
 
             minimapLocationMarker.enabled = true; //temp
