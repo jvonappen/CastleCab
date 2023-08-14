@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,8 @@ public class PlayerInput : MonoBehaviour
     private PlayerControls _playerInput;
     [SerializeField] private float _accelerationInput;
     [SerializeField] private float _steeringInput;
+    [SerializeField] private float _rightTailWhip;
+    [SerializeField] private float _leftTailWhip;
 
     [SerializeField] private Rigidbody _sphereRB;
     [SerializeField] private GameObject _wagon;
@@ -23,6 +26,9 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private float _groundRayLength = 0.5f;
     [SerializeField] private bool _grounded;
     [SerializeField] private ConfigurableJoint _joint;
+    [SerializeField] private Rigidbody _wagonRB;
+    [SerializeField] private Vector3 _tailWhipForce;
+    [SerializeField] private Transform[] _tailWhipPositions;
     private float _speedInput;
 
     private void Awake()
@@ -30,6 +36,7 @@ public class PlayerInput : MonoBehaviour
         _playerInput = new PlayerControls();
         _sphereRB.transform.parent = null;
         _joint = _wagon.GetComponent<ConfigurableJoint>();
+        _wagonRB = _wagon.GetComponent<Rigidbody>();
     }
 
     private void OnEnable()
@@ -39,7 +46,13 @@ public class PlayerInput : MonoBehaviour
         _playerInput.Controls.Acceleration.canceled += OnReleaseAccelerate;
         _playerInput.Controls.Steering.performed += OnSteering;
         _playerInput.Controls.Steering.canceled += OnReleaseSteering;
+        _playerInput.Controls.TailWhipRight.performed += OnRightTailWhip;
+        _playerInput.Controls.TailWhipRight.canceled += OnReleaseRightTailWhip;
+        _playerInput.Controls.TailWhipLeft.performed += OnLeftTailWhip;
+        _playerInput.Controls.TailWhipLeft.canceled += OnReleaseLeftTailWhip;
     }
+
+    
 
     private void OnDisable()
     {
@@ -63,6 +76,7 @@ public class PlayerInput : MonoBehaviour
 
         //Adjust wagon movement for reversing
         _joint.angularYMotion = _accelerationInput < 0 ? ConfigurableJointMotion.Locked : ConfigurableJointMotion.Limited;
+        _joint.angularXMotion = _accelerationInput < 0 ? ConfigurableJointMotion.Locked : ConfigurableJointMotion.Limited;
 
         //Adjust Particles
         if(_accelerationInput > 0 && _grounded)
@@ -102,6 +116,17 @@ public class PlayerInput : MonoBehaviour
 
             _sphereRB.drag = 0.0f;
             _sphereRB.AddForce(Vector3.up * -_gravityForce * 100f);
+        }
+
+        if (_leftTailWhip > 0)
+        {
+            _wagonRB.AddForceAtPosition(-_tailWhipForce, _tailWhipPositions[0].right, ForceMode.Impulse);
+            Debug.Log("Left");
+        }
+        if (_rightTailWhip > 0)
+        {
+            _wagonRB.AddForceAtPosition(_tailWhipForce, _tailWhipPositions[1].right, ForceMode.Impulse);
+            Debug.Log("right");
         }
 
         //control in air
@@ -146,5 +171,25 @@ public class PlayerInput : MonoBehaviour
     private void OnReleaseSteering(InputAction.CallbackContext value)
     {
         _steeringInput = 0;
+    }
+
+    private void OnRightTailWhip(InputAction.CallbackContext obj)
+    {
+        _rightTailWhip = obj.ReadValue<float>();
+    }
+
+    private void OnReleaseRightTailWhip(InputAction.CallbackContext obj)
+    {
+        _rightTailWhip = 0;
+    }
+
+    private void OnLeftTailWhip(InputAction.CallbackContext obj)
+    {
+        _leftTailWhip = obj.ReadValue<float>();
+    }
+
+    private void OnReleaseLeftTailWhip(InputAction.CallbackContext obj)
+    {
+        _leftTailWhip = 0;
     }
 }

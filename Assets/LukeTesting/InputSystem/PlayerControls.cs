@@ -53,6 +53,24 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TailWhipRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""53383162-447e-4799-84c5-0dc33078d40b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TailWhipLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""085c4b4a-05f6-4bb0-8fe2-99b1c139d527"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -132,6 +150,28 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""ResetPlayer"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4b9bdff1-bfc5-470f-a9d4-b9640160c933"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TailWhipRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ab0b5b9d-a093-4f8d-b6b5-51e58402b7f3"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TailWhipLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -143,6 +183,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Controls_Acceleration = m_Controls.FindAction("Acceleration", throwIfNotFound: true);
         m_Controls_Steering = m_Controls.FindAction("Steering", throwIfNotFound: true);
         m_Controls_ResetPlayer = m_Controls.FindAction("ResetPlayer", throwIfNotFound: true);
+        m_Controls_TailWhipRight = m_Controls.FindAction("TailWhipRight", throwIfNotFound: true);
+        m_Controls_TailWhipLeft = m_Controls.FindAction("TailWhipLeft", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -205,6 +247,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Controls_Acceleration;
     private readonly InputAction m_Controls_Steering;
     private readonly InputAction m_Controls_ResetPlayer;
+    private readonly InputAction m_Controls_TailWhipRight;
+    private readonly InputAction m_Controls_TailWhipLeft;
     public struct ControlsActions
     {
         private @PlayerControls m_Wrapper;
@@ -212,6 +256,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Acceleration => m_Wrapper.m_Controls_Acceleration;
         public InputAction @Steering => m_Wrapper.m_Controls_Steering;
         public InputAction @ResetPlayer => m_Wrapper.m_Controls_ResetPlayer;
+        public InputAction @TailWhipRight => m_Wrapper.m_Controls_TailWhipRight;
+        public InputAction @TailWhipLeft => m_Wrapper.m_Controls_TailWhipLeft;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -230,6 +276,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @ResetPlayer.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnResetPlayer;
                 @ResetPlayer.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnResetPlayer;
                 @ResetPlayer.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnResetPlayer;
+                @TailWhipRight.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnTailWhipRight;
+                @TailWhipRight.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnTailWhipRight;
+                @TailWhipRight.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnTailWhipRight;
+                @TailWhipLeft.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnTailWhipLeft;
+                @TailWhipLeft.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnTailWhipLeft;
+                @TailWhipLeft.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnTailWhipLeft;
             }
             m_Wrapper.m_ControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -243,6 +295,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @ResetPlayer.started += instance.OnResetPlayer;
                 @ResetPlayer.performed += instance.OnResetPlayer;
                 @ResetPlayer.canceled += instance.OnResetPlayer;
+                @TailWhipRight.started += instance.OnTailWhipRight;
+                @TailWhipRight.performed += instance.OnTailWhipRight;
+                @TailWhipRight.canceled += instance.OnTailWhipRight;
+                @TailWhipLeft.started += instance.OnTailWhipLeft;
+                @TailWhipLeft.performed += instance.OnTailWhipLeft;
+                @TailWhipLeft.canceled += instance.OnTailWhipLeft;
             }
         }
     }
@@ -252,5 +310,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnAcceleration(InputAction.CallbackContext context);
         void OnSteering(InputAction.CallbackContext context);
         void OnResetPlayer(InputAction.CallbackContext context);
+        void OnTailWhipRight(InputAction.CallbackContext context);
+        void OnTailWhipLeft(InputAction.CallbackContext context);
     }
 }
