@@ -38,7 +38,7 @@ public class RespawnPlayer : MonoBehaviour
     {
         WagonFlipped();
 
-        if (_resetPlayerInput && _canResetPosition)
+        if (/*_resetPlayerInput &&*/ _canResetPosition)
         {
             ResetWagonPosition();
         }

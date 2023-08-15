@@ -15,6 +15,7 @@ public class PlayerInput : MonoBehaviour
 
     [SerializeField] private Rigidbody _sphereRB;
     [SerializeField] private GameObject _wagon;
+    [SerializeField] private GameObject _reverseCollider;
     [SerializeField] private ParticleSystem[] _dustTrail;
     [SerializeField] private float _forwardAcceleration = 8f;
     [SerializeField] private float _reverseAcceleration = 4f;
@@ -23,6 +24,7 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private float _dragOnGround = 3f;
     [SerializeField] private float maxTippingAngle = 45f;
     [SerializeField] private LayerMask _whatIsGround;
+    [SerializeField] private LayerMask _whatIsHittableObject;
     [SerializeField] private Transform _groundRayPoint;
     [SerializeField] private float _groundRayLength = 0.5f;
     [SerializeField] private bool _grounded;
@@ -30,7 +32,7 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private Rigidbody _wagonRB;
     [SerializeField] private float _tailWhipForce;
     [SerializeField] private Transform[] _tailWhipPositions;
-    private float _speedInput;
+    [SerializeField] private float _speedInput;
 
     private void Awake()
     {
@@ -85,7 +87,21 @@ public class PlayerInput : MonoBehaviour
         else
         {
             StopDustParticles();
-        } 
+        }
+
+        if (_accelerationInput < 0)
+        {
+            _reverseCollider.SetActive(true);
+        }
+        else
+        {
+            _reverseCollider.SetActive(false);
+        }
+        
+        if (_accelerationInput > 0 && _steeringInput != 0)
+        {
+            _speedInput *= 1.5f;
+        }
 
         //Update positon
         transform.position = _sphereRB.transform.position;
@@ -118,15 +134,13 @@ public class PlayerInput : MonoBehaviour
             _sphereRB.AddForce(Vector3.up * -_gravityForce * 100f);
         }
 
-        if (_leftTailWhip > 0)
+        if (_leftTailWhip > 0 && _steeringInput > 0)
         {
             _wagonRB.AddForceAtPosition(-_wagon.transform.right * _tailWhipForce, _tailWhipPositions[0].position, ForceMode.Impulse);
-            Debug.Log("Left");
         }
-        if (_rightTailWhip > 0)
+        if (_leftTailWhip > 0 && _steeringInput < 0)
         {
             _wagonRB.AddForceAtPosition(_wagon.transform.right * _tailWhipForce, _tailWhipPositions[1].position, ForceMode.Impulse);
-            Debug.Log("right");
         }
 
         //control in air
@@ -135,6 +149,13 @@ public class PlayerInput : MonoBehaviour
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.FromToRotation(transform.up, Vector3.up), Mathf.InverseLerp(angle, 0, maxTippingAngle));
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(_tailWhipPositions[0].position, 3);
+        Gizmos.DrawWireSphere(_tailWhipPositions[1].position, 3);
     }
 
     private void PlayDustParticles()
