@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class PlayerInput : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private bool _grounded;
     [SerializeField] private ConfigurableJoint _joint;
     [SerializeField] private Rigidbody _wagonRB;
-    [SerializeField] private Vector3 _tailWhipForce;
+    [SerializeField] private float _tailWhipForce;
     [SerializeField] private Transform[] _tailWhipPositions;
     private float _speedInput;
 
@@ -51,8 +52,6 @@ public class PlayerInput : MonoBehaviour
         _playerInput.Controls.TailWhipLeft.performed += OnLeftTailWhip;
         _playerInput.Controls.TailWhipLeft.canceled += OnReleaseLeftTailWhip;
     }
-
-    
 
     private void OnDisable()
     {
@@ -81,16 +80,17 @@ public class PlayerInput : MonoBehaviour
         //Adjust Particles
         if(_accelerationInput > 0 && _grounded)
         {
-            PlayDustParticles();
+            //PlayDustParticles();
         }
         else
         {
             StopDustParticles();
-        }
+        } 
 
         //Update positon
         transform.position = _sphereRB.transform.position;
         Debug.DrawRay(_groundRayPoint.position, -Vector3.up, Color.red);
+
     }
 
     private void FixedUpdate()
@@ -120,12 +120,12 @@ public class PlayerInput : MonoBehaviour
 
         if (_leftTailWhip > 0)
         {
-            _wagonRB.AddForceAtPosition(-_tailWhipForce, _tailWhipPositions[0].right, ForceMode.Impulse);
+            _wagonRB.AddForceAtPosition(-_wagon.transform.right * _tailWhipForce, _tailWhipPositions[0].position, ForceMode.Impulse);
             Debug.Log("Left");
         }
         if (_rightTailWhip > 0)
         {
-            _wagonRB.AddForceAtPosition(_tailWhipForce, _tailWhipPositions[1].right, ForceMode.Impulse);
+            _wagonRB.AddForceAtPosition(_wagon.transform.right * _tailWhipForce, _tailWhipPositions[1].position, ForceMode.Impulse);
             Debug.Log("right");
         }
 
