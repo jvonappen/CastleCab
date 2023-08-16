@@ -8,9 +8,8 @@ public class TestingTextParser : MonoBehaviour
 {
 
     [TextArea] public string masterText;
-    //private TMP_Animated animatedText;
+    private TMP_Animated animatedText;
 
-    private TextMeshProUGUI animatedText;
     private void Awake()
     {
         animatedText = GetComponent<TMP_Animated>();

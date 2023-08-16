@@ -55,9 +55,9 @@ public class InterfaceManager : MonoBehaviour
             {
                 CameraChange(false);
                 FadeUI(false, .2f, 0);
-                Sequence s = DOTween.Sequence();
-                s.AppendInterval(.8f);
-                s.AppendCallback(() => ResetState());
+                //Sequence s = DOTween.Sequence();
+                //s.AppendInterval(.8f);
+                //s.AppendCallback(() => ResetState());
             }
 
             if (nextDialogue)
@@ -69,15 +69,16 @@ public class InterfaceManager : MonoBehaviour
 
     public void FadeUI(bool show, float time, float delay)
     {
-        Sequence s = DOTween.Sequence();
-        s.AppendInterval(delay);
-        s.Append(canvasGroup.DOFade(show ? 1 : 0, time));
-        if (show)
-        {
-            dialogueIndex = 0;
-            s.Join(canvasGroup.transform.DOScale(0, time * 2).From().SetEase(Ease.OutBack));
-            s.AppendCallback(() => animatedText.ReadText(currentVillager.dialogue.conversationBlock[0]));
-        }
+        
+        //Sequence s = DOTween.Sequence();
+        //s.AppendInterval(delay);
+        //s.Append(canvasGroup.DOFade(show ? 1 : 0, time));
+        //if (show)
+        //{
+        //    dialogueIndex = 0;
+        //    s.Join(canvasGroup.transform.DOScale(0, time * 2).From().SetEase(Ease.OutBack));
+        //    s.AppendCallback(() => animatedText.ReadText(currentVillager.dialogue.conversationBlock[0]));
+        //}
     }
 
     public void SetCharNameAndColor()
@@ -95,7 +96,7 @@ public class InterfaceManager : MonoBehaviour
 
         //Depth of field modifier
         float dofWeight = dialogueCam.activeSelf ? 1 : 0;
-        DOVirtual.Float(dialogueDof.weight, dofWeight, .8f, DialogueDOF);
+        //DOVirtual.Float(dialogueDof.weight, dofWeight, .8f, DialogueDOF);
     }
 
     public void DialogueDOF(float x)
@@ -111,7 +112,7 @@ public class InterfaceManager : MonoBehaviour
     public void ResetState()
     {
         currentVillager.Reset();
-        FindObjectOfType<MovementInput>().active = true;
+        //FindObjectOfType<MovementInput>().active = true;
         inDialogue = false;
         canExit = false;
     }

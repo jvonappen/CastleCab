@@ -12,14 +12,12 @@ public class VillagerScript : MonoBehaviour
 
     public bool villagerIsTalking;
 
-    //private TMP_Animated animatedText;
+    private TMP_Animated animatedText;
     private DialogueAudio dialogueAudio;
     private Animator animator;
     public Renderer eyesRenderer;
 
     public Transform particlesParent;
-
-    private TMP_SpriteAnimator animatedText;
 
     void Start()
     {
@@ -88,12 +86,10 @@ public class VillagerScript : MonoBehaviour
 
     public void TurnToPlayer(Vector3 playerPos)
     {
-        transform.DOLookAt(playerPos, Vector3.Distance(transform.position, playerPos) / 5);
+        //transform.DOLookAt(playerPos, Vector3.Distance(transform.position, playerPos) / 5);
         string turnMotion = isRightSide(transform.forward, playerPos, Vector3.up) ? "rturn" : "lturn";
         animator.SetTrigger(turnMotion);
     }
-
-    //https://forum.unity.com/threads/left-right-test-function.31420/
     public bool isRightSide(Vector3 fwd, Vector3 targetDir, Vector3 up)
     {
         Vector3 right = Vector3.Cross(up.normalized, fwd.normalized);        // right vector
