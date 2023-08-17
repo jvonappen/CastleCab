@@ -1,4 +1,4 @@
-﻿Shader "Toon"
+﻿Shader "JacobToon"
 {
 	Properties
 	{
