@@ -15,7 +15,7 @@ public class VillagerScript : MonoBehaviour
     private TMP_Animated animatedText;
     private DialogueAudio dialogueAudio;
     private Animator animator;
-    public Renderer eyesRenderer;
+    //public Renderer eyesRenderer;
 
     public Transform particlesParent;
 
@@ -24,26 +24,26 @@ public class VillagerScript : MonoBehaviour
         dialogueAudio = GetComponent<DialogueAudio>();
         animator = GetComponent<Animator>();
         animatedText = InterfaceManager.instance.animatedText;
-        animatedText.onEmotionChange.AddListener((newEmotion) => EmotionChanger(newEmotion));
+        //animatedText.onEmotionChange.AddListener((newEmotion) => EmotionChanger(newEmotion));
         animatedText.onAction.AddListener((action) => SetAction(action));
     }
 
-    public void EmotionChanger(Emotion e)
-    {
-        if (this != InterfaceManager.instance.currentVillager)
-            return;
+    //public void EmotionChanger(Emotion e)
+    //{
+    //    if (this != InterfaceManager.instance.currentVillager)
+    //        return;
 
-        animator.SetTrigger(e.ToString());
+    //    animator.SetTrigger(e.ToString());
 
-        if (e == Emotion.suprised)
-            eyesRenderer.material.SetTextureOffset("_BaseMap", new Vector2(.33f, 0));
+    //    if (e == Emotion.suprised)
+    //        eyesRenderer.material.SetTextureOffset("_BaseMap", new Vector2(.33f, 0));
 
-        if (e == Emotion.angry)
-            eyesRenderer.material.SetTextureOffset("_BaseMap", new Vector2(.66f, 0));
+    //    if (e == Emotion.angry)
+    //        eyesRenderer.material.SetTextureOffset("_BaseMap", new Vector2(.66f, 0));
 
-        if (e == Emotion.sad)
-            eyesRenderer.material.SetTextureOffset("_BaseMap", new Vector2(.33f, -.33f));
-    }
+    //    if (e == Emotion.sad)
+    //        eyesRenderer.material.SetTextureOffset("_BaseMap", new Vector2(.33f, -.33f));
+    //}
 
     public void SetAction(string action)
     {
@@ -81,7 +81,7 @@ public class VillagerScript : MonoBehaviour
     public void Reset()
     {
         animator.SetTrigger("normal");
-        eyesRenderer.material.SetTextureOffset("_BaseMap", Vector2.zero);
+        //eyesRenderer.material.SetTextureOffset("_BaseMap", Vector2.zero);
     }
 
     public void TurnToPlayer(Vector3 playerPos)

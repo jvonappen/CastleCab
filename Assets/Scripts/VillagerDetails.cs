@@ -6,14 +6,13 @@ using UnityEngine.AI;
 public class VillagerDetails : MonoBehaviour
 {
     [SerializeField] private GameObject cartTarget;
+    [Space]
     [SerializeField] public GameObject destination;
-
     [SerializeField] public int dollarsGiven;
 
     public static bool isInCart = false;
 
     [SerializeField] private Canvas minimapLocationMarker; //change this temp fix
-
     [SerializeField] private Canvas minimapQuestMarker;//temp
     
     private NavMeshAgent agent;
