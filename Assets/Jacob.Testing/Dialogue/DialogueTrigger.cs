@@ -19,7 +19,7 @@ public class DialogueTrigger : MonoBehaviour
     void Start()
     {
         ui = InterfaceManager.instance;
-        //movement = GetComponent<MovementInput>();
+       // movement = GetComponent<MovementInput>();
     }
 
     void Update()

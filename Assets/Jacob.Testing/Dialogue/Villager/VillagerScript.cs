@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-//using DG.Tweening;
+using DG.Tweening;
 using Cinemachine;
 
 public class VillagerScript : MonoBehaviour
@@ -86,7 +86,7 @@ public class VillagerScript : MonoBehaviour
 
     public void TurnToPlayer(Vector3 playerPos)
     {
-        //transform.DOLookAt(playerPos, Vector3.Distance(transform.position, playerPos) / 5);
+        transform.DOLookAt(playerPos, Vector3.Distance(transform.position, playerPos) / 5);
         string turnMotion = isRightSide(transform.forward, playerPos, Vector3.up) ? "rturn" : "lturn";
         animator.SetTrigger(turnMotion);
     }
