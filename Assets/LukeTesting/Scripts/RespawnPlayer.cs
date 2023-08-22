@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class RespawnPlayer : MonoBehaviour
 {
     private PlayerControls _playerInput;
-    [SerializeField] private bool _resetPlayerInput;
+    [SerializeField] private bool _resetPlayerInput = false;
     [SerializeField] private bool _canResetPosition;
     [SerializeField] private GameObject _playerWagon;
 

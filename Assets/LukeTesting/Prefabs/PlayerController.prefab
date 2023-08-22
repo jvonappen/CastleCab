@@ -174,6 +174,37 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.0272841, y: 1.0028915, z: 4.279496}
   m_Center: {x: 0, y: 1.0390015, z: -1.6397481}
+--- !u!1 &1062254928
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1062254929}
+  m_Layer: 0
+  m_Name: TailWhipForceCentre
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1062254929
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1062254928}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.86, z: 0.22}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 143783271910123495}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1235559359
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,14 +228,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1235559359}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.718, y: -0.74999654, z: 0.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 143783271910123495}
   m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1512166861
 GameObject:
   m_ObjectHideFlags: 0
@@ -422,6 +453,7 @@ GameObject:
   m_Component:
   - component: {fileID: 143783270893440881}
   - component: {fileID: 2119702870}
+  - component: {fileID: 1302505676}
   m_Layer: 0
   m_Name: PlayerController
   m_TagString: Untagged
@@ -470,6 +502,31 @@ MonoBehaviour:
   - {fileID: 1766786978}
   - {fileID: 299264851}
   _groundRayLength: 2
+--- !u!114 &1302505676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143783270893440880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 756bd84cbd2e308459e241b0739a4540, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dishonourDepletionRate: 0
+  lowPriorityValue: 0
+  medPriorityValue: 0
+  highPriorityValue: 0
+  oneStar: 0
+  twoStar: 0
+  threeStar: 100
+  maxDishonourCap: 100
+  star1: {fileID: 0}
+  star2: {fileID: 0}
+  star3: {fileID: 0}
+  startingDishonourLevel: 100
+  currentDishonourLevel: 0
 --- !u!1 &143783271113110114
 GameObject:
   m_ObjectHideFlags: 0
@@ -1077,6 +1134,7 @@ Transform:
   - {fileID: 571232604}
   - {fileID: 1512166862}
   - {fileID: 1235559360}
+  - {fileID: 1062254929}
   m_Father: {fileID: 143783270893440881}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1313,13 +1371,17 @@ MonoBehaviour:
   _steeringInput: 0
   _rightTailWhip: 0
   _leftTailWhip: 0
+  _speedInput: 0
+  _acceleration: 0
+  _accelerationFactor: 5
+  _deccelerationFactor: 0.3
   _sphereRB: {fileID: 143783271959729902}
   _wagon: {fileID: 143783271910123419}
   _reverseCollider: {fileID: 877267502}
   _dustTrail:
   - {fileID: 8936329644470848583}
   - {fileID: 8936329644432569290}
-  _forwardAcceleration: 4
+  _forwardAcceleration: 8
   _reverseAcceleration: 2
   _turnStrength: 250
   _gravityForce: 10
@@ -1336,11 +1398,11 @@ MonoBehaviour:
   _grounded: 0
   _joint: {fileID: 0}
   _wagonRB: {fileID: 0}
-  _tailWhipForce: 100
+  _tailWhipForce: 200
   _tailWhipPositions:
   - {fileID: 1235559360}
   - {fileID: 1512166862}
-  _speedInput: 0
+  - {fileID: 1062254929}
 --- !u!1 &143783271959729889
 GameObject:
   m_ObjectHideFlags: 0
