@@ -71,6 +71,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""4cf0fca4-08cb-453a-87ea-4167e4b84a32"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -172,6 +181,39 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""TailWhipLeft"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""261328fb-4efe-4547-8a33-2c7772fbe515"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f6ebfee8-4e66-40c4-a3e8-296171ef7227"",
+                    ""path"": ""<Pointer>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7fe84ff9-c76d-4eb1-aef3-cd7aa633a840"",
+                    ""path"": ""<Joystick>/{Hatswitch}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -185,6 +227,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Controls_ResetPlayer = m_Controls.FindAction("ResetPlayer", throwIfNotFound: true);
         m_Controls_TailWhipRight = m_Controls.FindAction("TailWhipRight", throwIfNotFound: true);
         m_Controls_TailWhipLeft = m_Controls.FindAction("TailWhipLeft", throwIfNotFound: true);
+        m_Controls_Look = m_Controls.FindAction("Look", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -249,6 +292,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Controls_ResetPlayer;
     private readonly InputAction m_Controls_TailWhipRight;
     private readonly InputAction m_Controls_TailWhipLeft;
+    private readonly InputAction m_Controls_Look;
     public struct ControlsActions
     {
         private @PlayerControls m_Wrapper;
@@ -258,6 +302,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @ResetPlayer => m_Wrapper.m_Controls_ResetPlayer;
         public InputAction @TailWhipRight => m_Wrapper.m_Controls_TailWhipRight;
         public InputAction @TailWhipLeft => m_Wrapper.m_Controls_TailWhipLeft;
+        public InputAction @Look => m_Wrapper.m_Controls_Look;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -282,6 +327,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @TailWhipLeft.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnTailWhipLeft;
                 @TailWhipLeft.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnTailWhipLeft;
                 @TailWhipLeft.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnTailWhipLeft;
+                @Look.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnLook;
+                @Look.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnLook;
+                @Look.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnLook;
             }
             m_Wrapper.m_ControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -301,6 +349,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @TailWhipLeft.started += instance.OnTailWhipLeft;
                 @TailWhipLeft.performed += instance.OnTailWhipLeft;
                 @TailWhipLeft.canceled += instance.OnTailWhipLeft;
+                @Look.started += instance.OnLook;
+                @Look.performed += instance.OnLook;
+                @Look.canceled += instance.OnLook;
             }
         }
     }
@@ -312,5 +363,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnResetPlayer(InputAction.CallbackContext context);
         void OnTailWhipRight(InputAction.CallbackContext context);
         void OnTailWhipLeft(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
     }
 }
