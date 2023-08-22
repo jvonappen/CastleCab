@@ -13,6 +13,10 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private float _rightTailWhip;
     [SerializeField] private float _leftTailWhip;
 
+    [SerializeField] private float _speedInput = 0;
+    [SerializeField] private float _acceleration = 0;
+    [SerializeField] private float _accelerationFactor = 5;
+    [SerializeField] private float _deccelerationFactor = 2;
     [SerializeField] private Rigidbody _sphereRB;
     [SerializeField] private GameObject _wagon;
     [SerializeField] private GameObject _reverseCollider;
@@ -32,7 +36,10 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private Rigidbody _wagonRB;
     [SerializeField] private float _tailWhipForce;
     [SerializeField] private Transform[] _tailWhipPositions;
-    [SerializeField] private float _speedInput;
+    
+    private float _maxSpeed = 8000;
+    private float _maxReverseSpeed = -1000;
+    
 
     private void Awake()
     {
@@ -40,6 +47,7 @@ public class PlayerInput : MonoBehaviour
         _sphereRB.transform.parent = null;
         _joint = _wagon.GetComponent<ConfigurableJoint>();
         _wagonRB = _wagon.GetComponent<Rigidbody>();
+        _speedInput = 0;
     }
 
     private void OnEnable()
@@ -70,10 +78,20 @@ public class PlayerInput : MonoBehaviour
             _grounded = true;
         }
 
-        //Moving
+        if (_accelerationInput != 0)
+        {
+            if (_acceleration <= 1) _acceleration += Time.deltaTime / _accelerationFactor;
+            else _acceleration = 1;
+        }
+        else
+        {
+            if (_acceleration >= 0) _acceleration -= Time.deltaTime / _deccelerationFactor;
+            else _acceleration = 0;
+        }
+
         _speedInput = 0f;
         _speedInput = _accelerationInput > 0 ? _forwardAcceleration : _reverseAcceleration;
-        _speedInput *= 1000f * _accelerationInput;
+        _speedInput *= 50f * _accelerationInput * _acceleration;
 
         //Adjust wagon movement for reversing
         _joint.angularYMotion = _accelerationInput < 0 ? ConfigurableJointMotion.Locked : ConfigurableJointMotion.Limited;
@@ -98,10 +116,10 @@ public class PlayerInput : MonoBehaviour
             _reverseCollider.SetActive(false);
         }
         
-        if (_accelerationInput > 0 && _steeringInput != 0)
-        {
-            _speedInput *= 1.5f;
-        }
+        //if (_accelerationInput > 0 && _steeringInput != 0)
+        //{
+        //    _speedInput *= 1.5f;
+        //}
 
         //Update positon
         transform.position = _sphereRB.transform.position;
@@ -134,11 +152,12 @@ public class PlayerInput : MonoBehaviour
             _sphereRB.AddForce(Vector3.up * -_gravityForce * 100f);
         }
 
-        if (_leftTailWhip > 0 && _steeringInput > 0)
+        //tailwhips
+        if (_leftTailWhip > 0 && _steeringInput > 0 && _grounded)
         {
             _wagonRB.AddForceAtPosition(-_wagon.transform.right * _tailWhipForce, _tailWhipPositions[0].position, ForceMode.Impulse);
         }
-        if (_leftTailWhip > 0 && _steeringInput < 0)
+        if (_leftTailWhip > 0 && _steeringInput < 0 && _grounded)
         {
             _wagonRB.AddForceAtPosition(_wagon.transform.right * _tailWhipForce, _tailWhipPositions[1].position, ForceMode.Impulse);
         }
