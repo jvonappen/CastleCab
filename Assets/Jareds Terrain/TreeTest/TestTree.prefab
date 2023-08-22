@@ -11,8 +11,10 @@ GameObject:
   - component: {fileID: 4586821900076392}
   - component: {fileID: 33222949445572694}
   - component: {fileID: 23050206849376476}
+  - component: {fileID: 5044635163908603102}
+  - component: {fileID: 4368244657856295515}
   m_Layer: 0
-  m_Name: rpgpp_lt_tree_01
+  m_Name: TestTree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83,3 +85,43 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!205 &5044635163908603102
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612273161005096}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0.3324895, y: 3.722106, z: -0.40507376}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.139625
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 23050206849376476}
+  - screenRelativeHeight: 0.014250762
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 23050206849376476}
+  - screenRelativeHeight: 0.013433255
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 23050206849376476}
+  m_Enabled: 1
+--- !u!65 &4368244657856295515
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612273161005096}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 7.1547394, z: 1}
+  m_Center: {x: 0, y: 3.497418, z: 0}
