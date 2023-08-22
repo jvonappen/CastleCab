@@ -9,7 +9,7 @@ public class ArriveAtObjective : MonoBehaviour
 
     [SerializeField] private GameObject exitLocation;
 
-    [SerializeField] private VillagerDetails villager;
+    private VillagerDetails villager;
 
     [SerializeField] private Canvas minimapMarker; //temp
 
