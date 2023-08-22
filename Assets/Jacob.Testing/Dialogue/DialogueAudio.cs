@@ -1,13 +1,13 @@
 ﻿
 using UnityEngine;
 using TMPro;
-//using DG.Tweening;
+using DG.Tweening;
 
 public class DialogueAudio : MonoBehaviour
 {
     private VillagerScript villager;
     private TMP_Animated animatedText;
-    public Transform mouthQuad;
+    //public Transform mouthQuad;
 
     public AudioClip[] voices;
     public AudioClip[] punctuations;
@@ -20,7 +20,6 @@ public class DialogueAudio : MonoBehaviour
     public AudioClip sparkleClip;
     public AudioClip rainClip;
 
-    // Start is called before the first frame update
     void Start()
     {
         villager = GetComponent<VillagerScript>();
@@ -49,7 +48,7 @@ public class DialogueAudio : MonoBehaviour
             voiceSource.clip = voices[Random.Range(0, voices.Length)];
             voiceSource.Play();
 
-            mouthQuad.localScale = new Vector3(1, 0, 1);
+            //mouthQuad.localScale = new Vector3(1, 0, 1);
             //mouthQuad.DOScaleY(1, .2f).OnComplete(() => mouthQuad.DOScaleY(0, .2f));
         }
 
