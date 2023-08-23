@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Cinemachine;
+using UnityEngine.InputSystem;
 
 public class DialogueTrigger : MonoBehaviour
 {
-    private InterfaceManager ui;
-    private VillagerScript currentVillager;
+    [SerializeField] private InterfaceManager ui;
+    [SerializeField] private VillagerScript currentVillager;
     //private MovementInput movement;
     public CinemachineTargetGroup targetGroup;
 
@@ -24,7 +25,7 @@ public class DialogueTrigger : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !ui.inDialogue && currentVillager != null)
+        if (Keyboard.current.spaceKey.IsPressed() && !ui.inDialogue && currentVillager != null)
         {
             targetGroup.m_Targets[1].target = currentVillager.transform;
             //movement.active = false;
@@ -37,6 +38,11 @@ public class DialogueTrigger : MonoBehaviour
 
             Debug.Log("SpaceBar");
         }
+
+        //if (Keyboard.current.spaceKey.IsPressed())
+        //    {
+        //    Debug.Log("Poop");
+        //}
     }
 
 
