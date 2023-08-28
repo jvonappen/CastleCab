@@ -1,80 +1,49 @@
 using System.Collections;
-
 using System.Collections.Generic;
-
 using UnityEngine;
-
-
-
-[RequireComponent(typeof(Renderer))]
 
 public class ObstructionTransparency : MonoBehaviour
 {
-
-    private Renderer rend;
-
-
-
-    //public LayerMask raycastLayerMask; // Set this in the Inspector
-
-
-
-    void Start()
-
-    {
-
-        rend = GetComponent<Renderer>();
-
-    }
-
-
+    public Transform player; // set in the inspector
+    private Renderer currentObstructingRenderer; // Renderer of the current obstructing object
+    private RaycastHit hit;
+    public LayerMask layerMask;
 
     void Update()
-
     {
+        Vector3 directionToPlayer = player.position - transform.position;
+        float distanceToPlayer = Vector3.Distance(player.position, transform.position);
 
-        RaycastHit hit;
+        Debug.DrawRay(transform.position, directionToPlayer, Color.red);
 
-        Vector3 directionToObject = transform.position - Camera.main.transform.position;
-
-        float distanceToCamera = Vector3.Distance(transform.position, Camera.main.transform.position);
-
-
-
-        Debug.DrawRay(Camera.main.transform.position, directionToObject, Color.red);
-
-
-
-        if (Physics.Raycast(Camera.main.transform.position, directionToObject, out hit, distanceToCamera))
-
-
-
+        // Check for obstructions
+        if (Physics.Raycast(transform.position, directionToPlayer, out hit, distanceToPlayer, layerMask))
         {
-
-            if (hit.transform == this.transform)
-
+            if (hit.transform != player)
             {
+                Renderer rend = hit.transform.GetComponent<Renderer>();
+                if (rend != null && rend != currentObstructingRenderer) // If the hit object has a Renderer component and is not the current obstructing object
+                {
+                    // Reset transparency of the previous obstructing object
+                    if (currentObstructingRenderer != null)
+                    {
+                        currentObstructingRenderer.material.SetFloat("_DitherThreshold", 0f);
+                    }
 
-                // If the ray hits the object this script is attached to before hitting anything else
-
-                rend.material.SetFloat("_DitherThreshold", 0.5f); // Make the object transparent
-
+                    // Set transparency of the current obstructing object
+                    rend.material.SetFloat("_DitherThreshold", 0.5f);
+                    currentObstructingRenderer = rend;
+                }
             }
-
-            else
-
-            {
-
-                rend.material.SetFloat("_DitherThreshold", 0f); // Make the object opaque
-
-            }
-
-
-
-            Debug.Log("Raycast hit: " + hit.transform.name);
-
         }
-
+        else
+        {
+            // If no obstruction is found, reset transparency of the previous obstructing object
+            if (currentObstructingRenderer != null)
+            {
+                currentObstructingRenderer.material.SetFloat("_DitherThreshold", 0f);
+                currentObstructingRenderer = null;
+            }
+        }
     }
-
 }
