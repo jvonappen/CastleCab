@@ -46,27 +46,27 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""ResetPlayer"",
-                    ""type"": ""Button"",
-                    ""id"": ""de50846d-b4af-488d-a331-1a22d8de9ee8"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""TailWhipRight"",
-                    ""type"": ""Button"",
-                    ""id"": ""53383162-447e-4799-84c5-0dc33078d40b"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""TailWhipLeft"",
+                    ""name"": ""TailWhip"",
                     ""type"": ""Button"",
                     ""id"": ""085c4b4a-05f6-4bb0-8fe2-99b1c139d527"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""4cf0fca4-08cb-453a-87ea-4167e4b84a32"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Boost"",
+                    ""type"": ""Button"",
+                    ""id"": ""536d6838-1157-4214-9912-bd4c2546eeae"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -108,6 +108,39 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""Controller"",
+                    ""id"": ""3c4d8720-2d7f-4d0d-9609-cee4cdfb08b3"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Acceleration"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""eb3290af-758b-4985-997f-c57a8de378f6"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Acceleration"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""366e3c12-7cd7-4b62-8a16-9a64ef30b711"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Acceleration"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": ""Keyboard"",
                     ""id"": ""6dac5d7e-21ac-4713-8f4c-0ac96db4be1a"",
                     ""path"": ""1DAxis"",
@@ -141,26 +174,37 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""fab68641-04e0-4fed-9802-d3f85add8d1d"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""name"": ""1D Axis"",
+                    ""id"": ""8d148b6f-cad8-4aa1-a190-e5c05434278e"",
+                    ""path"": ""1DAxis"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ResetPlayer"",
-                    ""isComposite"": false,
+                    ""action"": ""Steering"",
+                    ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""4b9bdff1-bfc5-470f-a9d4-b9640160c933"",
-                    ""path"": ""<Mouse>/rightButton"",
+                    ""name"": ""negative"",
+                    ""id"": ""834f3fa5-ab3a-4432-9527-b93452d7396b"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""TailWhipRight"",
+                    ""action"": ""Steering"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""7dd40250-bb04-462a-b4da-9a6e4ce21491"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Steering"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
@@ -169,7 +213,73 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""TailWhipLeft"",
+                    ""action"": ""TailWhip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""81af09df-5b55-48f5-840b-e9d5f9fdf0d4"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TailWhip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""261328fb-4efe-4547-8a33-2c7772fbe515"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f6ebfee8-4e66-40c4-a3e8-296171ef7227"",
+                    ""path"": ""<Pointer>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7fe84ff9-c76d-4eb1-aef3-cd7aa633a840"",
+                    ""path"": ""<Joystick>/{Hatswitch}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e521cc2a-6c3c-4837-94c8-710f740ac134"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Boost"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8af66891-dd52-4809-bacc-bbaedc338d65"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Boost"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -182,9 +292,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Controls = asset.FindActionMap("Controls", throwIfNotFound: true);
         m_Controls_Acceleration = m_Controls.FindAction("Acceleration", throwIfNotFound: true);
         m_Controls_Steering = m_Controls.FindAction("Steering", throwIfNotFound: true);
-        m_Controls_ResetPlayer = m_Controls.FindAction("ResetPlayer", throwIfNotFound: true);
-        m_Controls_TailWhipRight = m_Controls.FindAction("TailWhipRight", throwIfNotFound: true);
-        m_Controls_TailWhipLeft = m_Controls.FindAction("TailWhipLeft", throwIfNotFound: true);
+        m_Controls_TailWhip = m_Controls.FindAction("TailWhip", throwIfNotFound: true);
+        m_Controls_Look = m_Controls.FindAction("Look", throwIfNotFound: true);
+        m_Controls_Boost = m_Controls.FindAction("Boost", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -246,18 +356,18 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private IControlsActions m_ControlsActionsCallbackInterface;
     private readonly InputAction m_Controls_Acceleration;
     private readonly InputAction m_Controls_Steering;
-    private readonly InputAction m_Controls_ResetPlayer;
-    private readonly InputAction m_Controls_TailWhipRight;
-    private readonly InputAction m_Controls_TailWhipLeft;
+    private readonly InputAction m_Controls_TailWhip;
+    private readonly InputAction m_Controls_Look;
+    private readonly InputAction m_Controls_Boost;
     public struct ControlsActions
     {
         private @PlayerControls m_Wrapper;
         public ControlsActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Acceleration => m_Wrapper.m_Controls_Acceleration;
         public InputAction @Steering => m_Wrapper.m_Controls_Steering;
-        public InputAction @ResetPlayer => m_Wrapper.m_Controls_ResetPlayer;
-        public InputAction @TailWhipRight => m_Wrapper.m_Controls_TailWhipRight;
-        public InputAction @TailWhipLeft => m_Wrapper.m_Controls_TailWhipLeft;
+        public InputAction @TailWhip => m_Wrapper.m_Controls_TailWhip;
+        public InputAction @Look => m_Wrapper.m_Controls_Look;
+        public InputAction @Boost => m_Wrapper.m_Controls_Boost;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -273,15 +383,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Steering.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnSteering;
                 @Steering.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnSteering;
                 @Steering.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnSteering;
-                @ResetPlayer.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnResetPlayer;
-                @ResetPlayer.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnResetPlayer;
-                @ResetPlayer.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnResetPlayer;
-                @TailWhipRight.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnTailWhipRight;
-                @TailWhipRight.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnTailWhipRight;
-                @TailWhipRight.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnTailWhipRight;
-                @TailWhipLeft.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnTailWhipLeft;
-                @TailWhipLeft.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnTailWhipLeft;
-                @TailWhipLeft.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnTailWhipLeft;
+                @TailWhip.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnTailWhip;
+                @TailWhip.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnTailWhip;
+                @TailWhip.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnTailWhip;
+                @Look.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnLook;
+                @Look.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnLook;
+                @Look.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnLook;
+                @Boost.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnBoost;
+                @Boost.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnBoost;
+                @Boost.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnBoost;
             }
             m_Wrapper.m_ControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -292,15 +402,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Steering.started += instance.OnSteering;
                 @Steering.performed += instance.OnSteering;
                 @Steering.canceled += instance.OnSteering;
-                @ResetPlayer.started += instance.OnResetPlayer;
-                @ResetPlayer.performed += instance.OnResetPlayer;
-                @ResetPlayer.canceled += instance.OnResetPlayer;
-                @TailWhipRight.started += instance.OnTailWhipRight;
-                @TailWhipRight.performed += instance.OnTailWhipRight;
-                @TailWhipRight.canceled += instance.OnTailWhipRight;
-                @TailWhipLeft.started += instance.OnTailWhipLeft;
-                @TailWhipLeft.performed += instance.OnTailWhipLeft;
-                @TailWhipLeft.canceled += instance.OnTailWhipLeft;
+                @TailWhip.started += instance.OnTailWhip;
+                @TailWhip.performed += instance.OnTailWhip;
+                @TailWhip.canceled += instance.OnTailWhip;
+                @Look.started += instance.OnLook;
+                @Look.performed += instance.OnLook;
+                @Look.canceled += instance.OnLook;
+                @Boost.started += instance.OnBoost;
+                @Boost.performed += instance.OnBoost;
+                @Boost.canceled += instance.OnBoost;
             }
         }
     }
@@ -309,8 +419,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     {
         void OnAcceleration(InputAction.CallbackContext context);
         void OnSteering(InputAction.CallbackContext context);
-        void OnResetPlayer(InputAction.CallbackContext context);
-        void OnTailWhipRight(InputAction.CallbackContext context);
-        void OnTailWhipLeft(InputAction.CallbackContext context);
+        void OnTailWhip(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
+        void OnBoost(InputAction.CallbackContext context);
     }
 }

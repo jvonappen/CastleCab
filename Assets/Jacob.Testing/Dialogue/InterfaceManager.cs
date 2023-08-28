@@ -6,6 +6,7 @@ using TMPro;
 using DG.Tweening;
 using UnityEngine.Rendering;
 using Cinemachine;
+using UnityEngine.InputSystem;
 
 public class InterfaceManager : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class InterfaceManager : MonoBehaviour
     public VillagerScript currentVillager;
 
     private int dialogueIndex;
+
     public bool canExit;
     public bool nextDialogue;
 
@@ -31,6 +33,9 @@ public class InterfaceManager : MonoBehaviour
     [Header("Cameras")]
     public GameObject gameCam;
     public GameObject dialogueCam;
+
+    [Header("Debug")]
+    [SerializeField] private PlayerMovement playerMovement;
 
     //[Space]
 
@@ -49,7 +54,7 @@ public class InterfaceManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && inDialogue)
+        if (Keyboard.current.enterKey.wasPressedThisFrame && inDialogue)
         {
             if (canExit)
             {
@@ -96,7 +101,7 @@ public class InterfaceManager : MonoBehaviour
 
         //Depth of field modifier
         float dofWeight = dialogueCam.activeSelf ? 1 : 0;
-        DOVirtual.Float(dialogueDof.weight, dofWeight, .8f, DialogueDOF);
+        //DOVirtual.Float(dialogueDof.weight, dofWeight, .8f, DialogueDOF);
     }
 
     public void DialogueDOF(float x)
@@ -111,23 +116,26 @@ public class InterfaceManager : MonoBehaviour
 
     public void ResetState()
     {
-        currentVillager.Reset();
-        //FindObjectOfType<MovementInput>().active = true;
+        //currentVillager.Reset();
         inDialogue = false;
         canExit = false;
+
     }
 
     public void FinishDialogue()
     {
-        if (dialogueIndex < currentVillager.dialogue.conversationBlock.Count - 1)
+        if (dialogueIndex < currentVillager.dialogue.conversationBlock.Count -1)
         {
             dialogueIndex++;
             nextDialogue = true;
+            Debug.Log("nextDialogue TRUE");
         }
         else
         {
             nextDialogue = false;
             canExit = true;
+            playerMovement.enabled = true;
+            playerMovement.freeze = false;
         }
     } 
 }
