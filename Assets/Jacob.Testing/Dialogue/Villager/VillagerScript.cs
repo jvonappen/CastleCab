@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using DG.Tweening;
+//using DG.Tweening;
 using Cinemachine;
 
 public class VillagerScript : MonoBehaviour
@@ -78,18 +78,18 @@ public class VillagerScript : MonoBehaviour
         particlesParent.Find(x + "Particle").GetComponent<ParticleSystem>().Play();
     }
 
-    public void Reset()
-    {
-        animator.SetTrigger("normal");
-        //eyesRenderer.material.SetTextureOffset("_BaseMap", Vector2.zero);
-    }
+    //public void Reset()
+    //{
+    //    //animator.SetTrigger("normal");
+    //    //eyesRenderer.material.SetTextureOffset("_BaseMap", Vector2.zero);
+    //}
 
-    public void TurnToPlayer(Vector3 playerPos)
-    {
-        transform.DOLookAt(playerPos, Vector3.Distance(transform.position, playerPos) / 5);
-        string turnMotion = isRightSide(transform.forward, playerPos, Vector3.up) ? "rturn" : "lturn";
-        animator.SetTrigger(turnMotion);
-    }
+    //public void TurnToPlayer(Vector3 playerPos)
+    //{
+    //    transform.DOLookAt(playerPos, Vector3.Distance(transform.position, playerPos) / 5);
+    //    string turnMotion = isRightSide(transform.forward, playerPos, Vector3.up) ? "rturn" : "lturn";
+    //    animator.SetTrigger(turnMotion);
+    //}
     public bool isRightSide(Vector3 fwd, Vector3 targetDir, Vector3 up)
     {
         Vector3 right = Vector3.Cross(up.normalized, fwd.normalized);        // right vector
