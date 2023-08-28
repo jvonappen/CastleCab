@@ -22,9 +22,8 @@ public class DialogueTrigger : MonoBehaviour
 
     void Update()
     {
-        if (Keyboard.current.spaceKey.IsPressed() && !ui.inDialogue && currentVillager != null) //
+        if (Keyboard.current.enterKey.wasPressedThisFrame && !ui.inDialogue && currentVillager != null) //
         {
-            Debug.Log("SpaceBar");
             targetGroup.m_Targets[1].target = currentVillager.transform;
             ui.SetCharNameAndColor();
             ui.inDialogue = true;
@@ -33,7 +32,6 @@ public class DialogueTrigger : MonoBehaviour
             ui.FadeUI(true, .2f, .65f);
 
             player.constraints = RigidbodyConstraints.FreezePosition;
-            
         }
 
     }
@@ -45,6 +43,7 @@ public class DialogueTrigger : MonoBehaviour
         {
             currentVillager = other.GetComponent<VillagerScript>();
             ui.currentVillager = currentVillager;
+
         }
     }
 

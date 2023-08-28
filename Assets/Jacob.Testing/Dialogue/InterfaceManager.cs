@@ -23,7 +23,7 @@ public class InterfaceManager : MonoBehaviour
     [HideInInspector]
     public VillagerScript currentVillager;
 
-    private int dialogueIndex;
+    
     public bool canExit;
     public bool nextDialogue;
 
@@ -35,6 +35,7 @@ public class InterfaceManager : MonoBehaviour
 
     [Header("Debug - Player")]
     public Rigidbody playerRB;
+    public int dialogueIndex;
 
     //[Space]
 
@@ -53,7 +54,7 @@ public class InterfaceManager : MonoBehaviour
 
     private void Update()
     {
-        if (Keyboard.current.spaceKey.IsPressed() && inDialogue)
+        if (Keyboard.current.enterKey.wasPressedThisFrame && inDialogue)
         {
             if (canExit)
             {
@@ -123,17 +124,17 @@ public class InterfaceManager : MonoBehaviour
 
     public void FinishDialogue()
     {
-        if (dialogueIndex < currentVillager.dialogue.conversationBlock.Count - 1)
+        if (dialogueIndex < currentVillager.dialogue.conversationBlock.Count -1)
         {
             dialogueIndex++;
             nextDialogue = true;
+            Debug.Log("nextDialogue TRUE");
         }
         else
         {
             nextDialogue = false;
             canExit = true;
             playerRB.constraints = ~RigidbodyConstraints.FreezePosition;
-
         }
     } 
 }
