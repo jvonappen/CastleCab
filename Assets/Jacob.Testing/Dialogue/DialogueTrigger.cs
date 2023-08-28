@@ -13,7 +13,8 @@ public class DialogueTrigger : MonoBehaviour
 
     [Header("Debug")]
     [SerializeField] private VillagerScript currentVillager;
-    [SerializeField] private Rigidbody player;
+    [SerializeField] private PlayerMovement playerMovement;
+
 
     void Start()
     {
@@ -31,7 +32,10 @@ public class DialogueTrigger : MonoBehaviour
             ui.ClearText();
             ui.FadeUI(true, .2f, .65f);
 
-            player.constraints = RigidbodyConstraints.FreezePosition;
+            playerMovement.freeze = true;
+            playerMovement.enabled = false;
+           
+
         }
 
     }
@@ -43,7 +47,6 @@ public class DialogueTrigger : MonoBehaviour
         {
             currentVillager = other.GetComponent<VillagerScript>();
             ui.currentVillager = currentVillager;
-
         }
     }
 

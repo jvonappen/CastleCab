@@ -23,7 +23,8 @@ public class InterfaceManager : MonoBehaviour
     [HideInInspector]
     public VillagerScript currentVillager;
 
-    
+    private int dialogueIndex;
+
     public bool canExit;
     public bool nextDialogue;
 
@@ -33,9 +34,8 @@ public class InterfaceManager : MonoBehaviour
     public GameObject gameCam;
     public GameObject dialogueCam;
 
-    [Header("Debug - Player")]
-    public Rigidbody playerRB;
-    public int dialogueIndex;
+    [Header("Debug")]
+    [SerializeField] private PlayerMovement playerMovement;
 
     //[Space]
 
@@ -134,7 +134,8 @@ public class InterfaceManager : MonoBehaviour
         {
             nextDialogue = false;
             canExit = true;
-            playerRB.constraints = ~RigidbodyConstraints.FreezePosition;
+            playerMovement.enabled = true;
+            playerMovement.freeze = false;
         }
     } 
 }
