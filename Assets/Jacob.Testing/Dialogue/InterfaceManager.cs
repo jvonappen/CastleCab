@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-//using DG.Tweening;
+using DG.Tweening;
 using UnityEngine.Rendering;
 using Cinemachine;
+using UnityEngine.InputSystem;
 
 public class InterfaceManager : MonoBehaviour
 {
@@ -32,6 +33,9 @@ public class InterfaceManager : MonoBehaviour
     public GameObject gameCam;
     public GameObject dialogueCam;
 
+    [Header("Debug - Player")]
+    public Rigidbody playerRB;
+
     //[Space]
 
     public Volume dialogueDof;
@@ -49,15 +53,15 @@ public class InterfaceManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && inDialogue)
+        if (Keyboard.current.spaceKey.IsPressed() && inDialogue)
         {
             if (canExit)
             {
                 CameraChange(false);
                 FadeUI(false, .2f, 0);
-                //Sequence s = DOTween.Sequence();
-                //s.AppendInterval(.8f);
-                //s.AppendCallback(() => ResetState());
+                DG.Tweening.Sequence s = DOTween.Sequence();
+                s.AppendInterval(.8f);
+                s.AppendCallback(() => ResetState());
             }
 
             if (nextDialogue)
@@ -69,16 +73,16 @@ public class InterfaceManager : MonoBehaviour
 
     public void FadeUI(bool show, float time, float delay)
     {
-        
-        //Sequence s = DOTween.Sequence();
-        //s.AppendInterval(delay);
-        //s.Append(canvasGroup.DOFade(show ? 1 : 0, time));
-        //if (show)
-        //{
-        //    dialogueIndex = 0;
-        //    s.Join(canvasGroup.transform.DOScale(0, time * 2).From().SetEase(Ease.OutBack));
-        //    s.AppendCallback(() => animatedText.ReadText(currentVillager.dialogue.conversationBlock[0]));
-        //}
+
+        DG.Tweening.Sequence s = DOTween.Sequence();
+        s.AppendInterval(delay);
+        s.Append(canvasGroup.DOFade(show ? 1 : 0, time));
+        if (show)
+        {
+            dialogueIndex = 0;
+            s.Join(canvasGroup.transform.DOScale(0, time * 2).From().SetEase(Ease.OutBack));
+            s.AppendCallback(() => animatedText.ReadText(currentVillager.dialogue.conversationBlock[0]));
+        }
     }
 
     public void SetCharNameAndColor()
@@ -111,10 +115,10 @@ public class InterfaceManager : MonoBehaviour
 
     public void ResetState()
     {
-        currentVillager.Reset();
-        //FindObjectOfType<MovementInput>().active = true;
+        //currentVillager.Reset();
         inDialogue = false;
         canExit = false;
+
     }
 
     public void FinishDialogue()
@@ -128,6 +132,8 @@ public class InterfaceManager : MonoBehaviour
         {
             nextDialogue = false;
             canExit = true;
+            playerRB.constraints = ~RigidbodyConstraints.FreezePosition;
+
         }
     } 
 }

@@ -24,25 +24,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ResetPlayer",
-                    "type": "Button",
-                    "id": "de50846d-b4af-488d-a331-1a22d8de9ee8",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "TailWhipRight",
-                    "type": "Button",
-                    "id": "53383162-447e-4799-84c5-0dc33078d40b",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "TailWhipLeft",
+                    "name": "TailWhip",
                     "type": "Button",
                     "id": "085c4b4a-05f6-4bb0-8fe2-99b1c139d527",
                     "expectedControlType": "Button",
@@ -58,6 +40,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Boost",
+                    "type": "Button",
+                    "id": "536d6838-1157-4214-9912-bd4c2546eeae",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -129,34 +120,12 @@
                 },
                 {
                     "name": "",
-                    "id": "fab68641-04e0-4fed-9802-d3f85add8d1d",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ResetPlayer",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4b9bdff1-bfc5-470f-a9d4-b9640160c933",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "TailWhipRight",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "ab0b5b9d-a093-4f8d-b6b5-51e58402b7f3",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "TailWhipLeft",
+                    "action": "TailWhip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -190,6 +159,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e521cc2a-6c3c-4837-94c8-710f740ac134",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Boost",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
