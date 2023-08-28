@@ -6,6 +6,7 @@ using TMPro;
 using DG.Tweening;
 using UnityEngine.Rendering;
 using Cinemachine;
+using UnityEngine.InputSystem;
 
 public class InterfaceManager : MonoBehaviour
 {
@@ -32,6 +33,9 @@ public class InterfaceManager : MonoBehaviour
     public GameObject gameCam;
     public GameObject dialogueCam;
 
+    [Header("Debug - Player")]
+    public Rigidbody playerRB;
+
     //[Space]
 
     public Volume dialogueDof;
@@ -49,7 +53,7 @@ public class InterfaceManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && inDialogue)
+        if (Keyboard.current.spaceKey.IsPressed() && inDialogue)
         {
             if (canExit)
             {
@@ -96,7 +100,7 @@ public class InterfaceManager : MonoBehaviour
 
         //Depth of field modifier
         float dofWeight = dialogueCam.activeSelf ? 1 : 0;
-        DOVirtual.Float(dialogueDof.weight, dofWeight, .8f, DialogueDOF);
+        //DOVirtual.Float(dialogueDof.weight, dofWeight, .8f, DialogueDOF);
     }
 
     public void DialogueDOF(float x)
@@ -111,10 +115,10 @@ public class InterfaceManager : MonoBehaviour
 
     public void ResetState()
     {
-        currentVillager.Reset();
-        //FindObjectOfType<MovementInput>().active = true;
+        //currentVillager.Reset();
         inDialogue = false;
         canExit = false;
+
     }
 
     public void FinishDialogue()
@@ -128,6 +132,8 @@ public class InterfaceManager : MonoBehaviour
         {
             nextDialogue = false;
             canExit = true;
+            playerRB.constraints = ~RigidbodyConstraints.FreezePosition;
+
         }
     } 
 }
