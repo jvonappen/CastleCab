@@ -10,9 +10,11 @@ public class DollarDisplay : MonoBehaviour
 
     [SerializeField] public TextMeshProUGUI dollarDisplay;
 
+    [SerializeField] private int startingDollars;
+
     private void Start()
     {
-        dollarValue = 0;
+        dollarValue = startingDollars;
         dollarDisplay.text = dollarValue.ToString();
     }
 
