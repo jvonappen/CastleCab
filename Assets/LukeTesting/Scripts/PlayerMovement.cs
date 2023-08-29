@@ -124,6 +124,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void StopDustParticles()
     {
+
         for (int i = 0; i < _dustTrail.Length; i++)
         {
             _dustTrail[i].Stop();
