@@ -9,8 +9,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _speedInput = 0;
     [SerializeField] private Rigidbody _sphereRB;
     [SerializeField] private GameObject _wagon;
-    [SerializeField] private ParticleSystem[] _dustTrail;
+    [SerializeField] private GameObject[] _dustTrail;
     [SerializeField] private GameObject[] _boostTrail;
+    [SerializeField] private GameObject[] _wheelTrail;
     [SerializeField] private float _forwardAcceleration = 500f;
     [SerializeField] private float _reverseAcceleration = 100f;
     [SerializeField] private float _turnStrength = 180f;
@@ -64,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
         _speedInput = _playerInput._accelerationInput > 0 ? _forwardAcceleration : _reverseAcceleration;
         _speedInput *= _playerInput._accelerationInput;
 
-        //boost
+        //boost 
         if (_playerInput._boost != 0 && _grounded)
         {
             _speedInput *= _boostMultiplier;
@@ -105,9 +106,9 @@ public class PlayerMovement : MonoBehaviour
             _sphereRB.AddForce(transform.forward * _speedInput);
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, _playerInput._steeringInput * _turnStrength * Time.deltaTime * _playerInput._accelerationInput, 0f));
 
-            ////play particles
-            //if (_playerInput._accelerationInput > 0 && _grounded) PlayDustParticles();
-            //else StopDustParticles();
+            //play particles
+            if (_playerInput._accelerationInput > 0 && _grounded) PlayDustParticles();
+            else StopDustParticles();
         }
         else//add gravity when in air
         {
@@ -139,7 +140,13 @@ public class PlayerMovement : MonoBehaviour
     {
         for (int i = 0; i < _dustTrail.Length; i++)
         {
-            _dustTrail[i].Play();
+            _dustTrail[i].SetActive(true);
+            Debug.Log("Play particles");
+        }
+
+        for (int i = 0; i < _wheelTrail.Length; i++)
+        {
+            _wheelTrail[i].SetActive(true);
         }
     }
 
@@ -148,7 +155,12 @@ public class PlayerMovement : MonoBehaviour
 
         for (int i = 0; i < _dustTrail.Length; i++)
         {
-            _dustTrail[i].Stop();
+            _dustTrail[i].SetActive(false);
+        }
+
+        for (int i = 0; i < _wheelTrail.Length; i++)
+        {
+            _wheelTrail[i].SetActive(false);
         }
     }
 
