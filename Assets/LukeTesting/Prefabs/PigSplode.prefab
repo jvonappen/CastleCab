@@ -1882,8 +1882,8 @@ GameObject:
   - component: {fileID: 8855805217321103819}
   - component: {fileID: 8855805217321103820}
   - component: {fileID: 8855805217321103821}
-  - component: {fileID: 8855805217321103822}
   - component: {fileID: -143982205970740613}
+  - component: {fileID: 8855805217321103822}
   - component: {fileID: 8618250449921143584}
   m_Layer: 14
   m_Name: PigSplode
@@ -1973,7 +1973,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8855805217321103823}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.31015503
   m_Height: 0.97697103
@@ -2001,6 +2001,22 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!54 &-143982205970740613
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8855805217321103823}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!114 &8855805217321103822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2031,22 +2047,6 @@ MonoBehaviour:
   chaseSpeed0: 0
   searchRange0: 0
   sirenToggle: 0
---- !u!54 &-143982205970740613
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8855805217321103823}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 1
-  m_Constraints: 0
-  m_CollisionDetection: 1
 --- !u!114 &8618250449921143584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2060,8 +2060,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _explode: {fileID: 3239914154907070157, guid: 2fbca4a5269f4e541b5f26158b088f80, type: 3}
-  _force: 20
-  _upForce: 100
+  _force: 1000
+  _upForce: 500
+  radius: 2
 --- !u!1 &8855805217322098678
 GameObject:
   m_ObjectHideFlags: 0

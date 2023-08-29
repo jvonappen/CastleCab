@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Profiling;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,8 +9,10 @@ public class PigSplode : MonoBehaviour
     private Rigidbody rb;
     private NavMeshAgent agent;
     [SerializeField] ParticleSystem _explode;
-    [SerializeField] private float _force = 20;
-    [SerializeField] private float _upForce = 100;
+    [SerializeField] ParticleSystem _bacon;
+    [SerializeField] private float _force = 1000;
+    [SerializeField] private float _upForce = 500;
+    [SerializeField] private float radius = 2;
 
     private void Awake()
     {
@@ -19,13 +22,15 @@ public class PigSplode : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.name == "Wagon")
+        if (other.gameObject.name == "Wagon" || other.gameObject.name == "Donkey")
         {
             Debug.Log("Launch");
             agent.enabled = false;
-            rb.AddExplosionForce(_force, this.transform.position, 3, _upForce);
-            Instantiate(_explode, transform.position, Quaternion.identity);
+            rb.AddExplosionForce(_force, this.transform.position, radius, _upForce);
+            ParticleSystem explode = Instantiate(_explode, this.transform);
+            //ParticleSystem bacon = Instantiate(_bacon, this.transform);
             GetComponent<PoliceAI>().enabled = false;
+            Destroy(this.gameObject, 5);
         }
     }
 }
