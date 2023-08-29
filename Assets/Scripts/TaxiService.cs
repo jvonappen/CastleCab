@@ -3,7 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class VillagerDetails : MonoBehaviour
+public class TaxiDetails : MonoBehaviour
+{
+    public static bool isOccupied;
+    public static GameObject cartDestinationTarget;
+}
+
+public class TaxiService : MonoBehaviour
 {
     [SerializeField] private GameObject cartTarget;
     [Space]
@@ -21,6 +27,8 @@ public class VillagerDetails : MonoBehaviour
     {
         minimapLocationMarker.enabled = false; //temp
         agent = this.gameObject.GetComponent<NavMeshAgent>();
+
+       
     }
     private void OnTriggerEnter(Collider other)
     {

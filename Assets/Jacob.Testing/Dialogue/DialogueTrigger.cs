@@ -34,10 +34,7 @@ public class DialogueTrigger : MonoBehaviour
 
             playerMovement.freeze = true;
             playerMovement.enabled = false;
-           
-
         }
-
     }
 
 
