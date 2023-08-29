@@ -8,41 +8,33 @@ using UnityEngine.InputSystem;
 public class DialogueTrigger : MonoBehaviour
 {
     [SerializeField] private InterfaceManager ui;
-    [SerializeField] private VillagerScript currentVillager;
-    //private MovementInput movement;
+
     public CinemachineTargetGroup targetGroup;
 
-    [Space]
+    [Header("Debug")]
+    [SerializeField] private VillagerScript currentVillager;
+    [SerializeField] private PlayerMovement playerMovement;
 
-    [Header("Post Processing")]
-    public Volume dialogueDof;
 
     void Start()
     {
         ui = InterfaceManager.instance;
-       // movement = GetComponent<MovementInput>();
     }
 
     void Update()
     {
-        if (Keyboard.current.spaceKey.IsPressed() && !ui.inDialogue && currentVillager != null)
+        if (Keyboard.current.enterKey.wasPressedThisFrame && !ui.inDialogue && currentVillager != null) //
         {
             targetGroup.m_Targets[1].target = currentVillager.transform;
-            //movement.active = false;
             ui.SetCharNameAndColor();
             ui.inDialogue = true;
             ui.CameraChange(true);
             ui.ClearText();
             ui.FadeUI(true, .2f, .65f);
-            currentVillager.TurnToPlayer(transform.position);
 
-            Debug.Log("SpaceBar");
+            playerMovement.freeze = true;
+            playerMovement.enabled = false;
         }
-
-        //if (Keyboard.current.spaceKey.IsPressed())
-        //    {
-        //    Debug.Log("Poop");
-        //}
     }
 
 

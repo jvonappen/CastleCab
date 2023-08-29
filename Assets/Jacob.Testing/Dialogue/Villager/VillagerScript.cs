@@ -2,22 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using DG.Tweening;
+//using DG.Tweening;
 using Cinemachine;
 
 public class VillagerScript : MonoBehaviour
 {
     public VillagerData data;
     public DialogueData dialogue;
-
-    public bool villagerIsTalking;
-
     private TMP_Animated animatedText;
     private DialogueAudio dialogueAudio;
     private Animator animator;
     //public Renderer eyesRenderer;
+    //public Transform particlesParent;
+    [SerializeField] private GameObject player;
+    [Header("Debug")]
+    public bool villagerIsTalking;
 
-    public Transform particlesParent;
+    //[Header("Debug-LookAt")]
+    //private GameObject villager;
+    private float X;
+    private float Y;
+    private float Z;
 
     void Start()
     {
@@ -27,7 +32,41 @@ public class VillagerScript : MonoBehaviour
         //animatedText.onEmotionChange.AddListener((newEmotion) => EmotionChanger(newEmotion));
         animatedText.onAction.AddListener((action) => SetAction(action));
     }
+    void LateUpdate()
+    {
+        transform.LookAt(player.transform);
+        transform.Rotate(X, Y, Z);
+    }
 
+    public void SetAction(string action)
+    {
+        if (this != InterfaceManager.instance.currentVillager)
+            return;
+
+        if (action == "shake")
+        {
+            Camera.main.GetComponent<CinemachineImpulseSource>().GenerateImpulse();
+        }
+        else
+        {
+            //PlayParticle(action);
+
+            if (action == "sparkle")
+            {
+                dialogueAudio.effectSource.clip = dialogueAudio.sparkleClip;
+                dialogueAudio.effectSource.Play();
+            }
+            else if (action == "rain")
+            {
+                dialogueAudio.effectSource.clip = dialogueAudio.rainClip;
+                dialogueAudio.effectSource.Play();
+            }
+        }
+    }
+
+    /* -----------------------------------------------------------------*/
+    //NOTE: For later use when adding extra polish
+    /* -----------------------------------------------------------------*/
     //public void EmotionChanger(Emotion e)
     //{
     //    if (this != InterfaceManager.instance.currentVillager)
@@ -44,52 +83,26 @@ public class VillagerScript : MonoBehaviour
     //    if (e == Emotion.sad)
     //        eyesRenderer.material.SetTextureOffset("_BaseMap", new Vector2(.33f, -.33f));
     //}
+    //public void PlayParticle(string x)
+    //{
+    //    if (particlesParent.Find(x + "Particle") == null)
+    //        return;
+    //    particlesParent.Find(x + "Particle").GetComponent<ParticleSystem>().Play();
+    //}
 
-    public void SetAction(string action)
-    {
-        if (this != InterfaceManager.instance.currentVillager)
-            return;
+    //public void Reset()
+    //{
+    //    //animator.SetTrigger("normal");
+    //    //eyesRenderer.material.SetTextureOffset("_BaseMap", Vector2.zero);
+    //}
 
-        if (action == "shake")
-        {
-            Camera.main.GetComponent<CinemachineImpulseSource>().GenerateImpulse();
-        }
-        else
-        {
-            PlayParticle(action);
-
-            if (action == "sparkle")
-            {
-                dialogueAudio.effectSource.clip = dialogueAudio.sparkleClip;
-                dialogueAudio.effectSource.Play();
-            }
-            else if (action == "rain")
-            {
-                dialogueAudio.effectSource.clip = dialogueAudio.rainClip;
-                dialogueAudio.effectSource.Play();
-            }
-        }
-    }
-
-    public void PlayParticle(string x)
-    {
-        if (particlesParent.Find(x + "Particle") == null)
-            return;
-        particlesParent.Find(x + "Particle").GetComponent<ParticleSystem>().Play();
-    }
-
-    public void Reset()
-    {
-        animator.SetTrigger("normal");
-        //eyesRenderer.material.SetTextureOffset("_BaseMap", Vector2.zero);
-    }
-
-    public void TurnToPlayer(Vector3 playerPos)
-    {
-        transform.DOLookAt(playerPos, Vector3.Distance(transform.position, playerPos) / 5);
-        string turnMotion = isRightSide(transform.forward, playerPos, Vector3.up) ? "rturn" : "lturn";
-        animator.SetTrigger(turnMotion);
-    }
+    //public void TurnToPlayer(Vector3 playerPos)
+    //{
+    //    transform.DOLookAt(playerPos, Vector3.Distance(transform.position, playerPos) / 5);
+    //    string turnMotion = isRightSide(transform.forward, playerPos, Vector3.up) ? "rturn" : "lturn";
+    //    animator.SetTrigger(turnMotion);
+    //}
+    /* -----------------------------------------------------------------*/
     public bool isRightSide(Vector3 fwd, Vector3 targetDir, Vector3 up)
     {
         Vector3 right = Vector3.Cross(up.normalized, fwd.normalized);        // right vector
