@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Rigidbody _sphereRB;
     [SerializeField] private GameObject _wagon;
     [SerializeField] private ParticleSystem[] _dustTrail;
+    [SerializeField] private GameObject[] _boostTrail;
     [SerializeField] private float _forwardAcceleration = 500f;
     [SerializeField] private float _reverseAcceleration = 100f;
     [SerializeField] private float _turnStrength = 180f;
@@ -62,12 +63,14 @@ public class PlayerMovement : MonoBehaviour
         //get speed input 
         _speedInput = _playerInput._accelerationInput > 0 ? _forwardAcceleration : _reverseAcceleration;
         _speedInput *= _playerInput._accelerationInput;
+
         //boost
         if (_playerInput._boost != 0 && _grounded)
         {
             _speedInput *= _boostMultiplier;
             if (_speedParticles != null) _speedParticles.SetActive(true);
             if (_camera != null) _camera.SetCameraFov(BOOST_FOV);
+            PlayBoostParticles();
         }
         
         else
@@ -75,6 +78,7 @@ public class PlayerMovement : MonoBehaviour
             _speedInput *= 1;
             if (_speedParticles != null) _speedParticles.SetActive(false);
             if (_camera != null) _camera.SetCameraFov(NORMAL_FOV);
+            StopBoostParticles();
         }
 
         //Adjust wagon movement for reversing
@@ -101,7 +105,7 @@ public class PlayerMovement : MonoBehaviour
             _sphereRB.AddForce(transform.forward * _speedInput);
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, _playerInput._steeringInput * _turnStrength * Time.deltaTime * _playerInput._accelerationInput, 0f));
 
-            //play particles
+            ////play particles
             //if (_playerInput._accelerationInput > 0 && _grounded) PlayDustParticles();
             //else StopDustParticles();
         }
@@ -114,11 +118,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //tailwhips
-        if (_playerInput._tailWhip > 0 && _playerInput._steeringInput > 0 && _grounded)
+        if (_playerInput._tailWhip > 0 && _playerInput._steeringInput > 0 && _grounded && _playerInput._accelerationInput > 0.5)
         {
             TailWhip(-_wagon.transform.right, _tailWhipPositions[0].position);
         }
-        if (_playerInput._tailWhip > 0 && _playerInput._steeringInput < 0 && _grounded)
+        if (_playerInput._tailWhip > 0 && _playerInput._steeringInput < 0 && _grounded && _playerInput._accelerationInput > 0.5)
         {
             TailWhip(_wagon.transform.right, _tailWhipPositions[1].position);
         }
@@ -144,6 +148,22 @@ public class PlayerMovement : MonoBehaviour
         for (int i = 0; i < _dustTrail.Length; i++)
         {
             _dustTrail[i].Stop();
+        }
+    }
+
+    private void PlayBoostParticles()
+    {
+        for (int i = 0; i < _boostTrail.Length; i++)
+        {
+            _boostTrail[i].SetActive(true);
+        }
+    }
+
+    private void StopBoostParticles()
+    {
+        for (int i = 0; i < _boostTrail.Length; i++)
+        {
+            _boostTrail[i].SetActive(false);
         }
     }
 

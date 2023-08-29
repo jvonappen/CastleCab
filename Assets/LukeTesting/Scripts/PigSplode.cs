@@ -9,6 +9,7 @@ public class PigSplode : MonoBehaviour
     private Rigidbody rb;
     private NavMeshAgent agent;
     [SerializeField] ParticleSystem _explode;
+    [SerializeField] ParticleSystem _bacon;
     [SerializeField] private float _force = 1000;
     [SerializeField] private float _upForce = 500;
     [SerializeField] private float radius = 2;
@@ -27,6 +28,7 @@ public class PigSplode : MonoBehaviour
             agent.enabled = false;
             rb.AddExplosionForce(_force, this.transform.position, radius, _upForce);
             ParticleSystem explode = Instantiate(_explode, this.transform);
+            //ParticleSystem bacon = Instantiate(_bacon, this.transform);
             GetComponent<PoliceAI>().enabled = false;
             Destroy(this.gameObject, 5);
         }
