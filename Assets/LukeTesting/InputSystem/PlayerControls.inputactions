@@ -24,25 +24,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ResetPlayer",
-                    "type": "Button",
-                    "id": "de50846d-b4af-488d-a331-1a22d8de9ee8",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "TailWhipRight",
-                    "type": "Button",
-                    "id": "53383162-447e-4799-84c5-0dc33078d40b",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "TailWhipLeft",
+                    "name": "TailWhip",
                     "type": "Button",
                     "id": "085c4b4a-05f6-4bb0-8fe2-99b1c139d527",
                     "expectedControlType": "Button",
@@ -58,6 +40,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Boost",
+                    "type": "Button",
+                    "id": "536d6838-1157-4214-9912-bd4c2546eeae",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -87,6 +78,39 @@
                     "name": "positive",
                     "id": "50b31332-db1c-4af9-be4a-5b0b0cd71c1c",
                     "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Acceleration",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Controller",
+                    "id": "3c4d8720-2d7f-4d0d-9609-cee4cdfb08b3",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Acceleration",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "eb3290af-758b-4985-997f-c57a8de378f6",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Acceleration",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "366e3c12-7cd7-4b62-8a16-9a64ef30b711",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -128,26 +152,37 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "",
-                    "id": "fab68641-04e0-4fed-9802-d3f85add8d1d",
-                    "path": "<Keyboard>/space",
+                    "name": "1D Axis",
+                    "id": "8d148b6f-cad8-4aa1-a190-e5c05434278e",
+                    "path": "1DAxis",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ResetPlayer",
-                    "isComposite": false,
+                    "action": "Steering",
+                    "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "4b9bdff1-bfc5-470f-a9d4-b9640160c933",
-                    "path": "<Mouse>/rightButton",
+                    "name": "negative",
+                    "id": "834f3fa5-ab3a-4432-9527-b93452d7396b",
+                    "path": "<Gamepad>/leftStick/left",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "TailWhipRight",
+                    "action": "Steering",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "7dd40250-bb04-462a-b4da-9a6e4ce21491",
+                    "path": "<Gamepad>/leftStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Steering",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
@@ -156,7 +191,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "TailWhipLeft",
+                    "action": "TailWhip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "81af09df-5b55-48f5-840b-e9d5f9fdf0d4",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TailWhip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -190,6 +236,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e521cc2a-6c3c-4837-94c8-710f740ac134",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Boost",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8af66891-dd52-4809-bacc-bbaedc338d65",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Boost",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
