@@ -13,7 +13,8 @@ public class DialogueTrigger : MonoBehaviour
 
     [Header("Debug")]
     [SerializeField] private VillagerScript currentVillager;
-    [SerializeField] private Rigidbody player;
+    [SerializeField] private PlayerMovement playerMovement;
+
 
     void Start()
     {
@@ -22,9 +23,8 @@ public class DialogueTrigger : MonoBehaviour
 
     void Update()
     {
-        if (Keyboard.current.spaceKey.IsPressed() && !ui.inDialogue && currentVillager != null) //
+        if (Keyboard.current.enterKey.wasPressedThisFrame && !ui.inDialogue && currentVillager != null) //
         {
-            Debug.Log("SpaceBar");
             targetGroup.m_Targets[1].target = currentVillager.transform;
             ui.SetCharNameAndColor();
             ui.inDialogue = true;
@@ -32,8 +32,10 @@ public class DialogueTrigger : MonoBehaviour
             ui.ClearText();
             ui.FadeUI(true, .2f, .65f);
 
-            player.constraints = RigidbodyConstraints.FreezePosition;
-            
+            playerMovement.freeze = true;
+            playerMovement.enabled = false;
+           
+
         }
 
     }

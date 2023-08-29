@@ -25,12 +25,28 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Rigidbody _wagonRB;
     [SerializeField] private float _tailWhipForce = 10;
     [SerializeField] private Transform[] _tailWhipPositions;
+    [SerializeField] private Rigidbody _donkeyRB;
+
+    public bool freeze
+    {
+        get => _freeze;
+        set
+        {
+            _freeze = value;
+            _sphereRB.isKinematic = _freeze;
+            _wagonRB.isKinematic = _freeze;
+            _donkeyRB.isKinematic = _freeze;
+        }
+    }
+
+    private bool _freeze;
 
     private void Awake()
     {
         _playerInput = GetComponent<PlayerInput>();
         _joint = _wagon.GetComponent<ConfigurableJoint>();
         _wagonRB = _wagon.GetComponent<Rigidbody>();
+        _donkeyRB = this.GetComponent<Rigidbody>();
     }
 
     private void Update()

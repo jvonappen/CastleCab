@@ -165,7 +165,6 @@
                     float2 dither = frac(fmod(i.pos.xy, 4.0) / 4.0);
 
                     if (dither.x < _DitherThreshold || dither.y < _DitherThreshold)
-
                     {
 
                         discard;
