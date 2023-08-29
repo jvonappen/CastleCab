@@ -7,7 +7,6 @@ public class PlayerMovement : MonoBehaviour
 {
     private PlayerInput _playerInput;
     [SerializeField] private float _speedInput = 0;
-    [SerializeField] private float _boostMultiplier = 2;
     [SerializeField] private Rigidbody _sphereRB;
     [SerializeField] private GameObject _wagon;
     [SerializeField] private ParticleSystem[] _dustTrail;
@@ -26,6 +25,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _tailWhipForce = 10;
     [SerializeField] private Transform[] _tailWhipPositions;
     [SerializeField] private Rigidbody _donkeyRB;
+
+    //boost
+    [SerializeField] private float _boostMultiplier = 2;
+    [SerializeField] private GameObject _speedParticles;
+    [SerializeField] private CameraFOV _camera;
+    private const float NORMAL_FOV = 40f;
+    private const float BOOST_FOV = 50f;
 
     public bool freeze
     {
@@ -51,14 +57,25 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        _grounded = false;
+        //_grounded = false;
 
         //get speed input 
         _speedInput = _playerInput._accelerationInput > 0 ? _forwardAcceleration : _reverseAcceleration;
         _speedInput *= _playerInput._accelerationInput;
         //boost
-        if (_playerInput._boost != 0) _speedInput *= _boostMultiplier;
-        else _speedInput *= 1;
+        if (_playerInput._boost != 0 && _grounded)
+        {
+            _speedInput *= _boostMultiplier;
+            if (_speedParticles != null) _speedParticles.SetActive(true);
+            if (_camera != null) _camera.SetCameraFov(BOOST_FOV);
+        }
+        
+        else
+        {
+            _speedInput *= 1;
+            if (_speedParticles != null) _speedParticles.SetActive(false);
+            if (_camera != null) _camera.SetCameraFov(NORMAL_FOV);
+        }
 
         //Adjust wagon movement for reversing
         //_joint.angularYMotion = _playerInput._accelerationInput < 0 ? ConfigurableJointMotion.Locked : ConfigurableJointMotion.Limited;
@@ -85,8 +102,8 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, _playerInput._steeringInput * _turnStrength * Time.deltaTime * _playerInput._accelerationInput, 0f));
 
             //play particles
-            if (_playerInput._accelerationInput > 0 && _grounded) PlayDustParticles();
-            else StopDustParticles();
+            //if (_playerInput._accelerationInput > 0 && _grounded) PlayDustParticles();
+            //else StopDustParticles();
         }
         else//add gravity when in air
         {
