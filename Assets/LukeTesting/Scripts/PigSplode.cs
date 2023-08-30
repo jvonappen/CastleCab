@@ -24,11 +24,11 @@ public class PigSplode : MonoBehaviour
     {
         if (other.gameObject.name == "Wagon" || other.gameObject.name == "Donkey")
         {
-            Debug.Log("Launch");
             agent.enabled = false;
             rb.AddExplosionForce(_force, this.transform.position, radius, _upForce);
+            ParticleSystem bacon = Instantiate(_bacon, this.transform);
             ParticleSystem explode = Instantiate(_explode, this.transform);
-            //ParticleSystem bacon = Instantiate(_bacon, this.transform);
+            
             GetComponent<PoliceAI>().enabled = false;
             Destroy(this.gameObject, 5);
         }
