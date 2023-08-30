@@ -7,10 +7,11 @@ public class PlayerMovement : MonoBehaviour
 {
     private PlayerInput _playerInput;
     [SerializeField] private float _speedInput = 0;
-    [SerializeField] private float _boostMultiplier = 2;
     [SerializeField] private Rigidbody _sphereRB;
     [SerializeField] private GameObject _wagon;
-    [SerializeField] private ParticleSystem[] _dustTrail;
+    [SerializeField] private GameObject[] _dustTrail;
+    [SerializeField] private GameObject[] _boostTrail;
+    [SerializeField] private GameObject[] _wheelTrail;
     [SerializeField] private float _forwardAcceleration = 500f;
     [SerializeField] private float _reverseAcceleration = 100f;
     [SerializeField] private float _turnStrength = 180f;
@@ -26,6 +27,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _tailWhipForce = 10;
     [SerializeField] private Transform[] _tailWhipPositions;
     [SerializeField] private Rigidbody _donkeyRB;
+
+    //boost
+    [SerializeField] private float _boostMultiplier = 2;
+    [SerializeField] private GameObject _speedParticles;
+    [SerializeField] private CameraFOV _camera;
+    private const float NORMAL_FOV = 40f;
+    private const float BOOST_FOV = 50f;
 
     public bool freeze
     {
@@ -51,14 +59,28 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        _grounded = false;
+        //_grounded = false;
 
         //get speed input 
         _speedInput = _playerInput._accelerationInput > 0 ? _forwardAcceleration : _reverseAcceleration;
         _speedInput *= _playerInput._accelerationInput;
-        //boost
-        if (_playerInput._boost != 0) _speedInput *= _boostMultiplier;
-        else _speedInput *= 1;
+
+        //boost 
+        if (_playerInput._boost != 0 && _grounded)
+        {
+            _speedInput *= _boostMultiplier;
+            if (_speedParticles != null) _speedParticles.SetActive(true);
+            if (_camera != null) _camera.SetCameraFov(BOOST_FOV);
+            PlayBoostParticles();
+        }
+        
+        else
+        {
+            _speedInput *= 1;
+            if (_speedParticles != null) _speedParticles.SetActive(false);
+            if (_camera != null) _camera.SetCameraFov(NORMAL_FOV);
+            StopBoostParticles();
+        }
 
         //Adjust wagon movement for reversing
         //_joint.angularYMotion = _playerInput._accelerationInput < 0 ? ConfigurableJointMotion.Locked : ConfigurableJointMotion.Limited;
@@ -97,11 +119,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //tailwhips
-        if (_playerInput._tailWhip > 0 && _playerInput._steeringInput > 0 && _grounded)
+        if (_playerInput._tailWhip > 0 && _playerInput._steeringInput > 0 && _grounded && _playerInput._accelerationInput > 0.5)
         {
             TailWhip(-_wagon.transform.right, _tailWhipPositions[0].position);
         }
-        if (_playerInput._tailWhip > 0 && _playerInput._steeringInput < 0 && _grounded)
+        if (_playerInput._tailWhip > 0 && _playerInput._steeringInput < 0 && _grounded && _playerInput._accelerationInput > 0.5)
         {
             TailWhip(_wagon.transform.right, _tailWhipPositions[1].position);
         }
@@ -118,15 +140,43 @@ public class PlayerMovement : MonoBehaviour
     {
         for (int i = 0; i < _dustTrail.Length; i++)
         {
-            _dustTrail[i].Play();
+            _dustTrail[i].SetActive(true);
+            Debug.Log("Play particles");
+        }
+
+        for (int i = 0; i < _wheelTrail.Length; i++)
+        {
+            _wheelTrail[i].SetActive(true);
         }
     }
 
     private void StopDustParticles()
     {
+
         for (int i = 0; i < _dustTrail.Length; i++)
         {
-            _dustTrail[i].Stop();
+            _dustTrail[i].SetActive(false);
+        }
+
+        for (int i = 0; i < _wheelTrail.Length; i++)
+        {
+            _wheelTrail[i].SetActive(false);
+        }
+    }
+
+    private void PlayBoostParticles()
+    {
+        for (int i = 0; i < _boostTrail.Length; i++)
+        {
+            _boostTrail[i].SetActive(true);
+        }
+    }
+
+    private void StopBoostParticles()
+    {
+        for (int i = 0; i < _boostTrail.Length; i++)
+        {
+            _boostTrail[i].SetActive(false);
         }
     }
 
