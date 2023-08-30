@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class TaxiDetails : MonoBehaviour
-{
-    public static bool isOccupied;
-    public static GameObject cartDestinationTarget;
-}
+//public class TaxiDetails : MonoBehaviour
+//{
+//    public static bool isOccupied;
+//    public static GameObject cartDestinationTarget;
+//}
 
 public class TaxiService : MonoBehaviour
 {
