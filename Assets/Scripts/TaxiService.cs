@@ -11,8 +11,7 @@ using UnityEngine.AI;
 
 public class TaxiService : MonoBehaviour
 {
-    [SerializeField] private GameObject cartTarget;
-    [Space]
+    [SerializeField] private GameObject customerSeat;
     [SerializeField] public GameObject destination;
     [SerializeField] public int dollarsGiven;
 
@@ -22,24 +21,24 @@ public class TaxiService : MonoBehaviour
     [SerializeField] private Canvas minimapQuestMarker;//temp
     
     private NavMeshAgent agent;
+    private PlayerData chair;
 
     private void Awake()
     {
         minimapLocationMarker.enabled = false; //temp
         agent = this.gameObject.GetComponent<NavMeshAgent>();
-
-       
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (!CartDetails.isOccupied && other.tag == "Player" && destination != null)
+
+        if (!PlayerData.isOccupied && other.tag == "Player" && destination != null)
         {
             AudioManager.Instance.PlaySFX("In");
-            this.transform.parent = this.cartTarget.transform;
-            this.transform.position = this.cartTarget.transform.position;
+            this.transform.parent = this.customerSeat.transform;
+            this.transform.position = this.customerSeat.transform.position;
 
-            CartDetails.cartDestinationTarget = destination;
-            CartDetails.isOccupied = true;
+            PlayerData.cartDestinationTarget = destination;
+            PlayerData.isOccupied = true;
 
             CompassBar.objectiveObjectTransform = destination.transform;
             this.gameObject.GetComponent<CapsuleCollider>().enabled = false; 

@@ -8,10 +8,13 @@ public class DollarDisplay : MonoBehaviour
 {
     public static int dollarValue = 0;
 
-    [SerializeField] public TextMeshProUGUI dollarDisplay;
-
+    [SerializeField] private TextMeshProUGUI dollarDisplay;
     [SerializeField] private int startingDollars;
 
+    private void Awake()
+    {
+        dollarDisplay = GetComponentInChildren<TextMeshProUGUI>();
+    }
     private void Start()
     {
         dollarValue = startingDollars;

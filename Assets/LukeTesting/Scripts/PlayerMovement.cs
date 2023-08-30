@@ -141,7 +141,7 @@ public class PlayerMovement : MonoBehaviour
         for (int i = 0; i < _dustTrail.Length; i++)
         {
             _dustTrail[i].SetActive(true);
-            Debug.Log("Play particles");
+            //Debug.Log("Play particles");
         }
 
         for (int i = 0; i < _wheelTrail.Length; i++)
