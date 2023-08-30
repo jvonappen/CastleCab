@@ -32,7 +32,7 @@ public class TaxiService : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(!CartDetails.isOccupied && other.tag == "Player")
+        if (!CartDetails.isOccupied && other.tag == "Player" && destination != null)
         {
             AudioManager.Instance.PlaySFX("In");
             this.transform.parent = this.cartTarget.transform;
@@ -42,7 +42,6 @@ public class TaxiService : MonoBehaviour
             CartDetails.isOccupied = true;
 
             CompassBar.objectiveObjectTransform = destination.transform;
-            //atDestination = false;
             this.gameObject.GetComponent<CapsuleCollider>().enabled = false; 
             this.gameObject.GetComponentInChildren<Canvas>().enabled = false;
 

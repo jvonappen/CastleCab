@@ -32,6 +32,8 @@ public class ArriveAtObjective : MonoBehaviour
             DollarDisplay.dollarValue = DollarDisplay.dollarValue + taxiPassenger.dollarsGiven;
             AudioManager.Instance.PlaySFX("Money");
 
+            taxiPassenger.destination = null;
+
             minimapMarker.enabled = false; //temp
 
         }
