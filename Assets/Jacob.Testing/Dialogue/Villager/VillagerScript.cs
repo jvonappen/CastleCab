@@ -14,7 +14,7 @@ public class VillagerScript : MonoBehaviour
     private Animator animator;
     //public Renderer eyesRenderer;
     //public Transform particlesParent;
-    [SerializeField] private GameObject player;
+    private GameObject _player;
     [Header("Debug")]
     public bool villagerIsTalking;
 
@@ -26,6 +26,7 @@ public class VillagerScript : MonoBehaviour
 
     void Start()
     {
+        _player = PlayerData.player;
         dialogueAudio = GetComponent<DialogueAudio>();
         animator = GetComponent<Animator>();
         animatedText = InterfaceManager.instance.animatedText;
@@ -34,7 +35,7 @@ public class VillagerScript : MonoBehaviour
     }
     void LateUpdate()
     {
-        transform.LookAt(player.transform);
+        transform.LookAt(_player.transform);
         transform.Rotate(X, Y, Z);
     }
 

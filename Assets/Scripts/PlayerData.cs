@@ -6,7 +6,7 @@ public class PlayerData : MonoBehaviour
 {
     public static bool isOccupied;
     public static GameObject player;
-    public GameObject customerSeat;
+    //public GameObject customerSeat;
     public static GameObject cartDestinationTarget;
 
     [Header("Debug")]

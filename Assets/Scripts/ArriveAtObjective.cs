@@ -10,7 +10,7 @@ public class ArriveAtObjective : MonoBehaviour
 
     private TaxiService taxiPassenger;
 
-    [SerializeField] private Canvas minimapMarker; //temp
+    [SerializeField] public Canvas minimapMarker; //temp
 
     private void Start()
     {
