@@ -20,6 +20,7 @@ public class PigSplode : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
     }
 
+    //Explode pig on impact with the player
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.name == "Wagon" || other.gameObject.name == "Donkey")
@@ -28,7 +29,6 @@ public class PigSplode : MonoBehaviour
             rb.AddExplosionForce(_force, this.transform.position, radius, _upForce);
             ParticleSystem bacon = Instantiate(_bacon, this.transform);
             ParticleSystem explode = Instantiate(_explode, this.transform);
-            
             GetComponent<PoliceAI>().enabled = false;
             Destroy(this.gameObject, 5);
         }
