@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject[] _dustTrail;
     [SerializeField] private GameObject[] _boostTrail;
     [SerializeField] private GameObject[] _wheelTrail;
+    [SerializeField] private GameObject[] _tailWhipParticles;
     [SerializeField] private float _forwardAcceleration = 500f;
     [SerializeField] private float _reverseAcceleration = 100f;
     [SerializeField] private float _turnStrength = 180f;
@@ -29,9 +30,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _tailWhipForce = 10;
     [SerializeField] private Transform[] _tailWhipPositions;
     [SerializeField] private Rigidbody _donkeyRB;
+    private float _steeringTurnStrength;
 
     //boost
     [SerializeField] private float _boostMultiplier = 2;
+    [SerializeField] private float _boostTurnStrength = 45;
     [SerializeField] private GameObject[] _speedParticles;
     [SerializeField] private CameraFOV _camera;
     private const float NORMAL_FOV = 40f;
@@ -66,18 +69,19 @@ public class PlayerMovement : MonoBehaviour
         _speedInput = _playerInput._accelerationInput > 0 ? _forwardAcceleration : _reverseAcceleration;
         _speedInput *= _playerInput._accelerationInput;
 
-        //boost player speed and effects
-        if (_playerInput._boost != 0 && _grounded) Boost(_boostMultiplier, BOOST_FOV, true);
-        else Boost(1, NORMAL_FOV, false);
-
         //play donkey and cart audio
         if (_playerInput._accelerationInput > 0)
         {
             _soundManager.Play("DonkeyTrott");
             _soundManager.Play("Wagon");
+
+            //boost player speed and effects
+            if (_playerInput._boost != 0 && _grounded) Boost(_boostMultiplier, BOOST_FOV, true, _boostTurnStrength);
+            else Boost(1, NORMAL_FOV, false, _turnStrength);
         }
         else
         {
+            Boost(1, NORMAL_FOV, false, _turnStrength);
             _soundManager.Stop("DonkeyTrott");
             _soundManager.Stop("Wagon");
         }
@@ -105,7 +109,7 @@ public class PlayerMovement : MonoBehaviour
             _sphereRB.AddForce(transform.forward * _speedInput);
 
             //steering
-            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, _playerInput._steeringInput * _turnStrength * Time.deltaTime * _playerInput._accelerationInput, 0f));
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, _playerInput._steeringInput * _steeringTurnStrength * Time.deltaTime * _playerInput._accelerationInput, 0f));
 
             //play particles when moving on the ground
             if (_playerInput._accelerationInput > 0 && _grounded)
@@ -124,6 +128,8 @@ public class PlayerMovement : MonoBehaviour
             //disable particles in air
             PlayParticles(_dustTrail, false);
             PlayParticles(_wheelTrail, false);
+            _soundManager.Stop("DonkeyTrott");
+            _soundManager.Stop("Wagon");
 
             _sphereRB.drag = 0.0f;
             _sphereRB.AddForce(Vector3.up * -_gravityForce * 100f);
@@ -131,7 +137,9 @@ public class PlayerMovement : MonoBehaviour
 
         //tailwhips
         if (CanTailWhip(1)) TailWhip(-_wagon.transform.right, _tailWhipPositions[0].position);
+        //else PlayParticles(_tailWhipParticles, false);
         if (CanTailWhip(-1)) TailWhip(_wagon.transform.right, _tailWhipPositions[1].position);
+        //else PlayParticles(_tailWhipParticles, false);
 
         //control in air
         float angle = Vector3.Angle(transform.up, Vector3.up);
@@ -141,9 +149,10 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void Boost(float boostMultiplier, float camFOV, bool particlesVal)
+    private void Boost(float boostMultiplier, float camFOV, bool particlesVal, float turnStrength)
     {
         _speedInput *= boostMultiplier;
+        _steeringTurnStrength = turnStrength;
         if (_camera != null) _camera.SetCameraFov(camFOV);
         PlayParticles(_speedParticles, particlesVal);
         PlayParticles(_boostTrail, particlesVal);
@@ -168,6 +177,9 @@ public class PlayerMovement : MonoBehaviour
     private void TailWhip(Vector3 direction, Vector3 pos)
     {
         _wagonRB.AddForceAtPosition(direction * _tailWhipForce, pos, ForceMode.Impulse);
+
+        //CREATE PARTICLES FOR TAILWHIP
+        //PlayParticles(_tailWhipParticles, true);
     }
 
     private void ReverseLockWagon()
