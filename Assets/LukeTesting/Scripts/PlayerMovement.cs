@@ -125,12 +125,13 @@ public class PlayerMovement : MonoBehaviour
         }
         else//add gravity when in air
         {
-            //disable particles in air
+            //disable particles and audio in air
             PlayParticles(_dustTrail, false);
             PlayParticles(_wheelTrail, false);
             _soundManager.Stop("DonkeyTrott");
             _soundManager.Stop("Wagon");
 
+            //apply gravity
             _sphereRB.drag = 0.0f;
             _sphereRB.AddForce(Vector3.up * -_gravityForce * 100f);
         }
