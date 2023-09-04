@@ -22,6 +22,7 @@ public class PigSplode : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
+        _soundManager = FindObjectOfType<SoundManager>();
     }
 
     //Explode pig on impact with the player
@@ -41,14 +42,15 @@ public class PigSplode : MonoBehaviour
                 CameraShake.Instance.ShakeCamera(_camShakeIntesity, _camShakeTime);
 
                 //FIND AUDIO CLIPS
-                //_soundManager.Play("MeatSplatter");
-                //_soundManager.Play("Explode");
+                _soundManager.Play("PigSqueal");
+                _soundManager.Play("Splatter");
 
                 GetComponent<PoliceAI>().enabled = false;
                 Destroy(this.gameObject, 5);
             }
             else
             {
+                _soundManager.Play("PlayerHit");
                 other.rigidbody.AddForce((other.transform.position - this.transform.position) * _playerForce, ForceMode.Impulse);
             }
         }

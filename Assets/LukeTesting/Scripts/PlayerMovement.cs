@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask _whatIsGround;
     [SerializeField] private Transform _groundRayPoint;
     [SerializeField] private float _groundRayLength = 2f;
-    [SerializeField] private bool _grounded;
+    [SerializeField] public bool _grounded { get; private set; }
     [SerializeField] private ConfigurableJoint _joint;
     [SerializeField] private Rigidbody _wagonRB;
     [SerializeField] private float _tailWhipForce = 10;
@@ -80,8 +80,14 @@ public class PlayerMovement : MonoBehaviour
             _soundManager.Play("Wagon");
 
             //boost player speed and effects
-            if (_playerInput._boost != 0 && _grounded) Boost(_boostMultiplier, BOOST_FOV, true, _boostTurnStrength, true);
-            else Boost(1, NORMAL_FOV, false, _turnStrength, false);
+            if (_playerInput._boost != 0 && _grounded)
+            {
+                Boost(_boostMultiplier, BOOST_FOV, true, _boostTurnStrength, true);
+            }
+            else
+            {
+                Boost(1, NORMAL_FOV, false, _turnStrength, false);
+            }
         }
         else
         {
@@ -157,7 +163,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void Boost(float boostMultiplier, float camFOV, bool particlesVal, float turnStrength, bool boosting)
+    public void Boost(float boostMultiplier, float camFOV, bool particlesVal, float turnStrength, bool boosting)
     {
         _speedInput *= boostMultiplier;
         _steeringTurnStrength = turnStrength;
