@@ -19,7 +19,7 @@ public class ObstructionTransparency : MonoBehaviour
         // Check for obstructions
         if (Physics.Raycast(transform.position, directionToPlayer, out hit, distanceToPlayer, layerMask))
         {
-            Debug.Log("Raycast hit: " + hit.transform.name);
+           // Debug.Log("Raycast hit: " + hit.transform.name);
             
             if (hit.transform != player)
             {

@@ -171,6 +171,10 @@ public class PlayerMovement : MonoBehaviour
         if (_camera != null) _camera.SetCameraFov(camFOV);
         PlayParticles(_speedParticles, particlesVal);
         PlayParticles(_boostTrail, particlesVal);
+
+        if(_boosting == true) { _soundManager.Play("Boost");}
+        if (_boosting == false) { _soundManager.Stop("Boost"); }
+
     }
 
     private void PlayParticles(GameObject[] particles, bool value)
@@ -181,6 +185,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 particles[i].SetActive(value);
             }
+            
         }
     }
 

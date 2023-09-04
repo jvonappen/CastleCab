@@ -69,7 +69,10 @@ public class PoliceAI : MonoBehaviour
 
     private void Update()
     {
-        DishonourEvaluate();
+        if(agent.enabled)
+        {
+            DishonourEvaluate();
+        }      
     }
 
 

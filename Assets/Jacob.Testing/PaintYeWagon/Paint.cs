@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class Paint
+[CreateAssetMenu(fileName = "New Paint", menuName = "Paint Data")]
+public class Paint : ScriptableObject
 {
-    public string PaintJobName;
-    public Material material;
+    public string[] PaintJobName;
+    public Material[] material;
 }

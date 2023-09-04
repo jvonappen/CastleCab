@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Profiling;
+//using UnityEditor.Profiling;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -36,10 +36,12 @@ public class PigSplode : MonoBehaviour
             if (player._tailWhipping || player._boosting)
             {
                 agent.enabled = false;
+                
+
                 rb.AddExplosionForce(_force, this.transform.position, _radius, _upForce);
                 ParticleSystem bacon = Instantiate(_bacon, this.transform);
                 ParticleSystem explode = Instantiate(_explode, this.transform);
-                CameraShake.Instance.ShakeCamera(_camShakeIntesity, _camShakeTime);
+                //CameraShake.Instance.ShakeCamera(_camShakeIntesity, _camShakeTime); //Issue caused the remaing code not to execute. Probably Cams not hooked up right - Jacob
 
                 //FIND AUDIO CLIPS
                 _soundManager.Play("PigSqueal");
@@ -47,6 +49,7 @@ public class PigSplode : MonoBehaviour
 
                 GetComponent<PoliceAI>().enabled = false;
                 Destroy(this.gameObject, 5);
+
             }
             else
             {
