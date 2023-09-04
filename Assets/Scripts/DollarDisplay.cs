@@ -8,14 +8,17 @@ public class DollarDisplay : MonoBehaviour
 {
     public static int dollarValue = 0;
 
-    [SerializeField] public TextMeshProUGUI dollarDisplay;
-
+    private TextMeshProUGUI _dollarDisplay;
     [SerializeField] private int startingDollars;
 
+    private void Awake()
+    {
+        _dollarDisplay = GetComponentInChildren<TextMeshProUGUI>();
+    }
     private void Start()
     {
         dollarValue = startingDollars;
-        dollarDisplay.text = dollarValue.ToString();
+        _dollarDisplay.text = dollarValue.ToString();
     }
 
     private void FixedUpdate()
@@ -24,7 +27,7 @@ public class DollarDisplay : MonoBehaviour
     }
     public void UpdateDollarDisplay()
     {
-        dollarDisplay.text = dollarValue.ToString();
+        _dollarDisplay.text = dollarValue.ToString();
     }
 
     
