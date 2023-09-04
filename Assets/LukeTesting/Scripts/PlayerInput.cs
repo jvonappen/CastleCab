@@ -1,20 +1,15 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 public class PlayerInput : MonoBehaviour
 {
     private PlayerControls _playerControls;
     [SerializeField] private SoundManager _soundManager;
-    [SerializeField] private PlayerMovement _playerMovement;
-    [SerializeField] public float _accelerationInput { get; private set; }
-    [SerializeField] public float _steeringInput { get; private set; }
-    [SerializeField] public float _tailWhip { get; private set; }
-    [SerializeField] public float _boost { get; private set; }
+    [field: SerializeField] public float _accelerationInput { get; private set; }
+    [field: SerializeField] public float _steeringInput { get; private set; }
+    [field: SerializeField] public float _tailWhip { get; private set; }
+    [field: SerializeField] public float _boost { get; private set; }
 
     private void Awake()
     {
@@ -38,7 +33,6 @@ public class PlayerInput : MonoBehaviour
     {
         _playerControls.Disable();
     }
-
     private void OnAccelerate(InputAction.CallbackContext value)
     {
         _accelerationInput = value.ReadValue<float>();
@@ -78,6 +72,5 @@ public class PlayerInput : MonoBehaviour
     private void OnReleaseBoost(InputAction.CallbackContext value)
     {
         _boost = 0;
-        _soundManager.Stop("Boost");
     }
 }

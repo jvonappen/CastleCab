@@ -31,9 +31,9 @@ public class PigSplode : MonoBehaviour
         if (other.gameObject.name == "Wagon" || other.gameObject.name == "Donkey")
         {
             if (other.gameObject.GetComponent<PlayerMovement>() == null) return;
-            PlayerMovement player = other.gameObject.GetComponent<PlayerMovement>();
+            PlayerInput player = other.gameObject.GetComponent<PlayerInput>();
 
-            if (player._tailWhipping || player._boosting)
+            if (player._tailWhip > 0 || player._boost > 0)
             {
                 agent.enabled = false;
                 rb.AddExplosionForce(_force, this.transform.position, _radius, _upForce);

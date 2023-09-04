@@ -65,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
         _joint = _wagon.GetComponent<ConfigurableJoint>();
         _wagonRB = _wagon.GetComponent<Rigidbody>();
         _donkeyRB = this.GetComponent<Rigidbody>();
+        
     }
 
     private void Update()
