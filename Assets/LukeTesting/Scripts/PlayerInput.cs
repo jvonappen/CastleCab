@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 public class PlayerInput : MonoBehaviour
 {
     private PlayerControls _playerControls;
+
+    [Header("INPUT VARIABLES FOR DEBUGGING, DO NOT TOUCH")]
     [SerializeField] private SoundManager _soundManager;
     [field: SerializeField] public float _accelerationInput { get; private set; }
     [field: SerializeField] public float _steeringInput { get; private set; }
@@ -45,7 +47,10 @@ public class PlayerInput : MonoBehaviour
 
     private void OnSteering(InputAction.CallbackContext value)
     {
-        _steeringInput = value.ReadValue<float>();
+        if (value.ReadValue<float>() > 0) _steeringInput = 1;
+        if (value.ReadValue<float>() < 0) _steeringInput = -1;
+
+        //_steeringInput = value.ReadValue<float>();
     }
 
     private void OnReleaseSteering(InputAction.CallbackContext value)
