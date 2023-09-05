@@ -6,12 +6,11 @@ using TMPro;
 public class ArriveAtObjective : MonoBehaviour
 {
     [SerializeField] private GameObject cartTargetPoint;
-
     [SerializeField] private GameObject exitLocation;
 
-    private VillagerDetails villager;
+    private TaxiService taxiPassenger;
 
-    [SerializeField] private Canvas minimapMarker; //temp
+    [SerializeField] public Canvas minimapMarker; //temp
 
     private void Start()
     {
@@ -19,20 +18,21 @@ public class ArriveAtObjective : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Hello");
-        villager = cartTargetPoint.GetComponentInChildren<VillagerDetails>();
-        if(villager != null && villager.destination == this.gameObject)
+        taxiPassenger = cartTargetPoint.GetComponentInChildren<TaxiService>();
+        if(taxiPassenger != null && taxiPassenger.destination == this.gameObject)
         {
             AudioManager.Instance.PlaySFX("Out");
-            villager.transform.parent = null;
-            villager.transform.position = exitLocation.transform.position;
+            taxiPassenger.transform.parent = null;
+            taxiPassenger.transform.position = exitLocation.transform.position;
             
-            CartDetails.isOccupied= false;
-            CartDetails.cartDestinationTarget = null;
+            PlayerData.isOccupied= false;
+            PlayerData.cartDestinationTarget = null;
             CompassBar.objectiveObjectTransform = null;
 
-            DollarDisplay.dollarValue = DollarDisplay.dollarValue + villager.dollarsGiven;
+            DollarDisplay.dollarValue = DollarDisplay.dollarValue + taxiPassenger.dollarsGiven;
             AudioManager.Instance.PlaySFX("Money");
+
+            taxiPassenger.destination = null;
 
             minimapMarker.enabled = false; //temp
 

@@ -8,6 +8,8 @@ public class PaintYeWagon : MonoBehaviour
     [SerializeField] private int cost;
     [SerializeField] private Canvas paintYeWagonCanvas;
 
+    [SerializeField] private Paint _paintData;
+    private Material tempMat;
     private void Start()
     {
         paintYeWagonCanvas.enabled = false;
@@ -29,9 +31,13 @@ public class PaintYeWagon : MonoBehaviour
 
     void PaintMeWagon()
     {
+       
+
         if (Dishonour.dishonourLevel >= Dishonour._oneStar && DollarDisplay.dollarValue >= cost)
         {
-            wagon.GetComponent<Renderer>().material.color = Color.green;
+            //wagon.GetComponent<Renderer>().material.color = Color.green;
+            wagon.GetComponent<Renderer>().material = _paintData.material[Random.Range(0, 4)];
+
             Dishonour.dishonourLevel = 0;
             DollarDisplay.dollarValue = DollarDisplay.dollarValue - cost;
         }

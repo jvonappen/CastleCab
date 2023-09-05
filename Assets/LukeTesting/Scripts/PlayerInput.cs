@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -8,6 +9,8 @@ using UnityEngine.UIElements;
 public class PlayerInput : MonoBehaviour
 {
     private PlayerControls _playerControls;
+    [SerializeField] private SoundManager _soundManager;
+    [SerializeField] private PlayerMovement _playerMovement;
     [SerializeField] public float _accelerationInput { get; private set; }
     [SerializeField] public float _steeringInput { get; private set; }
     [SerializeField] public float _tailWhip { get; private set; }
@@ -69,10 +72,12 @@ public class PlayerInput : MonoBehaviour
     private void OnBoost(InputAction.CallbackContext value)
     {
         _boost = value.ReadValue<float>();
+        //_soundManager.Play("Boost");
     }
 
     private void OnReleaseBoost(InputAction.CallbackContext value)
     {
         _boost = 0;
+        //_soundManager.Stop("Boost");
     }
 }

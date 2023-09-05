@@ -1882,8 +1882,8 @@ GameObject:
   - component: {fileID: 8855805217321103819}
   - component: {fileID: 8855805217321103820}
   - component: {fileID: 8855805217321103821}
-  - component: {fileID: 8855805217321103822}
   - component: {fileID: -143982205970740613}
+  - component: {fileID: 8855805217321103822}
   - component: {fileID: 8618250449921143584}
   m_Layer: 14
   m_Name: PigSplode
@@ -1973,7 +1973,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8855805217321103823}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.31015503
   m_Height: 0.97697103
@@ -2001,36 +2001,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &8855805217321103822
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8855805217321103823}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1992f3886f1d6984382bb470c8cd1b74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerTransform: {fileID: 143783270893440881, guid: e7a266257e6f82e4094622aa3ec20827, type: 3}
-  piggySiren: {fileID: 8855805216813243233}
-  wanderTransform: {fileID: 8855805217321103817}
-  wanderRange: 5
-  movementSpeed: 4
-  chasingRange1: 15
-  chaseSpeed1: 6
-  searchRange1: 10
-  chasingRange2: 20
-  chaseSpeed2: 8
-  searchRange2: 15
-  chasingRange3: 30
-  chaseSpeed3: 10
-  searchRange3: 20
-  chasingRange0: 0
-  chaseSpeed0: 0
-  searchRange0: 0
-  sirenToggle: 0
 --- !u!54 &-143982205970740613
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2047,6 +2017,27 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &8855805217321103822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8855805217321103823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1992f3886f1d6984382bb470c8cd1b74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerTransform: {fileID: 0}
+  wanderTransform: {fileID: 8855805217321103817}
+  wanderRange: 5
+  movementSpeed: 4
+  data: {fileID: 11400000, guid: a6e000e439087ec40ab4c77a33cacbda, type: 2}
+  chasingRange0: 0
+  chaseSpeed0: 0
+  searchRange0: 0
+  sirenToggle: 0
 --- !u!114 &8618250449921143584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2059,9 +2050,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7304b55e416f75f41a1563b49d3c0b23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _soundManager: {fileID: 0}
   _explode: {fileID: 3239914154907070157, guid: 2fbca4a5269f4e541b5f26158b088f80, type: 3}
-  _force: 20
-  _upForce: 100
+  _bacon: {fileID: 2040044314665895852, guid: b7c721497d8739843a7ca2240e1453d4, type: 3}
+  _force: 1000
+  _playerForce: 35
+  _upForce: 500
+  _radius: 2
+  _camShakeIntesity: 4
+  _camShakeTime: 0.2
 --- !u!1 &8855805217322098678
 GameObject:
   m_ObjectHideFlags: 0

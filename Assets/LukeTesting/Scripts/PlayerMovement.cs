@@ -1,16 +1,22 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
     private PlayerInput _playerInput;
+    [SerializeField] private SoundManager _soundManager;
     [SerializeField] private float _speedInput = 0;
-    [SerializeField] private float _boostMultiplier = 2;
     [SerializeField] private Rigidbody _sphereRB;
     [SerializeField] private GameObject _wagon;
-    [SerializeField] private ParticleSystem[] _dustTrail;
+    [SerializeField] private GameObject[] _dustTrail;
+    [SerializeField] private GameObject[] _boostTrail;
+    [SerializeField] private GameObject[] _wheelTrail;
+    [SerializeField] private GameObject[] _tailWhipParticles;
     [SerializeField] private float _forwardAcceleration = 500f;
     [SerializeField] private float _reverseAcceleration = 100f;
     [SerializeField] private float _turnStrength = 180f;
@@ -20,13 +26,25 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask _whatIsGround;
     [SerializeField] private Transform _groundRayPoint;
     [SerializeField] private float _groundRayLength = 2f;
-    [SerializeField] private bool _grounded;
+    [SerializeField] public bool _grounded { get; private set; }
     [SerializeField] private ConfigurableJoint _joint;
     [SerializeField] private Rigidbody _wagonRB;
     [SerializeField] private float _tailWhipForce = 10;
     [SerializeField] private Transform[] _tailWhipPositions;
+    [SerializeField] public bool _tailWhipping; 
     [SerializeField] private Rigidbody _donkeyRB;
+    private float _steeringTurnStrength;
 
+    //boost
+    [SerializeField] public bool _boosting; 
+    [SerializeField] private float _boostMultiplier = 2;
+    [SerializeField] private float _boostTurnStrength = 45;
+    [SerializeField] private GameObject[] _speedParticles;
+    [SerializeField] private CameraFOV _camera;
+    private const float NORMAL_FOV = 40f;
+    private const float BOOST_FOV = 50f;
+
+    //freeze player for Jacob's dialogue system
     public bool freeze
     {
         get => _freeze;
@@ -50,19 +68,36 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Update()
-    {
-        _grounded = false;
-
+    { 
         //get speed input 
         _speedInput = _playerInput._accelerationInput > 0 ? _forwardAcceleration : _reverseAcceleration;
         _speedInput *= _playerInput._accelerationInput;
-        //boost
-        if (_playerInput._boost != 0) _speedInput *= _boostMultiplier;
-        else _speedInput *= 1;
 
-        //Adjust wagon movement for reversing
-        //_joint.angularYMotion = _playerInput._accelerationInput < 0 ? ConfigurableJointMotion.Locked : ConfigurableJointMotion.Limited;
-        //_joint.angularXMotion = _playerInput._accelerationInput < 0 ? ConfigurableJointMotion.Locked : ConfigurableJointMotion.Limited;
+        //play donkey and cart audio
+        if (_playerInput._accelerationInput > 0)
+        {
+            _soundManager.Play("DonkeyTrott");
+            _soundManager.Play("Wagon");
+
+            //boost player speed and effects
+            if (_playerInput._boost != 0 && _grounded)
+            {
+                Boost(_boostMultiplier, BOOST_FOV, true, _boostTurnStrength, true);
+            }
+            else
+            {
+                Boost(1, NORMAL_FOV, false, _turnStrength, false);
+            }
+        }
+        else
+        {
+            Boost(1, NORMAL_FOV, false, _turnStrength, false);
+            _soundManager.Stop("DonkeyTrott");
+            _soundManager.Stop("Wagon");
+        }
+
+        //adjust wagon movement for reversing
+        ReverseLockWagon();
 
         Debug.DrawRay(_groundRayPoint.position, -Vector3.up, Color.red);
     }
@@ -82,28 +117,42 @@ public class PlayerMovement : MonoBehaviour
         {
             _sphereRB.drag = _dragOnGround;
             _sphereRB.AddForce(transform.forward * _speedInput);
-            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, _playerInput._steeringInput * _turnStrength * Time.deltaTime * _playerInput._accelerationInput, 0f));
 
-            //play particles
-            if (_playerInput._accelerationInput > 0 && _grounded) PlayDustParticles();
-            else StopDustParticles();
+            //steering
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, _playerInput._steeringInput * _steeringTurnStrength * Time.deltaTime * _playerInput._accelerationInput, 0f));
+
+            //play particles when moving on the ground
+            if (_playerInput._accelerationInput > 0 && _grounded)
+            {
+                PlayParticles(_dustTrail, true);
+                PlayParticles(_wheelTrail, true);
+            }
+            else
+            {
+                PlayParticles(_dustTrail, false);
+                PlayParticles(_wheelTrail, false);
+            }
         }
         else//add gravity when in air
         {
-            StopDustParticles();
+            //disable particles and audio in air
+            PlayParticles(_dustTrail, false);
+            PlayParticles(_wheelTrail, false);
+            _soundManager.Stop("DonkeyTrott");
+            _soundManager.Stop("Wagon");
 
+            //apply gravity
             _sphereRB.drag = 0.0f;
             _sphereRB.AddForce(Vector3.up * -_gravityForce * 100f);
         }
 
         //tailwhips
-        if (_playerInput._tailWhip > 0 && _playerInput._steeringInput > 0 && _grounded)
+        if (CanTailWhip(1)) TailWhip(-_wagon.transform.right, _tailWhipPositions[0].position);
+        else if (CanTailWhip(-1)) TailWhip(_wagon.transform.right, _tailWhipPositions[1].position);
+        else
         {
-            TailWhip(-_wagon.transform.right, _tailWhipPositions[0].position);
-        }
-        if (_playerInput._tailWhip > 0 && _playerInput._steeringInput < 0 && _grounded)
-        {
-            TailWhip(_wagon.transform.right, _tailWhipPositions[1].position);
+            _tailWhipping = false;
+            //PlayParticles(_tailWhipParticles, false);
         }
 
         //control in air
@@ -114,24 +163,48 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void PlayDustParticles()
+    public void Boost(float boostMultiplier, float camFOV, bool particlesVal, float turnStrength, bool boosting)
     {
-        for (int i = 0; i < _dustTrail.Length; i++)
+        _speedInput *= boostMultiplier;
+        _steeringTurnStrength = turnStrength;
+        _boosting = boosting;
+        if (_camera != null) _camera.SetCameraFov(camFOV);
+        PlayParticles(_speedParticles, particlesVal);
+        PlayParticles(_boostTrail, particlesVal);
+
+        if(_boosting == true) { _soundManager.Play("Boost");}
+        if (_boosting == false) { _soundManager.Stop("Boost"); }
+
+    }
+
+    private void PlayParticles(GameObject[] particles, bool value)
+    {
+        if (particles != null)
         {
-            _dustTrail[i].Play();
+            for (int i = 0; i < particles.Length; i++)
+            {
+                particles[i].SetActive(value);
+            }
+            
         }
     }
 
-    private void StopDustParticles()
+    private bool CanTailWhip(float direction)
     {
-        for (int i = 0; i < _dustTrail.Length; i++)
-        {
-            _dustTrail[i].Stop();
-        }
+        return _playerInput._tailWhip > 0 && _playerInput._steeringInput == direction && _grounded && _playerInput._accelerationInput > 0.5;
     }
 
     private void TailWhip(Vector3 direction, Vector3 pos)
     {
+        _tailWhipping = true;
         _wagonRB.AddForceAtPosition(direction * _tailWhipForce, pos, ForceMode.Impulse);
+        //CREATE PARTICLES FOR TAILWHIP
+        //PlayParticles(_tailWhipParticles, true);
+    }
+
+    private void ReverseLockWagon()
+    {
+        _joint.angularYMotion = _playerInput._accelerationInput < 0 ? ConfigurableJointMotion.Locked : ConfigurableJointMotion.Limited;
+        _joint.angularXMotion = _playerInput._accelerationInput < 0 ? ConfigurableJointMotion.Locked : ConfigurableJointMotion.Limited;
     }
 }
