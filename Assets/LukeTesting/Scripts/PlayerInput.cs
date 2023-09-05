@@ -72,12 +72,12 @@ public class PlayerInput : MonoBehaviour
     private void OnBoost(InputAction.CallbackContext value)
     {
         _boost = value.ReadValue<float>();
-        _soundManager.Play("Boost");
+        //_soundManager.Play("Boost");
     }
 
     private void OnReleaseBoost(InputAction.CallbackContext value)
     {
         _boost = 0;
-        _soundManager.Stop("Boost");
+        //_soundManager.Stop("Boost");
     }
 }
