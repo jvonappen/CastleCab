@@ -4,10 +4,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerInput : MonoBehaviour
 {
-    private PlayerControls _playerControls;
-
     [Header("INPUT VARIABLES FOR DEBUGGING, DO NOT TOUCH")]
-    [SerializeField] private SoundManager _soundManager;
+    private PlayerControls _playerControls;
     [field: SerializeField] public float _accelerationInput { get; private set; }
     [field: SerializeField] public float _steeringInput { get; private set; }
     [field: SerializeField] public float _tailWhip { get; private set; }
@@ -71,7 +69,6 @@ public class PlayerInput : MonoBehaviour
     private void OnBoost(InputAction.CallbackContext value)
     {
         _boost = value.ReadValue<float>();
-        _soundManager.Play("Boost");
     }
 
     private void OnReleaseBoost(InputAction.CallbackContext value)
