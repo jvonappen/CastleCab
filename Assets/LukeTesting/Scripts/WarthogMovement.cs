@@ -1,17 +1,15 @@
-using System;
-using System.Runtime.CompilerServices;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-
-public class PlayerMovement : MonoBehaviour
+public class WarthogMovement : MonoBehaviour
 {
-    private PlayerInput _playerInput;
+    private WarthogInput _playerInput;
 
     [Header("PARTICLES")]
     [SerializeField] private ParticleSystem[] _dustTrail;
     [SerializeField] private ParticleSystem[] _boostTrail;
     [SerializeField] private GameObject[] _wheelTrail;
-    [SerializeField] private ParticleSystem[] _tailWhipParticles;
     [SerializeField] private ParticleSystem[] _speedParticles;
 
     [Header("ASSIGNABLE VARIABLES")]
@@ -19,17 +17,17 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform _groundRayPoint;
     [SerializeField] private Rigidbody _sphereRB;
     [SerializeField] private GameObject _wagon;
-    [SerializeField] private Transform[] _tailWhipPositions;
     [SerializeField] private Transform[] _wheels;
     [SerializeField] private Animator _horseAnimator;
-    
+    [SerializeField] private Transform _mainCamera;
+
     [Header("AUTO ASSIGNED VARIABLES")]
     [SerializeField] private CameraFOV _camera;
     [SerializeField] private SoundManager _soundManager;
     [SerializeField] private Rigidbody _donkeyRB;
     [SerializeField] private Rigidbody _wagonRB;
     [SerializeField] private ConfigurableJoint _joint;
-    
+
     [Header("DRIVING VARIABLES")]
     [SerializeField] private float _speedInput = 0;
     [SerializeField] private float _forwardAcceleration = 500f;
@@ -48,9 +46,6 @@ public class PlayerMovement : MonoBehaviour
     [field: SerializeField] public bool _grounded { get; private set; }
     private float _steeringTurnStrength;
 
-    [Header("TAIL WHIP VARIABLES")]
-    [SerializeField] private float _tailWhipForce = 10;
-
     [Header("BOOST VARIABLES")]
     [SerializeField] private float _boostMultiplier = 2;
     [SerializeField] private float _boostTurnStrength = 45;
@@ -64,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
     private const string Horse_Run = "Run";
     private const string Horse_Stop = "Stop";
     private const string Horse_Reverse = "Reverse";
-    
+
     //freeze player for Jacob's dialogue system
     public bool freeze
     {
@@ -82,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        _playerInput = GetComponent<PlayerInput>();
+        _playerInput = GetComponent<WarthogInput>();
         _joint = _wagon.GetComponent<ConfigurableJoint>();
         _wagonRB = _wagon.GetComponent<Rigidbody>();
         _donkeyRB = this.GetComponent<Rigidbody>();
@@ -91,7 +86,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Update()
-    { 
+    {
         //get speed input 
         _speedInput = _playerInput._accelerationInput > 0 ? _forwardAcceleration : _reverseAcceleration;
         _speedInput *= _playerInput._accelerationInput;
@@ -108,7 +103,7 @@ public class PlayerMovement : MonoBehaviour
             PlayTrail(_wheelTrail, true);
 
             //boost player speed and effects
-            if (_playerInput._boost != 0) Boost(_boostMultiplier, BOOST_FOV, true, _boostTurnStrength);
+            if (_playerInput._boost != 0 /*&& _grounded*/) Boost(_boostMultiplier, BOOST_FOV, true, _boostTurnStrength);
             else Boost(1, NORMAL_FOV, false, _turnStrength);
         }
         //backwards movement
@@ -158,7 +153,15 @@ public class PlayerMovement : MonoBehaviour
             _sphereRB.AddForce(transform.forward * _speedInput);
 
             //steering
-            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, _playerInput._steeringInput * _steeringTurnStrength * Time.deltaTime * _playerInput._accelerationInput, 0f));
+            if (_playerInput._accelerationInput > 0)
+            {
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, _mainCamera.rotation, _steeringTurnStrength * Time.deltaTime * _playerInput._accelerationInput);
+            }
+            if (_playerInput._accelerationInput < 0)
+            {
+                Debug.Log("Backwards");
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, _mainCamera.rotation, _steeringTurnStrength * Time.deltaTime * _playerInput._accelerationInput * _playerInput._accelerationInput);
+            }
         }
         else//add gravity when in air
         {
@@ -171,14 +174,6 @@ public class PlayerMovement : MonoBehaviour
             //apply gravity
             _sphereRB.drag = 0.0f;
             _sphereRB.AddForce(Vector3.up * -_gravityForce * 100f);
-        }
-
-        //tailwhips
-        if (CanTailWhip(1)) TailWhip(-_wagon.transform.right, _tailWhipPositions[0].position);
-        else if (CanTailWhip(-1)) TailWhip(_wagon.transform.right, _tailWhipPositions[1].position);
-        else
-        {
-            //StopParticles(_tailWhipParticles);
         }
 
         //control tipping in air
@@ -247,18 +242,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private bool CanTailWhip(float direction)
-    {
-        return _playerInput._tailWhip > 0 && _playerInput._steeringInput == direction && _grounded && _playerInput._accelerationInput > 0.5;
-    }
-
-    private void TailWhip(Vector3 direction, Vector3 pos)
-    {
-        _wagonRB.AddForceAtPosition(direction * _tailWhipForce, pos, ForceMode.Impulse);
-        //CREATE PARTICLES FOR TAILWHIP
-        //PlayParticles(_tailWhipParticles);
-    }
-
     private void ReverseLockWagon()
     {
         _joint.angularYMotion = _playerInput._accelerationInput < 0 ? ConfigurableJointMotion.Locked : ConfigurableJointMotion.Limited;
@@ -276,6 +259,7 @@ public class PlayerMovement : MonoBehaviour
     private void ChangeAnimatorState(string newState)
     {
         if (newState == _currentState) return;
+        //_horseAnimator.Play(newState);
         _horseAnimator.CrossFade(newState, 0.2f, 0);
         _currentState = newState;
     }
@@ -284,7 +268,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (animator.GetCurrentAnimatorStateInfo(0).IsName(stateName) &&
             animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f ||
-            animator.IsInTransition(0)) 
+            animator.IsInTransition(0))
         {
             return true;
         }
