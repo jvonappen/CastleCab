@@ -10936,19 +10936,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4049266338408493702, guid: a4498a5e4184378409cfd138fbf3ab4c, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.90246695
+      value: 0.9024669
       objectReference: {fileID: 0}
     - target: {fileID: 4049266338408493702, guid: a4498a5e4184378409cfd138fbf3ab4c, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.20390388
+      value: 0.2039039
       objectReference: {fileID: 0}
     - target: {fileID: 4049266338408493702, guid: a4498a5e4184378409cfd138fbf3ab4c, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.37011313
+      value: 0.3701132
       objectReference: {fileID: 0}
     - target: {fileID: 4049266338408493702, guid: a4498a5e4184378409cfd138fbf3ab4c, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.08362356
+      value: -0.08362359
       objectReference: {fileID: 0}
     - target: {fileID: 6093979393437296313, guid: a4498a5e4184378409cfd138fbf3ab4c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -10968,7 +10968,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6109694345790933254, guid: a4498a5e4184378409cfd138fbf3ab4c, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.91096896
+      value: 0.910969
       objectReference: {fileID: 0}
     - target: {fileID: 6109694345790933254, guid: a4498a5e4184378409cfd138fbf3ab4c, type: 3}
       propertyPath: m_LocalRotation.x
@@ -10976,11 +10976,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6109694345790933254, guid: a4498a5e4184378409cfd138fbf3ab4c, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.37359995
+      value: 0.37359992
       objectReference: {fileID: 0}
     - target: {fileID: 6109694345790933254, guid: a4498a5e4184378409cfd138fbf3ab4c, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.066330515
+      value: -0.06633049
       objectReference: {fileID: 0}
     - target: {fileID: 6381056689641456088, guid: a4498a5e4184378409cfd138fbf3ab4c, type: 3}
       propertyPath: m_Follow
@@ -12395,9 +12395,17 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3883455211979770175, guid: f94049cc38d46e640bcf42ba08b5a049, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3883455213250315368, guid: f94049cc38d46e640bcf42ba08b5a049, type: 3}
       propertyPath: m_Name
       value: TerrainGroup
+      objectReference: {fileID: 0}
+    - target: {fileID: 3883455213250315368, guid: f94049cc38d46e640bcf42ba08b5a049, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3883455213250315370, guid: f94049cc38d46e640bcf42ba08b5a049, type: 3}
       propertyPath: m_RootOrder
@@ -71361,10 +71369,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 492576b9f210da241b02f5bee94694ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _soundManager: {fileID: 1681496926}
-  _speedInput: 0
-  _sphereRB: {fileID: 4380030514114598219}
-  _wagon: {fileID: 4380030513461142590}
   _dustTrail:
   - {fileID: 4531986871107063404}
   - {fileID: 1856943835964411731}
@@ -71375,31 +71379,38 @@ MonoBehaviour:
   - {fileID: 1803090365712000389}
   - {fileID: 2431504548808386176}
   _tailWhipParticles: []
+  _speedParticles:
+  - {fileID: 1905287309}
+  _whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
+  _groundRayPoint: {fileID: 4380030513368216377}
+  _sphereRB: {fileID: 4380030514114598219}
+  _wagon: {fileID: 4380030513461142590}
+  _tailWhipPositions:
+  - {fileID: 4410761900753985637}
+  - {fileID: 4410761900443326059}
+  _wheels: []
+  _horseAnimator: {fileID: 0}
+  _camera: {fileID: 0}
+  _soundManager: {fileID: 1681496926}
+  _donkeyRB: {fileID: 0}
+  _wagonRB: {fileID: 0}
+  _joint: {fileID: 0}
+  _speedInput: 0
   _forwardAcceleration: 350
   _reverseAcceleration: 100
   _turnStrength: 360
   _gravityForce: 1.5
   _dragOnGround: 3
   maxTippingAngle: 45
-  _whatIsGround:
-    serializedVersion: 2
-    m_Bits: 64
-  _groundRayPoint: {fileID: 4380030513368216377}
   _groundRayLength: 2
-  _joint: {fileID: 0}
-  _wagonRB: {fileID: 0}
+  _wheelForwardRotation: 4
+  _wheelBackRotation: -1
+  <_grounded>k__BackingField: 0
   _tailWhipForce: 5
-  _tailWhipPositions:
-  - {fileID: 4410761900753985637}
-  - {fileID: 4410761900443326059}
-  _tailWhipping: 0
-  _donkeyRB: {fileID: 0}
-  _boosting: 0
   _boostMultiplier: 2
   _boostTurnStrength: 65
-  _speedParticles:
-  - {fileID: 1905287309}
-  _camera: {fileID: 0}
 --- !u!1 &1803090365712000389
 GameObject:
   m_ObjectHideFlags: 0
@@ -82995,8 +83006,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 003a04a7e3b33944e9d1f971125be68a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _soundManager: {fileID: 0}
-  _playerMovement: {fileID: 0}
+  <_accelerationInput>k__BackingField: 0
+  <_steeringInput>k__BackingField: 0
+  <_tailWhip>k__BackingField: 0
+  <_boost>k__BackingField: 0
 --- !u!4 &4380030514111576741
 Transform:
   m_ObjectHideFlags: 0
