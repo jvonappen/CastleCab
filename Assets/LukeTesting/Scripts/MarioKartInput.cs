@@ -31,6 +31,12 @@ public class MarioKartInput : MonoBehaviour
     {
         _playerControls.Disable();
     }
+
+    private void Update()
+    {
+        _accelerationInput = _playerControls.Controls.Acceleration.ReadValue<float>();
+    }
+
     private void OnAccelerate(InputAction.CallbackContext value)
     {
         _accelerationInput = value.ReadValue<float>();
