@@ -1,49 +1,70 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
+
 
 public class PlayerMovement : MonoBehaviour
 {
     private PlayerInput _playerInput;
-    [SerializeField] private SoundManager _soundManager;
-    [SerializeField] private float _speedInput = 0;
+
+    [Header("PARTICLES")]
+    [SerializeField] private ParticleSystem[] _dustTrail;
+    [SerializeField] private ParticleSystem[] _boostTrail;
+    [SerializeField] private GameObject[] _wheelTrail;
+    [SerializeField] private ParticleSystem[] _tailWhipParticles;
+    [SerializeField] private ParticleSystem[] _speedParticles;
+
+    [Header("ASSIGNABLE VARIABLES")]
+    [SerializeField] private LayerMask _whatIsGround;
+    [SerializeField] private Transform _groundRayPoint;
     [SerializeField] private Rigidbody _sphereRB;
     [SerializeField] private GameObject _wagon;
-    [SerializeField] private GameObject[] _dustTrail;
-    [SerializeField] private GameObject[] _boostTrail;
-    [SerializeField] private GameObject[] _wheelTrail;
-    [SerializeField] private GameObject[] _tailWhipParticles;
+    [SerializeField] private Transform[] _tailWhipPositions;
+    [SerializeField] private Transform[] _wheels;
+    [SerializeField] private Animator _horseAnimator;
+    
+    [Header("AUTO ASSIGNED VARIABLES")]
+    [SerializeField] private CameraFOV _camera;
+    [SerializeField] private SoundManager _soundManager;
+    [SerializeField] private Rigidbody _donkeyRB;
+    [SerializeField] private Rigidbody _wagonRB;
+    [SerializeField] private ConfigurableJoint _joint;
+    
+    [Header("DRIVING VARIABLES")]
+    [SerializeField] private float _speedInput = 0;
     [SerializeField] private float _forwardAcceleration = 500f;
     [SerializeField] private float _reverseAcceleration = 100f;
     [SerializeField] private float _turnStrength = 180f;
     [SerializeField] private float _gravityForce = 1.5f;
-    [SerializeField] private float _dragOnGround = 2f;
+    [SerializeField] private float _dragOnGround = 3f;
+    [SerializeField] private float _dragOnAcceleration = 10f;
+    [SerializeField] private float _dragOnStop = 1.5f;
+    [SerializeField] private float _dragNormal = 3f;
+    [SerializeField] private bool _dragSet = false;
     [SerializeField] private float maxTippingAngle = 45f;
-    [SerializeField] private LayerMask _whatIsGround;
-    [SerializeField] private Transform _groundRayPoint;
     [SerializeField] private float _groundRayLength = 2f;
-    [SerializeField] public bool _grounded { get; private set; }
-    [SerializeField] private ConfigurableJoint _joint;
-    [SerializeField] private Rigidbody _wagonRB;
-    [SerializeField] private float _tailWhipForce = 10;
-    [SerializeField] private Transform[] _tailWhipPositions;
-    [SerializeField] public bool _tailWhipping; 
-    [SerializeField] private Rigidbody _donkeyRB;
+    [SerializeField] private float _wheelForwardRotation = 4f;
+    [SerializeField] private float _wheelBackRotation = -1f;
+    [field: SerializeField] public bool _grounded { get; private set; }
     private float _steeringTurnStrength;
 
-    //boost
-    [SerializeField] public bool _boosting; 
+    [Header("TAIL WHIP VARIABLES")]
+    [SerializeField] private float _tailWhipForce = 10;
+
+    [Header("BOOST VARIABLES")]
     [SerializeField] private float _boostMultiplier = 2;
     [SerializeField] private float _boostTurnStrength = 45;
-    [SerializeField] private GameObject[] _speedParticles;
-    [SerializeField] private CameraFOV _camera;
     private const float NORMAL_FOV = 40f;
     private const float BOOST_FOV = 50f;
 
+    //Aniamtion Variables
+    private bool _stopped = true;
+    private string _currentState;
+    private const string Horse_Idle = "Idle";
+    private const string Horse_Run = "Run";
+    private const string Horse_Stop = "Stop";
+    private const string Horse_Reverse = "Reverse";
+    
     //freeze player for Jacob's dialogue system
     public bool freeze
     {
@@ -65,6 +86,8 @@ public class PlayerMovement : MonoBehaviour
         _joint = _wagon.GetComponent<ConfigurableJoint>();
         _wagonRB = _wagon.GetComponent<Rigidbody>();
         _donkeyRB = this.GetComponent<Rigidbody>();
+        _soundManager = FindObjectOfType<SoundManager>();
+        _camera = FindObjectOfType<CameraFOV>();
     }
 
     private void Update()
@@ -73,31 +96,45 @@ public class PlayerMovement : MonoBehaviour
         _speedInput = _playerInput._accelerationInput > 0 ? _forwardAcceleration : _reverseAcceleration;
         _speedInput *= _playerInput._accelerationInput;
 
-        //play donkey and cart audio
-        if (_playerInput._accelerationInput > 0)
+        //forward movement
+        if (_playerInput._accelerationInput > 0 && _grounded)
         {
+            if (!_stopped) _stopped = true;
             _soundManager.Play("DonkeyTrott");
             _soundManager.Play("Wagon");
+            RotateWheels(_wheelForwardRotation);
+            ChangeAnimatorState(Horse_Run);
+            PlayParticles(_dustTrail);
+            PlayTrail(_wheelTrail, true);
 
             //boost player speed and effects
-            if (_playerInput._boost != 0 && _grounded)
-            {
-                Boost(_boostMultiplier, BOOST_FOV, true, _boostTurnStrength, true);
-            }
-            else
-            {
-                Boost(1, NORMAL_FOV, false, _turnStrength, false);
-            }
+            if (_playerInput._boost != 0) Boost(_boostMultiplier, BOOST_FOV, true, _boostTurnStrength);
+            else Boost(1, NORMAL_FOV, false, _turnStrength);
         }
+        //backwards movement
+        else if (_playerInput._accelerationInput < 0 && _grounded)
+        {
+            if (!_stopped) _stopped = true;
+            RotateWheels(_wheelBackRotation);
+            ChangeAnimatorState(Horse_Reverse);
+        }
+        //no acceleration
         else
         {
-            Boost(1, NORMAL_FOV, false, _turnStrength, false);
+            if (_stopped)
+            {
+                ChangeAnimatorState(Horse_Stop);
+                _stopped = false;
+            }
+            else if (!IsAnimationPlaying(_horseAnimator, Horse_Stop)) ChangeAnimatorState(Horse_Idle);
+
+            StopParticles(_dustTrail);
+            Boost(1, NORMAL_FOV, false, _turnStrength);
             _soundManager.Stop("DonkeyTrott");
             _soundManager.Stop("Wagon");
         }
 
-        //adjust wagon movement for reversing
-        ReverseLockWagon();
+        ReverseLockWagon(); //adjust wagon movement for reversing
 
         Debug.DrawRay(_groundRayPoint.position, -Vector3.up, Color.red);
     }
@@ -115,29 +152,19 @@ public class PlayerMovement : MonoBehaviour
 
         if (_grounded)//control car on ground
         {
+            PlayerDragMovement2(); //adds slow acceleration buildup and rolling stop
+
             _sphereRB.drag = _dragOnGround;
             _sphereRB.AddForce(transform.forward * _speedInput);
 
             //steering
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, _playerInput._steeringInput * _steeringTurnStrength * Time.deltaTime * _playerInput._accelerationInput, 0f));
-
-            //play particles when moving on the ground
-            if (_playerInput._accelerationInput > 0 && _grounded)
-            {
-                PlayParticles(_dustTrail, true);
-                PlayParticles(_wheelTrail, true);
-            }
-            else
-            {
-                PlayParticles(_dustTrail, false);
-                PlayParticles(_wheelTrail, false);
-            }
         }
         else//add gravity when in air
         {
             //disable particles and audio in air
-            PlayParticles(_dustTrail, false);
-            PlayParticles(_wheelTrail, false);
+            StopParticles(_dustTrail);
+            PlayTrail(_wheelTrail, false);
             _soundManager.Stop("DonkeyTrott");
             _soundManager.Stop("Wagon");
 
@@ -151,11 +178,10 @@ public class PlayerMovement : MonoBehaviour
         else if (CanTailWhip(-1)) TailWhip(_wagon.transform.right, _tailWhipPositions[1].position);
         else
         {
-            _tailWhipping = false;
-            //PlayParticles(_tailWhipParticles, false);
+            //StopParticles(_tailWhipParticles);
         }
 
-        //control in air
+        //control tipping in air
         float angle = Vector3.Angle(transform.up, Vector3.up);
         if (angle > maxTippingAngle)
         {
@@ -163,29 +189,61 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void Boost(float boostMultiplier, float camFOV, bool particlesVal, float turnStrength, bool boosting)
+    public void Boost(float boostMultiplier, float camFOV, bool particlesVal, float turnStrength)
     {
         _speedInput *= boostMultiplier;
         _steeringTurnStrength = turnStrength;
-        _boosting = boosting;
         if (_camera != null) _camera.SetCameraFov(camFOV);
-        PlayParticles(_speedParticles, particlesVal);
-        PlayParticles(_boostTrail, particlesVal);
-
-        if(_boosting == true) { _soundManager.Play("Boost");}
-        if (_boosting == false) { _soundManager.Stop("Boost"); }
-
+        if (_playerInput._boost != 0 && _grounded && _playerInput._accelerationInput > 0)
+        {
+            PlayParticles(_speedParticles);
+            PlayParticles(_boostTrail);
+            _soundManager.Play("Boost");
+        }
+        else
+        {
+            StopParticles(_speedParticles);
+            StopParticles(_boostTrail);
+            _soundManager.Stop("Boost");
+        }
     }
 
-    private void PlayParticles(GameObject[] particles, bool value)
+    private void PlayParticles(ParticleSystem[] particles)
     {
         if (particles != null)
         {
             for (int i = 0; i < particles.Length; i++)
             {
-                particles[i].SetActive(value);
+                if (!particles[i].isEmitting)
+                {
+                    particles[i].Play();
+                }
             }
-            
+        }
+    }
+
+    private void StopParticles(ParticleSystem[] particles)
+    {
+        if (particles != null)
+        {
+            for (int i = 0; i < particles.Length; i++)
+            {
+                if (particles[i].isEmitting)
+                {
+                    particles[i].Stop();
+                }
+            }
+        }
+    }
+
+    private void PlayTrail(GameObject[] trail, bool value)
+    {
+        if (trail != null)
+        {
+            for (int i = 0; i < trail.Length; i++)
+            {
+                trail[i].SetActive(value);
+            }
         }
     }
 
@@ -196,15 +254,63 @@ public class PlayerMovement : MonoBehaviour
 
     private void TailWhip(Vector3 direction, Vector3 pos)
     {
-        _tailWhipping = true;
         _wagonRB.AddForceAtPosition(direction * _tailWhipForce, pos, ForceMode.Impulse);
         //CREATE PARTICLES FOR TAILWHIP
-        //PlayParticles(_tailWhipParticles, true);
+        //PlayParticles(_tailWhipParticles);
     }
 
     private void ReverseLockWagon()
     {
         _joint.angularYMotion = _playerInput._accelerationInput < 0 ? ConfigurableJointMotion.Locked : ConfigurableJointMotion.Limited;
         _joint.angularXMotion = _playerInput._accelerationInput < 0 ? ConfigurableJointMotion.Locked : ConfigurableJointMotion.Limited;
+    }
+
+    private void RotateWheels(float turnSPeed)
+    {
+        for (int i = 0; i < _wheels.Length; i++)
+        {
+            _wheels[i].transform.Rotate(turnSPeed * 360 * Time.deltaTime, 0, 0);
+        }
+    }
+
+    private void ChangeAnimatorState(string newState)
+    {
+        if (newState == _currentState) return;
+        _horseAnimator.CrossFade(newState, 0.2f, 0);
+        _currentState = newState;
+    }
+
+    bool IsAnimationPlaying(Animator animator, string stateName)
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName(stateName) &&
+            animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f ||
+            animator.IsInTransition(0)) 
+        {
+            return true;
+        }
+        else return false;
+    }
+
+    private void PlayerDragMovement2()
+    {
+        //adjust drag to add for rolling stop
+        if (_playerInput._accelerationInput > 0)
+        {
+            if (!_dragSet)
+            {
+                _dragOnGround = _dragOnAcceleration;
+                _dragSet = true;
+            }
+            if (_dragOnGround > _dragNormal)
+            {
+                _dragOnGround -= Time.deltaTime * 3;
+            }
+            else _dragOnGround = _dragNormal;
+        }
+        else
+        {
+            _dragOnGround = _dragOnStop;
+            _dragSet = false;
+        }
     }
 }
