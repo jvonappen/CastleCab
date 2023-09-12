@@ -30,7 +30,7 @@ public class PigSplode : MonoBehaviour
     {
         if (other.gameObject.name == "Wagon" || other.gameObject.name == "Donkey")
         {
-            if (other.gameObject.GetComponent<PlayerMovement>() == null) return;
+            if (other.gameObject.GetComponent<PlayerMovement>() == null) return; // change to mario kart movement or warthog movement for other scenes
             PlayerInput player = other.gameObject.GetComponent<PlayerInput>();
 
             if (player._tailWhip > 0 || player._boost > 0)

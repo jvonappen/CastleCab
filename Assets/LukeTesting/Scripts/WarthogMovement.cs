@@ -159,7 +159,6 @@ public class WarthogMovement : MonoBehaviour
             }
             if (_playerInput._accelerationInput < 0)
             {
-                Debug.Log("Backwards");
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, _mainCamera.rotation, _steeringTurnStrength * Time.deltaTime * _playerInput._accelerationInput * _playerInput._accelerationInput);
             }
         }

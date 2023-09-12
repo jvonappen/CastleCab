@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using System.Runtime.CompilerServices;
 using UnityEngine;
@@ -22,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform[] _tailWhipPositions;
     [SerializeField] private Transform[] _wheels;
     [SerializeField] private Animator _horseAnimator;
+    [SerializeField] private CinemachineFreeLook _recenetering;
     
     [Header("AUTO ASSIGNED VARIABLES")]
     [SerializeField] private CameraFOV _camera;
@@ -29,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Rigidbody _donkeyRB;
     [SerializeField] private Rigidbody _wagonRB;
     [SerializeField] private ConfigurableJoint _joint;
-    
+
     [Header("DRIVING VARIABLES")]
     [SerializeField] private float _speedInput = 0;
     [SerializeField] private float _forwardAcceleration = 500f;
@@ -88,6 +90,7 @@ public class PlayerMovement : MonoBehaviour
         _donkeyRB = this.GetComponent<Rigidbody>();
         _soundManager = FindObjectOfType<SoundManager>();
         _camera = FindObjectOfType<CameraFOV>();
+        _recenetering = FindObjectOfType<CinemachineFreeLook>();
     }
 
     private void Update()
@@ -96,9 +99,11 @@ public class PlayerMovement : MonoBehaviour
         _speedInput = _playerInput._accelerationInput > 0 ? _forwardAcceleration : _reverseAcceleration;
         _speedInput *= _playerInput._accelerationInput;
 
+
         //forward movement
         if (_playerInput._accelerationInput > 0 && _grounded)
         {
+            _recenetering.m_RecenterToTargetHeading.m_enabled = true;
             if (!_stopped) _stopped = true;
             _soundManager.Play("DonkeyTrott");
             _soundManager.Play("Wagon");
@@ -121,6 +126,7 @@ public class PlayerMovement : MonoBehaviour
         //no acceleration
         else
         {
+            _recenetering.m_RecenterToTargetHeading.m_enabled = false;
             if (_stopped)
             {
                 ChangeAnimatorState(Horse_Stop);
