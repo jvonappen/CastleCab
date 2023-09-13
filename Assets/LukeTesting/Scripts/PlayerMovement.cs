@@ -37,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _forwardAcceleration = 500f;
     [SerializeField] private float _reverseAcceleration = 100f;
     [SerializeField] private float _turnStrength = 180f;
+    [SerializeField] private float _inAirTurnStrength = 90;
     [SerializeField] private float _gravityForce = 1.5f;
     [SerializeField] private float _dragOnGround = 3f;
     [SerializeField] private float _dragOnAcceleration = 10f;
@@ -47,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _groundRayLength = 2f;
     [SerializeField] private float _wheelForwardRotation = 4f;
     [SerializeField] private float _wheelBackRotation = -1f;
+    [field: SerializeField] public float _rigidbodySpeed { get; private set; }
     [field: SerializeField] public bool _grounded { get; private set; }
     private float _steeringTurnStrength;
 
@@ -99,7 +101,6 @@ public class PlayerMovement : MonoBehaviour
         _speedInput = _playerInput._accelerationInput > 0 ? _forwardAcceleration : _reverseAcceleration;
         _speedInput *= _playerInput._accelerationInput;
 
-
         //forward movement
         if (_playerInput._accelerationInput > 0 && _grounded)
         {
@@ -121,18 +122,18 @@ public class PlayerMovement : MonoBehaviour
         {
             if (!_stopped) _stopped = true;
             RotateWheels(_wheelBackRotation);
-            ChangeAnimatorState(Horse_Reverse);
+            if (!IsAnimationPlaying(_horseAnimator, Horse_Stop)) ChangeAnimatorState(Horse_Reverse);
         }
         //no acceleration
         else
         {
             _recenetering.m_RecenterToTargetHeading.m_enabled = false;
-            if (_stopped)
+            if (_stopped && _rigidbodySpeed > 10)
             {
                 ChangeAnimatorState(Horse_Stop);
                 _stopped = false;
             }
-            else if (!IsAnimationPlaying(_horseAnimator, Horse_Stop)) ChangeAnimatorState(Horse_Idle);
+            else if (!IsAnimationPlaying(_horseAnimator, Horse_Stop) && _playerInput._steeringInput == 0) ChangeAnimatorState(Horse_Idle);
 
             StopParticles(_dustTrail);
             Boost(1, NORMAL_FOV, false, _turnStrength);
@@ -149,6 +150,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _grounded = false;
         RaycastHit hit;
+        _rigidbodySpeed = _sphereRB.velocity.magnitude;
 
         if (Physics.Raycast(_groundRayPoint.position, Vector3.down, out hit, _groundRayLength, _whatIsGround))
         {
@@ -156,25 +158,40 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation, Time.fixedDeltaTime * 10.0f);
         }
 
-        if (_grounded)//control car on ground
+        PlayerDragMovement2(); //adds slow acceleration buildup and rolling stop
+
+        if (_grounded)
         {
-            PlayerDragMovement2(); //adds slow acceleration buildup and rolling stop
+            if (_playerInput._accelerationInput != 0)//control car on ground when moving forward or reverseing
+            {
+                _sphereRB.drag = _dragOnGround;
+                _sphereRB.AddForce(transform.forward * _speedInput);
 
-            _sphereRB.drag = _dragOnGround;
-            _sphereRB.AddForce(transform.forward * _speedInput);
-
-            //steering
-            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, _playerInput._steeringInput * _steeringTurnStrength * Time.deltaTime * _playerInput._accelerationInput, 0f));
+                //steering
+                transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, _playerInput._steeringInput * _steeringTurnStrength * Time.deltaTime * _playerInput._accelerationInput, 0f));
+            }
+            else if (_playerInput._accelerationInput == 0 && _playerInput._steeringInput > 0 || _playerInput._steeringInput < 0) //allow player to move car 
+            {
+                ChangeAnimatorState(Horse_Run);
+                Debug.Log("turn on spot");
+                _sphereRB.AddForce(transform.forward * 50);
+                transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, _playerInput._steeringInput * 90 * Time.deltaTime, 0f));
+            }
         }
         else//add gravity when in air
         {
+            _recenetering.m_RecenterToTargetHeading.m_enabled = false;
             //disable particles and audio in air
             StopParticles(_dustTrail);
             PlayTrail(_wheelTrail, false);
             _soundManager.Stop("DonkeyTrott");
             _soundManager.Stop("Wagon");
+            Boost(1, NORMAL_FOV, false, _turnStrength);
+            _steeringTurnStrength = _inAirTurnStrength;
 
             //apply gravity
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, _playerInput._steeringInput * _steeringTurnStrength * Time.deltaTime, 0f));
+            //transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(_playerInput._steeringInput * 270 * Time.deltaTime, 0f, 0f));
             _sphereRB.drag = 0.0f;
             _sphereRB.AddForce(Vector3.up * -_gravityForce * 100f);
         }
@@ -187,12 +204,12 @@ public class PlayerMovement : MonoBehaviour
             //StopParticles(_tailWhipParticles);
         }
 
-        //control tipping in air
-        float angle = Vector3.Angle(transform.up, Vector3.up);
-        if (angle > maxTippingAngle)
-        {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.FromToRotation(transform.up, Vector3.up), Mathf.InverseLerp(angle, 0, maxTippingAngle));
-        }
+        ////control tipping in air
+        //float angle = Vector3.Angle(transform.up, Vector3.up);
+        //if (angle > maxTippingAngle)
+        //{
+        //    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.FromToRotation(transform.up, Vector3.up), Mathf.InverseLerp(angle, 0, maxTippingAngle));
+        //}
     }
 
     public void Boost(float boostMultiplier, float camFOV, bool particlesVal, float turnStrength)
@@ -300,6 +317,7 @@ public class PlayerMovement : MonoBehaviour
     private void PlayerDragMovement2()
     {
         //adjust drag to add for rolling stop
+        if (!_grounded) return;
         if (_playerInput._accelerationInput > 0)
         {
             if (!_dragSet)
@@ -315,7 +333,9 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            _dragOnGround = _dragOnStop;
+            Debug.Log("drag on stop");
+            if (_rigidbodySpeed < 4 && !_dragSet) _sphereRB.velocity *= 0.85f; //make adjustable value
+            else _dragOnGround = _dragOnStop;
             _dragSet = false;
         }
     }

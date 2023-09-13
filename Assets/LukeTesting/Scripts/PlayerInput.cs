@@ -8,6 +8,7 @@ public class PlayerInput : MonoBehaviour
     private PlayerControls _playerControls;
     [field: SerializeField] public float _accelerationInput { get; private set; }
     [field: SerializeField] public float _steeringInput { get; private set; }
+    [field: SerializeField] public float _directionInput { get; private set; }
     [field: SerializeField] public float _tailWhip { get; private set; }
     [field: SerializeField] public float _boost { get; private set; }
     [field: SerializeField] public float _look { get; private set; }
@@ -36,6 +37,12 @@ public class PlayerInput : MonoBehaviour
     {
         _playerControls.Disable();
     }
+
+    private void Update()
+    {
+        _steeringInput = _playerControls.Controls.Steering.ReadValue<float>();
+    }
+
     private void OnAccelerate(InputAction.CallbackContext value)
     {
         _accelerationInput = value.ReadValue<float>();
@@ -48,10 +55,10 @@ public class PlayerInput : MonoBehaviour
 
     private void OnSteering(InputAction.CallbackContext value)
     {
-        if (value.ReadValue<float>() > 0) _steeringInput = 1;
-        if (value.ReadValue<float>() < 0) _steeringInput = -1;
+        //if (value.ReadValue<float>() > 0) _steeringInput = 1;
+        //if (value.ReadValue<float>() < 0) _steeringInput = -1;
 
-        //_steeringInput = value.ReadValue<float>();
+        _steeringInput = value.ReadValue<float>();
     }
 
     private void OnReleaseSteering(InputAction.CallbackContext value)
