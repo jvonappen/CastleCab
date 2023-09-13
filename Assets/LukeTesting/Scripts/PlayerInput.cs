@@ -1,18 +1,15 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 public class PlayerInput : MonoBehaviour
 {
+    [Header("INPUT VARIABLES FOR DEBUGGING, DO NOT TOUCH")]
     private PlayerControls _playerControls;
-    [SerializeField] public float _accelerationInput { get; private set; }
-    [SerializeField] public float _steeringInput { get; private set; }
-    [SerializeField] public float _tailWhip { get; private set; }
-    [SerializeField] public float _boost { get; private set; }
+    [field: SerializeField] public float _accelerationInput { get; private set; }
+    [field: SerializeField] public float _steeringInput { get; private set; }
+    [field: SerializeField] public float _tailWhip { get; private set; }
+    [field: SerializeField] public float _boost { get; private set; }
 
     private void Awake()
     {
@@ -36,7 +33,6 @@ public class PlayerInput : MonoBehaviour
     {
         _playerControls.Disable();
     }
-
     private void OnAccelerate(InputAction.CallbackContext value)
     {
         _accelerationInput = value.ReadValue<float>();
@@ -49,7 +45,10 @@ public class PlayerInput : MonoBehaviour
 
     private void OnSteering(InputAction.CallbackContext value)
     {
-        _steeringInput = value.ReadValue<float>();
+        if (value.ReadValue<float>() > 0) _steeringInput = 1;
+        if (value.ReadValue<float>() < 0) _steeringInput = -1;
+
+        //_steeringInput = value.ReadValue<float>();
     }
 
     private void OnReleaseSteering(InputAction.CallbackContext value)

@@ -1,56 +1,76 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-
-public class TaxiDetails : MonoBehaviour
-{
-    public static bool isOccupied;
-    public static GameObject cartDestinationTarget;
-}
+//using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class TaxiService : MonoBehaviour
 {
-    [SerializeField] private GameObject cartTarget;
-    [Space]
+    [SerializeField] private GameObject customerSeat;
     [SerializeField] public GameObject destination;
     [SerializeField] public int dollarsGiven;
 
+    [SerializeField] public GameObject targetParticles;
+
     public static bool isInCart = false;
 
-    [SerializeField] private Canvas minimapLocationMarker; //change this temp fix
-    [SerializeField] private Canvas minimapQuestMarker;//temp
+    [SerializeField] private Canvas _npcMapMarker; //change this temp fix
+    [SerializeField] private Canvas _npcQuestIcon;//temp
     
     private NavMeshAgent agent;
+    private GameObject _player;
+    private float X;
+    private float Y;
+    private float Z;
 
     private void Awake()
     {
-        minimapLocationMarker.enabled = false; //temp
+        _npcMapMarker.enabled = true; //temp
         agent = this.gameObject.GetComponent<NavMeshAgent>();
-
-       
     }
+    private void Start()
+    {
+        _player = PlayerData.player;
+    }
+
+    void LateUpdate()
+    {
+        transform.LookAt(_player.transform);
+        transform.Rotate(X, Y, Z);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if(!CartDetails.isOccupied && other.tag == "Player")
+
+        if (!PlayerData.isOccupied && other.tag == "Player" && destination != null)
         {
             AudioManager.Instance.PlaySFX("In");
-            this.transform.parent = this.cartTarget.transform;
-            this.transform.position = this.cartTarget.transform.position;
+            this.transform.parent = this.customerSeat.transform;
+            this.transform.position = this.customerSeat.transform.position;
 
-            CartDetails.cartDestinationTarget = destination;
-            CartDetails.isOccupied = true;
+            PlayerData.cartDestinationTarget = destination;
+            PlayerData.isOccupied = true;
 
             CompassBar.objectiveObjectTransform = destination.transform;
-            //atDestination = false;
             this.gameObject.GetComponent<CapsuleCollider>().enabled = false; 
             this.gameObject.GetComponentInChildren<Canvas>().enabled = false;
 
             this.agent.enabled = false;
             isInCart = true;
 
-            minimapLocationMarker.enabled = true; //temp
-            minimapQuestMarker.enabled = false ; //temp
+            _npcMapMarker.enabled = false; //temp
+            _npcQuestIcon.enabled = false ; //temp
+
+            destination.GetComponent<ArriveAtObjective>().minimapMarker.enabled = true;
+
+            SetTargetParticlesPosition();
         }
     }
+
+    public void SetTargetParticlesPosition()
+    {
+        targetParticles.transform.position = destination.transform.position;
+    }
+
 }

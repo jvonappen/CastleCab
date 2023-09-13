@@ -972,6 +972,8 @@
 		#if _CFXR_DISSOLVE
 				float4 custom1				: TEXCOORD4;
 		#endif
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			// --------------------------------

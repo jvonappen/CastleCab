@@ -10,7 +10,7 @@ public class ArriveAtObjective : MonoBehaviour
 
     private TaxiService taxiPassenger;
 
-    [SerializeField] private Canvas minimapMarker; //temp
+    [SerializeField] public Canvas minimapMarker; //temp
 
     private void Start()
     {
@@ -25,12 +25,14 @@ public class ArriveAtObjective : MonoBehaviour
             taxiPassenger.transform.parent = null;
             taxiPassenger.transform.position = exitLocation.transform.position;
             
-            CartDetails.isOccupied= false;
-            CartDetails.cartDestinationTarget = null;
+            PlayerData.isOccupied= false;
+            PlayerData.cartDestinationTarget = null;
             CompassBar.objectiveObjectTransform = null;
 
             DollarDisplay.dollarValue = DollarDisplay.dollarValue + taxiPassenger.dollarsGiven;
             AudioManager.Instance.PlaySFX("Money");
+
+            taxiPassenger.destination = null;
 
             minimapMarker.enabled = false; //temp
 
