@@ -101,47 +101,14 @@ public class PlayerMovement : MonoBehaviour
         _speedInput = _playerInput._accelerationInput > 0 ? _forwardAcceleration : _reverseAcceleration;
         _speedInput *= _playerInput._accelerationInput;
 
-        //forward movement
-        if (_playerInput._accelerationInput > 0 && _grounded)
-        {
-            _recenetering.m_RecenterToTargetHeading.m_enabled = true;
-            if (!_stopped) _stopped = true;
-            _soundManager.Play("DonkeyTrott");
-            _soundManager.Play("Wagon");
-            RotateWheels(_wheelForwardRotation);
-            ChangeAnimatorState(Horse_Run);
-            PlayParticles(_dustTrail);
-            PlayTrail(_wheelTrail, true);
-
-            //boost player speed and effects
-            if (_playerInput._boost != 0) Boost(_boostMultiplier, BOOST_FOV, true, _boostTurnStrength);
-            else Boost(1, NORMAL_FOV, false, _turnStrength);
-        }
+        //forward acceleration
+        if (_playerInput._accelerationInput > 0 && _grounded) ForwardAcceleration();
         //backwards movement
-        else if (_playerInput._accelerationInput < 0 && _grounded)
-        {
-            if (!_stopped) _stopped = true;
-            RotateWheels(_wheelBackRotation);
-            if (!IsAnimationPlaying(_horseAnimator, Horse_Stop)) ChangeAnimatorState(Horse_Reverse);
-        }
+        else if (_playerInput._accelerationInput < 0 && _grounded) BackwardAcceleration();
         //no acceleration
-        else
-        {
-            _recenetering.m_RecenterToTargetHeading.m_enabled = false;
-            if (_stopped && _rigidbodySpeed > 10)
-            {
-                ChangeAnimatorState(Horse_Stop);
-                _stopped = false;
-            }
-            else if (!IsAnimationPlaying(_horseAnimator, Horse_Stop) && _playerInput._steeringInput == 0) ChangeAnimatorState(Horse_Idle);
+        else NoAcceleration();
 
-            StopParticles(_dustTrail);
-            Boost(1, NORMAL_FOV, false, _turnStrength);
-            _soundManager.Stop("DonkeyTrott");
-            _soundManager.Stop("Wagon");
-        }
-
-        ReverseLockWagon(); //adjust wagon movement for reversing
+        ReverseLockWagon(); //adjust wagon lock for reversing
 
         Debug.DrawRay(_groundRayPoint.position, -Vector3.up, Color.red);
     }
@@ -162,47 +129,18 @@ public class PlayerMovement : MonoBehaviour
 
         if (_grounded)
         {
-            if (_playerInput._accelerationInput != 0)//control car on ground when moving forward or reverseing
-            {
-                _sphereRB.drag = _dragOnGround;
-                _sphereRB.AddForce(transform.forward * _speedInput);
-
-                //steering
-                transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, _playerInput._steeringInput * _steeringTurnStrength * Time.deltaTime * _playerInput._accelerationInput, 0f));
-            }
-            else if (_playerInput._accelerationInput == 0 && _playerInput._steeringInput > 0 || _playerInput._steeringInput < 0) //allow player to move car 
-            {
-                ChangeAnimatorState(Horse_Run);
-                Debug.Log("turn on spot");
-                _sphereRB.AddForce(transform.forward * 50);
-                transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, _playerInput._steeringInput * 90 * Time.deltaTime, 0f));
-            }
+            //control car on ground when moving forward or reverseing
+            if (_playerInput._accelerationInput != 0) AccelerationPhysics();
+            //turn player on spot with steering input
+            else if (_playerInput._accelerationInput == 0 && _playerInput._steeringInput > 0 || _playerInput._steeringInput < 0) TurnOnSpotPhysics();
         }
-        else//add gravity when in air
-        {
-            _recenetering.m_RecenterToTargetHeading.m_enabled = false;
-            //disable particles and audio in air
-            StopParticles(_dustTrail);
-            PlayTrail(_wheelTrail, false);
-            _soundManager.Stop("DonkeyTrott");
-            _soundManager.Stop("Wagon");
-            Boost(1, NORMAL_FOV, false, _turnStrength);
-            _steeringTurnStrength = _inAirTurnStrength;
-
-            //apply gravity
-            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, _playerInput._steeringInput * _steeringTurnStrength * Time.deltaTime, 0f));
-            //transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(_playerInput._steeringInput * 270 * Time.deltaTime, 0f, 0f));
-            _sphereRB.drag = 0.0f;
-            _sphereRB.AddForce(Vector3.up * -_gravityForce * 100f);
-        }
+        //control player in air and apply gravity
+        else InAirPhysics();
 
         //tailwhips
         if (CanTailWhip(1)) TailWhip(-_wagon.transform.right, _tailWhipPositions[0].position);
         else if (CanTailWhip(-1)) TailWhip(_wagon.transform.right, _tailWhipPositions[1].position);
-        else
-        {
-            //StopParticles(_tailWhipParticles);
-        }
+        //else StopParticles(_tailWhipParticles);
 
         ////control tipping in air
         //float angle = Vector3.Angle(transform.up, Vector3.up);
@@ -210,6 +148,81 @@ public class PlayerMovement : MonoBehaviour
         //{
         //    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.FromToRotation(transform.up, Vector3.up), Mathf.InverseLerp(angle, 0, maxTippingAngle));
         //}
+    }
+
+    private void ForwardAcceleration()
+    {
+        _recenetering.m_RecenterToTargetHeading.m_enabled = true;
+        if (!_stopped) _stopped = true;
+        _soundManager.Play("DonkeyTrott");
+        _soundManager.Play("Wagon");
+        RotateWheels(_wheelForwardRotation);
+        ChangeAnimatorState(Horse_Run);
+        PlayParticles(_dustTrail);
+        PlayTrail(_wheelTrail, true);
+
+        //boost player speed and effects
+        if (_playerInput._boost != 0) Boost(_boostMultiplier, BOOST_FOV, true, _boostTurnStrength);
+        else Boost(1, NORMAL_FOV, false, _turnStrength);
+    }
+
+    private void BackwardAcceleration()
+    {
+        if (!_stopped) _stopped = true;
+        RotateWheels(_wheelBackRotation);
+        if (!IsAnimationPlaying(_horseAnimator, Horse_Stop)) ChangeAnimatorState(Horse_Reverse);
+    }
+
+    private void NoAcceleration()
+    {
+        _recenetering.m_RecenterToTargetHeading.m_enabled = false;
+        RotateWheels(_rigidbodySpeed * 0.1f);
+
+        if (_stopped && _rigidbodySpeed > 10)
+        {
+            ChangeAnimatorState(Horse_Stop);
+            _stopped = false;
+        }
+        else if (!IsAnimationPlaying(_horseAnimator, Horse_Stop) && _playerInput._steeringInput == 0) ChangeAnimatorState(Horse_Idle);
+
+        StopParticles(_dustTrail);
+        Boost(1, NORMAL_FOV, false, _turnStrength);
+        _soundManager.Stop("DonkeyTrott");
+        _soundManager.Stop("Wagon");
+    }
+
+    private void AccelerationPhysics()
+    {
+        _sphereRB.drag = _dragOnGround;
+        _sphereRB.AddForce(transform.forward * _speedInput);
+
+        //steering
+        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, _playerInput._steeringInput * _steeringTurnStrength * Time.deltaTime * _playerInput._accelerationInput, 0f));
+    }
+
+    private void TurnOnSpotPhysics()
+    {
+        ChangeAnimatorState(Horse_Run);
+        _sphereRB.AddForce(transform.forward * 50);
+        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, _playerInput._steeringInput * 90 * Time.deltaTime, 0f));
+    }
+
+    private void InAirPhysics()
+    {
+        _recenetering.m_RecenterToTargetHeading.m_enabled = false;
+        //disable particles and audio in air
+        StopParticles(_dustTrail);
+        PlayTrail(_wheelTrail, false);
+        _soundManager.Stop("DonkeyTrott");
+        _soundManager.Stop("Wagon");
+        Boost(1, NORMAL_FOV, false, _turnStrength);
+        _steeringTurnStrength = _inAirTurnStrength;
+
+        //apply gravity
+        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, _playerInput._steeringInput * _steeringTurnStrength * Time.deltaTime, 0f));
+        //transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(_playerInput._steeringInput * 270 * Time.deltaTime, 0f, 0f));
+        _sphereRB.drag = 0.0f;
+        _sphereRB.AddForce(Vector3.up * -_gravityForce * 100f);
     }
 
     public void Boost(float boostMultiplier, float camFOV, bool particlesVal, float turnStrength)
