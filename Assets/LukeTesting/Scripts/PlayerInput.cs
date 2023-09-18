@@ -4,14 +4,13 @@ using UnityEngine.InputSystem;
 
 public class PlayerInput : MonoBehaviour
 {
-    private PlayerControls _playerControls;
-
     [Header("INPUT VARIABLES FOR DEBUGGING, DO NOT TOUCH")]
-    [SerializeField] private SoundManager _soundManager;
+    private PlayerControls _playerControls;
     [field: SerializeField] public float _accelerationInput { get; private set; }
     [field: SerializeField] public float _steeringInput { get; private set; }
     [field: SerializeField] public float _tailWhip { get; private set; }
     [field: SerializeField] public float _boost { get; private set; }
+    [field: SerializeField] public float _look { get; private set; }
 
     private void Awake()
     {
@@ -29,6 +28,8 @@ public class PlayerInput : MonoBehaviour
         _playerControls.Controls.TailWhip.canceled += OnReleaseTailWhip;
         _playerControls.Controls.Boost.performed += OnBoost;
         _playerControls.Controls.Boost.canceled += OnReleaseBoost;
+        _playerControls.Controls.Boost.performed += OnLook;
+        _playerControls.Controls.Boost.canceled += OnReleaseLook;
     }
 
     private void OnDisable()
@@ -71,11 +72,20 @@ public class PlayerInput : MonoBehaviour
     private void OnBoost(InputAction.CallbackContext value)
     {
         _boost = value.ReadValue<float>();
-        _soundManager.Play("Boost");
     }
 
     private void OnReleaseBoost(InputAction.CallbackContext value)
     {
         _boost = 0;
+    }
+
+    private void OnLook(InputAction.CallbackContext value)
+    {
+        _look = value.ReadValue<float>();
+    }
+
+    private void OnReleaseLook(InputAction.CallbackContext value)
+    {
+        _look = 0;
     }
 }

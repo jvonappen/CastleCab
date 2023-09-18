@@ -11,6 +11,8 @@ public class TaxiService : MonoBehaviour
     [SerializeField] public GameObject destination;
     [SerializeField] public int dollarsGiven;
 
+    [SerializeField] public GameObject targetParticles;
+
     public static bool isInCart = false;
 
     [SerializeField] private Canvas _npcMapMarker; //change this temp fix
@@ -61,6 +63,14 @@ public class TaxiService : MonoBehaviour
             _npcQuestIcon.enabled = false ; //temp
 
             destination.GetComponent<ArriveAtObjective>().minimapMarker.enabled = true;
+
+            SetTargetParticlesPosition();
         }
     }
+
+    public void SetTargetParticlesPosition()
+    {
+        targetParticles.transform.position = destination.transform.position;
+    }
+
 }

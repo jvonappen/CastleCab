@@ -30,7 +30,7 @@ public class PigSplode : MonoBehaviour
     {
         if (other.gameObject.name == "Wagon" || other.gameObject.name == "Donkey")
         {
-            if (other.gameObject.GetComponent<PlayerMovement>() == null) return;
+            if (other.gameObject.GetComponent<PlayerMovement>() == null) return; // change to mario kart movement or warthog movement for other scenes
             PlayerInput player = other.gameObject.GetComponent<PlayerInput>();
 
             if (player._tailWhip > 0 || player._boost > 0)
@@ -41,7 +41,7 @@ public class PigSplode : MonoBehaviour
                 rb.AddExplosionForce(_force, this.transform.position, _radius, _upForce);
                 ParticleSystem bacon = Instantiate(_bacon, this.transform);
                 ParticleSystem explode = Instantiate(_explode, this.transform);
-                //CameraShake.Instance.ShakeCamera(_camShakeIntesity, _camShakeTime); //Issue caused the remaing code not to execute. Probably Cams not hooked up right - Jacob
+                CameraShake.Instance.ShakeCamera(_camShakeIntesity, _camShakeTime); //Issue caused the remaing code not to execute. Probably Cams not hooked up right - Jacob...  "Nah" - Luke
 
                 //FIND AUDIO CLIPS
                 _soundManager.Play("PigSqueal");
@@ -49,7 +49,6 @@ public class PigSplode : MonoBehaviour
 
                 GetComponent<PoliceAI>().enabled = false;
                 Destroy(this.gameObject, 5);
-
             }
             else
             {
