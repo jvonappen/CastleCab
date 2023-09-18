@@ -34,7 +34,7 @@ public class PigSplode : MonoBehaviour
             PlayerMovement playerMovement = other.gameObject.GetComponent<PlayerMovement>();
             PlayerInput player = other.gameObject.GetComponent<PlayerInput>();
 
-            if (/*player._tailWhip > 0 || player._boost > 0*/ playerMovement._rigidbodySpeed > 20)
+            if (/*player._tailWhip > 0 || player._boost > 0*/ playerMovement._rigidbodySpeed > 15 || Tailwhip(player, playerMovement))
             {
                 agent.enabled = false;
                 
@@ -57,5 +57,10 @@ public class PigSplode : MonoBehaviour
                 other.rigidbody.AddForce((other.transform.position - this.transform.position) * _playerForce, ForceMode.Impulse);
             }
         }
+    }
+
+    private bool Tailwhip(PlayerInput player, PlayerMovement playerMovement)
+    {
+        return player._tailWhip > 0 && playerMovement._rigidbodySpeed > 5;
     }
 }

@@ -78,7 +78,8 @@ public class PlayerInput : MonoBehaviour
 
     private void OnBoost(InputAction.CallbackContext value)
     {
-        _boost = value.ReadValue<float>();
+        //_boost = value.ReadValue<float>();
+        _boost = 1;
     }
 
     private void OnReleaseBoost(InputAction.CallbackContext value)

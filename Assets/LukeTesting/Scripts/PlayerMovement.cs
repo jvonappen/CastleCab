@@ -34,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("DRIVING VARIABLES")]
     [SerializeField] private float _speedInput = 0;
+    [field: SerializeField] public float _rigidbodySpeed { get; private set; }
     [SerializeField] private float _forwardAcceleration = 500f;
     [SerializeField] private float _reverseAcceleration = 100f;
     [SerializeField] private float _turnStrength = 180f;
@@ -48,7 +49,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _groundRayLength = 2f;
     [SerializeField] private float _wheelForwardRotation = 4f;
     [SerializeField] private float _wheelBackRotation = -1f;
-    [field: SerializeField] public float _rigidbodySpeed { get; private set; }
     [field: SerializeField] public bool _grounded { get; private set; }
     private float _steeringTurnStrength;
 
@@ -105,6 +105,8 @@ public class PlayerMovement : MonoBehaviour
         if (_playerInput._accelerationInput > 0 && _grounded) ForwardAcceleration();
         //backwards movement
         else if (_playerInput._accelerationInput < 0 && _grounded) BackwardAcceleration();
+        ////turn on spot
+        //else if (_playerInput._accelerationInput == 0 && _playerInput._steeringInput > 0 || _playerInput._steeringInput < 0 && _grounded)
         //no acceleration
         else NoAcceleration();
 
@@ -346,7 +348,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            Debug.Log("drag on stop");
+            //Debug.Log("drag on stop");
             if (_rigidbodySpeed < 4 && !_dragSet) _sphereRB.velocity *= 0.85f; //make adjustable value
             else _dragOnGround = _dragOnStop;
             _dragSet = false;
