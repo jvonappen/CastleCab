@@ -1,4 +1,6 @@
+using Cinemachine;
 using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 
@@ -21,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform[] _tailWhipPositions;
     [SerializeField] private Transform[] _wheels;
     [SerializeField] private Animator _horseAnimator;
+    [SerializeField] private CinemachineFreeLook _recenetering;
     
     [Header("AUTO ASSIGNED VARIABLES")]
     [SerializeField] private CameraFOV _camera;
@@ -28,14 +31,18 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Rigidbody _donkeyRB;
     [SerializeField] private Rigidbody _wagonRB;
     [SerializeField] private ConfigurableJoint _joint;
-    
+
     [Header("DRIVING VARIABLES")]
     [SerializeField] private float _speedInput = 0;
     [SerializeField] private float _forwardAcceleration = 500f;
     [SerializeField] private float _reverseAcceleration = 100f;
     [SerializeField] private float _turnStrength = 180f;
     [SerializeField] private float _gravityForce = 1.5f;
-    [SerializeField] private float _dragOnGround = 2f;
+    [SerializeField] private float _dragOnGround = 3f;
+    [SerializeField] private float _dragOnAcceleration = 10f;
+    [SerializeField] private float _dragOnStop = 1.5f;
+    [SerializeField] private float _dragNormal = 3f;
+    [SerializeField] private bool _dragSet = false;
     [SerializeField] private float maxTippingAngle = 45f;
     [SerializeField] private float _groundRayLength = 2f;
     [SerializeField] private float _wheelForwardRotation = 4f;
@@ -83,6 +90,7 @@ public class PlayerMovement : MonoBehaviour
         _donkeyRB = this.GetComponent<Rigidbody>();
         _soundManager = FindObjectOfType<SoundManager>();
         _camera = FindObjectOfType<CameraFOV>();
+        _recenetering = FindObjectOfType<CinemachineFreeLook>();
     }
 
     private void Update()
@@ -91,9 +99,11 @@ public class PlayerMovement : MonoBehaviour
         _speedInput = _playerInput._accelerationInput > 0 ? _forwardAcceleration : _reverseAcceleration;
         _speedInput *= _playerInput._accelerationInput;
 
+
         //forward movement
         if (_playerInput._accelerationInput > 0 && _grounded)
         {
+            _recenetering.m_RecenterToTargetHeading.m_enabled = true;
             if (!_stopped) _stopped = true;
             _soundManager.Play("DonkeyTrott");
             _soundManager.Play("Wagon");
@@ -103,7 +113,7 @@ public class PlayerMovement : MonoBehaviour
             PlayTrail(_wheelTrail, true);
 
             //boost player speed and effects
-            if (_playerInput._boost != 0 /*&& _grounded*/) Boost(_boostMultiplier, BOOST_FOV, true, _boostTurnStrength);
+            if (_playerInput._boost != 0) Boost(_boostMultiplier, BOOST_FOV, true, _boostTurnStrength);
             else Boost(1, NORMAL_FOV, false, _turnStrength);
         }
         //backwards movement
@@ -116,6 +126,7 @@ public class PlayerMovement : MonoBehaviour
         //no acceleration
         else
         {
+            _recenetering.m_RecenterToTargetHeading.m_enabled = false;
             if (_stopped)
             {
                 ChangeAnimatorState(Horse_Stop);
@@ -147,6 +158,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (_grounded)//control car on ground
         {
+            PlayerDragMovement2(); //adds slow acceleration buildup and rolling stop
+
             _sphereRB.drag = _dragOnGround;
             _sphereRB.AddForce(transform.forward * _speedInput);
 
@@ -269,7 +282,6 @@ public class PlayerMovement : MonoBehaviour
     private void ChangeAnimatorState(string newState)
     {
         if (newState == _currentState) return;
-        //_horseAnimator.Play(newState);
         _horseAnimator.CrossFade(newState, 0.2f, 0);
         _currentState = newState;
     }
@@ -283,5 +295,28 @@ public class PlayerMovement : MonoBehaviour
             return true;
         }
         else return false;
+    }
+
+    private void PlayerDragMovement2()
+    {
+        //adjust drag to add for rolling stop
+        if (_playerInput._accelerationInput > 0)
+        {
+            if (!_dragSet)
+            {
+                _dragOnGround = _dragOnAcceleration;
+                _dragSet = true;
+            }
+            if (_dragOnGround > _dragNormal)
+            {
+                _dragOnGround -= Time.deltaTime * 3;
+            }
+            else _dragOnGround = _dragNormal;
+        }
+        else
+        {
+            _dragOnGround = _dragOnStop;
+            _dragSet = false;
+        }
     }
 }
