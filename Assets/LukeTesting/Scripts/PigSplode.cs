@@ -11,6 +11,7 @@ public class PigSplode : MonoBehaviour
     [SerializeField] private SoundManager _soundManager;
     [SerializeField] ParticleSystem _explode;
     [SerializeField] ParticleSystem _bacon;
+    [SerializeField] ParticleSystem _playerImpact;
     [SerializeField] private float _force = 1000;
     [SerializeField] private float _playerForce = 500;
     [SerializeField] private float _upForce = 500;
@@ -34,7 +35,7 @@ public class PigSplode : MonoBehaviour
             PlayerMovement playerMovement = other.gameObject.GetComponent<PlayerMovement>();
             PlayerInput player = other.gameObject.GetComponent<PlayerInput>();
 
-            if (/*player._tailWhip > 0 || player._boost > 0*/ playerMovement._rigidbodySpeed > 15 || Tailwhip(player, playerMovement))
+            if (/*player._tailWhip > 0 || player._boost > 0*/ player._accelerationInput > 0 && playerMovement._rigidbodySpeed > 15 || Tailwhip(player, playerMovement))
             {
                 agent.enabled = false;
                 
@@ -54,6 +55,7 @@ public class PigSplode : MonoBehaviour
             else
             {
                 _soundManager.Play("PlayerHit");
+                ParticleSystem impact = Instantiate(_playerImpact, other.transform);
                 other.rigidbody.AddForce((other.transform.position - this.transform.position) * _playerForce, ForceMode.Impulse);
             }
         }
