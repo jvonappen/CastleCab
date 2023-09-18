@@ -17,8 +17,8 @@ public class TaxiService : MonoBehaviour
 
     public static bool isInCart = false;
 
-    [SerializeField] private Canvas _npcMapMarker; //change this temp fix
-    [SerializeField] private Canvas _npcQuestIcon;//temp
+    //[SerializeField] private Canvas _npcMapMarker; //change this temp fix
+    //[SerializeField] private Canvas _npcQuestIcon;//temp
     
     private NavMeshAgent agent;
     private GameObject _player;
@@ -35,7 +35,7 @@ public class TaxiService : MonoBehaviour
 
     private void Awake()
     {
-        _npcMapMarker.enabled = true; //temp
+       // _npcMapMarker.enabled = true; //temp
         agent = this.gameObject.GetComponent<NavMeshAgent>();
     }
     private void Start()
@@ -71,10 +71,10 @@ public class TaxiService : MonoBehaviour
             this.agent.enabled = false;
             isInCart = true;
 
-            _npcMapMarker.enabled = false; //temp
-            _npcQuestIcon.enabled = false ; //temp
+            //_npcMapMarker.enabled = false; //temp
+            //_npcQuestIcon.enabled = false ; //temp
 
-            destination.GetComponent<ArriveAtObjective>().minimapMarker.enabled = true;
+            //destination.GetComponent<ArriveAtObjective>().minimapMarker.enabled = true;
 
             SetTargetParticlesPosition();
             timeValue.timerValue = 60;
