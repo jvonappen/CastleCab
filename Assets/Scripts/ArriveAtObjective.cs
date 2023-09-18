@@ -12,6 +12,9 @@ public class ArriveAtObjective : MonoBehaviour
 
     [SerializeField] public Canvas minimapMarker; //temp
 
+    [Header("Timer")]
+    [SerializeField] private GameObject timerObject;
+
     private void Start()
     {
         minimapMarker.enabled = false; //temp
@@ -35,6 +38,8 @@ public class ArriveAtObjective : MonoBehaviour
             taxiPassenger.destination = null;
 
             minimapMarker.enabled = false; //temp
+
+            timerObject.SetActive(false);
 
         }
     }

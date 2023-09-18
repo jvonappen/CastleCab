@@ -24,7 +24,11 @@ public class TaxiService : MonoBehaviour
     private float Y;
     private float Z;
 
-    private void Awake()
+    [Header("Timer")]
+    [SerializeField] private GameObject timerObject;
+    [SerializeField] private Timer timeValue;
+
+   private void Awake()
     {
         _npcMapMarker.enabled = true; //temp
         agent = this.gameObject.GetComponent<NavMeshAgent>();
@@ -65,6 +69,9 @@ public class TaxiService : MonoBehaviour
             destination.GetComponent<ArriveAtObjective>().minimapMarker.enabled = true;
 
             SetTargetParticlesPosition();
+            timeValue.timerValue = 60;
+            timerObject.SetActive(true);
+
         }
     }
 

@@ -6,7 +6,7 @@ using TMPro;
 public class Timer : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI timerText;
-    [SerializeField] private float timerValue = 60;
+    [SerializeField] public float timerValue = 60;
 
     private void Awake()
     {
@@ -16,11 +16,13 @@ public class Timer : MonoBehaviour
     {
         if(timerValue > 0)
         {
+            timerText.color = Color.white;
             timerValue = timerValue - 1 * Time.deltaTime;
             timerText.text = timerValue.ToString("00");
         }
         if(timerValue <= 0)
         {
+            timerText.color = Color.red;
             timerText.text = "fail";
         }
         
