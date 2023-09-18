@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.AI;
 //using static UnityEditor.Experimental.GraphView.GraphView;
 
+using TMPro;
+
 public class TaxiService : MonoBehaviour
 {
     [SerializeField] private GameObject customerSeat;
@@ -28,7 +30,10 @@ public class TaxiService : MonoBehaviour
     [SerializeField] private GameObject timerObject;
     [SerializeField] private Timer timeValue;
 
-   private void Awake()
+    [Header("Fare")]
+    [SerializeField] private TextMeshProUGUI fareText;
+
+    private void Awake()
     {
         _npcMapMarker.enabled = true; //temp
         agent = this.gameObject.GetComponent<NavMeshAgent>();
@@ -42,6 +47,8 @@ public class TaxiService : MonoBehaviour
     {
         transform.LookAt(_player.transform);
         transform.Rotate(X, Y, Z);
+       
+        //fareText.text = dollarsGiven.ToString();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -49,6 +56,7 @@ public class TaxiService : MonoBehaviour
 
         if (!PlayerData.isOccupied && other.tag == "Player" && destination != null)
         {
+            //fareText.text = dollarsGiven.ToString();
             AudioManager.Instance.PlaySFX("In");
             this.transform.parent = this.customerSeat.transform;
             this.transform.position = this.customerSeat.transform.position;
