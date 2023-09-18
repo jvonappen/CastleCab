@@ -142,7 +142,7 @@ public class PlayerMovement : MonoBehaviour
         //tailwhips
         if (CanTailWhip(1)) TailWhip(-_wagon.transform.right, _tailWhipPositions[0].position);
         else if (CanTailWhip(-1)) TailWhip(_wagon.transform.right, _tailWhipPositions[1].position);
-        //else StopParticles(_tailWhipParticles);
+        else StopParticles(_tailWhipParticles);
 
         ////control tipping in air
         //float angle = Vector3.Angle(transform.up, Vector3.up);
@@ -294,7 +294,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _wagonRB.AddForceAtPosition(direction * _tailWhipForce, pos, ForceMode.Impulse);
         //CREATE PARTICLES FOR TAILWHIP
-        //PlayParticles(_tailWhipParticles);
+        PlayParticles(_tailWhipParticles);
     }
 
     private void ReverseLockWagon()
