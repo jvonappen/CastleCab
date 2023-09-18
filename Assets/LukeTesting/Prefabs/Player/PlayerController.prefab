@@ -218,7 +218,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0.2
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
@@ -581,7 +581,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0.2
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
@@ -849,7 +849,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: -0.62, z: 0.84}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 0
-  m_ConnectedAnchor: {x: 0, y: -0.03, z: -0.93}
+  m_ConnectedAnchor: {x: 0, y: -0.09, z: -0.93}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -896,8 +896,8 @@ ConfigurableJoint:
     maximumForce: 3.4028233e+38
   m_YDrive:
     serializedVersion: 3
-    positionSpring: 0
-    positionDamper: 0
+    positionSpring: 10
+    positionDamper: 20
     maximumForce: 3.4028233e+38
   m_ZDrive:
     serializedVersion: 3
@@ -1002,8 +1002,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <_accelerationInput>k__BackingField: 0
   <_steeringInput>k__BackingField: 0
+  <_directionInput>k__BackingField: 0
   <_tailWhip>k__BackingField: 0
   <_boost>k__BackingField: 0
+  <_look>k__BackingField: 0
 --- !u!114 &3517994449852718664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1041,17 +1043,24 @@ MonoBehaviour:
   - {fileID: 1755459442596818706}
   - {fileID: 6314837532769097618}
   _horseAnimator: {fileID: 5806344667825593172}
+  _recenetering: {fileID: 0}
   _camera: {fileID: 0}
   _soundManager: {fileID: 0}
   _donkeyRB: {fileID: 0}
   _wagonRB: {fileID: 0}
   _joint: {fileID: 0}
   _speedInput: 0
+  <_rigidbodySpeed>k__BackingField: 0
   _forwardAcceleration: 500
   _reverseAcceleration: 100
   _turnStrength: 270
+  _inAirTurnStrength: 180
   _gravityForce: 1.5
   _dragOnGround: 3
+  _dragOnAcceleration: 10
+  _dragOnStop: 1.5
+  _dragNormal: 3
+  _dragSet: 0
   maxTippingAngle: 45
   _groundRayLength: 2
   _wheelForwardRotation: 2
@@ -1341,7 +1350,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0.2
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
@@ -1684,7 +1693,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0.2
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
