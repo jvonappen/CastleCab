@@ -10,14 +10,14 @@ public class ArriveAtObjective : MonoBehaviour
 
     private TaxiService taxiPassenger;
 
-    [SerializeField] public Canvas minimapMarker; //temp
+    //[SerializeField] public Canvas minimapMarker; //temp
 
     [Header("Timer")]
     [SerializeField] private GameObject timerObject;
 
     private void Start()
     {
-        minimapMarker.enabled = false; //temp
+        //minimapMarker.enabled = false; //temp
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -37,7 +37,7 @@ public class ArriveAtObjective : MonoBehaviour
 
             taxiPassenger.destination = null;
 
-            minimapMarker.enabled = false; //temp
+           // minimapMarker.enabled = false; //temp
 
             timerObject.SetActive(false);
 
