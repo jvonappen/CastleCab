@@ -35,10 +35,9 @@ public class PigSplode : MonoBehaviour
             PlayerMovement playerMovement = other.gameObject.GetComponent<PlayerMovement>();
             PlayerInput player = other.gameObject.GetComponent<PlayerInput>();
 
-            if (/*player._tailWhip > 0 || player._boost > 0*/ player._accelerationInput > 0 && playerMovement._rigidbodySpeed > 15 || Tailwhip(player, playerMovement))
+            if (player._accelerationInput > 0 && playerMovement._rigidbodySpeed > 15 || Tailwhip(player, playerMovement))
             {
                 agent.enabled = false;
-                
 
                 rb.AddExplosionForce(_force, this.transform.position, _radius, _upForce);
                 ParticleSystem bacon = Instantiate(_bacon, this.transform);
