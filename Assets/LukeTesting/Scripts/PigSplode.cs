@@ -30,10 +30,11 @@ public class PigSplode : MonoBehaviour
     {
         if (other.gameObject.name == "Wagon" || other.gameObject.name == "Donkey")
         {
-            if (other.gameObject.GetComponent<PlayerMovement>() == null) return; // change to mario kart movement or warthog movement for other scenes
+            if (other.gameObject.GetComponent<PlayerMovement>() == null) return;
+            PlayerMovement playerMovement = other.gameObject.GetComponent<PlayerMovement>();
             PlayerInput player = other.gameObject.GetComponent<PlayerInput>();
 
-            if (player._tailWhip > 0 || player._boost > 0)
+            if (/*player._tailWhip > 0 || player._boost > 0*/ playerMovement._rigidbodySpeed > 15 || Tailwhip(player, playerMovement))
             {
                 agent.enabled = false;
                 
@@ -56,5 +57,10 @@ public class PigSplode : MonoBehaviour
                 other.rigidbody.AddForce((other.transform.position - this.transform.position) * _playerForce, ForceMode.Impulse);
             }
         }
+    }
+
+    private bool Tailwhip(PlayerInput player, PlayerMovement playerMovement)
+    {
+        return player._tailWhip > 0 && playerMovement._rigidbodySpeed > 5;
     }
 }
