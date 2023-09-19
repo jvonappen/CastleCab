@@ -1,6 +1,9 @@
 using Cinemachine;
 using System;
+using System.Collections;
+//using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 
@@ -14,6 +17,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject[] _wheelTrail;
     [SerializeField] private ParticleSystem[] _tailWhipParticles;
     [SerializeField] private ParticleSystem[] _speedParticles;
+    [SerializeField] private ParticleSystem[] _burnoutParticles;
+    [SerializeField] private ParticleSystem[] _chargedBurnoutParticles;
 
     [Header("ASSIGNABLE VARIABLES")]
     [SerializeField] private LayerMask _whatIsGround;
@@ -39,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _reverseAcceleration = 100f;
     [SerializeField] private float _turnStrength = 180f;
     [SerializeField] private float _inAirTurnStrength = 90;
+    [SerializeField] private float _tailWhipTurnStrength = 270;
     [SerializeField] private float _gravityForce = 1.5f;
     [SerializeField] private float _dragOnGround = 3f;
     [SerializeField] private float _dragOnAcceleration = 10f;
@@ -50,7 +56,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _wheelForwardRotation = 4f;
     [SerializeField] private float _wheelBackRotation = -1f;
     [field: SerializeField] public bool _grounded { get; private set; }
-    private float _steeringTurnStrength;
+    [SerializeField] private float _steeringTurnStrength;
+    private float _steeringAccel;
+    private bool _burnout = false;
+    private bool _canBurnout = true;
+    [SerializeField] private bool _tailWhipping = false;
+    [SerializeField] private float _dragOnBurnoutRelease = 0;
 
     [Header("TAIL WHIP VARIABLES")]
     [SerializeField] private float _tailWhipForce = 10;
@@ -96,15 +107,27 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Update()
-    { 
-        //get speed input 
-        _speedInput = _playerInput._accelerationInput > 0 ? _forwardAcceleration : _reverseAcceleration;
-        _speedInput *= _playerInput._accelerationInput;
+    {
+        //get speed input
+        if (_playerInput._accelerationInput > 0 && _playerInput._reverseInput < 0) _speedInput = 0;
+        else if (_playerInput._accelerationInput > 0)
+        {
+            _speedInput = _forwardAcceleration;
+            _speedInput *= _playerInput._accelerationInput;
+        }
+        else if (_playerInput._reverseInput < 0)
+        {
+            _speedInput = _reverseAcceleration;
+            _speedInput *= _playerInput._reverseInput;
+        }
+        else _speedInput = 0;
 
+        //_speedInput = _playerInput._accelerationInput > 0 ? _forwardAcceleration : _reverseAcceleration;
+        if (_playerInput._accelerationInput > 0 && _playerInput._reverseInput < 0 && _grounded && _canBurnout && _rigidbodySpeed < 5) Burnout();
         //forward acceleration
-        if (_playerInput._accelerationInput > 0 && _grounded) ForwardAcceleration();
+        else if (_playerInput._accelerationInput > 0 && _grounded) ForwardAcceleration();
         //backwards movement
-        else if (_playerInput._accelerationInput < 0 && _grounded) BackwardAcceleration();
+        else if (_playerInput._reverseInput < 0 && _grounded) BackwardAcceleration();
         ////turn on spot
         //else if (_playerInput._accelerationInput == 0 && _playerInput._steeringInput > 0 || _playerInput._steeringInput < 0 && _grounded)
         //no acceleration
@@ -132,9 +155,9 @@ public class PlayerMovement : MonoBehaviour
         if (_grounded)
         {
             //control car on ground when moving forward or reverseing
-            if (_playerInput._accelerationInput != 0) AccelerationPhysics();
+            if (_playerInput._accelerationInput > 0 || _playerInput._reverseInput < 0) AccelerationPhysics();
             //turn player on spot with steering input
-            else if (_playerInput._accelerationInput == 0 && _playerInput._steeringInput > 0 || _playerInput._steeringInput < 0) TurnOnSpotPhysics();
+            else if (_playerInput._accelerationInput == 0 && _playerInput._reverseInput == 0 && _playerInput._steeringInput > 0 || _playerInput._steeringInput < 0) TurnOnSpotPhysics();
         }
         //control player in air and apply gravity
         else InAirPhysics();
@@ -142,41 +165,77 @@ public class PlayerMovement : MonoBehaviour
         //tailwhips
         if (CanTailWhip(1)) TailWhip(-_wagon.transform.right, _tailWhipPositions[0].position);
         else if (CanTailWhip(-1)) TailWhip(_wagon.transform.right, _tailWhipPositions[1].position);
-        else StopParticles(_tailWhipParticles);
+        else
+        {
+            _tailWhipping = false;
+            StopParticles(_tailWhipParticles);
+        }
 
-        ////control tipping in air
-        //float angle = Vector3.Angle(transform.up, Vector3.up);
-        //if (angle > maxTippingAngle)
-        //{
-        //    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.FromToRotation(transform.up, Vector3.up), Mathf.InverseLerp(angle, 0, maxTippingAngle));
-        //}
+        //control tipping in air
+        float angle = Vector3.Angle(transform.up, Vector3.up);
+        if (angle > maxTippingAngle)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.FromToRotation(transform.up, Vector3.up), Mathf.InverseLerp(angle, 0, maxTippingAngle));
+        }
     }
 
     private void ForwardAcceleration()
     {
-        _recenetering.m_RecenterToTargetHeading.m_enabled = true;
-        if (!_stopped) _stopped = true;
-        _soundManager.Play("DonkeyTrott");
-        _soundManager.Play("Wagon");
-        RotateWheels(_wheelForwardRotation);
-        ChangeAnimatorState(Horse_Run);
-        PlayParticles(_dustTrail);
-        PlayTrail(_wheelTrail, true);
+        if (_playerInput._reverseInput < 0) return;
+        //boost of post burnout
+        if (_burnout)
+        {
+            if (_canBurnout) _dragOnBurnoutRelease = _dragOnGround; //check what drag value is at on release of burnout
+            _canBurnout = false;
+            
+            StartCoroutine(Takeoff());
+            if (_dragOnBurnoutRelease == 3) Boost(_boostMultiplier, BOOST_FOV, true, _boostTurnStrength);
+        }
+        else
+        {
+            _recenetering.m_RecenterToTargetHeading.m_enabled = true;
+            if (!_stopped) _stopped = true;
+            _soundManager.Play("DonkeyTrott");
+            _soundManager.Play("Wagon");
+            RotateWheels(_wheelForwardRotation);
+            ChangeAnimatorState(Horse_Run);
+            PlayParticles(_dustTrail);
+            StopParticles(_burnoutParticles);
+            StopParticles(_chargedBurnoutParticles);
+            PlayTrail(_wheelTrail, true);
 
-        //boost player speed and effects
-        if (_playerInput._boost != 0) Boost(_boostMultiplier, BOOST_FOV, true, _boostTurnStrength);
-        else Boost(1, NORMAL_FOV, false, _turnStrength);
+            //boost player speed and effects
+            if (_playerInput._boost != 0 && !_tailWhipping)
+            {
+                Debug.Log("Boosting");
+                Boost(_boostMultiplier, BOOST_FOV, true, _boostTurnStrength);
+            }
+            else if (_tailWhipping)
+            {
+                Debug.Log("Tail whipping");
+                Boost(1, NORMAL_FOV, false, _tailWhipTurnStrength);
+            }
+            else
+            {
+                Debug.Log("Normal");
+                Boost(1, NORMAL_FOV, false, _turnStrength);
+            }
+        }
     }
 
     private void BackwardAcceleration()
     {
+        _burnout = false;
         if (!_stopped) _stopped = true;
+        StopParticles(_burnoutParticles);
+        StopParticles(_chargedBurnoutParticles);
         RotateWheels(_wheelBackRotation);
         if (!IsAnimationPlaying(_horseAnimator, Horse_Stop)) ChangeAnimatorState(Horse_Reverse);
     }
 
     private void NoAcceleration()
     {
+        _burnout = false;
         _recenetering.m_RecenterToTargetHeading.m_enabled = false;
         RotateWheels(_rigidbodySpeed * 0.1f);
 
@@ -188,9 +247,34 @@ public class PlayerMovement : MonoBehaviour
         else if (!IsAnimationPlaying(_horseAnimator, Horse_Stop) && _playerInput._steeringInput == 0) ChangeAnimatorState(Horse_Idle);
 
         StopParticles(_dustTrail);
+        StopParticles(_burnoutParticles);
+        StopParticles(_chargedBurnoutParticles);
         Boost(1, NORMAL_FOV, false, _turnStrength);
         _soundManager.Stop("DonkeyTrott");
         _soundManager.Stop("Wagon");
+    }
+
+    IEnumerator Takeoff()
+    {
+        _soundManager.Fade("Burnout");
+        yield return new WaitForSeconds(1f);
+      
+        Boost(1, NORMAL_FOV, false, _turnStrength);
+        _burnout = false;
+        _canBurnout = true;
+    }
+
+    private void Burnout()
+    {
+        if (!_burnout) _dragOnGround = _dragOnAcceleration;
+        _burnout = true;
+        StopParticles(_speedParticles);
+        if (!_stopped) _stopped = true;
+        _soundManager.Play("Burnout");
+        RotateWheels(_wheelForwardRotation);
+        ChangeAnimatorState(Horse_Run);
+        PlayParticles(_burnoutParticles);
+        if (_dragOnGround <= 3) PlayParticles(_chargedBurnoutParticles);
     }
 
     private void AccelerationPhysics()
@@ -198,8 +282,11 @@ public class PlayerMovement : MonoBehaviour
         _sphereRB.drag = _dragOnGround;
         _sphereRB.AddForce(transform.forward * _speedInput);
 
+        if (_playerInput._accelerationInput > 0 ) _steeringAccel = _playerInput._accelerationInput;
+        else if (_playerInput._reverseInput < 0) _steeringAccel = _playerInput._reverseInput;
+
         //steering
-        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, _playerInput._steeringInput * _steeringTurnStrength * Time.deltaTime * _playerInput._accelerationInput, 0f));
+        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, _playerInput._steeringInput * _steeringTurnStrength * Time.deltaTime * _steeringAccel, 0f));
     }
 
     private void TurnOnSpotPhysics()
@@ -222,7 +309,7 @@ public class PlayerMovement : MonoBehaviour
 
         //apply gravity
         transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, _playerInput._steeringInput * _steeringTurnStrength * Time.deltaTime, 0f));
-        //transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(_playerInput._steeringInput * 270 * Time.deltaTime, 0f, 0f));
+
         _sphereRB.drag = 0.0f;
         _sphereRB.AddForce(Vector3.up * -_gravityForce * 100f);
     }
@@ -232,7 +319,7 @@ public class PlayerMovement : MonoBehaviour
         _speedInput *= boostMultiplier;
         _steeringTurnStrength = turnStrength;
         if (_camera != null) _camera.SetCameraFov(camFOV);
-        if (_playerInput._boost != 0 && _grounded && _playerInput._accelerationInput > 0)
+        if (!_canBurnout || _playerInput._boost != 0 && _grounded && _playerInput._accelerationInput > 0)
         {
             PlayParticles(_speedParticles);
             PlayParticles(_boostTrail);
@@ -287,20 +374,39 @@ public class PlayerMovement : MonoBehaviour
 
     private bool CanTailWhip(float direction)
     {
-        return _playerInput._tailWhip > 0 && _playerInput._steeringInput == direction && _grounded && _playerInput._accelerationInput > 0.5;
+        if (direction > 0)
+        {
+            return _playerInput._tailWhip > 0 && _playerInput._steeringInput > 0.2 && _grounded && _playerInput._accelerationInput > 0.5;
+        }
+        else if (direction < 0)
+        {
+            return _playerInput._tailWhip > 0 && _playerInput._steeringInput < -0.2 && _grounded && _playerInput._accelerationInput > 0.5;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private void TailWhip(Vector3 direction, Vector3 pos)
     {
+        _tailWhipping = true;
         _wagonRB.AddForceAtPosition(direction * _tailWhipForce, pos, ForceMode.Impulse);
-        //CREATE PARTICLES FOR TAILWHIP
         PlayParticles(_tailWhipParticles);
     }
 
     private void ReverseLockWagon()
     {
-        _joint.angularYMotion = _playerInput._accelerationInput < 0 ? ConfigurableJointMotion.Locked : ConfigurableJointMotion.Limited;
-        _joint.angularXMotion = _playerInput._accelerationInput < 0 ? ConfigurableJointMotion.Locked : ConfigurableJointMotion.Limited;
+        if (_playerInput._accelerationInput > 0 && _playerInput._reverseInput < 0)
+        {
+            _joint.angularYMotion = ConfigurableJointMotion.Limited;
+            _joint.angularXMotion = ConfigurableJointMotion.Limited;
+        }
+        else
+        {
+            _joint.angularYMotion = _playerInput._reverseInput < 0 ? ConfigurableJointMotion.Locked : ConfigurableJointMotion.Limited;
+            _joint.angularXMotion = _playerInput._reverseInput < 0 ? ConfigurableJointMotion.Locked : ConfigurableJointMotion.Limited;
+        }
     }
 
     private void RotateWheels(float turnSPeed)
