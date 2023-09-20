@@ -7,11 +7,10 @@ public class PlayerInput : MonoBehaviour
     [Header("INPUT VARIABLES FOR DEBUGGING, DO NOT TOUCH")]
     private PlayerControls _playerControls;
     [field: SerializeField] public float _accelerationInput { get; private set; }
+    [field: SerializeField] public float _reverseInput { get; private set; }
     [field: SerializeField] public float _steeringInput { get; private set; }
-    [field: SerializeField] public float _directionInput { get; private set; }
     [field: SerializeField] public float _tailWhip { get; private set; }
     [field: SerializeField] public float _boost { get; private set; }
-    [field: SerializeField] public float _look { get; private set; }
 
     private void Awake()
     {
@@ -23,14 +22,14 @@ public class PlayerInput : MonoBehaviour
         _playerControls.Enable();
         _playerControls.Controls.Acceleration.performed += OnAccelerate;
         _playerControls.Controls.Acceleration.canceled += OnReleaseAccelerate;
+        _playerControls.Controls.Reverse.performed += OnReverse;
+        _playerControls.Controls.Reverse.canceled += OnReleaseReverse;
         _playerControls.Controls.Steering.performed += OnSteering;
         _playerControls.Controls.Steering.canceled += OnReleaseSteering;
         _playerControls.Controls.TailWhip.performed += OnTailWhip;
         _playerControls.Controls.TailWhip.canceled += OnReleaseTailWhip;
         _playerControls.Controls.Boost.performed += OnBoost;
         _playerControls.Controls.Boost.canceled += OnReleaseBoost;
-        _playerControls.Controls.Boost.performed += OnLook;
-        _playerControls.Controls.Boost.canceled += OnReleaseLook;
     }
 
     private void OnDisable()
@@ -53,11 +52,18 @@ public class PlayerInput : MonoBehaviour
         _accelerationInput = 0;
     }
 
+    private void OnReverse(InputAction.CallbackContext value)
+    {
+        _reverseInput = value.ReadValue<float>();
+    }
+
+    private void OnReleaseReverse(InputAction.CallbackContext value)
+    {
+        _reverseInput = 0;
+    }
+
     private void OnSteering(InputAction.CallbackContext value)
     {
-        //if (value.ReadValue<float>() > 0) _steeringInput = 1;
-        //if (value.ReadValue<float>() < 0) _steeringInput = -1;
-
         _steeringInput = value.ReadValue<float>();
     }
 
@@ -78,22 +84,11 @@ public class PlayerInput : MonoBehaviour
 
     private void OnBoost(InputAction.CallbackContext value)
     {
-        //_boost = value.ReadValue<float>();
         _boost = 1;
     }
 
     private void OnReleaseBoost(InputAction.CallbackContext value)
     {
         _boost = 0;
-    }
-
-    private void OnLook(InputAction.CallbackContext value)
-    {
-        _look = value.ReadValue<float>();
-    }
-
-    private void OnReleaseLook(InputAction.CallbackContext value)
-    {
-        _look = 0;
     }
 }

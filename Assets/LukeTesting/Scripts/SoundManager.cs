@@ -40,6 +40,7 @@ public class SoundManager : MonoBehaviour
             Debug.Log("Sound: " + name + " not found");
             return;
         }
+        sound.source.volume = sound.volume;
         if (sound.source.isPlaying) return;
         else sound.source.Play();        
     }
@@ -54,5 +55,16 @@ public class SoundManager : MonoBehaviour
             return;
         }
         sound.source.Stop();
+    }
+
+    public void Fade(string soundName)
+    {
+        Sound sound = Array.Find(sounds, sound => sound.name == soundName);
+        if (sound == null)
+        {
+            Debug.Log("Sound: " + name + " not found");
+            return;
+        }
+        StartCoroutine(FadeAudioSource.StartFade(sound.source, 1f, 0));
     }
 }
