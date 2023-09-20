@@ -207,17 +207,17 @@ public class PlayerMovement : MonoBehaviour
             //boost player speed and effects
             if (_playerInput._boost != 0 && !_tailWhipping)
             {
-                Debug.Log("Boosting");
+                //Debug.Log("Boosting");
                 Boost(_boostMultiplier, BOOST_FOV, true, _boostTurnStrength);
             }
             else if (_tailWhipping)
             {
-                Debug.Log("Tail whipping");
+                //Debug.Log("Tail whipping");
                 Boost(1, NORMAL_FOV, false, _tailWhipTurnStrength);
             }
             else
             {
-                Debug.Log("Normal");
+                //Debug.Log("Normal");
                 Boost(1, NORMAL_FOV, false, _turnStrength);
             }
         }
