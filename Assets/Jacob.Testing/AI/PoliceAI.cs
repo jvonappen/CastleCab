@@ -11,9 +11,6 @@ using UnityEditor;
 public class PoliceAI : MonoBehaviour
 {
     [SerializeField] private Transform _playerTransform;
-    //[SerializeField] private GameObject piggySiren;
-    //[Tooltip("Distance the AI will look at the player.")]
-    //[SerializeField] private float awareRange;
 
     [Header("Wander")]
     [Tooltip("The center of the wandering radius. Use a fixed object to keep the wander area fixed. Use the object itself, to have complete free roam.")]
@@ -22,30 +19,6 @@ public class PoliceAI : MonoBehaviour
     [SerializeField] private float wanderRange = 25;
     [Tooltip("The normal speed the gaurd moves. If left at 0, the speed will default to the navMesh speed.")]
     [SerializeField] private float movementSpeed = 3.5f;
-
-    //[Header("Dishonour Level One")]
-    //[Tooltip("Distance the AI will chase away the player.")]
-    //[SerializeField] private float chasingRange1 = 5;
-    //[Tooltip("Speed modifier for a level one Dishonour Level.")]
-    //[SerializeField] private float chaseSpeed1 = 5;
-    //[Tooltip("Distance the AI will search for the player.")]
-    //[SerializeField] private float searchRange1 = 5;
-
-    //[Header("Dishonour Level Two")]
-    //[Tooltip("Distance the AI will chase away the player.")]
-    //[SerializeField] private float chasingRange2 = 10;
-    //[Tooltip("Speed modifier for a level two Dishonour Level.")]
-    //[SerializeField] private float chaseSpeed2 = 10;
-    //[Tooltip("Distance the AI will search for the player.")]
-    //[SerializeField] private float searchRange2 = 10;
-
-    //[Header("Dishonour Level Three")]
-    //[Tooltip("Distance the AI will chase away the player.")]
-    //[SerializeField] private float chasingRange3 = 20;
-    //[Tooltip("Speed modifier for a level three Dishonour Level.")]
-    //[SerializeField] private float chaseSpeed3 = 15f;
-    //[Tooltip("Distance the AI will search for the player.")]
-    //[SerializeField] private float searchRange3 = 15;
 
     [SerializeField] private GuardChaseData data;
 
@@ -160,9 +133,4 @@ public class PoliceAI : MonoBehaviour
      Dishonour.dishonourLevel += Time.deltaTime * Dishonour._dishonourDepletionRef + 1;
     }
 
-    //private void TurnOnSiren()
-    //{
-    //    if(playSiren == true) { piggySiren.SetActive(true); }
-    //    else if(playSiren == false) { piggySiren.SetActive(!false); }
-    //}
 }
