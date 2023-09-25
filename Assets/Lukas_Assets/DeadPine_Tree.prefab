@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8150068973467023417}
   - component: {fileID: 6268495856463236339}
   - component: {fileID: 2674900592648844887}
+  - component: {fileID: 8318519110499148883}
   m_Layer: 0
   m_Name: DeadPine_Tree
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5620166558313639206}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -98,3 +99,30 @@ CapsuleCollider:
   m_Height: 5.0556335
   m_Direction: 1
   m_Center: {x: 0, y: 2.262535, z: 0}
+--- !u!205 &8318519110499148883
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5620166558313639206}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: -0.02161774, y: 2.3543193, z: -0.09156644}
+  m_Size: 4.748791
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.6
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 6268495856463236339}
+  - screenRelativeHeight: 0.3
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 6268495856463236339}
+  - screenRelativeHeight: 0.1
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 6268495856463236339}
+  m_Enabled: 1
