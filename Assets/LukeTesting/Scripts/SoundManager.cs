@@ -51,7 +51,7 @@ public class SoundManager : MonoBehaviour
         Sound sound = Array.Find(sounds, sound => sound.name == soundName);
         if (sound == null)
         {
-            Debug.Log("Sound: " + name + " not found");
+            //Debug.Log("Sound: " + name + " not found");
             return;
         }
         //sound.source.Stop();
@@ -62,7 +62,7 @@ public class SoundManager : MonoBehaviour
         Sound sound = Array.Find(sounds, sound => sound.name == soundName);
         if (sound == null)
         {
-            Debug.Log("Sound: " + name + " not found");
+            //Debug.Log("Sound: " + name + " not found");
             return;
         }
         StartCoroutine(FadeAudioSource.StartFade(sound.source, 1f, 0));
