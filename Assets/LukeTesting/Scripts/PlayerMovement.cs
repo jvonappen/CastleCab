@@ -36,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Rigidbody _wagonRB;
     [SerializeField] private ConfigurableJoint _joint;
     [SerializeField] private CinemachineFreeLook _recenetering;
+    [SerializeField] private Water _bubbles;
 
     [Header("DRIVING VARIABLES")]
     [SerializeField] private float _speedInput = 0;
@@ -116,6 +117,7 @@ public class PlayerMovement : MonoBehaviour
         _soundManager = FindObjectOfType<SoundManager>();
         _camera = FindObjectOfType<CameraFOV>();
         _recenetering = FindObjectOfType<CinemachineFreeLook>();
+        _bubbles = FindObjectOfType<Water>();
         Boost(NORMAL_FOV, false);
     }
 
@@ -213,7 +215,7 @@ public class PlayerMovement : MonoBehaviour
             if (_dragOnBurnoutRelease <= 3) //boost out of burnout if drag is cooked to 3
             {
                 _speedInput = _forwardAcceleration * _boostMultiplier;
-                //Boost(BOOST_FOV, true);
+                Boost(BOOST_FOV, true);
             }
         }
         else //normal acceleration
@@ -232,7 +234,8 @@ public class PlayerMovement : MonoBehaviour
             _soundManager.Play("Wagon");
             RotateWheels(_wheelForwardRotation);
             ChangeAnimatorState(Horse_Run);
-            PlayParticles(_dustTrail);
+            if (!_bubbles._underWater) PlayParticles(_dustTrail);
+            else StopParticles(_dustTrail);
             PlayTrail(_wheelTrail, true);
         }
     }
@@ -291,7 +294,7 @@ public class PlayerMovement : MonoBehaviour
         //kill effects
         StopParticles(_chargedBurnoutParticles);
         _soundManager.Fade("Burnout");
-        Boost(BOOST_FOV, true);
+        //Boost(BOOST_FOV, true);
         if (_playerInput._accelerationInput == 0) yield break; 
 
         //reset effects and values after a second
@@ -401,11 +404,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void PlayTrail(GameObject[] trail, bool value)
     {
+         
         if (trail != null)
         {
             for (int i = 0; i < trail.Length; i++)
             {
-                trail[i].SetActive(value);
+                if (_bubbles._underWater) trail[i].SetActive(false);
+                else trail[i].SetActive(value);
             }
         }
     }
