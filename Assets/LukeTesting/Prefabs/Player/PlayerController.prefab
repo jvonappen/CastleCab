@@ -94,7 +94,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1235559359}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.718, y: -0.74999654, z: 0.22}
+  m_LocalPosition: {x: -0.718, y: -0.75, z: 0.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1060,33 +1060,41 @@ MonoBehaviour:
   - {fileID: 1755459442596818706}
   - {fileID: 6314837532769097618}
   _horseAnimator: {fileID: 5806344667825593172}
-  _recenetering: {fileID: 0}
   _camera: {fileID: 0}
   _soundManager: {fileID: 0}
   _donkeyRB: {fileID: 0}
   _wagonRB: {fileID: 0}
   _joint: {fileID: 0}
+  _recenetering: {fileID: 0}
   _speedInput: 0
   <_rigidbodySpeed>k__BackingField: 0
   _forwardAcceleration: 500
   _reverseAcceleration: 100
+  _onSpotAcceleration: 50
+  _wheelForwardRotation: 2
+  _wheelReverseRotation: -1
+  _steeringTurnStrength: 0
   _turnStrength: 120
   _inAirTurnStrength: 270
-  _gravityForce: 1.5
+  _tailWhipTurnStrength: 270
+  _boostTurnStrength: 45
+  _onSpotTurnStrength: 90
   _dragOnGround: 3
   _dragOnAcceleration: 10
   _dragOnStop: 1.5
   _dragNormal: 3
+  _dragOnBurnoutRelease: 0
   _dragSet: 0
+  _gravityForce: 1.5
   maxTippingAngle: 45
   _groundRayLength: 2
-  _wheelForwardRotation: 2
-  _wheelBackRotation: -0.7
   <_grounded>k__BackingField: 0
-  _dragOnBurnoutRelease: 0
+  _burnout: 0
+  _canBurnout: 1
   _tailWhipForce: 10
+  _tailWhipRight: 0
+  _tailWhipLeft: 0
   _boostMultiplier: 2
-  _boostTurnStrength: 45
 --- !u!114 &5118950180513048449
 MonoBehaviour:
   m_ObjectHideFlags: 0
