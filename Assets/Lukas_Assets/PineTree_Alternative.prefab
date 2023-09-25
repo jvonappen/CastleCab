@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8897492793954112081}
   - component: {fileID: 6673993558458590875}
   - component: {fileID: 4004039540611411985}
+  - component: {fileID: 3220658611847381153}
   m_Layer: 0
   m_Name: PineTree_Alternative
   m_TagString: Untagged
@@ -26,14 +27,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5160621286388713294}
-  m_LocalRotation: {x: -0, y: -0.46301422, z: -0, w: 0.8863509}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.05, z: 0}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -55.164, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8897492793954112081
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -98,3 +99,30 @@ CapsuleCollider:
   m_Height: 600
   m_Direction: 1
   m_Center: {x: 3.6, y: 246.1, z: 0}
+--- !u!205 &3220658611847381153
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5160621286388713294}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 15.726471, y: 404.37994, z: -2.9866028}
+  m_Size: 806.6918
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.6
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 6673993558458590875}
+  - screenRelativeHeight: 0.3
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 6673993558458590875}
+  - screenRelativeHeight: 0.1
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 6673993558458590875}
+  m_Enabled: 1
