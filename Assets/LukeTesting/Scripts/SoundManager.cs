@@ -54,7 +54,7 @@ public class SoundManager : MonoBehaviour
             Debug.Log("Sound: " + name + " not found");
             return;
         }
-        sound.source.Stop();
+        //sound.source.Stop();
     }
 
     public void Fade(string soundName)
