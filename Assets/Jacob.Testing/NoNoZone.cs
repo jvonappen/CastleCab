@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class NoNoZone : MonoBehaviour
 {
-    private static bool _failed = false;
+    public static bool _failed = false;
     [SerializeField] private GameObject failedInGUI;
 
     private void Start()

@@ -38,12 +38,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Steering"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""af6ed0d1-4391-45a5-a951-e267b84fef2a"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""TailWhip"",
@@ -71,6 +71,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Reverse"",
+                    ""type"": ""Value"",
+                    ""id"": ""41622d10-1084-4de4-b517-7e8b22301341"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -84,17 +93,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Acceleration"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""63fd37a9-e9da-4137-9a16-9cb112f9ee9b"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Acceleration"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""positive"",
@@ -117,17 +115,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Acceleration"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""eb3290af-758b-4985-997f-c57a8de378f6"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Acceleration"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""positive"",
@@ -282,6 +269,50 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Boost"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Controller"",
+                    ""id"": ""99ba21f6-75aa-48a0-bdf2-ebaeede71e7f"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reverse"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""04044f88-6c4d-41a7-a3d3-89acf36e19ae"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reverse"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Keyboard"",
+                    ""id"": ""2eeefc4d-3381-4520-bb4e-e1f5fbba5860"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reverse"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""7394c7ac-e47f-4b14-933e-a493e7dc39d7"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reverse"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -295,6 +326,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Controls_TailWhip = m_Controls.FindAction("TailWhip", throwIfNotFound: true);
         m_Controls_Look = m_Controls.FindAction("Look", throwIfNotFound: true);
         m_Controls_Boost = m_Controls.FindAction("Boost", throwIfNotFound: true);
+        m_Controls_Reverse = m_Controls.FindAction("Reverse", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -359,6 +391,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Controls_TailWhip;
     private readonly InputAction m_Controls_Look;
     private readonly InputAction m_Controls_Boost;
+    private readonly InputAction m_Controls_Reverse;
     public struct ControlsActions
     {
         private @PlayerControls m_Wrapper;
@@ -368,6 +401,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @TailWhip => m_Wrapper.m_Controls_TailWhip;
         public InputAction @Look => m_Wrapper.m_Controls_Look;
         public InputAction @Boost => m_Wrapper.m_Controls_Boost;
+        public InputAction @Reverse => m_Wrapper.m_Controls_Reverse;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -392,6 +426,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Boost.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnBoost;
                 @Boost.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnBoost;
                 @Boost.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnBoost;
+                @Reverse.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnReverse;
+                @Reverse.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnReverse;
+                @Reverse.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnReverse;
             }
             m_Wrapper.m_ControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -411,6 +448,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Boost.started += instance.OnBoost;
                 @Boost.performed += instance.OnBoost;
                 @Boost.canceled += instance.OnBoost;
+                @Reverse.started += instance.OnReverse;
+                @Reverse.performed += instance.OnReverse;
+                @Reverse.canceled += instance.OnReverse;
             }
         }
     }
@@ -422,5 +462,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnTailWhip(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnBoost(InputAction.CallbackContext context);
+        void OnReverse(InputAction.CallbackContext context);
     }
 }

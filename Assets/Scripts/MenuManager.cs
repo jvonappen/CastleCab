@@ -12,6 +12,7 @@ public class MenuManager : MonoBehaviour
     { //------------Temp restart Solution
         if (Keyboard.current.backspaceKey.wasPressedThisFrame)
         {
+            NoNoZone._failed = false;
             ResetScene();
         }
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
