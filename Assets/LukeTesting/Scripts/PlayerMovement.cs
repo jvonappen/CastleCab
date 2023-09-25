@@ -203,22 +203,27 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_playerInput._reverseInput < 0) return; // kill forward momentum on reverse
         
-        if (_burnout) 
+        if (_burnout) //post burnout process
         {
             if (_canBurnout) _dragOnBurnoutRelease = _dragOnGround; //check what drag value is at on release of burnout
             _canBurnout = false;
+            RotateWheels(_wheelForwardRotation);
 
             _burnoutBoost = StartCoroutine(Takeoff());
             if (_dragOnBurnoutRelease <= 3) //boost out of burnout if drag is cooked to 3
             {
                 _speedInput = _forwardAcceleration * _boostMultiplier;
-                Boost(BOOST_FOV, true);
+                //Boost(BOOST_FOV, true);
             }
         }
-        else
+        else //normal acceleration
         {
             _recenetering.m_RecenterToTargetHeading.m_enabled = true;
             if (!_stopped) _stopped = true;
+
+            //kill effects
+            StopParticles(_burnoutParticles);
+            StopParticles(_chargedBurnoutParticles);
 
             //start effects
             if (_playerInput._boost != 0) Boost(BOOST_FOV, true);
@@ -229,10 +234,6 @@ public class PlayerMovement : MonoBehaviour
             ChangeAnimatorState(Horse_Run);
             PlayParticles(_dustTrail);
             PlayTrail(_wheelTrail, true);
-
-            //kill effects
-            StopParticles(_burnoutParticles);
-            StopParticles(_chargedBurnoutParticles);
         }
     }
 
@@ -240,9 +241,13 @@ public class PlayerMovement : MonoBehaviour
     {
         _burnout = false;
         if (!_stopped) _stopped = true;
+
+        //kill effects
         _soundManager.Stop("Burnout");
         StopParticles(_burnoutParticles);
         StopParticles(_chargedBurnoutParticles);
+
+        //start effects
         RotateWheels(_wheelReverseRotation);
         if (!IsAnimationPlaying(_horseAnimator, Horse_Stop)) ChangeAnimatorState(Horse_Reverse);
     }
@@ -251,17 +256,21 @@ public class PlayerMovement : MonoBehaviour
     {
         _burnout = false;
         _recenetering.m_RecenterToTargetHeading.m_enabled = false;
-        if (_burnoutBoost != null)
+
+        //kill effects 
+        if (_burnoutBoost != null) //post burnout process
         {
             StopCoroutine(Takeoff());
-            Boost(NORMAL_FOV, false); //turn off boost
+            Boost(NORMAL_FOV, false);
             _burnout = false;
             _canBurnout = true;
             _burnoutBoost = null;
+            Debug.Log("Kill boost");
         }
+
         RotateWheels(_rigidbodySpeed * 0.1f); //slow wheel rotaion by rigidbody speed when not accelerating
 
-        //play stopping animation once then changhe to idle when finished(speed dependent)
+        //play stopping animation once then change to idle when finished(speed dependent)
         if (_stopped && _rigidbodySpeed > 10)
         {
             ChangeAnimatorState(Horse_Stop);
@@ -269,6 +278,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (!IsAnimationPlaying(_horseAnimator, Horse_Stop) && _playerInput._steeringInput == 0) ChangeAnimatorState(Horse_Idle);
 
+        //kill effects
         StopParticles(_dustTrail);
         StopParticles(_burnoutParticles);
         StopParticles(_chargedBurnoutParticles);
@@ -278,10 +288,12 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator Takeoff()
     {
-        //kill particles
+        //kill effects
         StopParticles(_chargedBurnoutParticles);
         _soundManager.Fade("Burnout");
-        if (_playerInput._accelerationInput == 0) yield break;
+        Boost(BOOST_FOV, true);
+        if (_playerInput._accelerationInput == 0) yield break; 
+
         //reset effects and values after a second
         yield return new WaitForSeconds(1f);
         _burnoutBoost = null;
@@ -294,6 +306,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!_burnout) _dragOnGround = _dragOnAcceleration;
         _burnout = true;
+        
+        //kill effects
         StopParticles(_speedParticles);
         if (!_stopped) _stopped = true;
         _soundManager.Play("Burnout");
