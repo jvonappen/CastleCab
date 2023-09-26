@@ -750,6 +750,8 @@ GameObject:
   - component: {fileID: 143783271910123493}
   - component: {fileID: 143783271910123488}
   - component: {fileID: 143783271910123489}
+  - component: {fileID: 54325738}
+  - component: {fileID: 54325737}
   m_Layer: 0
   m_Name: Wagon
   m_TagString: Untagged
@@ -941,6 +943,32 @@ ConfigurableJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &54325738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143783271910123419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99c06d6469fdafb45b9609e531ea52f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugCartDestination: {fileID: 0}
+--- !u!114 &54325737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143783271910123419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6285ad8ca4205bf49a7efe44029d462c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fenceImpact: {fileID: 4593184484909914550, guid: 2e1e9506f5904a64b81744324fb7cd50, type: 3}
 --- !u!1 &143783271931345159
 GameObject:
   m_ObjectHideFlags: 0
@@ -954,6 +982,8 @@ GameObject:
   - component: {fileID: 143783271931345153}
   - component: {fileID: 3517994449852718664}
   - component: {fileID: 5118950180513048449}
+  - component: {fileID: 54325736}
+  - component: {fileID: 54325735}
   m_Layer: 0
   m_Name: Donkey
   m_TagString: Untagged
@@ -1066,6 +1096,7 @@ MonoBehaviour:
   _wagonRB: {fileID: 0}
   _joint: {fileID: 0}
   _recenetering: {fileID: 0}
+  _bubbles: {fileID: 0}
   _speedInput: 0
   <_rigidbodySpeed>k__BackingField: 0
   _forwardAcceleration: 500
@@ -1108,6 +1139,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugCartDestination: {fileID: 0}
+--- !u!65 &54325736
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143783271931345159}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.85, y: 0.93, z: 3.29}
+  m_Center: {x: 0, y: 0, z: -0.77}
+--- !u!114 &54325735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143783271931345159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6285ad8ca4205bf49a7efe44029d462c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fenceImpact: {fileID: 4593184484909914550, guid: 2e1e9506f5904a64b81744324fb7cd50, type: 3}
 --- !u!1 &143783271959729889
 GameObject:
   m_ObjectHideFlags: 0
@@ -31113,6 +31170,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cart_Mesh
       objectReference: {fileID: 0}
+    - target: {fileID: 9173587204339556952, guid: ed80af7b599d23342a63081367cf8317, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 13739f5f29237e949ad1842d94ffa0c9, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed80af7b599d23342a63081367cf8317, type: 3}
 --- !u!4 &465114733478107088 stripped
