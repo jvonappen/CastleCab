@@ -198,6 +198,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             StopParticles(_tailWhipParticles);
+            _soundManager.Fade("TailWhip");
         }
     }
 
@@ -448,6 +449,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _wagonRB.AddForceAtPosition(direction * _tailWhipForce, pos, ForceMode.Impulse);
         PlayParticles(_tailWhipParticles);
+        _soundManager.Play("TailWhip");
     }
 
     private void ReverseLockWagon()
