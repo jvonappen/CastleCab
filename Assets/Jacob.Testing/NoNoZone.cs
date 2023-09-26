@@ -18,6 +18,7 @@ public class NoNoZone : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        if(other.tag == "Player")
        _failed= true;
         SceneManager.LoadScene(0);
     }
