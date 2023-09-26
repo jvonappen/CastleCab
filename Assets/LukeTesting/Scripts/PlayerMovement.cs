@@ -118,7 +118,6 @@ public class PlayerMovement : MonoBehaviour
         _camera = FindObjectOfType<CameraFOV>();
         _recenetering = FindObjectOfType<CinemachineFreeLook>();
         _bubbles = FindObjectOfType<Water>();
-        //Boost(NORMAL_FOV, false);
     }
 
     private void Update()
@@ -365,17 +364,28 @@ public class PlayerMovement : MonoBehaviour
     public void Boost(float camFOV, bool particlesVal)
     {
         if (_camera != null) _camera.SetCameraFov(camFOV);
+
+        SoftJointLimit limit = new SoftJointLimit();
+
         if (!_canBurnout || _playerInput._boost != 0 && _grounded && _playerInput._accelerationInput > 0 && particlesVal)
         {
             PlayParticles(_speedParticles);
             PlayParticles(_boostTrail);
             _soundManager.Play("Boost");
+
+            //tighten wagon movement on boost
+            limit.limit = 5f;
+            _joint.angularYLimit = limit;
         }
         else
         {
             StopParticles(_speedParticles);
             StopParticles(_boostTrail);
             _soundManager.Stop("Boost");
+
+            //allow wagon wiggle 
+            limit.limit = 45f;
+            _joint.angularYLimit = limit;
         }
     }
 
