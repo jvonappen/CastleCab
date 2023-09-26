@@ -28,7 +28,7 @@ public class SoundManager : MonoBehaviour
 
     private void Start()
     {
-        Play("Theme");
+        //Play("Theme");
     }
 
     //play audio if source is not already playing this sound
@@ -54,7 +54,8 @@ public class SoundManager : MonoBehaviour
             //Debug.Log("Sound: " + name + " not found");
             return;
         }
-        //sound.source.Stop();
+        if (sound.source.isPlaying) sound.source.Stop();
+        else return;
     }
 
     public void Fade(string soundName)

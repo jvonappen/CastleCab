@@ -118,7 +118,7 @@ public class PlayerMovement : MonoBehaviour
         _camera = FindObjectOfType<CameraFOV>();
         _recenetering = FindObjectOfType<CinemachineFreeLook>();
         _bubbles = FindObjectOfType<Water>();
-        Boost(NORMAL_FOV, false);
+        //Boost(NORMAL_FOV, false);
     }
 
     private void Update()
@@ -242,11 +242,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void ReverseAcceleration()
     {
+        Debug.Log("Reverse");
         _burnout = false;
         if (!_stopped) _stopped = true;
 
         //kill effects
-        _soundManager.Stop("Burnout");
+        if (!_burnout)_soundManager.Stop("Burnout");
         StopParticles(_burnoutParticles);
         StopParticles(_chargedBurnoutParticles);
 
@@ -259,6 +260,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _burnout = false;
         _recenetering.m_RecenterToTargetHeading.m_enabled = false;
+        Boost(NORMAL_FOV, false);
 
         //kill effects 
         if (_burnoutBoost != null) //post burnout process
@@ -268,9 +270,11 @@ public class PlayerMovement : MonoBehaviour
             _burnout = false;
             _canBurnout = true;
             _burnoutBoost = null;
+            _soundManager.Fade("Burnout");
             Debug.Log("Kill boost");
         }
 
+        if (!_burnout) _soundManager.Fade("Burnout");
         RotateWheels(_rigidbodySpeed * 0.1f); //slow wheel rotaion by rigidbody speed when not accelerating
 
         //play stopping animation once then change to idle when finished(speed dependent)
@@ -287,6 +291,7 @@ public class PlayerMovement : MonoBehaviour
         StopParticles(_chargedBurnoutParticles);
         _soundManager.Stop("DonkeyTrott");
         _soundManager.Stop("Wagon");
+
     }
 
     IEnumerator Takeoff()
@@ -294,7 +299,6 @@ public class PlayerMovement : MonoBehaviour
         //kill effects
         StopParticles(_chargedBurnoutParticles);
         _soundManager.Fade("Burnout");
-        //Boost(BOOST_FOV, true);
         if (_playerInput._accelerationInput == 0) yield break; 
 
         //reset effects and values after a second
