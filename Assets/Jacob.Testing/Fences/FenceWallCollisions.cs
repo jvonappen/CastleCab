@@ -11,9 +11,9 @@ public class FenceWallCollisions : MonoBehaviour
         if(collision.gameObject.tag == "Fence")
         {
             ParticleSystem impact = Instantiate(_fenceImpact, collision.transform);
-            //_fenceImpact.Play();
+            _fenceImpact.Play();
             Debug.Log("Hit Fence");
-            Destroy(collision.gameObject);
+            Destroy(collision.gameObject, 3);
         }
     }
 }
