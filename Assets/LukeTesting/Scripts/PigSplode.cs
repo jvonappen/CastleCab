@@ -43,9 +43,8 @@ public class PigSplode : MonoBehaviour
                 rb.AddExplosionForce(_force, this.transform.position, _radius, _upForce);
                 ParticleSystem bacon = Instantiate(_bacon, this.transform);
                 ParticleSystem explode = Instantiate(_explode, this.transform);
-                CameraShake.Instance.ShakeCamera(_camShakeIntesity, _camShakeTime); //Issue caused the remaing code not to execute. Probably Cams not hooked up right - Jacob...  "Nah" - Luke
+                CameraShake.Instance.ShakeCamera(_camShakeIntesity, _camShakeTime); 
 
-                //FIND AUDIO CLIPS
                 _soundManager.Play("PigSqueal");
                 _soundManager.Play("Splatter");
 
