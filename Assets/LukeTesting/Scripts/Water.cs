@@ -22,9 +22,8 @@ public class Water : MonoBehaviour
             _underWater = true;
             Debug.Log("Bubbles");
             PlayParticles(_bubbles);
+            _soundManager.Play("Water");
         }
-        
-        //_soundManager.Play("WaterAudio");
     }
 
     private void OnTriggerExit(Collider other)
@@ -34,6 +33,8 @@ public class Water : MonoBehaviour
             _underWater = false;
             Debug.Log("Stop Bubbles");
             StopParticles(_bubbles);
+            _soundManager.Stop("Water");
+            //_soundManager.Fade("Water");
         }
     }
 
