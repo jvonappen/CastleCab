@@ -20,7 +20,6 @@ public class Water : MonoBehaviour
         if (other.gameObject.layer == 4)
         {
             _underWater = true;
-            Debug.Log("Bubbles");
             PlayParticles(_bubbles);
             _soundManager.Play("Water");
         }
@@ -31,7 +30,6 @@ public class Water : MonoBehaviour
         if (other.gameObject.layer == 4)
         {
             _underWater = false;
-            Debug.Log("Stop Bubbles");
             StopParticles(_bubbles);
             _soundManager.Stop("Water");
             //_soundManager.Fade("Water");
@@ -46,6 +44,7 @@ public class Water : MonoBehaviour
             {
                 if (!particles[i].isEmitting)
                 {
+                    Debug.Log("Play particles");
                     particles[i].Play();
                 }
             }
