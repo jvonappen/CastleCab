@@ -48,6 +48,9 @@ public class PigSplode : MonoBehaviour
                 _soundManager.Play("PigSqueal");
                 _soundManager.Play("Splatter");
 
+                // Police Dishonor Level Increase
+                Dishonour.dishonourLevel = Dishonour.dishonourLevel + 100;
+
                 GetComponent<PoliceAI>().enabled = false;
                 Destroy(this.gameObject, _destroyTime);
             }

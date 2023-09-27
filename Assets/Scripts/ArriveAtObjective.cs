@@ -41,6 +41,8 @@ public class ArriveAtObjective : MonoBehaviour
 
             timerObject.SetActive(false);
 
+            taxiPassenger.isAtTarget = true;
+
         }
     }
 }
