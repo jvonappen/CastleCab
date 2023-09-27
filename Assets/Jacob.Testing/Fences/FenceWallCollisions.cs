@@ -6,14 +6,25 @@ public class FenceWallCollisions : MonoBehaviour
 {
     [SerializeField] ParticleSystem _fenceImpact;
 
+    private static Transform _particlePos;
+
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == "Fence")
         {
-            //ParticleSystem impact = Instantiate(_fenceImpact, collision.transform);
-            //_fenceImpact.Play();
+           
+            _particlePos = collision.transform;
+
+            PlayParticle();
+
             Debug.Log("Hit Fence");
-            Destroy(collision.gameObject, 3);
+            Destroy(collision.gameObject);
         }
+    }
+
+    public void PlayParticle()
+    {
+        _fenceImpact.transform.position = _particlePos.position;
+        _fenceImpact.Play();
     }
 }

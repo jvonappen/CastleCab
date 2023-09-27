@@ -10,6 +10,9 @@ public class PaintYeWagon : MonoBehaviour
 
     [SerializeField] private Paint _paintData;
     private Material tempMat;
+
+    [SerializeField] ParticleSystem _paintYeWagonParticle;
+    private static Transform _particlePos;
     private void Start()
     {
         paintYeWagonCanvas.enabled = false;
@@ -19,6 +22,7 @@ public class PaintYeWagon : MonoBehaviour
     {
         if(other.tag == "Player")
         {
+            _particlePos = other.transform;
             PaintMeWagon();
         }
         
@@ -35,9 +39,8 @@ public class PaintYeWagon : MonoBehaviour
 
         if (Dishonour.dishonourLevel >= Dishonour._oneStar && DollarDisplay.dollarValue >= cost)
         {
-            //wagon.GetComponent<Renderer>().material.color = Color.green;
             wagon.GetComponent<Renderer>().material = _paintData.material[Random.Range(0, 4)];
-
+            PlayParticle();
             Dishonour.dishonourLevel = 0;
             DollarDisplay.dollarValue = DollarDisplay.dollarValue - cost;
         }
@@ -47,6 +50,10 @@ public class PaintYeWagon : MonoBehaviour
         }
     }
 
- 
+    public void PlayParticle()
+    {
+        _paintYeWagonParticle.transform.position = _particlePos.position;
+        _paintYeWagonParticle.Play();
+    }
 
 }
