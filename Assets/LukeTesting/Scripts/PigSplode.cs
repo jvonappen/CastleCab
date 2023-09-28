@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 //using UnityEditor.Profiling;
 using UnityEngine;
 using UnityEngine.AI;
@@ -12,6 +13,7 @@ public class PigSplode : MonoBehaviour
     [SerializeField] ParticleSystem _explode;
     [SerializeField] ParticleSystem _bacon;
     [SerializeField] ParticleSystem _playerImpact;
+    [SerializeField] private ParticleSystem _wham;
     [SerializeField] private float _force = 1000;
     [SerializeField] private float _playerForce = 500;
     [SerializeField] private float _upForce = 500;
@@ -19,6 +21,8 @@ public class PigSplode : MonoBehaviour
     [SerializeField] private float _camShakeIntesity = 1;
     [SerializeField] private float _camShakeTime = 1;
     [SerializeField] private float _destroyTime = 3;
+    [SerializeField] private Transform _whamPos;
+    [SerializeField] private List<GameObject> _whams;
 
     private void Awake()
     {
@@ -58,7 +62,21 @@ public class PigSplode : MonoBehaviour
             {
                 _soundManager.Play("PlayerHit");
                 ParticleSystem impact = Instantiate(_playerImpact, other.transform);
+                ParticleSystem wham = Instantiate(_wham, _whamPos);
+                _whams.Add(wham.gameObject); //add to list to be destroyed
                 other.rigidbody.AddForce((other.transform.position - this.transform.position) * _playerForce, ForceMode.Impulse);
+            }
+        }
+    }
+
+    private void Update()
+    {
+        if (_whams.Count > 0) //destroy instantiated whams
+        {
+            foreach (var wham in _whams.ToList())
+            {
+                Destroy(wham, 1);
+                if (wham == null) _whams.Remove(wham);
             }
         }
     }
