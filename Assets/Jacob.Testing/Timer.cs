@@ -13,29 +13,32 @@ public class Timer : MonoBehaviour
     [SerializeField] private bool hasFailed = false;
     [SerializeField] private float ticker = 0;
     private float _hideAfter = 3;
+    public bool inService = false;
 
     private void Awake()
     {
         timerText = GetComponentInChildren<TextMeshProUGUI>();
 
-
+        inService = false;
         _failedUI.SetActive(false);
         hasFailed = false;
     }
     void Update()
     {
-        if(timerValue > 0)
+        if(timerValue > 0 && inService == true)
         {
             timerText.enabled = true;
             timerText.color = Color.white;
             timerValue = timerValue - 1 * Time.deltaTime;
             timerText.text = timerValue.ToString("00");
         }
-        if(timerValue <= 0)
+        if(timerValue <= 0 && inService == true)
         {
             //timerText.color = Color.red;
             //timerText.text = "fail";
             timerText.enabled = false;
+
+            inService = false;
 
             _failedUI.SetActive(true);
             hasFailed = true;

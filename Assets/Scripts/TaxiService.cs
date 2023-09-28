@@ -97,7 +97,10 @@ public class TaxiService : MonoBehaviour
             //destination.GetComponent<ArriveAtObjective>().minimapMarker.enabled = true;
 
             SetTargetParticlesPosition();
+            timeValue.inService = true;
             timeValue.timerValue = 60;
+            
+            
             timerObject.SetActive(true);
 
         }
