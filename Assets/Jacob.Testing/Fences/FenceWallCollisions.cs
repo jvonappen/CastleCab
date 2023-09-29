@@ -17,7 +17,7 @@ public class FenceWallCollisions : MonoBehaviour
 
             PlayParticle();
 
-            Debug.Log("Hit Fence");
+            //Debug.Log("Hit Fence");
             Destroy(collision.gameObject);
         }
     }
