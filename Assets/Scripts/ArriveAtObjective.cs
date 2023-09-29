@@ -10,15 +10,9 @@ public class ArriveAtObjective : MonoBehaviour
 
     private TaxiService taxiPassenger;
 
-    //[SerializeField] public Canvas minimapMarker; //temp
-
     [Header("Timer")]
     [SerializeField] private GameObject timerObject;
 
-    private void Start()
-    {
-        //minimapMarker.enabled = false; //temp
-    }
     private void OnTriggerEnter(Collider other)
     {
         taxiPassenger = cartTargetPoint.GetComponentInChildren<TaxiService>();

@@ -199,9 +199,11 @@ GameObject:
   - component: {fileID: 109217634991927615}
   - component: {fileID: 6297202197110926149}
   - component: {fileID: 8568793628153864215}
+  - component: {fileID: 352674380825425138}
+  - component: {fileID: 8382040014513748955}
   m_Layer: 0
   m_Name: Pig
-  m_TagString: Untagged
+  m_TagString: Pig
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -234,10 +236,10 @@ Animator:
   m_GameObject: {fileID: 779074841722923909}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 47d3dbfa25fa44c4785617fa7b81c24a, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6bcd1e30287bf4044aa786f9f27ff505, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -254,10 +256,47 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.6552774
-  m_Height: 0.8097051
+  m_Radius: 0.51
+  m_Height: 0
   m_Direction: 1
-  m_Center: {x: 0, y: 0.33134484, z: 0.071210176}
+  m_Center: {x: 0, y: 0.53, z: 0.071210176}
+--- !u!195 &352674380825425138
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779074841722923909}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 1.12
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 0.83
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &8382040014513748955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779074841722923909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b317824f86c764cb5442f70e320d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 3.5
+  wanderTransform: {fileID: 109217634991927615}
+  wanderRange: 20
 --- !u!1 &790592479367925908
 GameObject:
   m_ObjectHideFlags: 0

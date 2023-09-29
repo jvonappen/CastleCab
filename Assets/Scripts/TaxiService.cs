@@ -31,6 +31,8 @@ public class TaxiService : MonoBehaviour
     [Header("Fare")]
     [SerializeField] private TextMeshProUGUI fareText;
 
+
+
     //Animations
     private Animator _animator;
     private string _currentAnimation;
@@ -49,7 +51,6 @@ public class TaxiService : MonoBehaviour
     {
        // _npcMapMarker.enabled = true; //temp
         agent = this.gameObject.GetComponent<NavMeshAgent>();
-
     }
     private void Start()
     {
