@@ -27,18 +27,21 @@ public class FenceWallCollisions : MonoBehaviour
         }
         if (collision.gameObject.tag == "Sheep")
         {
+            AudioManager.Instance.PlaySFX("Sheep");
             _particlePos = collision.transform;
             PlayParticle(_sheepImpact);
             Destroy(collision.gameObject);
         }
         if (collision.gameObject.tag == "Chicken")
         {
+            AudioManager.Instance.PlaySFX("Chicken");
             _particlePos = collision.transform;
             PlayParticle(_chickenImpact);
             Destroy(collision.gameObject);
         }
         if (collision.gameObject.tag == "Pig")
         {
+            
             _particlePos = collision.transform;
             PlayParticle(_pigImpact);
             Destroy(collision.gameObject);
