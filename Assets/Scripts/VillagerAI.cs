@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class VillagerAI : MonoBehaviour
 {
@@ -45,6 +46,9 @@ public class VillagerAI : MonoBehaviour
             if (FindRandomPoint(wanderTransform.position, wanderRange, out point)) //pass in centrepoint and radius of area
             {
                 this.agent.SetDestination(point);
+                thisTransform.LookAt(point);
+                thisTransform.Rotate(point);
+                thisTransform.forward = point;
             }
         }
     }

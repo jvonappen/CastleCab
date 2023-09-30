@@ -9,6 +9,7 @@ public class FenceWallCollisions : MonoBehaviour
     [SerializeField] ParticleSystem _chickenImpact;
     [SerializeField] ParticleSystem _pigImpact;
     [SerializeField] ParticleSystem _sheepImpact;
+    [SerializeField] ParticleSystem _horseImpact;
     [SerializeField] ParticleSystem _npcImpact;
 
     [SerializeField] ParticleSystem _explosiveImpact;
@@ -41,17 +42,26 @@ public class FenceWallCollisions : MonoBehaviour
         }
         if (collision.gameObject.tag == "Pig")
         {
-            
+            AudioManager.Instance.PlaySFX("Pig");
             _particlePos = collision.transform;
             PlayParticle(_pigImpact);
             Destroy(collision.gameObject);
+        }
+        if (collision.gameObject.tag == "Horse")
+        {
+            _particlePos = collision.transform;
+            collision.gameObject.GetComponent<NavMeshAgent>().enabled = false;
+            collision.gameObject.GetComponent<Rigidbody>().AddExplosionForce(1000, this.transform.position, 20, 500); //Same as pigsplode valuse
+
+            PlayParticle(_horseImpact);
+            Destroy(collision.gameObject, 5);
         }
         if (collision.gameObject.tag == "NPC")
         {
             _particlePos = collision.transform;
             collision.gameObject.GetComponent<NavMeshAgent>().enabled = false;
             collision.gameObject.GetComponent<Rigidbody>().AddExplosionForce(1000, this.transform.position, 20, 500); //Same as pigsplode valuse
-
+            
             PlayParticle(_npcImpact);
             Destroy(collision.gameObject, 5);
         }
