@@ -18,7 +18,7 @@ public class ArriveAtObjective : MonoBehaviour
         taxiPassenger = cartTargetPoint.GetComponentInChildren<TaxiService>();
         if(taxiPassenger != null && taxiPassenger.destination == this.gameObject)
         {
-            AudioManager.Instance.PlaySFX("Out");
+            AudioManager.Instance.StopSFX();
             taxiPassenger.transform.parent = null;
             taxiPassenger.transform.position = exitLocation.transform.position;
             

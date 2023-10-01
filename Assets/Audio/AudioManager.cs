@@ -37,6 +37,8 @@ public class AudioManager : MonoBehaviour
     {
         AudioDetails audio = Array.Find(musicAudio, x => x.audioName == name);
         if (audio == null) { Debug.Log("Audio not found"); }
+        
+        if (musicSource.isPlaying) return;
         else
         {
             musicSource.clip = audio.clip;
@@ -49,12 +51,31 @@ public class AudioManager : MonoBehaviour
     {
         AudioDetails audio = Array.Find(sfxAudio, x => x.audioName == name);
         if (audio == null) { Debug.Log("Audio not found"); }
+        if (sfxSource.isPlaying) return;
         else
         {
             sfxSource.clip = audio.clip;
             sfxSource.PlayOneShot(audio.clip);
         }
 
+    }
+
+    public void StopMusic()
+    {
+        AudioDetails audio = Array.Find(musicAudio, x => x.audioName == name);
+        if (audio == null) return;
+
+        if (musicSource.isPlaying) musicSource.Stop();
+        else return;
+    }
+
+    public void StopSFX()
+    {
+        AudioDetails audio = Array.Find(sfxAudio, x => x.audioName == name);
+        if (audio == null) return;
+
+        if (sfxSource.isPlaying) sfxSource.Stop();
+        else return;
     }
 
 
