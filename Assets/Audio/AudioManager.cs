@@ -71,8 +71,8 @@ public class AudioManager : MonoBehaviour
 
     public void StopSFX()
     {
-        AudioDetails audio = Array.Find(sfxAudio, x => x.audioName == name);
-        if (audio == null) return;
+        //AudioDetails audio = Array.Find(sfxAudio, x => x.audioName == name);
+        //if (audio == null) return;
 
         if (sfxSource.isPlaying) sfxSource.Stop();
         else return;

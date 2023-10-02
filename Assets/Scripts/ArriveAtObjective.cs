@@ -16,7 +16,7 @@ public class ArriveAtObjective : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         taxiPassenger = cartTargetPoint.GetComponentInChildren<TaxiService>();
-        if(taxiPassenger != null && taxiPassenger.destination == this.gameObject)
+        if(taxiPassenger != null && taxiPassenger.destination == this.gameObject && other.tag == "Player")
         {
             AudioManager.Instance.StopSFX();
             taxiPassenger.transform.parent = null;
@@ -30,8 +30,6 @@ public class ArriveAtObjective : MonoBehaviour
             AudioManager.Instance.PlaySFX("Money");
 
             taxiPassenger.destination = null;
-
-           // minimapMarker.enabled = false; //temp
 
             timerObject.SetActive(false);
 
