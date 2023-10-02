@@ -9,16 +9,16 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2528990099407585961}
+  - component: {fileID: 6889275574678499731}
   - component: {fileID: 1492693197265325324}
   - component: {fileID: 3698558946310928838}
   - component: {fileID: 436861111982828203}
-  - component: {fileID: 6889275574678499731}
   m_Layer: 0
   m_Name: PineTree_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2528990099407585961
 Transform:
@@ -36,6 +36,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!205 &6889275574678499731
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2905692247403730963}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 35.111362, y: 377.61145, z: -16.142105}
+  m_Size: 766.85645
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.6
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 3698558946310928838}
+  - screenRelativeHeight: 0.3
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 3698558946310928838}
+  - screenRelativeHeight: 0.023722121
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 3698558946310928838}
+  m_Enabled: 1
 --- !u!33 &1492693197265325324
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -53,12 +80,12 @@ MeshRenderer:
   m_GameObject: {fileID: 2905692247403730963}
   m_Enabled: 1
   m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
@@ -95,38 +122,11 @@ CapsuleCollider:
   m_GameObject: {fileID: 2905692247403730963}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 49.85733
   m_Height: 477.3018
   m_Direction: 1
   m_Center: {x: 0, y: 207.53441, z: 0}
---- !u!205 &6889275574678499731
-LODGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2905692247403730963}
-  serializedVersion: 2
-  m_LocalReferencePoint: {x: 1.5114746, y: 287.4467, z: -3.1637573}
-  m_Size: 584.8934
-  m_FadeMode: 0
-  m_AnimateCrossFading: 0
-  m_LastLODIsBillboard: 0
-  m_LODs:
-  - screenRelativeHeight: 0.501149
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 3698558946310928838}
-  - screenRelativeHeight: 0.2501669
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 3698558946310928838}
-  - screenRelativeHeight: 0.1
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 908094773665675298}
-  m_Enabled: 1
 --- !u!1 &3987022836488188605
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,8 +145,8 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 0
 --- !u!4 &4879107989644914088
 Transform:
   m_ObjectHideFlags: 0

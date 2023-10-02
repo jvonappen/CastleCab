@@ -5,7 +5,8 @@ using UnityEngine;
 public class PaintYeWagon : MonoBehaviour
 {
     [SerializeField] private GameObject wagon;
-    [SerializeField] private int cost;
+    [SerializeField] private int _removeDishonourCost = 50;
+    [SerializeField] private int _paintJobCost = 10;
     [SerializeField] private Canvas paintYeWagonCanvas;
 
     [SerializeField] private Paint _paintData;
@@ -13,9 +14,12 @@ public class PaintYeWagon : MonoBehaviour
 
     [SerializeField] ParticleSystem _paintYeWagonParticle;
     private static Transform _particlePos;
+
+    [SerializeField] private ParticleSystem _bigSpray;
+
     private void Start()
     {
-        paintYeWagonCanvas.enabled = false;
+        paintYeWagonCanvas.enabled = false;      
     }
 
     private void OnTriggerEnter(Collider other)
@@ -35,16 +39,22 @@ public class PaintYeWagon : MonoBehaviour
 
     void PaintMeWagon()
     {
-       
 
-        if (Dishonour.dishonourLevel >= Dishonour._oneStar && DollarDisplay.dollarValue >= cost)
+        if (DollarDisplay.dollarValue >= _paintJobCost)
+        {
+            wagon.GetComponent<Renderer>().material = _paintData.material[Random.Range(0, 4)];
+            PlayParticle();
+            DollarDisplay.dollarValue = DollarDisplay.dollarValue - _paintJobCost;
+            _bigSpray.Play();
+        }
+        if (Dishonour.dishonourLevel >= Dishonour._oneStar && DollarDisplay.dollarValue >= _removeDishonourCost)
         {
             wagon.GetComponent<Renderer>().material = _paintData.material[Random.Range(0, 4)];
             PlayParticle();
             Dishonour.dishonourLevel = 0;
-            DollarDisplay.dollarValue = DollarDisplay.dollarValue - cost;
+            DollarDisplay.dollarValue = DollarDisplay.dollarValue - _removeDishonourCost;
         }
-        if (Dishonour.dishonourLevel >= Dishonour._oneStar && DollarDisplay.dollarValue < cost)
+        if (Dishonour.dishonourLevel >= Dishonour._oneStar && DollarDisplay.dollarValue < _removeDishonourCost)
         {
             paintYeWagonCanvas.enabled = true;
         }
