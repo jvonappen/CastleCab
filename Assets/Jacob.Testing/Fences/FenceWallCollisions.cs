@@ -22,6 +22,8 @@ public class FenceWallCollisions : MonoBehaviour
 
         if (collision.gameObject.tag == "Fence")
         {
+            AudioManager.Instance.StopSFX();
+            AudioManager.Instance.PlayGroupAudio("FenceCollisions");
             _particlePos = collision.transform;
             PlayParticle(_fenceImpact);
             Destroy(collision.gameObject);
@@ -45,7 +47,7 @@ public class FenceWallCollisions : MonoBehaviour
         if (collision.gameObject.tag == "Pig")
         {
             AudioManager.Instance.StopSFX();
-            AudioManager.Instance.PlaySFX("Pig");
+            AudioManager.Instance.PlayGroupAudio("Pig");
             _particlePos = collision.transform;
             PlayParticle(_pigImpact);
             Destroy(collision.gameObject);
@@ -57,16 +59,19 @@ public class FenceWallCollisions : MonoBehaviour
             collision.gameObject.GetComponent<Rigidbody>().AddExplosionForce(1000, this.transform.position, 20, 500); //Same as pigsplode valuse
 
             AudioManager.Instance.StopSFX();
-            AudioManager.Instance.PlaySFX("Horse");
+            AudioManager.Instance.PlayGroupAudio("Horse");
             PlayParticle(_horseImpact);
             Destroy(collision.gameObject, 5);
         }
         if (collision.gameObject.tag == "NPC")
         {
+            AudioManager.Instance.StopSFX();
             _particlePos = collision.transform;
             collision.gameObject.GetComponent<NavMeshAgent>().enabled = false;
             collision.gameObject.GetComponent<Rigidbody>().AddExplosionForce(1000, this.transform.position, 20, 500); //Same as pigsplode valuse
-            
+
+            AudioManager.Instance.PlayGroupAudio("NPCScreams");
+
             PlayParticle(_npcImpact);
             Destroy(collision.gameObject, 5);
         }

@@ -35,6 +35,7 @@ public class PaintYeWagon : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         paintYeWagonCanvas.enabled = false;
+        
     }
 
     void PaintMeWagon()
@@ -42,8 +43,9 @@ public class PaintYeWagon : MonoBehaviour
 
         if (DollarDisplay.dollarValue >= _paintJobCost)
         {
-            wagon.GetComponent<Renderer>().material = _paintData.material[Random.Range(0, 4)];
+            wagon.GetComponent<Renderer>().material = _paintData.material[Random.Range(0, 4)];           
             PlayParticle();
+            AudioManager.Instance.PlaySFX("PaintYeWagon");
             DollarDisplay.dollarValue = DollarDisplay.dollarValue - _paintJobCost;
             _bigSpray.Play();
         }
@@ -51,6 +53,7 @@ public class PaintYeWagon : MonoBehaviour
         {
             wagon.GetComponent<Renderer>().material = _paintData.material[Random.Range(0, 4)];
             PlayParticle();
+            AudioManager.Instance.PlaySFX("PaintYeWagon");
             Dishonour.dishonourLevel = 0;
             DollarDisplay.dollarValue = DollarDisplay.dollarValue - _removeDishonourCost;
         }

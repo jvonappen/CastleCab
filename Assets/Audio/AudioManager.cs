@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.ProBuilder;
 using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
@@ -10,6 +11,8 @@ public class AudioManager : MonoBehaviour
 
     public AudioDetails[] musicAudio, sfxAudio;
     public AudioSource musicSource, sfxSource;
+
+    public AudioGroupDetails[] audioGroups;
 
     [SerializeField] private Slider musicSlider, sfxSlider; //masterSlider;
 
@@ -60,7 +63,19 @@ public class AudioManager : MonoBehaviour
 
     }
 
-    public void StopMusic()
+    public void PlayGroupAudio(string name)
+    {
+        AudioGroupDetails audio = Array.Find(audioGroups, x => x.audioGroupName == name);
+        if (audio == null) { Debug.Log("Audio not found"); }
+        if (sfxSource.isPlaying) return;
+        else
+        {
+            int randomVal = UnityEngine.Random.Range(0, audio.audioClips.Length);
+            sfxSource.clip = audio.audioClips[randomVal];
+            sfxSource.PlayOneShot(audio.audioClips[randomVal]);
+        }
+    }
+    public void StopMusic(string name)
     {
         AudioDetails audio = Array.Find(musicAudio, x => x.audioName == name);
         if (audio == null) return;
@@ -71,13 +86,11 @@ public class AudioManager : MonoBehaviour
 
     public void StopSFX()
     {
-        //AudioDetails audio = Array.Find(sfxAudio, x => x.audioName == name);
-        //if (audio == null) return;
-
+        AudioDetails audio = Array.Find(sfxAudio, x => x.audioName == name);
+        if (audio == null) return;
         if (sfxSource.isPlaying) sfxSource.Stop();
         else return;
     }
-
 
     public void ToggleMusic() { musicSource.mute = !musicSource.mute; }
     public void ToggleSFX() { sfxSource.mute = !sfxSource.mute; }
