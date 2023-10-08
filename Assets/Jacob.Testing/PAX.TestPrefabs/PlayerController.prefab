@@ -79430,6 +79430,7 @@ GameObject:
   - component: {fileID: 4825329492302481620}
   - component: {fileID: 4825329492302481621}
   - component: {fileID: 4825329492302481582}
+  - component: {fileID: 384631915}
   m_Layer: 0
   m_Name: Wagon
   m_TagString: Player
@@ -79635,6 +79636,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugCartDestination: {fileID: 0}
+--- !u!114 &384631915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4825329492302481583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6285ad8ca4205bf49a7efe44029d462c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fenceImpact: {fileID: 4593184484909914550, guid: 2e1e9506f5904a64b81744324fb7cd50, type: 3}
 --- !u!1 &4825329492353052559
 GameObject:
   m_ObjectHideFlags: 0
@@ -85291,6 +85305,7 @@ GameObject:
   - component: {fileID: 8348473953374384508}
   - component: {fileID: 289351420234795189}
   - component: {fileID: 289351420234795188}
+  - component: {fileID: 1013111744}
   m_Layer: 0
   m_Name: Donkey
   m_TagString: Player
@@ -85346,11 +85361,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <_accelerationInput>k__BackingField: 0
+  <_reverseInput>k__BackingField: 0
   <_steeringInput>k__BackingField: 0
-  <_directionInput>k__BackingField: 0
   <_tailWhip>k__BackingField: 0
   <_boost>k__BackingField: 0
-  <_look>k__BackingField: 0
 --- !u!114 &8348473953374384508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85379,6 +85393,8 @@ MonoBehaviour:
   - {fileID: 5241267}
   _speedParticles:
   - {fileID: 0}
+  _burnoutParticles: []
+  _chargedBurnoutParticles: []
   _whatIsGround:
     serializedVersion: 2
     m_Bits: 64
@@ -85392,32 +85408,41 @@ MonoBehaviour:
   - {fileID: 6581294574506459174}
   - {fileID: 1489317926342162598}
   _horseAnimator: {fileID: 1413451001687782496}
-  _recenetering: {fileID: 0}
   _camera: {fileID: 0}
   _soundManager: {fileID: 0}
   _donkeyRB: {fileID: 0}
   _wagonRB: {fileID: 0}
   _joint: {fileID: 0}
+  _recenetering: {fileID: 0}
   _speedInput: 0
   <_rigidbodySpeed>k__BackingField: 0
   _forwardAcceleration: 500
   _reverseAcceleration: 100
-  _turnStrength: 270
-  _inAirTurnStrength: 180
-  _gravityForce: 1.5
+  _onSpotAcceleration: 50
+  _wheelForwardRotation: 2
+  _wheelReverseRotation: -1
+  _steeringTurnStrength: 0
+  _turnStrength: 180
+  _inAirTurnStrength: 270
+  _tailWhipTurnStrength: 270
+  _boostTurnStrength: 45
+  _onSpotTurnStrength: 90
   _dragOnGround: 3
   _dragOnAcceleration: 10
   _dragOnStop: 1.5
   _dragNormal: 3
+  _dragOnBurnoutRelease: 0
   _dragSet: 0
+  _gravityForce: 1.5
   maxTippingAngle: 45
   _groundRayLength: 2
-  _wheelForwardRotation: 2
-  _wheelBackRotation: -0.7
   <_grounded>k__BackingField: 0
+  _burnout: 0
+  _canBurnout: 1
   _tailWhipForce: 10
+  _tailWhipRight: 0
+  _tailWhipLeft: 0
   _boostMultiplier: 2
-  _boostTurnStrength: 45
 --- !u!114 &289351420234795189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85444,6 +85469,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.85, y: 0.93, z: 3.29}
   m_Center: {x: 0, y: 0, z: -0.77}
+--- !u!114 &1013111744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4825329494135084595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6285ad8ca4205bf49a7efe44029d462c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fenceImpact: {fileID: 4593184484909914550, guid: 2e1e9506f5904a64b81744324fb7cd50, type: 3}
 --- !u!1 &4825329494165486037
 GameObject:
   m_ObjectHideFlags: 0

@@ -31,6 +31,22 @@ public class TaxiService : MonoBehaviour
     [Header("Fare")]
     [SerializeField] private TextMeshProUGUI fareText;
 
+
+
+    //Animations
+    private Animator _animator;
+    private string _currentAnimation;
+
+    const string NPC_ATTENTION = "Attention";
+    const string NPC_DANCE = "Dance";
+    const string NPC_FLAP = "Flap";
+    const string NPC_GRANNY = "Granny";
+    const string NPC_IDLE = "Idle";
+    const string NPC_SIREN = "Siren";
+    const string NPC_WALK = "Walk";
+
+    public bool isAtTarget = false;
+
     private void Awake()
     {
        // _npcMapMarker.enabled = true; //temp
@@ -39,6 +55,10 @@ public class TaxiService : MonoBehaviour
     private void Start()
     {
         _player = PlayerData.player;
+        _animator = this.gameObject.GetComponent<Animator>();
+        ChangeAnimation(NPC_ATTENTION);
+
+
     }
 
     void LateUpdate()
@@ -47,6 +67,7 @@ public class TaxiService : MonoBehaviour
         transform.Rotate(X, Y, Z);
        
         //fareText.text = dollarsGiven.ToString();
+        if(isAtTarget == true) { ChangeAnimation(NPC_DANCE); }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -58,6 +79,8 @@ public class TaxiService : MonoBehaviour
             AudioManager.Instance.PlaySFX("In");
             this.transform.parent = this.customerSeat.transform;
             this.transform.position = this.customerSeat.transform.position;
+
+            ChangeAnimation(NPC_FLAP);
 
             PlayerData.cartDestinationTarget = destination;
             PlayerData.isOccupied = true;
@@ -75,7 +98,10 @@ public class TaxiService : MonoBehaviour
             //destination.GetComponent<ArriveAtObjective>().minimapMarker.enabled = true;
 
             SetTargetParticlesPosition();
+            timeValue.inService = true;
             timeValue.timerValue = 60;
+            
+            
             timerObject.SetActive(true);
 
         }
@@ -86,4 +112,12 @@ public class TaxiService : MonoBehaviour
         targetParticles.transform.position = destination.transform.position;
     }
 
+    private void ChangeAnimation(string newAnimation)
+    {
+        //prevents interupting the animation
+        if (_currentAnimation == newAnimation) return;
+
+        _animator.Play(newAnimation);
+        _currentAnimation = newAnimation;
+    }
 }

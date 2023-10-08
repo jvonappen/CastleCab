@@ -45,6 +45,9 @@ public class VillagerAI : MonoBehaviour
             if (FindRandomPoint(wanderTransform.position, wanderRange, out point)) //pass in centrepoint and radius of area
             {
                 this.agent.SetDestination(point);
+                thisTransform.LookAt(point);
+                thisTransform.Rotate(point);
+                thisTransform.forward = point;
             }
         }
     }

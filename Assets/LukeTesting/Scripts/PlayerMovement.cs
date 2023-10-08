@@ -36,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Rigidbody _wagonRB;
     [SerializeField] private ConfigurableJoint _joint;
     [SerializeField] private CinemachineFreeLook _recenetering;
+    [SerializeField] private Water _bubbles;
 
     [Header("DRIVING VARIABLES")]
     [SerializeField] private float _speedInput = 0;
@@ -116,7 +117,7 @@ public class PlayerMovement : MonoBehaviour
         _soundManager = FindObjectOfType<SoundManager>();
         _camera = FindObjectOfType<CameraFOV>();
         _recenetering = FindObjectOfType<CinemachineFreeLook>();
-        Boost(NORMAL_FOV, false);
+        _bubbles = FindObjectOfType<Water>();
     }
 
     private void Update()
@@ -196,6 +197,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             StopParticles(_tailWhipParticles);
+            _soundManager.Fade("TailWhip");
         }
     }
 
@@ -213,7 +215,7 @@ public class PlayerMovement : MonoBehaviour
             if (_dragOnBurnoutRelease <= 3) //boost out of burnout if drag is cooked to 3
             {
                 _speedInput = _forwardAcceleration * _boostMultiplier;
-                //Boost(BOOST_FOV, true);
+                Boost(BOOST_FOV, true);
             }
         }
         else //normal acceleration
@@ -232,18 +234,20 @@ public class PlayerMovement : MonoBehaviour
             _soundManager.Play("Wagon");
             RotateWheels(_wheelForwardRotation);
             ChangeAnimatorState(Horse_Run);
-            PlayParticles(_dustTrail);
+            if (!_bubbles._underWater) PlayParticles(_dustTrail);
+            else StopParticles(_dustTrail);
             PlayTrail(_wheelTrail, true);
         }
     }
 
     private void ReverseAcceleration()
     {
+        Debug.Log("Reverse");
         _burnout = false;
         if (!_stopped) _stopped = true;
 
         //kill effects
-        _soundManager.Stop("Burnout");
+        if (!_burnout)_soundManager.Stop("Burnout");
         StopParticles(_burnoutParticles);
         StopParticles(_chargedBurnoutParticles);
 
@@ -256,6 +260,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _burnout = false;
         _recenetering.m_RecenterToTargetHeading.m_enabled = false;
+        Boost(NORMAL_FOV, false);
 
         //kill effects 
         if (_burnoutBoost != null) //post burnout process
@@ -265,9 +270,11 @@ public class PlayerMovement : MonoBehaviour
             _burnout = false;
             _canBurnout = true;
             _burnoutBoost = null;
+            _soundManager.Fade("Burnout");
             Debug.Log("Kill boost");
         }
 
+        if (!_burnout) _soundManager.Fade("Burnout");
         RotateWheels(_rigidbodySpeed * 0.1f); //slow wheel rotaion by rigidbody speed when not accelerating
 
         //play stopping animation once then change to idle when finished(speed dependent)
@@ -284,6 +291,7 @@ public class PlayerMovement : MonoBehaviour
         StopParticles(_chargedBurnoutParticles);
         _soundManager.Stop("DonkeyTrott");
         _soundManager.Stop("Wagon");
+
     }
 
     IEnumerator Takeoff()
@@ -291,7 +299,6 @@ public class PlayerMovement : MonoBehaviour
         //kill effects
         StopParticles(_chargedBurnoutParticles);
         _soundManager.Fade("Burnout");
-        Boost(BOOST_FOV, true);
         if (_playerInput._accelerationInput == 0) yield break; 
 
         //reset effects and values after a second
@@ -357,17 +364,28 @@ public class PlayerMovement : MonoBehaviour
     public void Boost(float camFOV, bool particlesVal)
     {
         if (_camera != null) _camera.SetCameraFov(camFOV);
+
+        SoftJointLimit limit = new SoftJointLimit();
+
         if (!_canBurnout || _playerInput._boost != 0 && _grounded && _playerInput._accelerationInput > 0 && particlesVal)
         {
             PlayParticles(_speedParticles);
             PlayParticles(_boostTrail);
             _soundManager.Play("Boost");
+
+            //tighten wagon movement on boost
+            limit.limit = 5f;
+            _joint.angularYLimit = limit;
         }
         else
         {
             StopParticles(_speedParticles);
             StopParticles(_boostTrail);
             _soundManager.Stop("Boost");
+
+            //allow wagon wiggle 
+            limit.limit = 45f;
+            _joint.angularYLimit = limit;
         }
     }
 
@@ -401,11 +419,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void PlayTrail(GameObject[] trail, bool value)
     {
+         
         if (trail != null)
         {
             for (int i = 0; i < trail.Length; i++)
             {
-                trail[i].SetActive(value);
+                if (_bubbles._underWater) trail[i].SetActive(false);
+                else trail[i].SetActive(value);
             }
         }
     }
@@ -439,6 +459,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _wagonRB.AddForceAtPosition(direction * _tailWhipForce, pos, ForceMode.Impulse);
         PlayParticles(_tailWhipParticles);
+        _soundManager.Play("TailWhip");
     }
 
     private void ReverseLockWagon()

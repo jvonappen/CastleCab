@@ -18,7 +18,16 @@ public class NoNoZone : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-       _failed= true;
-        SceneManager.LoadScene(0);
+        if(other.tag == "Player")
+        {
+            _failed = true;
+            SceneManager.LoadScene(0);
+        }
+        if (other.tag != "Player")
+        {
+            Debug.Log("Something touched the NoNo Square!");
+        }
+
+
     }
 }

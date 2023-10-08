@@ -9,11 +9,6 @@ public class Dishonour : MonoBehaviour
     [SerializeField] private int dishonourDepletionRate;
     public static int _dishonourDepletionRef;
 
-    //[Header("Dishonour Values")]
-    //[SerializeField] private int lowPriorityValue;
-    //[SerializeField] private int medPriorityValue;
-    //[SerializeField] private int highPriorityValue;
-
     [Header("Set Dishonour Levels")]
     [SerializeField] private int oneStar;
     [SerializeField] private int twoStar;
@@ -49,26 +44,6 @@ public class Dishonour : MonoBehaviour
         DishonourDepletion();
         StarGUI();      
     }
-
-
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if(other.CompareTag("LowPriority"))
-    //    {
-    //        dishonourLevel = dishonourLevel + lowPriorityValue;
-    //        Debug.Log("LowPriority");
-    //    }
-    //    if (other.CompareTag("MedPriority"))
-    //    {
-    //        dishonourLevel = dishonourLevel + medPriorityValue;
-    //        Debug.Log("MedPriority");
-    //    }
-    //    if (other.CompareTag("HighPriority"))
-    //    {
-    //        dishonourLevel = dishonourLevel + highPriorityValue;
-    //        Debug.Log("HighPriority");
-    //    }
-    //}
 
     private void DishonourDepletion()
     {

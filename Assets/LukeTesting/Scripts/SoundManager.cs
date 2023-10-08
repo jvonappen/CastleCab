@@ -5,6 +5,7 @@ public class SoundManager : MonoBehaviour
 {
     public Sound[] sounds;
     public static SoundManager instance;
+    private Coroutine _fade;
 
     private void Awake()
     {
@@ -28,7 +29,7 @@ public class SoundManager : MonoBehaviour
 
     private void Start()
     {
-        Play("Theme");
+        //Play("Theme");
     }
 
     //play audio if source is not already playing this sound
@@ -54,7 +55,8 @@ public class SoundManager : MonoBehaviour
             //Debug.Log("Sound: " + name + " not found");
             return;
         }
-        //sound.source.Stop();
+        if (sound.source.isPlaying) sound.source.Stop();
+        else return;
     }
 
     public void Fade(string soundName)
@@ -65,6 +67,6 @@ public class SoundManager : MonoBehaviour
             //Debug.Log("Sound: " + name + " not found");
             return;
         }
-        StartCoroutine(FadeAudioSource.StartFade(sound.source, 1f, 0));
+        _fade = StartCoroutine(FadeAudioSource.StartFade(sound.source, 0.2f, 0));
     }
 }
