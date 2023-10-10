@@ -11,7 +11,9 @@ GameObject:
   - component: {fileID: 5505952564542377955}
   - component: {fileID: 8919037366249455686}
   - component: {fileID: 6638937465072448652}
-  - component: {fileID: 6007637422740813870}
+  - component: {fileID: 3537339257276126716}
+  - component: {fileID: 983450318977840237}
+  - component: {fileID: 8688381623298142179}
   m_Layer: 0
   m_Name: Soup Vat
   m_TagString: Untagged
@@ -26,14 +28,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5125872644528493913}
-  m_LocalRotation: {x: -0, y: 0.27834502, z: -0, w: 0.9604812}
-  m_LocalPosition: {x: 288.22, y: 3.991943, z: 247.86}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 32.323, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8919037366249455686
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -84,8 +86,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6007637422740813870
-BoxCollider:
+--- !u!136 &3537339257276126716
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -94,6 +96,36 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.8718878, y: 1.4393172, z: 0.860105}
+  m_Radius: 0.5521285
+  m_Height: 1.6640799
+  m_Direction: 1
   m_Center: {x: 0, y: 0.7200208, z: 0}
+--- !u!114 &983450318977840237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5125872644528493913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d971078420922044b8a46e2e09dd7eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _objData: {fileID: 11400000, guid: 0e366efde3af1f2488dc13bd34dda5eb, type: 2}
+--- !u!54 &8688381623298142179
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5125872644528493913}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
