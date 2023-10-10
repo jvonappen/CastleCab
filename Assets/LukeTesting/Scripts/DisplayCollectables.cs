@@ -22,16 +22,22 @@ public class DisplayCollectables : MonoBehaviour
 
     private void AddLetter()
     {
+        //Create game object for displaying collectable on canvas
         foreach(char character in _characters)
         {
-            GameObject letter =  Instantiate(_textBox);
+            //Create text box and assign to canvas
+            GameObject letter =  Instantiate(_textBox); 
             letter.gameObject.name = character.ToString();
-            _collectables.Add(letter);
-            letter.transform.SetParent(this.transform);
-            RectTransform letterRect = letter.GetComponent<RectTransform>();
-            letterRect.localPosition = new Vector2(_spacingX, _spacingY);
-            _spacingY -= _adjustYSpacing;
+            _collectables.Add(letter); 
+            letter.transform.SetParent(this.transform); 
+
+            //Set positon of each text box and update positions
+            RectTransform letterRect = letter.GetComponent<RectTransform>(); 
+            letterRect.localPosition = new Vector2(_spacingX, _spacingY); 
+            _spacingY -= _adjustYSpacing; 
             _spacingX += _adjustXSpacing;
+
+            //Set text component of Text box game object
             TextMeshProUGUI collectableText = letter.GetComponent<TextMeshProUGUI>();
             collectableText.text = character.ToString();
         }
@@ -39,6 +45,7 @@ public class DisplayCollectables : MonoBehaviour
 
     public void SetCollectableActive(Collectable collectable)
     {
+        //Display text box on collection
         foreach(GameObject collectables in _collectables)
         {
             if (collectable._collectibleLetter.ToString() == collectables.gameObject.name)
