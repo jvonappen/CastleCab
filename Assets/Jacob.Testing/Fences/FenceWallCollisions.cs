@@ -15,6 +15,7 @@ public class FenceWallCollisions : MonoBehaviour
     [SerializeField] ParticleSystem _explosiveImpact;
 
     private static Transform _particlePos;
+    ExplosionForce explosionForce;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -78,8 +79,8 @@ public class FenceWallCollisions : MonoBehaviour
         if (collision.gameObject.tag == "BOOM")
         {
             _particlePos = collision.transform;
-           
             PlayParticle(_explosiveImpact);
+            collision.gameObject.GetComponentInChildren<ExplosionForce>().Explode();
             Destroy(collision.gameObject, 3);
         }
 
