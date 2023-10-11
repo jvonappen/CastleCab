@@ -73,9 +73,10 @@ public class PigSplode : MonoBehaviour
 
                 _soundManager.Play("PlayerHit");
                 ParticleSystem impact = Instantiate(_playerImpact, other.transform);
+                other.rigidbody.AddForce((other.transform.position - this.transform.position) * _playerForce, ForceMode.Impulse);
+
                 ParticleSystem wham = Instantiate(_wham, _whamPos);
                 _whams.Add(wham.gameObject); //add to list to be destroyed
-                other.rigidbody.AddForce((other.transform.position - this.transform.position) * _playerForce, ForceMode.Impulse);
                 _collisionOccured = true;
             }
         }
