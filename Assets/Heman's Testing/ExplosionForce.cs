@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ExplosionForce : MonoBehaviour
 {
@@ -17,18 +18,25 @@ public class ExplosionForce : MonoBehaviour
 
         foreach (Collider collider in colliders)
         {
+            NavMeshAgent agent = collider.GetComponent<NavMeshAgent>();
+            if (agent != null)
+            {
+                agent.enabled = false;
+
+            }
             // Apply an explosion force to rigidbodies.
             Rigidbody rb = collider.GetComponentInChildren<Rigidbody>();
             if (rb != null)
             {
                 rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
-
                 // Apply vertical launch force.
                 rb.AddForce(Vector3.up * verticalLaunchForce);
 
                 Vector3 randomRotation = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
                 rb.AddTorque(randomRotation * rotationForce);
             }
+
+
         }
     }
 }
