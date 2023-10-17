@@ -55,7 +55,8 @@ public class FenceWallCollisions : MonoBehaviour
         }
         if (collision.gameObject.tag == "Horse")
         {
-            AchievmentToggle.Instance.DisplayAchievment();
+            AchievementManager.Instance.DisplayAchievment();
+
 
             _particlePos = collision.transform;
             collision.gameObject.GetComponent<NavMeshAgent>().enabled = false;
