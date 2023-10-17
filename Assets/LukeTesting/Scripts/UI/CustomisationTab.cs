@@ -1,6 +1,10 @@
+using Cinemachine.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
+using UnityEditor.Rendering.Universal.ShaderGraph;
+using UnityEditor.Rendering.Universal.Toon.ShaderGUI;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -10,10 +14,12 @@ public class CustomisationTab : MonoBehaviour
     [SerializeField] private Button _leftButton;
     [SerializeField] private Button _rightButton;
     [SerializeField] private TextMeshProUGUI _text;
-    [SerializeField] private MeshRenderer _meshRenderer;
-    [SerializeField] private SkinnedMeshRenderer _skinnedMeshRenderer;
+    [SerializeField] private MeshRenderer _cartMeshRenderer;
+    [SerializeField] private List<MeshRenderer> _wheelMeshRenderer;
+    [SerializeField] private SkinnedMeshRenderer _horseSkinnedMeshRenderer;
     [SerializeField] private GameObject _horseHat;
     [SerializeField] private GameObject _cartModel;
+    [SerializeField] private Transform _hatPos;
     [SerializeField] private Tab _tabs;
     [SerializeField] private int index = 0;
 
@@ -27,23 +33,61 @@ public class CustomisationTab : MonoBehaviour
 
     private void OnLeftButtonClicked()
     {
-        Debug.Log("LeftClicked");
+        //set index
         if (index == 0) index = _tabs.tabOption.Count - 1;
         else index -= 1;
-        _text.text = _tabs.tabOption[index].ToString();
-        if (_meshRenderer != null) _meshRenderer.material = _tabs.colorOption[index];
-        if (_skinnedMeshRenderer != null) _skinnedMeshRenderer.material.SetTexture("_BaseMap", _tabs.texture2D[index]);
-        //if (_tabs.modelOption != null) //set new cart mesh or hat mesh
+        ChangeMaterials(index);
     }
 
     private void OnRightButtonClicked()
     {
-        Debug.Log("RightClicked");
+        //set index
         if (index == _tabs.tabOption.Count - 1) index = 0;
         else index += 1;
+        ChangeMaterials(index);
+    }
+
+    private void ChangeMaterials(int index)
+    {
+        //change text
         _text.text = _tabs.tabOption[index].ToString();
-        if (_meshRenderer != null) _meshRenderer.material = _tabs.colorOption[index];
-        if (_skinnedMeshRenderer != null) _skinnedMeshRenderer.material.SetTexture("_BaseMap", _tabs.texture2D[index]);
-        //if (_tabs.modelOption != null) //set new cart mesh or hat mesh
+
+        //change cart material
+        if (_cartMeshRenderer != null) _cartMeshRenderer.material = _tabs.colorOption[index];
+
+        //chnage horse colour
+        if (_horseSkinnedMeshRenderer != null)
+        {
+            _horseSkinnedMeshRenderer.material.SetTexture("_1st_ShadeMap", _tabs.texture2D[index]);
+            _horseSkinnedMeshRenderer.material.SetTexture("_MainTex", _tabs.texture2D[index]);
+        }
+
+        //change wheel colour
+        if (_wheelMeshRenderer != null)
+        {
+            foreach (MeshRenderer wheel in _wheelMeshRenderer)
+            {
+                wheel.material = _tabs.colorOption[index];
+            }
+        }
+
+        //spawn hats
+        if (_hatPos != null)
+        {
+            if (_hatPos.childCount == 0)
+            {
+                GameObject hat = Instantiate(_tabs.modelOption[index], _hatPos);
+                hat.transform.parent = _hatPos.transform;
+            }
+            else
+            {
+                Destroy(_hatPos.GetChild(0).gameObject);
+                if (_tabs.modelOption[index] != null)
+                {
+                    GameObject hat = Instantiate(_tabs.modelOption[index], _hatPos);
+                    hat.transform.parent = _hatPos.transform;
+                }
+            }
+        }
     }
 }
