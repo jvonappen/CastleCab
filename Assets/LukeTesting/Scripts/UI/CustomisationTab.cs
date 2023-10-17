@@ -22,13 +22,17 @@ public class CustomisationTab : MonoBehaviour
     [SerializeField] private Transform _hatPos;
     [SerializeField] private Tab _tabs;
     [SerializeField] private int index = 0;
+    [SerializeField] private string _saveString;
 
     private void Awake()
     {
         _tabs = GetComponent<Tab>();   
         _leftButton.onClick.AddListener(OnLeftButtonClicked);
         _rightButton.onClick.AddListener(OnRightButtonClicked);
+        _saveString = this.gameObject.name;
+        LoadData();
         _text.text = _tabs.tabOption[index].ToString();
+        ChangeMaterials(index);
     }
 
     private void OnLeftButtonClicked()
@@ -37,6 +41,7 @@ public class CustomisationTab : MonoBehaviour
         if (index == 0) index = _tabs.tabOption.Count - 1;
         else index -= 1;
         ChangeMaterials(index);
+        SaveData();
     }
 
     private void OnRightButtonClicked()
@@ -45,6 +50,7 @@ public class CustomisationTab : MonoBehaviour
         if (index == _tabs.tabOption.Count - 1) index = 0;
         else index += 1;
         ChangeMaterials(index);
+        SaveData();
     }
 
     private void ChangeMaterials(int index)
@@ -74,14 +80,14 @@ public class CustomisationTab : MonoBehaviour
         //spawn hats
         if (_hatPos != null)
         {
-            if (_hatPos.childCount == 0)
+            if (_hatPos.childCount == 0 && _tabs.modelOption[index] != null)
             {
                 GameObject hat = Instantiate(_tabs.modelOption[index], _hatPos);
                 hat.transform.parent = _hatPos.transform;
             }
             else
             {
-                Destroy(_hatPos.GetChild(0).gameObject);
+                if (_hatPos.childCount != 0) Destroy(_hatPos.GetChild(0).gameObject);
                 if (_tabs.modelOption[index] != null)
                 {
                     GameObject hat = Instantiate(_tabs.modelOption[index], _hatPos);
@@ -89,5 +95,17 @@ public class CustomisationTab : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void SaveData()
+    {
+        PlayerPrefs.SetInt(_saveString, index);
+        Debug.Log("Save index");
+    }
+
+    public void LoadData()
+    {
+        index = PlayerPrefs.GetInt(_saveString, index);
+        Debug.Log("Load index");
     }
 }
