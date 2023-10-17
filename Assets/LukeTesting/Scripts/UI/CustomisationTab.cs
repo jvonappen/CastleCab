@@ -1,12 +1,7 @@
-using Cinemachine.Utility;
-using System.Collections;
+using DG.Tweening;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
-using UnityEditor.Rendering.Universal.ShaderGraph;
-using UnityEditor.Rendering.Universal.Toon.ShaderGUI;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class CustomisationTab : MonoBehaviour
@@ -17,26 +12,32 @@ public class CustomisationTab : MonoBehaviour
     [SerializeField] private MeshRenderer _cartMeshRenderer;
     [SerializeField] private List<MeshRenderer> _wheelMeshRenderer;
     [SerializeField] private SkinnedMeshRenderer _horseSkinnedMeshRenderer;
-    [SerializeField] private GameObject _horseHat;
-    [SerializeField] private GameObject _cartModel;
     [SerializeField] private Transform _hatPos;
     [SerializeField] private Tab _tabs;
     [SerializeField] private int index = 0;
     [SerializeField] private string _saveString;
+    [SerializeField] private Transform right, left;
 
     private void Awake()
     {
+        right = transform.Find("Right");
+        left = transform.Find("Left");
         _tabs = GetComponent<Tab>();   
         _leftButton.onClick.AddListener(OnLeftButtonClicked);
         _rightButton.onClick.AddListener(OnRightButtonClicked);
-        _saveString = this.gameObject.name;
-        LoadData();
+        _saveString = this.gameObject.name; //set string to save index
+        LoadData(); //load the saved index 
+
+        //set customisation details to correct index
         _text.text = _tabs.tabOption[index].ToString();
         ChangeMaterials(index);
     }
 
     private void OnLeftButtonClicked()
     {
+        left.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        left.DOScale(1f, 0.3f).SetEase(Ease.OutElastic);
+
         //set index
         if (index == 0) index = _tabs.tabOption.Count - 1;
         else index -= 1;
@@ -46,6 +47,9 @@ public class CustomisationTab : MonoBehaviour
 
     private void OnRightButtonClicked()
     {
+        right.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        right.DOScale(1f, 0.3f).SetEase(Ease.OutElastic);
+
         //set index
         if (index == _tabs.tabOption.Count - 1) index = 0;
         else index += 1;
@@ -100,12 +104,18 @@ public class CustomisationTab : MonoBehaviour
     public void SaveData()
     {
         PlayerPrefs.SetInt(_saveString, index);
-        Debug.Log("Save index");
     }
 
     public void LoadData()
     {
         index = PlayerPrefs.GetInt(_saveString, index);
-        Debug.Log("Load index");
+    }
+
+    private void ResetCart()
+    {
+        PlayerPrefs.DeleteAll();
+        index = 0;
+        _text.text = _tabs.tabOption[index].ToString();
+        ChangeMaterials(index);
     }
 }
