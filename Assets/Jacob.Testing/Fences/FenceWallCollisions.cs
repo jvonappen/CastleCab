@@ -23,6 +23,9 @@ public class FenceWallCollisions : MonoBehaviour
 
         if (collision.gameObject.tag == "Fence")
         {
+            AchievementManager.fenceTracker = AchievementManager.fenceTracker + 1;
+            AchievementManager.Instance.PloughHorse();
+
             AudioManager.Instance.StopSFX();
             AudioManager.Instance.PlayGroupAudio("FenceCollisions");
             _particlePos = collision.transform;
@@ -55,9 +58,6 @@ public class FenceWallCollisions : MonoBehaviour
         }
         if (collision.gameObject.tag == "Horse")
         {
-            AchievementManager.Instance.DisplayAchievment();
-
-
             _particlePos = collision.transform;
             collision.gameObject.GetComponent<NavMeshAgent>().enabled = false;
             collision.gameObject.GetComponent<Rigidbody>().AddExplosionForce(1000, this.transform.position, 20, 500); //Same as pigsplode valuse

@@ -10,16 +10,29 @@ public class AchievementManager : MonoBehaviour
     [SerializeField] private Canvas _achievementCanvas;
     [SerializeField] private TextMeshProUGUI _achievementText;
 
-    [Header("Achievement")]
+    [Header("Achievements")]
     public bool unlockPegasus = false;
-    public bool unlockSmoothCriminal = false;
+    public static float airTimeTick = 0;
+    [SerializeField] private int airTimeNeeded = 5;
+
+   public bool unlockSmoothCriminal = false;
+
     public bool unlockBaconEggs = false;
+
     public bool unlockCollidesdale = false;
+
     public bool unlockBaaBoom = false;
+
     public bool unlockPloughHorse = false;
+    public static int fenceTracker = 0;
+    [SerializeField] private int fencesNeeded = 50;
+
     public bool unlockAwakened = false;
+
     public bool unlockSundayService = false;
+
     public bool unlockShowPony = false;
+
     public bool unlockPlatniumDriver = false;
     private void Awake()
     {
@@ -42,7 +55,7 @@ public class AchievementManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //CheckAchievement();
     }
 
     public void DisplayAchievment()
@@ -57,59 +70,82 @@ public class AchievementManager : MonoBehaviour
 
     private void Pegasus()  
     { /* Airtime of (5) seconds */
+
+        //airTimeTick= (airTimeTick + 1) * Time.deltaTime;
+
+        //if(airTimeTick >= airTimeNeeded)
+        //{
+        //    unlockPegasus = true;
+        //    DisplayAchievment();
+        //    _achievementText.text = "Pegasus";
+        //}
         
-        _achievementText.text = "Pegasus";
     }
     private void SmoothCriminal() 
     { /* Remove max wanted level */
-        unlockSmoothCriminal = true;
+
         _achievementText.text = "Smooth Criminal";
     }
     private void BaconEggs() 
     { /* Kill a chicken and pig within (5) seconds */
-        unlockBaconEggs = true;
+
         _achievementText.text = "Bacon and Eggs";
     }
     private void Collidesdale() 
     { /* Break 100 objects */
-        unlockCollidesdale = true;
+        
         _achievementText.text = "Collidesdale";
     }
     private void BaaBoom() 
     { /* Find the barrel sheep */
-        unlockBaaBoom = true;
+        
         _achievementText.text = "Baa Boom!";
     }
-    private void PloughHorse() 
+    public void PloughHorse() 
     { /* Destroy (X) amount of fences */
-        unlockPloughHorse = true;
-        _achievementText.text = "Plough Horse";
+        
+        if(fenceTracker >= fencesNeeded)
+        {
+            unlockPloughHorse = true;
+            _achievementText.text = "Plough Horse";
+            DisplayAchievment();
+        }
+        
     }
     private void Awakened() 
     { /* Unlock gold skin */
-        unlockAwakened = true;
+        
         _achievementText.text = "Awakened";
     }
     private void SundayService() 
     { /* Get into the church */
-        unlockSundayService = true;
+        
         _achievementText.text = "Sunday Service";
         DisplayAchievment();
     }
     private void ShowPony() 
     { /* Change appearance */
-        unlockShowPony = true;
+        
         _achievementText.text = "Show Pony";
     }
     private void PlatniumDriver() 
     { /* Complete all quests */
-        unlockPlatniumDriver = true;
+        
         _achievementText.text = "Platnium Driver";
     }
 
-    private void CheckAchievement()
-    {
-        if(unlockPegasus == true) { Pegasus(); }
-    }
+    //private void CheckAchievement()
+    //{
+    //    if(unlockPegasus == true) { Pegasus(); }
+    //    if (unlockSmoothCriminal == true) { SmoothCriminal(); }
+    //    if (unlockBaconEggs == true) { BaconEggs(); }
+    //    if (unlockCollidesdale == true) { Collidesdale(); }
+    //    if (unlockBaaBoom == true) { BaaBoom(); }
+    //    if (unlockPloughHorse == true) { PloughHorse(); }
+    //    if (unlockAwakened == true) { Awakened(); }
+    //    if (unlockSundayService == true) { SundayService(); }
+    //    if (unlockShowPony == true) { ShowPony(); }
+    //    if (unlockPlatniumDriver == true) { PlatniumDriver(); }
+    //}
 
 }
