@@ -17,9 +17,17 @@ public class PaintYeWagon : MonoBehaviour
 
     [SerializeField] private ParticleSystem _bigSpray;
 
+    private int currentColourIndex;
+    private int minValue;
+    private int maxValue;
+
+
     private void Start()
     {
-        paintYeWagonCanvas.enabled = false;      
+        paintYeWagonCanvas.enabled = false;
+        minValue = 0;
+        maxValue = _paintData.material.Length;
+        
     }
 
     private void OnTriggerEnter(Collider other)
@@ -43,7 +51,10 @@ public class PaintYeWagon : MonoBehaviour
 
         if (DollarDisplay.dollarValue >= _paintJobCost)
         {
-            wagon.GetComponent<Renderer>().material = _paintData.material[Random.Range(0, 4)];           
+            wagon.GetComponent<Renderer>().material = _paintData.material[Random.Range(0, 4)];
+
+            //wagon.GetComponent<Renderer>().material = _paintData.material[currentColourIndex];
+
             PlayParticle();
             AudioManager.Instance.PlaySFX("PaintYeWagon");
             DollarDisplay.dollarValue = DollarDisplay.dollarValue - _paintJobCost;
@@ -51,7 +62,7 @@ public class PaintYeWagon : MonoBehaviour
         }
         if (Dishonour.dishonourLevel >= Dishonour._oneStar && DollarDisplay.dollarValue >= _removeDishonourCost)
         {
-            wagon.GetComponent<Renderer>().material = _paintData.material[Random.Range(0, 4)];
+            wagon.GetComponent<Renderer>().material = _paintData.material[Random.Range(minValue, maxValue)];
             PlayParticle();
             AudioManager.Instance.PlaySFX("PaintYeWagon");
             Dishonour.dishonourLevel = 0;
@@ -67,6 +78,21 @@ public class PaintYeWagon : MonoBehaviour
     {
         _paintYeWagonParticle.transform.position = _particlePos.position;
         _paintYeWagonParticle.Play();
+    }
+
+    private void GetRandomColour()
+    {
+        int randomColour = Random.Range(0, 4);
+
+        if(currentColourIndex == randomColour)
+        {
+
+        }
+
+        if(currentColourIndex != randomColour)
+        {
+            currentColourIndex = randomColour;
+        }
     }
 
 }
