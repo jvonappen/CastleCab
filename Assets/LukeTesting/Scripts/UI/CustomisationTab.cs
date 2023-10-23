@@ -111,9 +111,9 @@ public class CustomisationTab : MonoBehaviour
         index = PlayerPrefs.GetInt(_saveString, index);
     }
 
-    private void ResetCart()
+    public void ResetCart()
     {
-        PlayerPrefs.DeleteAll();
+        PlayerPrefs.DeleteKey(_saveString);
         index = 0;
         _text.text = _tabs.tabOption[index].ToString();
         ChangeMaterials(index);

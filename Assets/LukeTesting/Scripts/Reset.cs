@@ -7,10 +7,12 @@ public class Reset : MonoBehaviour
 {
     [SerializeField] private Button _resetButton;
     [SerializeField] private List<GameObject> _tabs;
+    [SerializeField] private PlayerName _playerName;
 
     private void Awake()
     {
         _resetButton.onClick.AddListener(OnResetButtonClicked);
+        _playerName = FindObjectOfType<PlayerName>();
         GetTabs();
     }
 
@@ -18,7 +20,6 @@ public class Reset : MonoBehaviour
     {
         for (int i = 0; i < 12; i++)
         {
-            Debug.Log(transform.parent.GetChild(i).gameObject.name);
             if (transform.parent.GetChild(i).gameObject.GetComponent<CustomisationTab>())
             {
                 _tabs.Add(transform.parent.GetChild(i).gameObject);
@@ -28,6 +29,10 @@ public class Reset : MonoBehaviour
 
     private void OnResetButtonClicked()
     {
-        PlayerPrefs.DeleteAll();
+        foreach (GameObject tab in _tabs)
+        {
+            tab.GetComponent<CustomisationTab>().ResetCart();
+        }
+        _playerName.ResetName();
     }
 }
