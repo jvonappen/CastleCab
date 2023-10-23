@@ -113,7 +113,7 @@ public class CustomisationTab : MonoBehaviour
 
     public void ResetCart()
     {
-        PlayerPrefs.DeleteAll();
+        PlayerPrefs.DeleteKey(_saveString);
         index = 0;
         _text.text = _tabs.tabOption[index].ToString();
         ChangeMaterials(index);
