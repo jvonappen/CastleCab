@@ -111,7 +111,7 @@ public class CustomisationTab : MonoBehaviour
         index = PlayerPrefs.GetInt(_saveString, index);
     }
 
-    private void ResetCart()
+    public void ResetCart()
     {
         PlayerPrefs.DeleteAll();
         index = 0;

@@ -18,7 +18,6 @@ public class Reset : MonoBehaviour
     {
         for (int i = 0; i < 12; i++)
         {
-            Debug.Log(transform.parent.GetChild(i).gameObject.name);
             if (transform.parent.GetChild(i).gameObject.GetComponent<CustomisationTab>())
             {
                 _tabs.Add(transform.parent.GetChild(i).gameObject);
@@ -28,6 +27,10 @@ public class Reset : MonoBehaviour
 
     private void OnResetButtonClicked()
     {
-        PlayerPrefs.DeleteAll();
+        foreach (GameObject tab in _tabs)
+        {
+            tab.GetComponent<CustomisationTab>().ResetCart();
+        }
+        //PlayerPrefs.DeleteAll();
     }
 }
