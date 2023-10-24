@@ -94,6 +94,8 @@ public class PlayerMovement : MonoBehaviour
     private const string Horse_Reverse = "Reverse";
 
     private bool isInSlowdownZone = false;
+    [SerializeField] private float jumpPadForce = 1; // Adjust the force as needed
+
 
     public bool freeze  //freeze player for Jacob's dialogue system
     {
@@ -547,6 +549,11 @@ public class PlayerMovement : MonoBehaviour
             isInSlowdownZone = true;
             SlowdownPlayer();
         }
+
+        else if (other.CompareTag("JumpPad"))
+        {
+            LaunchPlayer();
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -560,9 +567,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void SlowdownPlayer()
     {
-        _forwardAcceleration = 150; // Adjust this value as needed
+        _forwardAcceleration = 100; // Adjust this value as needed
         _reverseAcceleration = 50;
-        _onSpotAcceleration = 5;
+        _onSpotAcceleration = 1;
+        _tailWhipTurnStrength = 75f;
+        _boostTurnStrength = 25;
+        _dragOnGround = 1f;
+        _dragOnAcceleration = 5;
     }
 
     private void RestoreOriginalSpeed()
@@ -570,6 +581,15 @@ public class PlayerMovement : MonoBehaviour
         _forwardAcceleration = 500; // Restore to the original value
         _reverseAcceleration = 100;
         _onSpotAcceleration = 50;
+        _tailWhipTurnStrength = 270f;
+        _boostTurnStrength = 45;
+        _dragOnGround= 3f;
+        _dragOnAcceleration = 10;
     }
 
+    private void LaunchPlayer()
+    {
+        _sphereRB.AddForce(transform.up * jumpPadForce, ForceMode.Impulse);
+        _sphereRB.AddForce(transform.forward, ForceMode.Impulse);
+    }
 }
