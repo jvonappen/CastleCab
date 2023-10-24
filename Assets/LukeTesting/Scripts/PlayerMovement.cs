@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform[] _tailWhipPositions;
     [SerializeField] private Transform[] _wheels;
     [SerializeField] private Animator _horseAnimator;
+    [SerializeField] private GameObject _globalVolume;
     
     [Header("AUTO ASSIGNED VARIABLES")]
     [SerializeField] private CameraFOV _camera;
@@ -372,6 +373,7 @@ public class PlayerMovement : MonoBehaviour
             PlayParticles(_speedParticles);
             PlayParticles(_boostTrail);
             _soundManager.Play("Boost");
+            _globalVolume.SetActive(true); //set motion blur
 
             //tighten wagon movement on boost
             limit.limit = 5f;
@@ -382,6 +384,7 @@ public class PlayerMovement : MonoBehaviour
             StopParticles(_speedParticles);
             StopParticles(_boostTrail);
             _soundManager.Stop("Boost");
+            _globalVolume.SetActive(false);
 
             //allow wagon wiggle 
             limit.limit = 45f;
