@@ -13,15 +13,23 @@ public class Dishonour : MonoBehaviour
     [SerializeField] private int oneStar;
     [SerializeField] private int twoStar;
     [SerializeField] private int threeStar;
-    [SerializeField] private int maxDishonourCap = 100;
+    [SerializeField] private int fourStar;
+    [SerializeField] private int fiveStar;
+
+    [SerializeField] private int maxDishonourCap = 200;
+
     public static int _oneStar;
     public static int _twoStar;
     public static int _threeStar;
+    public static int _fourStar;
+    public static int _fiveStar;
 
     [Header("Dishonour GUI")]
     [SerializeField] private GameObject star1;
     [SerializeField] private GameObject star2;
     [SerializeField] private GameObject star3;
+    [SerializeField] private GameObject star4;
+    [SerializeField] private GameObject star5;
 
     [Header("Debug")]
     [SerializeField] private float startingDishonourLevel;
@@ -33,6 +41,8 @@ public class Dishonour : MonoBehaviour
         _oneStar = oneStar;
         _twoStar = twoStar;
         _threeStar = threeStar;
+        _fourStar = fourStar;
+        _fiveStar = fiveStar;
 
         _dishonourDepletionRef = dishonourDepletionRate;
     }
@@ -55,19 +65,27 @@ public class Dishonour : MonoBehaviour
     {
         if (dishonourLevel <_oneStar)
         {
-            star1.SetActive(false); star2.SetActive(false); star3.SetActive(false);
+            star1.SetActive(false); star2.SetActive(false); star3.SetActive(false); star4.SetActive(false); star5.SetActive(false);
         }
         if (dishonourLevel >=_oneStar)
         {
-            star1.SetActive(true); star2.SetActive(false); star3.SetActive(false);
+            star1.SetActive(true); star2.SetActive(false); star3.SetActive(false); star4.SetActive(false); star5.SetActive(false);
         }
         if (dishonourLevel >=_twoStar)
         {
-            star2.SetActive(true); star3.SetActive(false);
+            star2.SetActive(true); star3.SetActive(false); star4.SetActive(false); star5.SetActive(false);
         }
         if (dishonourLevel >=_threeStar)
         {
-            star3.SetActive(true);
+            star3.SetActive(true); star4.SetActive(false); star5.SetActive(false);
+        }
+        if (dishonourLevel >= _fourStar)
+        {
+            star4.SetActive(true); star5.SetActive(false);
+        }
+        if (dishonourLevel >= _fiveStar)
+        {
+            star5.SetActive(true);
         }
     }
 

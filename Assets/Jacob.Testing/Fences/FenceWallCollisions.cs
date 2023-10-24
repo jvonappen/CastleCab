@@ -15,6 +15,7 @@ public class FenceWallCollisions : MonoBehaviour
     [SerializeField] ParticleSystem _explosiveImpact;
 
     private static Transform _particlePos;
+    ExplosionForce explosionForce;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -22,6 +23,9 @@ public class FenceWallCollisions : MonoBehaviour
 
         if (collision.gameObject.tag == "Fence")
         {
+            AchievementManager.fenceTracker = AchievementManager.fenceTracker + 1;
+            AchievementManager.Instance.PloughHorse();
+
             AudioManager.Instance.StopSFX();
             AudioManager.Instance.PlayGroupAudio("FenceCollisions");
             _particlePos = collision.transform;
@@ -62,6 +66,7 @@ public class FenceWallCollisions : MonoBehaviour
             AudioManager.Instance.PlayGroupAudio("Horse");
             PlayParticle(_horseImpact);
             Destroy(collision.gameObject, 5);
+           
         }
         if (collision.gameObject.tag == "NPC")
         {
@@ -78,8 +83,8 @@ public class FenceWallCollisions : MonoBehaviour
         if (collision.gameObject.tag == "BOOM")
         {
             _particlePos = collision.transform;
-           
             PlayParticle(_explosiveImpact);
+            collision.gameObject.GetComponentInChildren<ExplosionForce>().Explode();
             Destroy(collision.gameObject, 3);
         }
 

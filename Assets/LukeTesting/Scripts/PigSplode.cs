@@ -23,6 +23,9 @@ public class PigSplode : MonoBehaviour
     [SerializeField] private float _destroyTime = 3;
     [SerializeField] private Transform _whamPos;
     [SerializeField] private List<GameObject> _whams;
+    [SerializeField] private bool _collisionOccured = false;
+    [SerializeField] private float _resetTimer = 0.5f;
+    private float _whamTimer = 0;
 
     private void Awake()
     {
@@ -34,6 +37,7 @@ public class PigSplode : MonoBehaviour
     //Explode pig on impact with the player
     private void OnCollisionEnter(Collision other)
     {
+        if (_collisionOccured) return;
         if (other.gameObject.name == "Wagon" || other.gameObject.name == "Donkey")
         {
             if (other.gameObject.GetComponent<PlayerMovement>() == null) return;
@@ -60,11 +64,20 @@ public class PigSplode : MonoBehaviour
             }
             else
             {
+                //locate wham pos on player
+                if (other.gameObject.name == "Donkey" && _whamPos == null)
+                {
+                    Transform whamPos = other.transform.Find("WhamPos");
+                    _whamPos = whamPos;
+                }
+
                 _soundManager.Play("PlayerHit");
                 ParticleSystem impact = Instantiate(_playerImpact, other.transform);
+                other.rigidbody.AddForce((other.transform.position - this.transform.position) * _playerForce, ForceMode.Impulse);
+
                 ParticleSystem wham = Instantiate(_wham, _whamPos);
                 _whams.Add(wham.gameObject); //add to list to be destroyed
-                other.rigidbody.AddForce((other.transform.position - this.transform.position) * _playerForce, ForceMode.Impulse);
+                _collisionOccured = true;
             }
         }
     }
@@ -79,6 +92,14 @@ public class PigSplode : MonoBehaviour
                 if (wham == null) _whams.Remove(wham);
             }
         }
+
+        //reset wham
+        if (_collisionOccured)
+        {
+            _whamTimer -= Time.deltaTime;
+            if (_whamTimer <= 0) _collisionOccured = false;
+        }
+        if (_whamTimer <= 0) _whamTimer = _resetTimer;
     }
 
     private bool Tailwhip(PlayerInput player, PlayerMovement playerMovement)
