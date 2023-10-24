@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject[] _wheelTrail;
     [SerializeField] private ParticleSystem[] _tailWhipParticles;
     [SerializeField] private ParticleSystem[] _speedParticles;
+    [SerializeField] private GameObject _speedIntroParticles;
     [SerializeField] private ParticleSystem[] _burnoutParticles;
     [SerializeField] private ParticleSystem[] _chargedBurnoutParticles;
 
@@ -95,6 +96,7 @@ public class PlayerMovement : MonoBehaviour
     private const string Horse_Reverse = "Reverse";
 
     private bool isInSlowdownZone = false;
+    private bool hasBurst = false;
 
     public bool freeze  //freeze player for Jacob's dialogue system
     {
