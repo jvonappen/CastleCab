@@ -22,7 +22,7 @@ public class ExplosionForce : MonoBehaviour
             if (agent != null)
             {
                 agent.enabled = false;
-
+                Destroy(collider.gameObject, 5);
             }
             // Apply an explosion force to rigidbodies.
             Rigidbody rb = collider.GetComponentInChildren<Rigidbody>();
@@ -30,7 +30,7 @@ public class ExplosionForce : MonoBehaviour
             {
                 rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
                 // Apply vertical launch force.
-                rb.AddForce(Vector3.up * verticalLaunchForce);
+                rb.AddForce(Vector3.up * verticalLaunchForce, ForceMode.Impulse);
 
                 Vector3 randomRotation = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
                 rb.AddTorque(randomRotation * rotationForce);
