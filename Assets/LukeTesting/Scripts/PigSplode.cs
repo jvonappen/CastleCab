@@ -13,6 +13,10 @@ public class PigSplode : MonoBehaviour
     [SerializeField] ParticleSystem _explode;
     [SerializeField] ParticleSystem _bacon;
     [SerializeField] ParticleSystem _playerImpact;
+    [SerializeField] private Freeze _freezer;
+    [SerializeField] private Material _matFlash;
+    [SerializeField] private List<Material> _materials;
+    [SerializeField] private Component[] _skinnedMeshRenderers;
     [SerializeField] private ParticleSystem _wham;
     [SerializeField] private float _force = 1000;
     [SerializeField] private float _playerForce = 500;
@@ -32,6 +36,8 @@ public class PigSplode : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
         _soundManager = FindObjectOfType<SoundManager>();
+        _freezer = FindObjectOfType<Freeze>();
+        _skinnedMeshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
     }
 
     //Explode pig on impact with the player
@@ -51,7 +57,8 @@ public class PigSplode : MonoBehaviour
                 rb.AddExplosionForce(_force, this.transform.position, _radius, _upForce);
                 ParticleSystem bacon = Instantiate(_bacon, this.transform);
                 ParticleSystem explode = Instantiate(_explode, this.transform);
-                CameraShake.Instance.ShakeCamera(_camShakeIntesity, _camShakeTime); 
+                CameraShake.Instance.ShakeCamera(_camShakeIntesity, _camShakeTime);
+                _freezer.Freezer();
 
                 _soundManager.Play("PigSqueal");
                 _soundManager.Play("Splatter");
@@ -106,4 +113,26 @@ public class PigSplode : MonoBehaviour
     {
         return player._tailWhip > 0 && playerMovement._rigidbodySpeed > 5;
     }
+
+    private void FlashDamage()
+    {
+        foreach (SkinnedMeshRenderer mesh in _skinnedMeshRenderers)
+        {
+            _materials.Add(mesh.material);
+            mesh.material = _matFlash;
+            Invoke("ResetMaterial", _freezer._duration);
+        }
+    }
+
+    void ResetMaterial()
+    {
+        int i = 0;
+        foreach(SkinnedMeshRenderer mesh in _skinnedMeshRenderers)
+        {
+            mesh.material = _materials[i];
+            i++;
+        }
+    }
+
+    
 }
