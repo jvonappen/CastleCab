@@ -331,7 +331,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1099153783109139569
 Transform:
   m_ObjectHideFlags: 0
@@ -1098,7 +1098,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3220431181760487988
 Transform:
   m_ObjectHideFlags: 0
@@ -1191,7 +1191,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &867627696301838657
 Transform:
   m_ObjectHideFlags: 0
@@ -1316,7 +1316,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9120474890814490550
 Transform:
   m_ObjectHideFlags: 0
@@ -2915,7 +2915,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 9505f244365b82f4ba151d580198dd88, type: 2}
   dialogue: {fileID: 11400000, guid: d7e4ef783fa0a044fa0db27d72a02cb6, type: 2}
-  player: {fileID: 0}
   villagerIsTalking: 0
 --- !u!114 &4599727388349437013
 MonoBehaviour:
@@ -2932,8 +2931,11 @@ MonoBehaviour:
   customerSeat: {fileID: 0}
   destination: {fileID: 0}
   dollarsGiven: 100
-  _npcMapMarker: {fileID: 4918514096905781130}
-  _npcQuestIcon: {fileID: 4918514098955869728}
+  targetParticles: {fileID: 0}
+  timerObject: {fileID: 0}
+  timeValue: {fileID: 0}
+  fareText: {fileID: 0}
+  isAtTarget: 0
 --- !u!114 &4599727388349437008
 MonoBehaviour:
   m_ObjectHideFlags: 0
