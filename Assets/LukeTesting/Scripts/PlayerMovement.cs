@@ -47,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _reverseAcceleration = 100f;
     [SerializeField] private float _onSpotAcceleration = 50f;
     [SerializeField] private float _wheelForwardRotation = 2f;
+    [SerializeField] private float _wheelSpinModifier = 10f;
     [SerializeField] private float _wheelReverseRotation = -1f;
     private float _directionalAcceleration;
     
@@ -88,12 +89,14 @@ public class PlayerMovement : MonoBehaviour
     private const float BOOST_FOV = 50f;
 
     //Aniamtion Variables
+    [SerializeField] private float _animSpeed = 0;
     private bool _stopped = true;
     private string _currentState;
     private const string Horse_Idle = "Idle";
     private const string Horse_Run = "Run";
     private const string Horse_Stop = "Stop";
     private const string Horse_Reverse = "Reverse";
+    private const string Horse_Blend_Tree = "Movement Blend Tree";
 
     private bool isInSlowdownZone = false;
     private bool hasBurst = false;
@@ -137,6 +140,11 @@ public class PlayerMovement : MonoBehaviour
         else if (_playerInput._accelerationInput > 0 && _grounded) //forward acceleration on ground
         {
             _speedInput = _playerInput._boost != 0 ? _forwardAcceleration * _boostMultiplier : _forwardAcceleration* _playerInput._accelerationInput;
+
+            _animSpeed = Mathf.InverseLerp(_dragOnAcceleration + 20, _dragNormal, _dragOnGround) * _playerInput._accelerationInput;
+            Mathf.Clamp(_animSpeed, 0, 1);
+            _horseAnimator.SetFloat("Speed", _animSpeed);
+
             if (_tailWhipLeft || _tailWhipRight)
             {
                 if (_playerInput._boost == 0) _steeringTurnStrength = _tailWhipTurnStrength;
@@ -156,17 +164,20 @@ public class PlayerMovement : MonoBehaviour
         {
             _speedInput = _onSpotAcceleration;
             _steeringTurnStrength = _onSpotTurnStrength;
-            ChangeAnimatorState(Horse_Run);
+            _horseAnimator.SetFloat("Speed", 0.5f);
             Boost(NORMAL_FOV, false); //turn off boost
         }
         else //no acceleration or in air
         {
             _speedInput = 0;
             _steeringTurnStrength = _inAirTurnStrength;
+            _horseAnimator.SetFloat("Speed", 0f);
             NoAcceleration();
         }
 
         ReverseLockWagon(); //adjust wagon lock for reversing
+
+        
 
         Debug.DrawRay(_groundRayPoint.position, -Vector3.up, Color.red); //DEBUG: for ground check
     }
@@ -237,8 +248,8 @@ public class PlayerMovement : MonoBehaviour
             else Boost(NORMAL_FOV, false);
             _soundManager.Play("DonkeyTrott");
             _soundManager.Play("Wagon");
-            RotateWheels(_wheelForwardRotation);
-            ChangeAnimatorState(Horse_Run);
+            RotateWheels(_rigidbodySpeed / _wheelSpinModifier);
+            if (!IsAnimationPlaying(_horseAnimator, Horse_Stop)) ChangeAnimatorState(Horse_Blend_Tree);//ChangeAnimatorState(Horse_Run);
             if (!_bubbles._underWater) PlayParticles(_dustTrail);
             else StopParticles(_dustTrail);
             PlayTrail(_wheelTrail, true);
@@ -288,7 +299,8 @@ public class PlayerMovement : MonoBehaviour
             ChangeAnimatorState(Horse_Stop);
             _stopped = false;
         }
-        else if (!IsAnimationPlaying(_horseAnimator, Horse_Stop) && _playerInput._steeringInput == 0) ChangeAnimatorState(Horse_Idle);
+        //else ChangeAnimatorState(Horse_Blend_Tree);
+        else if (!IsAnimationPlaying(_horseAnimator, Horse_Stop) /*&& _playerInput._steeringInput == 0*/) /*ChangeAnimatorState(Horse_Idle)*/ ChangeAnimatorState(Horse_Blend_Tree);
 
         //kill effects
         StopParticles(_dustTrail);
@@ -324,7 +336,7 @@ public class PlayerMovement : MonoBehaviour
         if (!_stopped) _stopped = true;
         _soundManager.Play("Burnout");
         RotateWheels(_wheelForwardRotation);
-        ChangeAnimatorState(Horse_Run);
+        //ChangeAnimatorState(Horse_Run);
         PlayParticles(_burnoutParticles);
         if (_dragOnGround <= 3) PlayParticles(_chargedBurnoutParticles);
     }
@@ -494,11 +506,14 @@ public class PlayerMovement : MonoBehaviour
     {
         if (animator.GetCurrentAnimatorStateInfo(0).IsName(stateName) &&
             animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f ||
-            animator.IsInTransition(0)) 
+            animator.IsInTransition(0))
         {
             return true;
         }
-        else return false;
+        else
+        {
+            return false;
+        }
     }
 
     private void PlayerDragMovement()
