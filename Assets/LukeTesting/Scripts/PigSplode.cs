@@ -59,6 +59,7 @@ public class PigSplode : MonoBehaviour
                 ParticleSystem explode = Instantiate(_explode, this.transform);
                 CameraShake.Instance.ShakeCamera(_camShakeIntesity, _camShakeTime);
                 _freezer.Freezer();
+                FlashDamage();
 
                 _soundManager.Play("PigSqueal");
                 _soundManager.Play("Splatter");
@@ -120,8 +121,9 @@ public class PigSplode : MonoBehaviour
         {
             _materials.Add(mesh.material);
             mesh.material = _matFlash;
-            Invoke("ResetMaterial", _freezer._duration);
+            
         }
+        Invoke("ResetMaterial", _freezer._duration);
     }
 
     void ResetMaterial()
