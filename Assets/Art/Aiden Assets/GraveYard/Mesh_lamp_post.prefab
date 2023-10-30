@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 7286697509555799532}
   - component: {fileID: 5958358316789992009}
   - component: {fileID: 8454558442312695427}
+  - component: {fileID: 5270893206747051135}
+  - component: {fileID: 3603547574723815440}
+  - component: {fileID: 423109898061019027}
   m_Layer: 0
   m_Name: Mesh_lamp_post
   m_TagString: Untagged
@@ -26,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7950080860479053654}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 371.77628, y: 6.4163637, z: 332.8964}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -83,3 +86,42 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5270893206747051135
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7950080860479053654}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.7671101, y: 4.88752, z: 0.4511795}
+  m_Center: {x: -0.95245683, y: 0, z: 0}
+--- !u!65 &3603547574723815440
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7950080860479053654}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.6720238, y: 0.59521616, z: 0.4511795}
+  m_Center: {x: 0, y: 2.1461518, z: 0}
+--- !u!65 &423109898061019027
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7950080860479053654}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.55958986, y: 1.4179647, z: 0.4511795}
+  m_Center: {x: 1.1312532, y: 1.7347776, z: 0}
