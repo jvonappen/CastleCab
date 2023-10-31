@@ -336,7 +336,8 @@ public class PlayerMovement : MonoBehaviour
         if (!_stopped) _stopped = true;
         _soundManager.Play("Burnout");
         RotateWheels(_wheelForwardRotation);
-        //ChangeAnimatorState(Horse_Run);
+        _horseAnimator.SetFloat("Speed", 0.5f);
+        ChangeAnimatorState(Horse_Blend_Tree);
         PlayParticles(_burnoutParticles);
         if (_dragOnGround <= 3) PlayParticles(_chargedBurnoutParticles);
     }
