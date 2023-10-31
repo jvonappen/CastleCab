@@ -58,6 +58,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _tailWhipTurnStrength = 270;
     [SerializeField] private float _boostTurnStrength = 45;
     [SerializeField] private float _onSpotTurnStrength = 90;
+    [SerializeField] private float _backflipTurnStrength = 720;
 
     [Header("RIGIDBODY DRAG VARIABLES")]
     [SerializeField] private float _dragOnGround = 3f;
@@ -177,9 +178,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         ReverseLockWagon(); //adjust wagon lock for reversing
-
-        
-
         Debug.DrawRay(_groundRayPoint.position, -Vector3.up, Color.red); //DEBUG: for ground check
     }
 
@@ -189,7 +187,7 @@ public class PlayerMovement : MonoBehaviour
 
         GroundCheck(); //check if player is on gorund
         PlayerDragMovement(); //adds slow acceleration buildup and slow rolling stop
-        PlayerRotationCorrection(); //control tipping in air
+        /*PlayerRotationCorrection();*/ //control tipping in air
 
         if (_grounded)
         {
@@ -205,6 +203,8 @@ public class PlayerMovement : MonoBehaviour
         else //physics controls in air
         {
             InAirPhysics();
+            if (_playerInput._backflip != 0) Backflip();
+            if (_playerInput._barrelRoll != 0) BarrelRoll();
         }
 
         //tailwhips
@@ -301,7 +301,7 @@ public class PlayerMovement : MonoBehaviour
             _stopped = false;
         }
         //else ChangeAnimatorState(Horse_Blend_Tree);
-        else if (!IsAnimationPlaying(_horseAnimator, Horse_Stop) /*&& _playerInput._steeringInput == 0*/) /*ChangeAnimatorState(Horse_Idle)*/ ChangeAnimatorState(Horse_Blend_Tree);
+        else if (!IsAnimationPlaying(_horseAnimator, Horse_Stop) /*&& _playerInput._steeringInput == 0*/) ChangeAnimatorState(Horse_Blend_Tree);
 
         //kill effects
         StopParticles(_dustTrail);
@@ -309,7 +309,6 @@ public class PlayerMovement : MonoBehaviour
         StopParticles(_chargedBurnoutParticles);
         _soundManager.Stop("DonkeyTrott");
         _soundManager.Stop("Wagon");
-
     }
 
     IEnumerator Takeoff()
@@ -378,6 +377,17 @@ public class PlayerMovement : MonoBehaviour
 
         _sphereRB.drag = 0.0f;
         _sphereRB.AddForce(Vector3.up * -_gravityForce * 100f);
+    }
+
+    private void Backflip()
+    {
+        //_joint.angularXMotion = _playerInput._backflip != 0  ? ConfigurableJointMotion.Free : ConfigurableJointMotion.Limited;
+        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(_playerInput._backflip * _backflipTurnStrength * Time.deltaTime /** _directionalAcceleration*/, 0f, 0f));
+    }
+
+    private void BarrelRoll()
+    {
+        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, 0f, _playerInput._backflip * _backflipTurnStrength * Time.deltaTime /** _directionalAcceleration*/));
     }
 
     public void Boost(float camFOV, bool particlesVal)
