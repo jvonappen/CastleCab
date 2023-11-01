@@ -1073,6 +1073,7 @@ GameObject:
   - component: {fileID: 54325736}
   - component: {fileID: 54325735}
   - component: {fileID: 87868920338312206}
+  - component: {fileID: 1204590577}
   m_Layer: 0
   m_Name: Donkey
   m_TagString: Player
@@ -1133,6 +1134,8 @@ MonoBehaviour:
   <_steeringInput>k__BackingField: 0
   <_tailWhip>k__BackingField: 0
   <_boost>k__BackingField: 0
+  <_backflip>k__BackingField: 0
+  <_barrelRoll>k__BackingField: 0
 --- !u!114 &3517994449852718664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1161,6 +1164,7 @@ MonoBehaviour:
   - {fileID: 821728717971587612}
   _speedParticles:
   - {fileID: 0}
+  _speedIntroParticles: {fileID: 0}
   _burnoutParticles:
   - {fileID: 8834841751349625433}
   - {fileID: 8834841752782083741}
@@ -1194,6 +1198,7 @@ MonoBehaviour:
   _reverseAcceleration: 100
   _onSpotAcceleration: 50
   _wheelForwardRotation: 2
+  _wheelSpinModifier: 10
   _wheelReverseRotation: -1
   _steeringTurnStrength: 0
   _turnStrength: 120
@@ -1201,6 +1206,7 @@ MonoBehaviour:
   _tailWhipTurnStrength: 270
   _boostTurnStrength: 45
   _onSpotTurnStrength: 90
+  _backflipTurnStrength: 720
   _dragOnGround: 3
   _dragOnAcceleration: 10
   _dragOnStop: 1.5
@@ -1217,6 +1223,8 @@ MonoBehaviour:
   _tailWhipRight: 0
   _tailWhipLeft: 0
   _boostMultiplier: 2
+  _animSpeed: 0
+  jumpPadForce: 1
 --- !u!114 &5118950180513048449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1274,9 +1282,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80e7849ff453e2246836ebd1fdd0611b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _duration: 0.5
+  <_duration>k__BackingField: 0.06
   _pendingFreezeDuration: 0
-  _isFrozen: 0
+--- !u!114 &1204590577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143783271931345159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d76f24409a39604ca3986f91ce6d28a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interpolate: 1
+  jiggleRigs:
+  - rootTransform: {fileID: 6389834818577224987}
+    jiggleSettings: {fileID: 11400000, guid: 39e25b1ddcdbae04eabd7bdc48ca31fd, type: 2}
+    ignoredTransforms: []
+    colliders: []
+  - rootTransform: {fileID: 507374882268153843}
+    jiggleSettings: {fileID: 11400000, guid: 39e25b1ddcdbae04eabd7bdc48ca31fd, type: 2}
+    ignoredTransforms: []
+    colliders: []
+  wind: {x: 0, y: 0, z: 0}
+  debugDraw: 0
 --- !u!1 &143783271959729889
 GameObject:
   m_ObjectHideFlags: 0
@@ -31404,9 +31435,19 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1101af25c64daca479a19bf89b1c2f6b, type: 3}
   m_PrefabInstance: {fileID: 143783271711041221}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &507374882268153843 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8722244478960246474, guid: 1101af25c64daca479a19bf89b1c2f6b, type: 3}
+  m_PrefabInstance: {fileID: 143783271711041221}
+  m_PrefabAsset: {fileID: 0}
 --- !u!95 &5806344667825593172 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 1101af25c64daca479a19bf89b1c2f6b, type: 3}
+  m_PrefabInstance: {fileID: 143783271711041221}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6389834818577224987 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6436649878042784734, guid: 1101af25c64daca479a19bf89b1c2f6b, type: 3}
   m_PrefabInstance: {fileID: 143783271711041221}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &143783271837085755

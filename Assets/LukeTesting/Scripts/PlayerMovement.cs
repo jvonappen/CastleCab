@@ -1,4 +1,5 @@
 using Cinemachine;
+using DG.Tweening;
 using System;
 using System.Collections;
 //using System.Diagnostics;
@@ -58,7 +59,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _tailWhipTurnStrength = 270;
     [SerializeField] private float _boostTurnStrength = 45;
     [SerializeField] private float _onSpotTurnStrength = 90;
-    [SerializeField] private float _backflipTurnStrength = 720;
+    [SerializeField] private float _backflipTurnStrength = 430;
+    [SerializeField] private float _barrelrollTurnStrength = 450;
 
     [Header("RIGIDBODY DRAG VARIABLES")]
     [SerializeField] private float _dragOnGround = 3f;
@@ -72,7 +74,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _gravityForce = 1.5f;
     [SerializeField] private float maxTippingAngle = 45f;
     [SerializeField] private float _groundRayLength = 2f;
+    [SerializeField] private float _inAirRayLength = 10f;
     [field: SerializeField] public bool _grounded { get; private set; }
+    [field: SerializeField] public bool _noMoreTricksGrounded { get; private set; }
     
     [Header("BURNOUT VARIABLES")]
     [SerializeField] private bool _burnout = false;
@@ -101,6 +105,14 @@ public class PlayerMovement : MonoBehaviour
 
     private bool isInSlowdownZone = false;
     private bool hasBurst = false;
+    [SerializeField] private bool _canBackflip = false;
+    [SerializeField] private bool _backflipComplete = false;
+    [SerializeField] private bool _barrelrollComplete = false;
+    [SerializeField] private bool _canBarrelroll = false;
+    [SerializeField] private float _backflipTimer = 0.8f;
+    [SerializeField] private float _backflipReset = 0.8f;
+    [SerializeField] private float _barrelRollReset = 0.8f;
+    [SerializeField] private float _barrelrollTimer = 0.8f;
     [SerializeField] private float jumpPadForce = 1; // Adjust the force as needed
 
     public bool freeze  //freeze player for Jacob's dialogue system
@@ -187,7 +199,7 @@ public class PlayerMovement : MonoBehaviour
 
         GroundCheck(); //check if player is on gorund
         PlayerDragMovement(); //adds slow acceleration buildup and slow rolling stop
-        /*PlayerRotationCorrection();*/ //control tipping in air
+        //if (_backflipComplete || _barrelrollComplete) PlayerRotationCorrection(); //control tipping in air
 
         if (_grounded)
         {
@@ -199,12 +211,18 @@ public class PlayerMovement : MonoBehaviour
             {
                 TurnOnSpotPhysics();
             }
+            ResetTrickTimers();
         }
         else //physics controls in air
         {
             InAirPhysics();
-            if (_playerInput._backflip != 0) Backflip();
-            if (_playerInput._barrelRoll != 0) BarrelRoll();
+            AirTimeGroundCheck();
+
+            //tricks
+            if (_playerInput._backflip != 0 && _backflipComplete == false && !_canBarrelroll && !_noMoreTricksGrounded) _canBackflip = true;
+            if (_canBackflip) Backflip();
+            if (_playerInput._barrelRoll != 0 && _barrelrollComplete == false && !_canBackflip && !_noMoreTricksGrounded) _canBarrelroll = true;
+            if (_canBarrelroll) BarrelRoll();
         }
 
         //tailwhips
@@ -381,15 +399,40 @@ public class PlayerMovement : MonoBehaviour
 
     private void Backflip()
     {
-        //_joint.angularXMotion = _playerInput._backflip != 0  ? ConfigurableJointMotion.Free : ConfigurableJointMotion.Limited;
-        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(_playerInput._backflip * _backflipTurnStrength * Time.deltaTime /** _directionalAcceleration*/, 0f, 0f));
+        _backflipTimer -= Time.deltaTime;
+        if (_canBackflip)
+        {
+            transform.Rotate(-_backflipTurnStrength * Time.deltaTime, 0, 0, Space.Self);
+            if (_backflipTimer <= 0)
+            {
+                _backflipComplete = true;
+                _canBackflip = false;
+            }
+        }
     }
 
     private void BarrelRoll()
     {
-        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0f, 0f, _playerInput._backflip * _backflipTurnStrength * Time.deltaTime /** _directionalAcceleration*/));
+        _barrelrollTimer -= Time.deltaTime;
+        if (_canBarrelroll)
+        {
+            transform.Rotate(0, 0, -_barrelrollTurnStrength * Time.deltaTime, Space.Self);
+            if (_barrelrollTimer <= 0)
+            {
+                _barrelrollComplete = true;
+                _canBarrelroll = false;
+            }
+        }
     }
-
+    private void ResetTrickTimers()
+    {
+        if (_backflipTimer != _backflipReset) _backflipTimer = _backflipReset;
+        _backflipComplete = false;
+        _canBackflip = false;
+        if (_barrelrollTimer != _barrelRollReset) _barrelrollTimer = _barrelRollReset;
+        _barrelrollComplete = false;
+        _canBarrelroll = false;
+    }
     public void Boost(float camFOV, bool particlesVal)
     {
         if (_camera != null) _camera.SetCameraFov(camFOV);
@@ -563,6 +606,16 @@ public class PlayerMovement : MonoBehaviour
         else { _grounded = false; }
     }
 
+    private void AirTimeGroundCheck()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, _inAirRayLength, _whatIsGround))
+        {
+            _noMoreTricksGrounded = true;
+        }
+        else { _noMoreTricksGrounded = false; }
+    }
+
     private void PlayerRotationCorrection()
     {
         float angle = Vector3.Angle(transform.up, Vector3.up);
@@ -572,55 +625,55 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Mud")
-        {
-            isInSlowdownZone = true;
-            SlowdownPlayer();
-        }
-        else if (other.CompareTag("JumpPad"))
-        {
-            LaunchPlayer();
-        }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.tag == "Mud")
+    //    {
+    //        isInSlowdownZone = true;
+    //        SlowdownPlayer();
+    //    }
+    //    else if (other.CompareTag("JumpPad"))
+    //    {
+    //        LaunchPlayer();
+    //    }
 
-    }
+    //}
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Mud")
-        {
-            isInSlowdownZone = false;
-            RestoreOriginalSpeed();
-        }
-    }
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.gameObject.tag == "Mud")
+    //    {
+    //        isInSlowdownZone = false;
+    //        RestoreOriginalSpeed();
+    //    }
+    //}
 
-    private void SlowdownPlayer()
-    {
-        _forwardAcceleration = 250; // Adjust this value as needed
-        _reverseAcceleration = 50;
-        _onSpotAcceleration = 1;
-        _tailWhipTurnStrength = 75f;
-        _boostTurnStrength = 25;
-        _dragOnGround = 1f;
-        _dragOnAcceleration = 5;
-    }
+    //private void SlowdownPlayer()
+    //{
+    //    _forwardAcceleration = 250; // Adjust this value as needed
+    //    _reverseAcceleration = 50;
+    //    _onSpotAcceleration = 1;
+    //    _tailWhipTurnStrength = 75f;
+    //    _boostTurnStrength = 25;
+    //    _dragOnGround = 1f;
+    //    _dragOnAcceleration = 5;
+    //}
 
-    private void RestoreOriginalSpeed()
-    {
-        _forwardAcceleration = 500; // Restore to the original value
-        _reverseAcceleration = 100;
-        _onSpotAcceleration = 50;
-        _tailWhipTurnStrength = 270f;
-        _boostTurnStrength = 45;
-        _dragOnGround = 3f;
-        _dragOnAcceleration = 10;
-    }
+    //private void RestoreOriginalSpeed()
+    //{
+    //    _forwardAcceleration = 500; // Restore to the original value
+    //    _reverseAcceleration = 100;
+    //    _onSpotAcceleration = 50;
+    //    _tailWhipTurnStrength = 270f;
+    //    _boostTurnStrength = 45;
+    //    _dragOnGround = 3f;
+    //    _dragOnAcceleration = 10;
+    //}
 
-    private void LaunchPlayer()
-    {
-        _sphereRB.AddForce(transform.up * jumpPadForce, ForceMode.Impulse);
-        _sphereRB.AddForce(transform.forward, ForceMode.Impulse);
-    }
+    //private void LaunchPlayer()
+    //{
+    //    _sphereRB.AddForce(transform.up * jumpPadForce, ForceMode.Impulse);
+    //    _sphereRB.AddForce(transform.forward, ForceMode.Impulse);
+    //}
 
 }
