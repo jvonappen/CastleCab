@@ -1,4 +1,5 @@
 using Cinemachine;
+using DG.Tweening;
 using System;
 using System.Collections;
 //using System.Diagnostics;
@@ -47,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _reverseAcceleration = 100f;
     [SerializeField] private float _onSpotAcceleration = 50f;
     [SerializeField] private float _wheelForwardRotation = 2f;
+    [SerializeField] private float _wheelSpinModifier = 10f;
     [SerializeField] private float _wheelReverseRotation = -1f;
     private float _directionalAcceleration;
     
@@ -57,6 +59,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _tailWhipTurnStrength = 270;
     [SerializeField] private float _boostTurnStrength = 45;
     [SerializeField] private float _onSpotTurnStrength = 90;
+    [SerializeField] private float _backflipTurnStrength = 430;
+    [SerializeField] private float _barrelrollTurnStrength = 450;
 
     [Header("RIGIDBODY DRAG VARIABLES")]
     [SerializeField] private float _dragOnGround = 3f;
@@ -70,7 +74,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _gravityForce = 1.5f;
     [SerializeField] private float maxTippingAngle = 45f;
     [SerializeField] private float _groundRayLength = 2f;
+    [SerializeField] private float _inAirRayLength = 10f;
     [field: SerializeField] public bool _grounded { get; private set; }
+    [field: SerializeField] public bool _noMoreTricksGrounded { get; private set; }
     
     [Header("BURNOUT VARIABLES")]
     [SerializeField] private bool _burnout = false;
@@ -88,15 +94,26 @@ public class PlayerMovement : MonoBehaviour
     private const float BOOST_FOV = 50f;
 
     //Aniamtion Variables
+    [SerializeField] private float _animSpeed = 0;
     private bool _stopped = true;
     private string _currentState;
     private const string Horse_Idle = "Idle";
     private const string Horse_Run = "Run";
     private const string Horse_Stop = "Stop";
     private const string Horse_Reverse = "Reverse";
+    private const string Horse_Blend_Tree = "Movement Blend Tree";
 
     private bool isInSlowdownZone = false;
     private bool hasBurst = false;
+    [SerializeField] private bool _canBackflip = false;
+    [SerializeField] private bool _backflipComplete = false;
+    [SerializeField] private bool _barrelrollComplete = false;
+    [SerializeField] private bool _canBarrelroll = false;
+    [SerializeField] private float _backflipTimer = 0.8f;
+    [SerializeField] private float _backflipReset = 0.8f;
+    [SerializeField] private float _barrelRollReset = 0.8f;
+    [SerializeField] private float _barrelrollTimer = 0.8f;
+    [SerializeField] private float jumpPadForce = 1; // Adjust the force as needed
 
     public bool freeze  //freeze player for Jacob's dialogue system
     {
@@ -137,6 +154,11 @@ public class PlayerMovement : MonoBehaviour
         else if (_playerInput._accelerationInput > 0 && _grounded) //forward acceleration on ground
         {
             _speedInput = _playerInput._boost != 0 ? _forwardAcceleration * _boostMultiplier : _forwardAcceleration* _playerInput._accelerationInput;
+
+            _animSpeed = Mathf.InverseLerp(_dragOnAcceleration + 20, _dragNormal, _dragOnGround) * _playerInput._accelerationInput;
+            Mathf.Clamp(_animSpeed, 0, 1);
+            _horseAnimator.SetFloat("Speed", _animSpeed);
+
             if (_tailWhipLeft || _tailWhipRight)
             {
                 if (_playerInput._boost == 0) _steeringTurnStrength = _tailWhipTurnStrength;
@@ -156,18 +178,18 @@ public class PlayerMovement : MonoBehaviour
         {
             _speedInput = _onSpotAcceleration;
             _steeringTurnStrength = _onSpotTurnStrength;
-            ChangeAnimatorState(Horse_Run);
+            _horseAnimator.SetFloat("Speed", 0.5f);
             Boost(NORMAL_FOV, false); //turn off boost
         }
         else //no acceleration or in air
         {
             _speedInput = 0;
             _steeringTurnStrength = _inAirTurnStrength;
+            _horseAnimator.SetFloat("Speed", 0f);
             NoAcceleration();
         }
 
         ReverseLockWagon(); //adjust wagon lock for reversing
-
         Debug.DrawRay(_groundRayPoint.position, -Vector3.up, Color.red); //DEBUG: for ground check
     }
 
@@ -177,7 +199,7 @@ public class PlayerMovement : MonoBehaviour
 
         GroundCheck(); //check if player is on gorund
         PlayerDragMovement(); //adds slow acceleration buildup and slow rolling stop
-        PlayerRotationCorrection(); //control tipping in air
+        //if (_backflipComplete || _barrelrollComplete) PlayerRotationCorrection(); //control tipping in air
 
         if (_grounded)
         {
@@ -189,10 +211,18 @@ public class PlayerMovement : MonoBehaviour
             {
                 TurnOnSpotPhysics();
             }
+            ResetTrickTimers();
         }
         else //physics controls in air
         {
             InAirPhysics();
+            AirTimeGroundCheck();
+
+            //tricks
+            if (_playerInput._backflip != 0 && _backflipComplete == false && !_canBarrelroll && !_noMoreTricksGrounded) _canBackflip = true;
+            if (_canBackflip) Backflip();
+            if (_playerInput._barrelRoll != 0 && _barrelrollComplete == false && !_canBackflip && !_noMoreTricksGrounded) _canBarrelroll = true;
+            if (_canBarrelroll) BarrelRoll();
         }
 
         //tailwhips
@@ -237,8 +267,8 @@ public class PlayerMovement : MonoBehaviour
             else Boost(NORMAL_FOV, false);
             _soundManager.Play("DonkeyTrott");
             _soundManager.Play("Wagon");
-            RotateWheels(_wheelForwardRotation);
-            ChangeAnimatorState(Horse_Run);
+            RotateWheels(_rigidbodySpeed / _wheelSpinModifier);
+            if (!IsAnimationPlaying(_horseAnimator, Horse_Stop)) ChangeAnimatorState(Horse_Blend_Tree);//ChangeAnimatorState(Horse_Run);
             if (!_bubbles._underWater) PlayParticles(_dustTrail);
             else StopParticles(_dustTrail);
             PlayTrail(_wheelTrail, true);
@@ -288,7 +318,8 @@ public class PlayerMovement : MonoBehaviour
             ChangeAnimatorState(Horse_Stop);
             _stopped = false;
         }
-        else if (!IsAnimationPlaying(_horseAnimator, Horse_Stop) && _playerInput._steeringInput == 0) ChangeAnimatorState(Horse_Idle);
+        //else ChangeAnimatorState(Horse_Blend_Tree);
+        else if (!IsAnimationPlaying(_horseAnimator, Horse_Stop) /*&& _playerInput._steeringInput == 0*/) ChangeAnimatorState(Horse_Blend_Tree);
 
         //kill effects
         StopParticles(_dustTrail);
@@ -296,7 +327,6 @@ public class PlayerMovement : MonoBehaviour
         StopParticles(_chargedBurnoutParticles);
         _soundManager.Stop("DonkeyTrott");
         _soundManager.Stop("Wagon");
-
     }
 
     IEnumerator Takeoff()
@@ -324,7 +354,8 @@ public class PlayerMovement : MonoBehaviour
         if (!_stopped) _stopped = true;
         _soundManager.Play("Burnout");
         RotateWheels(_wheelForwardRotation);
-        ChangeAnimatorState(Horse_Run);
+        _horseAnimator.SetFloat("Speed", 0.5f);
+        ChangeAnimatorState(Horse_Blend_Tree);
         PlayParticles(_burnoutParticles);
         if (_dragOnGround <= 3) PlayParticles(_chargedBurnoutParticles);
     }
@@ -366,6 +397,42 @@ public class PlayerMovement : MonoBehaviour
         _sphereRB.AddForce(Vector3.up * -_gravityForce * 100f);
     }
 
+    private void Backflip()
+    {
+        _backflipTimer -= Time.deltaTime;
+        if (_canBackflip)
+        {
+            transform.Rotate(-_backflipTurnStrength * Time.deltaTime, 0, 0, Space.Self);
+            if (_backflipTimer <= 0)
+            {
+                _backflipComplete = true;
+                _canBackflip = false;
+            }
+        }
+    }
+
+    private void BarrelRoll()
+    {
+        _barrelrollTimer -= Time.deltaTime;
+        if (_canBarrelroll)
+        {
+            transform.Rotate(0, 0, -_barrelrollTurnStrength * Time.deltaTime, Space.Self);
+            if (_barrelrollTimer <= 0)
+            {
+                _barrelrollComplete = true;
+                _canBarrelroll = false;
+            }
+        }
+    }
+    private void ResetTrickTimers()
+    {
+        if (_backflipTimer != _backflipReset) _backflipTimer = _backflipReset;
+        _backflipComplete = false;
+        _canBackflip = false;
+        if (_barrelrollTimer != _barrelRollReset) _barrelrollTimer = _barrelRollReset;
+        _barrelrollComplete = false;
+        _canBarrelroll = false;
+    }
     public void Boost(float camFOV, bool particlesVal)
     {
         if (_camera != null) _camera.SetCameraFov(camFOV);
@@ -494,11 +561,14 @@ public class PlayerMovement : MonoBehaviour
     {
         if (animator.GetCurrentAnimatorStateInfo(0).IsName(stateName) &&
             animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f ||
-            animator.IsInTransition(0)) 
+            animator.IsInTransition(0))
         {
             return true;
         }
-        else return false;
+        else
+        {
+            return false;
+        }
     }
 
     private void PlayerDragMovement()
@@ -536,6 +606,16 @@ public class PlayerMovement : MonoBehaviour
         else { _grounded = false; }
     }
 
+    private void AirTimeGroundCheck()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, _inAirRayLength, _whatIsGround))
+        {
+            _noMoreTricksGrounded = true;
+        }
+        else { _noMoreTricksGrounded = false; }
+    }
+
     private void PlayerRotationCorrection()
     {
         float angle = Vector3.Angle(transform.up, Vector3.up);
@@ -545,36 +625,55 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Mud")
-        {
-            isInSlowdownZone = true;
-            SlowdownPlayer();
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.tag == "Mud")
+    //    {
+    //        isInSlowdownZone = true;
+    //        SlowdownPlayer();
+    //    }
+    //    else if (other.CompareTag("JumpPad"))
+    //    {
+    //        LaunchPlayer();
+    //    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Mud")
-        {
-            isInSlowdownZone = false;
-            RestoreOriginalSpeed();
-        }
-    }
+    //}
 
-    private void SlowdownPlayer()
-    {
-        _forwardAcceleration = 150; // Adjust this value as needed
-        _reverseAcceleration = 50;
-        _onSpotAcceleration = 5;
-    }
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.gameObject.tag == "Mud")
+    //    {
+    //        isInSlowdownZone = false;
+    //        RestoreOriginalSpeed();
+    //    }
+    //}
 
-    private void RestoreOriginalSpeed()
-    {
-        _forwardAcceleration = 500; // Restore to the original value
-        _reverseAcceleration = 100;
-        _onSpotAcceleration = 50;
-    }
+    //private void SlowdownPlayer()
+    //{
+    //    _forwardAcceleration = 250; // Adjust this value as needed
+    //    _reverseAcceleration = 50;
+    //    _onSpotAcceleration = 1;
+    //    _tailWhipTurnStrength = 75f;
+    //    _boostTurnStrength = 25;
+    //    _dragOnGround = 1f;
+    //    _dragOnAcceleration = 5;
+    //}
+
+    //private void RestoreOriginalSpeed()
+    //{
+    //    _forwardAcceleration = 500; // Restore to the original value
+    //    _reverseAcceleration = 100;
+    //    _onSpotAcceleration = 50;
+    //    _tailWhipTurnStrength = 270f;
+    //    _boostTurnStrength = 45;
+    //    _dragOnGround = 3f;
+    //    _dragOnAcceleration = 10;
+    //}
+
+    //private void LaunchPlayer()
+    //{
+    //    _sphereRB.AddForce(transform.up * jumpPadForce, ForceMode.Impulse);
+    //    _sphereRB.AddForce(transform.forward, ForceMode.Impulse);
+    //}
 
 }
