@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using static System.TimeZoneInfo;
 
 public class AchievementManager : MonoBehaviour
 {
@@ -61,11 +62,13 @@ public class AchievementManager : MonoBehaviour
     public void DisplayAchievment()
     {
         _achievementCanvas.enabled = true;
+        StartCoroutine(EndDisplayAchievment());
     }
 
-    public void HideAchievment()
+    IEnumerator EndDisplayAchievment()
     {
-        _achievementCanvas.enabled = false;     
+        yield return new WaitForSeconds(5);
+        _achievementCanvas.enabled = false;      
     }
 
     private void Pegasus()  
@@ -104,7 +107,7 @@ public class AchievementManager : MonoBehaviour
     public void PloughHorse() 
     { /* Destroy (X) amount of fences */
         
-        if(fenceTracker >= fencesNeeded)
+        if(fenceTracker >= fencesNeeded && unlockPloughHorse == false)
         {
             unlockPloughHorse = true;
             _achievementText.text = "Plough Horse";
@@ -147,5 +150,7 @@ public class AchievementManager : MonoBehaviour
     //    if (unlockShowPony == true) { ShowPony(); }
     //    if (unlockPlatniumDriver == true) { PlatniumDriver(); }
     //}
+
+
 
 }
