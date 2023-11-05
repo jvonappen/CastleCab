@@ -11,30 +11,44 @@ public class AchievementManager : MonoBehaviour
     [SerializeField] private Canvas _achievementCanvas;
     [SerializeField] private TextMeshProUGUI _achievementText;
 
-    [Header("Achievements")]
+    [Header("Pegasus")]
     public bool unlockPegasus = false;
     public static float airTimeTick = 0;
     [SerializeField] private int airTimeNeeded = 5;
 
-   public bool unlockSmoothCriminal = false;
+    [Header("SmoothCriminal")]
+    public bool unlockSmoothCriminal = false;
 
+    [Header("BaconEggs")]
     public bool unlockBaconEggs = false;
+    private float bTimer = 5;
+    public static bool eggCheck = false;
+    public static bool baconCheck = false;
 
+    [Header("Collidesdale")]
     public bool unlockCollidesdale = false;
 
+    [Header("BaaBoom")]
     public bool unlockBaaBoom = false;
 
+    [Header("PloughHorse")]
     public bool unlockPloughHorse = false;
     public static int fenceTracker = 0;
     [SerializeField] private int fencesNeeded = 50;
 
+    [Header("Awakened")]
     public bool unlockAwakened = false;
 
+    [Header("SundayService")]
     public bool unlockSundayService = false;
 
+    [Header("ShowPony")]
     public bool unlockShowPony = false;
 
+    [Header("PlatniumDriver")]
     public bool unlockPlatniumDriver = false;
+
+
     private void Awake()
     {
         if (Instance == null)
@@ -89,11 +103,33 @@ public class AchievementManager : MonoBehaviour
 
         _achievementText.text = "Smooth Criminal";
     }
-    private void BaconEggs() 
+    public void BaconEggs() 
     { /* Kill a chicken and pig within (5) seconds */
 
-        _achievementText.text = "Bacon and Eggs";
+        StartCoroutine(BaconEggTimer());
+
+        
+
+        
     }
+    IEnumerator BaconEggTimer()
+    {
+        Debug.Log("Timer Started");
+        yield return new WaitForSeconds(bTimer);
+        if (eggCheck && baconCheck == true && unlockBaconEggs == false) { unlockBaconEggs = true; }
+        else
+        {
+            eggCheck = false; baconCheck = false;
+        }
+
+        if (unlockBaconEggs == true)
+        {
+            _achievementText.text = "Bacon and Eggs";
+            StartCoroutine(EndDisplayAchievment());
+        }
+        Debug.Log("Timer finished");          
+    }
+
     private void Collidesdale() 
     { /* Break 100 objects */
         
