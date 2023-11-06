@@ -1332,9 +1332,10 @@ GameObject:
   - component: {fileID: 5024293099420313207}
   - component: {fileID: 7149280236375665798}
   - component: {fileID: 3116510101185374928}
+  - component: {fileID: 412497620257224756}
   m_Layer: 0
   m_Name: Sheep (BaaBoom)
-  m_TagString: Sheep
+  m_TagString: BOOM
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1428,6 +1429,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &412497620257224756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6952877318149341153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db868b762f8cb1e4a9720d2ef90008ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionRadius: 45
+  explosionForce: 500
+  verticalLaunchForce: 150
+  rotationForce: 500
 --- !u!1 &7163837018480262413
 GameObject:
   m_ObjectHideFlags: 0
@@ -1984,7 +2001,6 @@ GameObject:
   - component: {fileID: 8925550577039118275}
   - component: {fileID: 8918728239342401209}
   - component: {fileID: 2166611093040201817}
-  - component: {fileID: 73851719837789016}
   - component: {fileID: 7112415166349483054}
   m_Layer: 0
   m_Name: Barrel_
@@ -2071,22 +2087,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objData: {fileID: 11400000, guid: 0e366efde3af1f2488dc13bd34dda5eb, type: 2}
---- !u!114 &73851719837789016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8949614032806183141}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db868b762f8cb1e4a9720d2ef90008ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  explosionRadius: 45
-  explosionForce: 9000
-  verticalLaunchForce: 1500
-  rotationForce: 500
 --- !u!65 &7112415166349483054
 BoxCollider:
   m_ObjectHideFlags: 0
