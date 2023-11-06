@@ -11,6 +11,8 @@ public class PlayerInput : MonoBehaviour
     [field: SerializeField] public float _steeringInput { get; private set; }
     [field: SerializeField] public float _tailWhip { get; private set; }
     [field: SerializeField] public float _boost { get; private set; }
+    [field: SerializeField] public float _backflip { get; private set; }
+    [field: SerializeField] public float _barrelRoll { get; private set; }
 
     private void Awake()
     {
@@ -30,6 +32,10 @@ public class PlayerInput : MonoBehaviour
         _playerControls.Controls.TailWhip.canceled += OnReleaseTailWhip;
         _playerControls.Controls.Boost.performed += OnBoost;
         _playerControls.Controls.Boost.canceled += OnReleaseBoost;
+        _playerControls.Controls.Backflip.performed += OnBackflip;
+        _playerControls.Controls.Backflip.canceled += OnReleaseBackflip;
+        _playerControls.Controls.BarrelRoll.performed += OnBarrelRoll;
+        _playerControls.Controls.BarrelRoll.canceled += OnReleaseBarrelRoll;
     }
 
     private void OnDisable()
@@ -90,5 +96,25 @@ public class PlayerInput : MonoBehaviour
     private void OnReleaseBoost(InputAction.CallbackContext value)
     {
         _boost = 0;
+    }
+
+    private void OnBackflip(InputAction.CallbackContext value)
+    {
+        _backflip = 1;
+    }
+
+    private void OnReleaseBackflip(InputAction.CallbackContext value)
+    {
+        _backflip = 0;
+    }
+
+    private void OnBarrelRoll(InputAction.CallbackContext value)
+    {
+        _barrelRoll = 1;
+    }
+
+    private void OnReleaseBarrelRoll(InputAction.CallbackContext value)
+    {
+        _barrelRoll = 0;
     }
 }
