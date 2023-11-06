@@ -406,6 +406,7 @@ public class PlayerMovement : MonoBehaviour
             if (_backflipTimer <= 0)
             {
                 _backflipComplete = true;
+                //add points to system
                 _canBackflip = false;
             }
         }
@@ -420,6 +421,7 @@ public class PlayerMovement : MonoBehaviour
             if (_barrelrollTimer <= 0)
             {
                 _barrelrollComplete = true;
+                //add points to system
                 _canBarrelroll = false;
             }
         }
