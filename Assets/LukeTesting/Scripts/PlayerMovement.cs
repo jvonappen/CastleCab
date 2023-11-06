@@ -563,47 +563,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Mud")
-        {
-            isInSlowdownZone = true;
-            SlowdownPlayer();
-        }
-        else if (other.CompareTag("JumpPad"))
+        if (other.CompareTag("JumpPad"))
         {
             LaunchPlayer();
         }
 
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Mud")
-        {
-            isInSlowdownZone = false;
-            RestoreOriginalSpeed();
-        }
-    }
-
-    private void SlowdownPlayer()
-    {
-        _forwardAcceleration = 250; // Adjust this value as needed
-        _reverseAcceleration = 50;
-        _onSpotAcceleration = 1;
-        _tailWhipTurnStrength = 75f;
-        _boostTurnStrength = 25;
-        _dragOnGround = 1f;
-        _dragOnAcceleration = 5;
-    }
-
-    private void RestoreOriginalSpeed()
-    {
-        _forwardAcceleration = 500; // Restore to the original value
-        _reverseAcceleration = 100;
-        _onSpotAcceleration = 50;
-        _tailWhipTurnStrength = 270f;
-        _boostTurnStrength = 45;
-        _dragOnGround = 3f;
-        _dragOnAcceleration = 10;
     }
 
     private void LaunchPlayer()

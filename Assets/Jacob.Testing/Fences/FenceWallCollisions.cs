@@ -84,7 +84,7 @@ public class FenceWallCollisions : MonoBehaviour
         {
             _particlePos = collision.transform;
             PlayParticle(_explosiveImpact);
-            collision.gameObject.GetComponentInChildren<ExplosionForce>().Explode();
+            collision.gameObject.GetComponent<ExplosionForce>().Explode();
             Destroy(collision.gameObject);
         }
 
