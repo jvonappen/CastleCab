@@ -29,6 +29,9 @@ public class PoliceAI : MonoBehaviour
     [SerializeField] private float chaseSpeed0; // speed
     [SerializeField] private float searchRange0; //aka wander
     [SerializeField] private bool sirenToggle;
+    [SerializeField] private bool inPursuit = false;
+
+    private Transform playerTransform;
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -41,15 +44,27 @@ public class PoliceAI : MonoBehaviour
 
     private void Update()
     {
-        if(agent.enabled)
+        
+
+        if (agent.enabled)
         {
             DishonourEvaluate();
-        }      
+        } 
+        
+        //if(inPursuit == true)
+        //{
+        //    float distance = Vector3.Distance(_playerTransform.position, agent.transform.position);
+        //    if (distance < chasingRange0)
+        //    {
+        //        agent.SetDestination(_playerTransform.position);
+        //    }
+        //}
     }
 
 
     private void DishonourEvaluate()
     {
+        InRange();
         if (Dishonour.dishonourLevel < Dishonour._oneStar)
         {
             DishonourZero();
@@ -66,8 +81,12 @@ public class PoliceAI : MonoBehaviour
         {
             DishonourThree();
         }
-        InRange();
+        
         agent.speed= searchRange0;
+        if(agent.speed > searchRange0)
+        {
+            agent.speed = searchRange0;
+        }
     }
 
     private void DishonourZero()   { chasingRange0 = 0;             chaseSpeed0 = movementSpeed; searchRange0 = wanderRange; }
@@ -113,7 +132,6 @@ public class PoliceAI : MonoBehaviour
             agent.SetDestination(_playerTransform.position);           
             DishonourIncrease();
             //Debug.Log("isChasing State");
-
         }
     }
     private void InRange()
@@ -122,9 +140,9 @@ public class PoliceAI : MonoBehaviour
         if (distance < chasingRange0)
         {
             Chase();
-            
+            //inPursuit = true;
         }
-        if (distance > chasingRange0) { WanderAllOver(); }
+        if (distance > chasingRange0) { WanderAllOver(); inPursuit = false; }
     }
 
     private void DishonourIncrease()
