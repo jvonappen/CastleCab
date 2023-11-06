@@ -1,3 +1,4 @@
+using JigglePhysics;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,8 @@ public class PigSplode : MonoBehaviour
     [SerializeField] ParticleSystem _playerImpact;
     [SerializeField] private Freeze _freezer;
     [SerializeField] private Material _matFlash;
+    [SerializeField] private CapsuleCollider _capsuleCollider;
+    [SerializeField] private JiggleRigBuilder _jiggles;
     [SerializeField] private List<Material> _materials;
     [SerializeField] private Component[] _skinnedMeshRenderers;
     [SerializeField] private ParticleSystem _wham;
@@ -36,8 +39,11 @@ public class PigSplode : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
         _soundManager = FindObjectOfType<SoundManager>();
+        _capsuleCollider = GetComponent<CapsuleCollider>();
         _freezer = FindObjectOfType<Freeze>();
         _skinnedMeshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
+        _jiggles = GetComponent<JiggleRigBuilder>();
+        _jiggles.enabled = false;
     }
 
     //Explode pig on impact with the player
@@ -52,17 +58,20 @@ public class PigSplode : MonoBehaviour
 
             if (player._accelerationInput > 0 && playerMovement._rigidbodySpeed > 15 || Tailwhip(player, playerMovement))
             {
+                _collisionOccured = true;
+                _capsuleCollider.enabled = false;
                 agent.enabled = false;
-
                 rb.AddExplosionForce(_force, this.transform.position, _radius, _upForce);
                 ParticleSystem bacon = Instantiate(_bacon, this.transform);
                 ParticleSystem explode = Instantiate(_explode, this.transform);
                 CameraShake.Instance.ShakeCamera(_camShakeIntesity, _camShakeTime);
+                
                 _freezer.Freezer();
                 FlashDamage();
 
                 _soundManager.Play("PigSqueal");
                 _soundManager.Play("Splatter");
+                if (!_freezer._isFrozen) _jiggles.enabled = true;
 
                 // Police Dishonor Level Increase
                 Dishonour.dishonourLevel = Dishonour.dishonourLevel + 100;
@@ -105,9 +114,14 @@ public class PigSplode : MonoBehaviour
         if (_collisionOccured)
         {
             _whamTimer -= Time.deltaTime;
-            if (_whamTimer <= 0) _collisionOccured = false;
+            if (_whamTimer <= 0)
+            {
+                _collisionOccured = false;
+                _capsuleCollider.enabled = true;
+            }
         }
         if (_whamTimer <= 0) _whamTimer = _resetTimer;
+
     }
 
     private bool Tailwhip(PlayerInput player, PlayerMovement playerMovement)

@@ -44,6 +44,8 @@ public class FenceWallCollisions : MonoBehaviour
         {
             AudioManager.Instance.StopSFX();
             AudioManager.Instance.PlaySFX("Chicken");
+            AchievementManager.eggCheck = true;
+            AchievementManager.Instance.BaconEggs();
             _particlePos = collision.transform;
             PlayParticle(_chickenImpact);
             Destroy(collision.gameObject);
@@ -52,6 +54,8 @@ public class FenceWallCollisions : MonoBehaviour
         {
             AudioManager.Instance.StopSFX();
             AudioManager.Instance.PlayGroupAudio("Pig");
+            AchievementManager.baconCheck = true;
+            AchievementManager.Instance.BaconEggs();
             _particlePos = collision.transform;
             PlayParticle(_pigImpact);
             Destroy(collision.gameObject);
