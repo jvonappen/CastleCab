@@ -377,6 +377,34 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""UI"",
+            ""id"": ""f0649746-fa63-4800-9523-5e64729da5a1"",
+            ""actions"": [
+                {
+                    ""name"": ""MenuNavigation"",
+                    ""type"": ""Button"",
+                    ""id"": ""65d69f26-30f9-4d64-bd46-dab9c537187f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""dc27657f-5984-4be4-b4d4-0acdd5baafef"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MenuNavigation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -391,6 +419,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Controls_Reverse = m_Controls.FindAction("Reverse", throwIfNotFound: true);
         m_Controls_Backflip = m_Controls.FindAction("Backflip", throwIfNotFound: true);
         m_Controls_BarrelRoll = m_Controls.FindAction("BarrelRoll", throwIfNotFound: true);
+        // UI
+        m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
+        m_UI_MenuNavigation = m_UI.FindAction("MenuNavigation", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -535,6 +566,39 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         }
     }
     public ControlsActions @Controls => new ControlsActions(this);
+
+    // UI
+    private readonly InputActionMap m_UI;
+    private IUIActions m_UIActionsCallbackInterface;
+    private readonly InputAction m_UI_MenuNavigation;
+    public struct UIActions
+    {
+        private @PlayerControls m_Wrapper;
+        public UIActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @MenuNavigation => m_Wrapper.m_UI_MenuNavigation;
+        public InputActionMap Get() { return m_Wrapper.m_UI; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
+        public void SetCallbacks(IUIActions instance)
+        {
+            if (m_Wrapper.m_UIActionsCallbackInterface != null)
+            {
+                @MenuNavigation.started -= m_Wrapper.m_UIActionsCallbackInterface.OnMenuNavigation;
+                @MenuNavigation.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnMenuNavigation;
+                @MenuNavigation.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnMenuNavigation;
+            }
+            m_Wrapper.m_UIActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @MenuNavigation.started += instance.OnMenuNavigation;
+                @MenuNavigation.performed += instance.OnMenuNavigation;
+                @MenuNavigation.canceled += instance.OnMenuNavigation;
+            }
+        }
+    }
+    public UIActions @UI => new UIActions(this);
     public interface IControlsActions
     {
         void OnAcceleration(InputAction.CallbackContext context);
@@ -545,5 +609,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnReverse(InputAction.CallbackContext context);
         void OnBackflip(InputAction.CallbackContext context);
         void OnBarrelRoll(InputAction.CallbackContext context);
+    }
+    public interface IUIActions
+    {
+        void OnMenuNavigation(InputAction.CallbackContext context);
     }
 }
