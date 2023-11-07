@@ -117,8 +117,8 @@ public class PoliceAI : MonoBehaviour
         if (distance < chasingRange0)
         {
             agent.SetDestination(_playerTransform.position);
-            agent.transform.LookAt(playerTransform.position);
-            agent.transform.Rotate(0, 180, 0);
+            agent.transform.LookAt(_playerTransform.position);
+           
             DishonourIncrease();
             Debug.Log("WeeWoo");
         }
@@ -131,7 +131,13 @@ public class PoliceAI : MonoBehaviour
             Chase();
             inPursuit = true;
         }
-        if (distance > chasingRange0) { WanderAllOver(); inPursuit = false; }
+        if (distance > chasingRange0) 
+        {
+            
+            WanderAllOver(); 
+            inPursuit = false; 
+
+        }
     }
 
     private void DishonourIncrease()
