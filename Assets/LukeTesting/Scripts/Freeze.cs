@@ -6,7 +6,7 @@ public class Freeze : MonoBehaviour
 {
     [field: SerializeField] public float _duration { get; private set; } = 0.2f;
     [SerializeField] private float _pendingFreezeDuration = 0;
-    [SerializeField] private bool _isFrozen = false;
+    [SerializeField] public bool _isFrozen { get; private set; } = false;
 
     private void Update()
     {
