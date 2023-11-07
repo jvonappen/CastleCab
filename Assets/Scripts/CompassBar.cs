@@ -30,15 +30,15 @@ public class CompassBar : MonoBehaviour
 
     void Update()
     {
-        SetMarkerPosition(northMarkerTransform, Vector3.forward * 10000);
-        SetMarkerPosition(southMarkerTransform, Vector3.back * 10000);
-        SetMarkerPosition(eastMarkerTransform, Vector3.right * 10000);
-        SetMarkerPosition(westMarkerTransform, Vector3.left * 10000);
+        SetMarkerPosition(northMarkerTransform, Vector3.forward * 1000);
+        SetMarkerPosition(southMarkerTransform, Vector3.back * 1000);
+        SetMarkerPosition(eastMarkerTransform, Vector3.right * 1000);
+        SetMarkerPosition(westMarkerTransform, Vector3.left * 1000);
 
-        SetMarkerPosition(northEastMarkerTransform, (Vector3.forward + Vector3.right) / 2 * 10000);
-        SetMarkerPosition(northWestMarkerTransform, (Vector3.forward + Vector3.left) / 2 * 10000);
-        SetMarkerPosition(southWestMarkerTransform, (Vector3.back - Vector3.right) / 2 * 10000);
-        SetMarkerPosition(southEastMarkerTransform, (Vector3.back - Vector3.left) / 2 * 10000);
+        //SetMarkerPosition(northEastMarkerTransform, (Vector3.forward + Vector3.right) / 2 * 1000);
+        //SetMarkerPosition(northWestMarkerTransform, (Vector3.forward + Vector3.left) / 2 * 1000);
+        //SetMarkerPosition(southWestMarkerTransform, (Vector3.back - Vector3.right) / 2 * 1000);
+        //SetMarkerPosition(southEastMarkerTransform, (Vector3.back - Vector3.left) / 2 * 1000);
 
         if (objectiveObjectTransform == null)
         {
