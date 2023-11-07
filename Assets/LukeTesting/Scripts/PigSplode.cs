@@ -56,7 +56,7 @@ public class PigSplode : MonoBehaviour
             PlayerMovement playerMovement = other.gameObject.GetComponent<PlayerMovement>();
             PlayerInput player = other.gameObject.GetComponent<PlayerInput>();
 
-            if (player._accelerationInput > 0 && playerMovement._rigidbodySpeed > 15 || Tailwhip(player, playerMovement))
+            if (player._accelerationInput > 0 && playerMovement._rigidbodySpeed > 1500 /*Increased to stop boost kills - Jacob*/ || Tailwhip(player, playerMovement))
             {
                 _collisionOccured = true;
                 _capsuleCollider.enabled = false;
