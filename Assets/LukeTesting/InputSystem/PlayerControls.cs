@@ -98,6 +98,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""4f46e380-72d0-4e93-af5e-dadb7133a742"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -375,32 +384,26 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""BarrelRoll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                }
-            ]
-        },
-        {
-            ""name"": ""UI"",
-            ""id"": ""f0649746-fa63-4800-9523-5e64729da5a1"",
-            ""actions"": [
-                {
-                    ""name"": ""MenuNavigation"",
-                    ""type"": ""Button"",
-                    ""id"": ""65d69f26-30f9-4d64-bd46-dab9c537187f"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                }
-            ],
-            ""bindings"": [
+                },
                 {
                     ""name"": """",
-                    ""id"": ""dc27657f-5984-4be4-b4d4-0acdd5baafef"",
-                    ""path"": """",
+                    ""id"": ""e88d3592-7338-4cc9-aedd-3b73ec06042a"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""MenuNavigation"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""32eab53f-f82d-4ffb-bfaa-37872dca6237"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -419,9 +422,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Controls_Reverse = m_Controls.FindAction("Reverse", throwIfNotFound: true);
         m_Controls_Backflip = m_Controls.FindAction("Backflip", throwIfNotFound: true);
         m_Controls_BarrelRoll = m_Controls.FindAction("BarrelRoll", throwIfNotFound: true);
-        // UI
-        m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
-        m_UI_MenuNavigation = m_UI.FindAction("MenuNavigation", throwIfNotFound: true);
+        m_Controls_Interact = m_Controls.FindAction("Interact", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -489,6 +490,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Controls_Reverse;
     private readonly InputAction m_Controls_Backflip;
     private readonly InputAction m_Controls_BarrelRoll;
+    private readonly InputAction m_Controls_Interact;
     public struct ControlsActions
     {
         private @PlayerControls m_Wrapper;
@@ -501,6 +503,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Reverse => m_Wrapper.m_Controls_Reverse;
         public InputAction @Backflip => m_Wrapper.m_Controls_Backflip;
         public InputAction @BarrelRoll => m_Wrapper.m_Controls_BarrelRoll;
+        public InputAction @Interact => m_Wrapper.m_Controls_Interact;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -534,6 +537,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @BarrelRoll.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnBarrelRoll;
                 @BarrelRoll.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnBarrelRoll;
                 @BarrelRoll.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnBarrelRoll;
+                @Interact.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnInteract;
             }
             m_Wrapper.m_ControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -562,43 +568,13 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @BarrelRoll.started += instance.OnBarrelRoll;
                 @BarrelRoll.performed += instance.OnBarrelRoll;
                 @BarrelRoll.canceled += instance.OnBarrelRoll;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
             }
         }
     }
     public ControlsActions @Controls => new ControlsActions(this);
-
-    // UI
-    private readonly InputActionMap m_UI;
-    private IUIActions m_UIActionsCallbackInterface;
-    private readonly InputAction m_UI_MenuNavigation;
-    public struct UIActions
-    {
-        private @PlayerControls m_Wrapper;
-        public UIActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @MenuNavigation => m_Wrapper.m_UI_MenuNavigation;
-        public InputActionMap Get() { return m_Wrapper.m_UI; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
-        public void SetCallbacks(IUIActions instance)
-        {
-            if (m_Wrapper.m_UIActionsCallbackInterface != null)
-            {
-                @MenuNavigation.started -= m_Wrapper.m_UIActionsCallbackInterface.OnMenuNavigation;
-                @MenuNavigation.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnMenuNavigation;
-                @MenuNavigation.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnMenuNavigation;
-            }
-            m_Wrapper.m_UIActionsCallbackInterface = instance;
-            if (instance != null)
-            {
-                @MenuNavigation.started += instance.OnMenuNavigation;
-                @MenuNavigation.performed += instance.OnMenuNavigation;
-                @MenuNavigation.canceled += instance.OnMenuNavigation;
-            }
-        }
-    }
-    public UIActions @UI => new UIActions(this);
     public interface IControlsActions
     {
         void OnAcceleration(InputAction.CallbackContext context);
@@ -609,9 +585,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnReverse(InputAction.CallbackContext context);
         void OnBackflip(InputAction.CallbackContext context);
         void OnBarrelRoll(InputAction.CallbackContext context);
-    }
-    public interface IUIActions
-    {
-        void OnMenuNavigation(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
 }

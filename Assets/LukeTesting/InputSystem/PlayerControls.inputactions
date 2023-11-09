@@ -76,6 +76,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "4f46e380-72d0-4e93-af5e-dadb7133a742",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -353,32 +362,26 @@
                     "action": "BarrelRoll",
                     "isComposite": false,
                     "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "UI",
-            "id": "f0649746-fa63-4800-9523-5e64729da5a1",
-            "actions": [
-                {
-                    "name": "MenuNavigation",
-                    "type": "Button",
-                    "id": "65d69f26-30f9-4d64-bd46-dab9c537187f",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
+                },
                 {
                     "name": "",
-                    "id": "dc27657f-5984-4be4-b4d4-0acdd5baafef",
-                    "path": "",
+                    "id": "e88d3592-7338-4cc9-aedd-3b73ec06042a",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "MenuNavigation",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "32eab53f-f82d-4ffb-bfaa-37872dca6237",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

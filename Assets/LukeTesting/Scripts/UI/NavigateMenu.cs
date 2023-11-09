@@ -5,23 +5,19 @@ using UnityEngine.UI;
 
 public class NavigateMenu : MonoBehaviour
 {
+    [SerializeField] private PlayerInput _playerInput;
     [SerializeField] private List<GameObject> _tabs = new List<GameObject>();
+    [SerializeField] private EnterCustomisation _enterCustomisation;
 
     private void Awake()
     {
+        _playerInput = FindObjectOfType<PlayerInput>();
         Buttons();
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Update()
     {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void Buttons()
