@@ -93,6 +93,8 @@ public class PoliceAI : MonoBehaviour
             if (FindRandomPoint(wanderTransform.position, searchRange0, out point)) //pass in centrepoint and radius of area
             {
                 agent.SetDestination(point);
+                transform.Rotate(point);
+                transform.LookAt(point);
             }
         }
     }
@@ -116,7 +118,7 @@ public class PoliceAI : MonoBehaviour
         float distance = Vector3.Distance(_playerTransform.position, agent.transform.position);
         if (distance < chasingRange0)
         {
-            Vector3 lookAtDonkey = new Vector3(_playerTransform.position.x, _playerTransform.position.y, _playerTransform.position.z);
+            Vector3 lookAtDonkey = new Vector3(_playerTransform.position.x, agent.transform.position.y, _playerTransform.position.z);
             agent.SetDestination(_playerTransform.position);
             agent.transform.LookAt(lookAtDonkey);
            
