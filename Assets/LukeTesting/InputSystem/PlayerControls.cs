@@ -80,6 +80,24 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Backflip"",
+                    ""type"": ""Button"",
+                    ""id"": ""e09e04a9-49ed-421f-a4f3-f0c17da74cd4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BarrelRoll"",
+                    ""type"": ""Button"",
+                    ""id"": ""1b0ac286-96d7-42ff-8753-60f84cbfb3fb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -313,6 +331,50 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Reverse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9327b074-0e51-4cfa-bac2-d968ce0c2666"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Backflip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0130c7a0-5b13-4f58-9641-cb700dd641db"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Backflip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""465a9372-acdc-4b4e-a0d3-31aec1eecf71"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BarrelRoll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f21136f9-4083-48df-81f1-e1bc72431902"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BarrelRoll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -327,6 +389,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Controls_Look = m_Controls.FindAction("Look", throwIfNotFound: true);
         m_Controls_Boost = m_Controls.FindAction("Boost", throwIfNotFound: true);
         m_Controls_Reverse = m_Controls.FindAction("Reverse", throwIfNotFound: true);
+        m_Controls_Backflip = m_Controls.FindAction("Backflip", throwIfNotFound: true);
+        m_Controls_BarrelRoll = m_Controls.FindAction("BarrelRoll", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -392,6 +456,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Controls_Look;
     private readonly InputAction m_Controls_Boost;
     private readonly InputAction m_Controls_Reverse;
+    private readonly InputAction m_Controls_Backflip;
+    private readonly InputAction m_Controls_BarrelRoll;
     public struct ControlsActions
     {
         private @PlayerControls m_Wrapper;
@@ -402,6 +468,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_Controls_Look;
         public InputAction @Boost => m_Wrapper.m_Controls_Boost;
         public InputAction @Reverse => m_Wrapper.m_Controls_Reverse;
+        public InputAction @Backflip => m_Wrapper.m_Controls_Backflip;
+        public InputAction @BarrelRoll => m_Wrapper.m_Controls_BarrelRoll;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -429,6 +497,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Reverse.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnReverse;
                 @Reverse.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnReverse;
                 @Reverse.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnReverse;
+                @Backflip.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnBackflip;
+                @Backflip.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnBackflip;
+                @Backflip.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnBackflip;
+                @BarrelRoll.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnBarrelRoll;
+                @BarrelRoll.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnBarrelRoll;
+                @BarrelRoll.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnBarrelRoll;
             }
             m_Wrapper.m_ControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -451,6 +525,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Reverse.started += instance.OnReverse;
                 @Reverse.performed += instance.OnReverse;
                 @Reverse.canceled += instance.OnReverse;
+                @Backflip.started += instance.OnBackflip;
+                @Backflip.performed += instance.OnBackflip;
+                @Backflip.canceled += instance.OnBackflip;
+                @BarrelRoll.started += instance.OnBarrelRoll;
+                @BarrelRoll.performed += instance.OnBarrelRoll;
+                @BarrelRoll.canceled += instance.OnBarrelRoll;
             }
         }
     }
@@ -463,5 +543,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnBoost(InputAction.CallbackContext context);
         void OnReverse(InputAction.CallbackContext context);
+        void OnBackflip(InputAction.CallbackContext context);
+        void OnBarrelRoll(InputAction.CallbackContext context);
     }
 }

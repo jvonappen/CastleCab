@@ -5553,6 +5553,7 @@ GameObject:
   - component: {fileID: 5749727919895441228}
   - component: {fileID: 5749727919895441229}
   - component: {fileID: 5749727919895441226}
+  - component: {fileID: 430665523}
   m_Layer: 14
   m_Name: PigGuard
   m_TagString: Untagged
@@ -5622,13 +5623,13 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.56
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 5
+  m_Acceleration: 50
   avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_AngularSpeed: 8
+  m_StoppingDistance: 2
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 1.5
   m_BaseOffset: -0.1
@@ -5671,6 +5672,7 @@ MonoBehaviour:
   chaseSpeed0: 0
   searchRange0: 0
   sirenToggle: 0
+  inPursuit: 0
 --- !u!114 &5749727919895441226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5687,9 +5689,15 @@ MonoBehaviour:
   _explode: {fileID: 3239914154907070157, guid: 2fbca4a5269f4e541b5f26158b088f80, type: 3}
   _bacon: {fileID: 2040044314665895852, guid: b7c721497d8739843a7ca2240e1453d4, type: 3}
   _playerImpact: {fileID: 4021103657954561960, guid: 4e02793df9bf34349b083877e5357a62, type: 3}
+  _freezer: {fileID: 0}
+  _matFlash: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  _capsuleCollider: {fileID: 0}
+  _jiggles: {fileID: 0}
+  _materials: []
+  _skinnedMeshRenderers: []
   _wham: {fileID: 3337905222051100615, guid: f33ac58f6b93ec34aad287278cee2b06, type: 3}
   _force: 1000
-  _playerForce: 100
+  _playerForce: 150
   _upForce: 500
   _radius: 2
   _camShakeIntesity: 4
@@ -5699,6 +5707,26 @@ MonoBehaviour:
   _whams: []
   _collisionOccured: 0
   _resetTimer: 0.5
+--- !u!114 &430665523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5749727919895441224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d76f24409a39604ca3986f91ce6d28a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interpolate: 1
+  jiggleRigs:
+  - rootTransform: {fileID: 5749727919895441227}
+    jiggleSettings: {fileID: 11400000, guid: d15debfc9de0f5941bcac3bd71b71c70, type: 2}
+    ignoredTransforms: []
+    colliders: []
+  wind: {x: 0, y: 0, z: 0}
+  debugDraw: 0
 --- !u!1 &5749727919903628154
 GameObject:
   m_ObjectHideFlags: 0
