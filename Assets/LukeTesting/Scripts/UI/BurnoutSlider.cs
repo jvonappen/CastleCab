@@ -13,7 +13,6 @@ public class BurnoutSlider : MonoBehaviour
     [SerializeField] private Canvas _canvas;
     [SerializeField] private Camera _camera;
     private bool _burnout = false;
-    private bool _pulse = false;
     private Tween _pulseTween;
 
     private void Awake()

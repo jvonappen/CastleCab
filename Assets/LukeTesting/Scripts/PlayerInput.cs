@@ -13,6 +13,7 @@ public class PlayerInput : MonoBehaviour
     [field: SerializeField] public float _boost { get; private set; }
     [field: SerializeField] public float _backflip { get; private set; }
     [field: SerializeField] public float _barrelRoll { get; private set; }
+    [field: SerializeField] public bool _interact { get; private set; }
 
     private void Awake()
     {
@@ -36,6 +37,8 @@ public class PlayerInput : MonoBehaviour
         _playerControls.Controls.Backflip.canceled += OnReleaseBackflip;
         _playerControls.Controls.BarrelRoll.performed += OnBarrelRoll;
         _playerControls.Controls.BarrelRoll.canceled += OnReleaseBarrelRoll;
+        _playerControls.Controls.Interact.started += OnInteract;
+        _playerControls.Controls.Interact.canceled += OnReleaseInteract;
     }
 
     private void OnDisable()
@@ -116,5 +119,16 @@ public class PlayerInput : MonoBehaviour
     private void OnReleaseBarrelRoll(InputAction.CallbackContext value)
     {
         _barrelRoll = 0;
+    }
+
+    private void OnInteract(InputAction.CallbackContext context)
+    {
+        if (context.started) _interact = true;
+        Debug.Log("Interacted");
+    }
+
+    private void OnReleaseInteract(InputAction.CallbackContext context)
+    {
+        if (context.canceled) _interact = false;
     }
 }
