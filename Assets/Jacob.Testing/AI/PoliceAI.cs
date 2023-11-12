@@ -44,21 +44,12 @@ public class PoliceAI : MonoBehaviour
 
     private void Update()
     {
-        
-
         if (agent.enabled)
         {
             DishonourEvaluate();
-        } 
-        
-        //if(inPursuit == true)
-        //{
-        //    float distance = Vector3.Distance(_playerTransform.position, agent.transform.position);
-        //    if (distance < chasingRange0)
-        //    {
-        //        agent.SetDestination(_playerTransform.position);
-        //    }
-        //}
+        }
+
+
     }
 
 
@@ -81,12 +72,9 @@ public class PoliceAI : MonoBehaviour
         {
             DishonourThree();
         }
-        
-        agent.speed= searchRange0;
-        if(agent.speed > searchRange0)
-        {
-            agent.speed = searchRange0;
-        }
+
+
+        agent.speed = chaseSpeed0;
     }
 
     private void DishonourZero()   { chasingRange0 = 0;             chaseSpeed0 = movementSpeed; searchRange0 = wanderRange; }
@@ -105,6 +93,8 @@ public class PoliceAI : MonoBehaviour
             if (FindRandomPoint(wanderTransform.position, searchRange0, out point)) //pass in centrepoint and radius of area
             {
                 agent.SetDestination(point);
+                transform.Rotate(point);
+                transform.LookAt(point);
             }
         }
     }
@@ -128,10 +118,12 @@ public class PoliceAI : MonoBehaviour
         float distance = Vector3.Distance(_playerTransform.position, agent.transform.position);
         if (distance < chasingRange0)
         {
-            agent.isStopped = false;
-            agent.SetDestination(_playerTransform.position);           
+            Vector3 lookAtDonkey = new Vector3(_playerTransform.position.x, agent.transform.position.y, _playerTransform.position.z);
+            agent.SetDestination(_playerTransform.position);
+            agent.transform.LookAt(lookAtDonkey);
+           
             DishonourIncrease();
-            //Debug.Log("isChasing State");
+            Debug.Log("WeeWoo");
         }
     }
     private void InRange()
@@ -140,9 +132,15 @@ public class PoliceAI : MonoBehaviour
         if (distance < chasingRange0)
         {
             Chase();
-            //inPursuit = true;
+            inPursuit = true;
         }
-        if (distance > chasingRange0) { WanderAllOver(); inPursuit = false; }
+        if (distance > chasingRange0) 
+        {
+            
+            WanderAllOver(); 
+            inPursuit = false; 
+
+        }
     }
 
     private void DishonourIncrease()

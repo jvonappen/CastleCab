@@ -9,10 +9,11 @@ public class PlayerName : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _playerName;
     private TMP_InputField _playerText;
     
-   private void Awake()
-   {
+    private void Awake()
+    {
         _playerText = GetComponent<TMP_InputField>();
         _playerText.text = PlayerPrefs.GetString("PlayerName");
+        _playerText.onValueChanged.AddListener(delegate { SaveName(); });
     }
 
     public void SaveName()
