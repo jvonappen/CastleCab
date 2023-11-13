@@ -4,19 +4,23 @@ using UnityEngine;
 
 public class EnterCustomisation : MonoBehaviour
 {
-    private PlayerInput _playerInput;
     [SerializeField] private GameObject _customisationCanvas;
     [SerializeField] private GameObject _customisationSetup;
+    [SerializeField] private SwitchCamera _switchCamera;
 
+    private PlayerInput _playerInput;
     public bool _canTransfer;
-    private SwitchCamera _switchCamera;
+    
 
     private void Awake()
     {
-        _playerInput = FindObjectOfType<PlayerInput>();
+        _playerInput = GetComponent<PlayerInput>();
         _customisationCanvas.SetActive(false);
-        _switchCamera = GetComponent<SwitchCamera>();
-        _customisationSetup.SetActive(false);
+    }
+
+    private void Start()
+    {
+        _customisationSetup.SetActive(false); //do this after awake so customisation materials can be applied
     }
 
     private void Update()
@@ -24,36 +28,34 @@ public class EnterCustomisation : MonoBehaviour
         if (_canTransfer && _playerInput._playerControls.Controls.Interact.WasPerformedThisFrame())
         {
             TransferPlayer();
-            _canTransfer = false;
-        }
-        else if (_customisationSetup.activeSelf == true && _playerInput._playerControls.Controls.Interact.WasPerformedThisFrame())
-        {
-            TransferPlayer();
-            _canTransfer = true;
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "PaintShop")
         {
-            _customisationCanvas.SetActive(true);
-            _canTransfer = true;
+            if (_customisationCanvas.activeSelf == false && _customisationSetup.activeSelf != true)
+            {
+                _customisationCanvas.SetActive(true);
+                _canTransfer = true;
+            }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "PaintShop")
         {
             _customisationCanvas.SetActive(false);
             _canTransfer = false;
         }
     }
 
-    public void TransferPlayer()
+    private void TransferPlayer()
     {
         _customisationSetup.SetActive(!_customisationSetup.activeSelf);
+        _customisationCanvas.SetActive(!_customisationCanvas.activeSelf);
         _switchCamera.ManageCamera();
     }
 }

@@ -96,7 +96,6 @@ public class CustomisationTab : MonoBehaviour
             {
                 GameObject hat = Instantiate(_tabs.modelOption[index], _hatPos);
                 hat.transform.parent = _hatPos.transform;
-                _setMaterials.SetHatObject(_tabs.modelOption[index]);
             }
             else
             {
@@ -105,9 +104,9 @@ public class CustomisationTab : MonoBehaviour
                 {
                     GameObject hat = Instantiate(_tabs.modelOption[index], _hatPos);
                     hat.transform.parent = _hatPos.transform;
-                    _setMaterials.SetHatObject(_tabs.modelOption[index]);
                 }
             }
+            _setMaterials.SetHatObject(_tabs.modelOption[index]);
         }
     }
 

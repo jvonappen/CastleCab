@@ -30,7 +30,7 @@ public class SwitchCamera : MonoBehaviour
 
     public void Cam2()
     {
-        Camera1.SetActive(false);
         Camera2.SetActive(true);
+        Camera1.SetActive(false);
     }
 }
