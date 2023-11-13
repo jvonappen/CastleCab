@@ -13,6 +13,7 @@ public class CustomisationTab : MonoBehaviour
     [SerializeField] private List<MeshRenderer> _wheelMeshRenderer;
     [SerializeField] private SkinnedMeshRenderer _horseSkinnedMeshRenderer;
     [SerializeField] private Transform _hatPos;
+    [SerializeField] private SetMaterials _setMaterials;
     [SerializeField] private Tab _tabs;
     [SerializeField] private int index = 0;
     [SerializeField] private string _saveString;
@@ -20,6 +21,7 @@ public class CustomisationTab : MonoBehaviour
 
     private void Awake()
     {
+        _setMaterials = FindObjectOfType<SetMaterials>();
         right = transform.Find("Right");
         left = transform.Find("Left");
         _tabs = GetComponent<Tab>();   
@@ -63,13 +65,18 @@ public class CustomisationTab : MonoBehaviour
         _text.text = _tabs.tabOption[index].ToString();
 
         //change cart material
-        if (_cartMeshRenderer != null) _cartMeshRenderer.material = _tabs.colorOption[index];
-
+        if (_cartMeshRenderer != null)
+        {
+            _cartMeshRenderer.material = _tabs.colorOption[index];
+            _setMaterials.SetCartMaterials(_tabs.colorOption[index]);
+        }
+        
         //chnage horse colour
         if (_horseSkinnedMeshRenderer != null)
         {
             _horseSkinnedMeshRenderer.material.SetTexture("_1st_ShadeMap", _tabs.texture2D[index]);
             _horseSkinnedMeshRenderer.material.SetTexture("_MainTex", _tabs.texture2D[index]);
+            _setMaterials.SetHorseMaterials(_tabs.texture2D[index]);
         }
 
         //change wheel colour
@@ -78,6 +85,7 @@ public class CustomisationTab : MonoBehaviour
             foreach (MeshRenderer wheel in _wheelMeshRenderer)
             {
                 wheel.material = _tabs.colorOption[index];
+                _setMaterials.SetWheelsMaterials(_tabs.colorOption[index]);
             }
         }
 
@@ -88,6 +96,7 @@ public class CustomisationTab : MonoBehaviour
             {
                 GameObject hat = Instantiate(_tabs.modelOption[index], _hatPos);
                 hat.transform.parent = _hatPos.transform;
+                _setMaterials.SetHatObject(_tabs.modelOption[index]);
             }
             else
             {
@@ -96,6 +105,7 @@ public class CustomisationTab : MonoBehaviour
                 {
                     GameObject hat = Instantiate(_tabs.modelOption[index], _hatPos);
                     hat.transform.parent = _hatPos.transform;
+                    _setMaterials.SetHatObject(_tabs.modelOption[index]);
                 }
             }
         }

@@ -4,8 +4,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerInput : MonoBehaviour
 {
-    [Header("INPUT VARIABLES FOR DEBUGGING, DO NOT TOUCH")]
-    private PlayerControls _playerControls;
+    //[Header("INPUT VARIABLES FOR DEBUGGING, DO NOT TOUCH")]
+    public PlayerControls _playerControls {  get; private set; }
     [field: SerializeField] public float _accelerationInput { get; private set; }
     [field: SerializeField] public float _reverseInput { get; private set; }
     [field: SerializeField] public float _steeringInput { get; private set; }
@@ -124,7 +124,6 @@ public class PlayerInput : MonoBehaviour
     private void OnInteract(InputAction.CallbackContext context)
     {
         if (context.started) _interact = true;
-        Debug.Log("Interacted");
     }
 
     private void OnReleaseInteract(InputAction.CallbackContext context)

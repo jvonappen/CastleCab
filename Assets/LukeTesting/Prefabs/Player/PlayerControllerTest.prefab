@@ -225,6 +225,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 143783270893440881}
+  - component: {fileID: 1797760937}
   m_Layer: 0
   m_Name: PlayerControllerTest
   m_TagString: Player
@@ -250,6 +251,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1797760937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143783270893440880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a86f89fb013658d4a8ee6bb828ffb295, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cartMeshRenderer: {fileID: 9129345010196828771}
+  _wheelMeshRenderer:
+  - {fileID: 877099359348221060}
+  - {fileID: 8245399234942121717}
+  _horseSkinnedMeshRenderer: {fileID: 5341551574238449134}
+  _hatPos: {fileID: 606792497496252894}
 --- !u!1 &143783271113110114
 GameObject:
   m_ObjectHideFlags: 0
@@ -1136,6 +1155,7 @@ MonoBehaviour:
   <_boost>k__BackingField: 0
   <_backflip>k__BackingField: 0
   <_barrelRoll>k__BackingField: 0
+  <_interact>k__BackingField: 0
 --- !u!114 &3517994449852718664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1192,6 +1212,7 @@ MonoBehaviour:
   _joint: {fileID: 0}
   _recenetering: {fileID: 0}
   _bubbles: {fileID: 0}
+  _burnoutSlider: {fileID: 0}
   _speedInput: 0
   <_rigidbodySpeed>k__BackingField: 0
   _forwardAcceleration: 500
@@ -1206,7 +1227,7 @@ MonoBehaviour:
   _tailWhipTurnStrength: 270
   _boostTurnStrength: 45
   _onSpotTurnStrength: 90
-  _backflipTurnStrength: 720
+  _backflipTurnStrength: 430
   _barrelrollTurnStrength: 450
   _dragOnGround: 3
   _dragOnAcceleration: 10
@@ -1217,7 +1238,7 @@ MonoBehaviour:
   _gravityForce: 1.5
   maxTippingAngle: 45
   _groundRayLength: 2
-  _inAirRayLength: 10
+  _inAirRayLength: 15
   <_grounded>k__BackingField: 0
   <_noMoreTricksGrounded>k__BackingField: 0
   _burnout: 0
@@ -2138,6 +2159,37 @@ Transform:
   m_Father: {fileID: 143783271931345152}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1819736012832500715
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 606792497496252894}
+  m_Layer: 0
+  m_Name: HatPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &606792497496252894
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1819736012832500715}
+  m_LocalRotation: {x: -0.6402199, y: -0.6402199, z: 0.30019742, w: 0.30019742}
+  m_LocalPosition: {x: 0.15189022, y: 0, z: -0.22222765}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5421861744613009355}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2055994476091532581
 GameObject:
   m_ObjectHideFlags: 0
@@ -2609,6 +2661,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 499c81fbeeab48746bbe3952c5e8b0aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _slider: {fileID: 0}
+  _fillAmount: 0
+  _sliderValue: 0
+  _fill: {x: 0, y: 0}
+  _canvas: {fileID: 0}
+  _camera: {fileID: 0}
 --- !u!1 &6575199432081575898
 GameObject:
   m_ObjectHideFlags: 0
@@ -31718,6 +31776,16 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8722244478960246474, guid: 1101af25c64daca479a19bf89b1c2f6b, type: 3}
   m_PrefabInstance: {fileID: 143783271711041221}
   m_PrefabAsset: {fileID: 0}
+--- !u!137 &5341551574238449134 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -3756051822514296021, guid: 1101af25c64daca479a19bf89b1c2f6b, type: 3}
+  m_PrefabInstance: {fileID: 143783271711041221}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5421861744613009355 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -3836925490081644274, guid: 1101af25c64daca479a19bf89b1c2f6b, type: 3}
+  m_PrefabInstance: {fileID: 143783271711041221}
+  m_PrefabAsset: {fileID: 0}
 --- !u!95 &5806344667825593172 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 1101af25c64daca479a19bf89b1c2f6b, type: 3}
@@ -31854,6 +31922,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ed80af7b599d23342a63081367cf8317, type: 3}
   m_PrefabInstance: {fileID: 143783271837085755}
   m_PrefabAsset: {fileID: 0}
+--- !u!23 &877099359348221060 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -8227294595297160001, guid: ed80af7b599d23342a63081367cf8317, type: 3}
+  m_PrefabInstance: {fileID: 143783271837085755}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1755459442596818706 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -7376202327601406167, guid: ed80af7b599d23342a63081367cf8317, type: 3}
@@ -31862,6 +31935,16 @@ Transform:
 --- !u!4 &6314837532769097618 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6222881052830967721, guid: ed80af7b599d23342a63081367cf8317, type: 3}
+  m_PrefabInstance: {fileID: 143783271837085755}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &8245399234942121717 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8328097943961634510, guid: ed80af7b599d23342a63081367cf8317, type: 3}
+  m_PrefabInstance: {fileID: 143783271837085755}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &9129345010196828771 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 9173587204339556952, guid: ed80af7b599d23342a63081367cf8317, type: 3}
   m_PrefabInstance: {fileID: 143783271837085755}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &143783271927046057

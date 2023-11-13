@@ -7,6 +7,7 @@ public class EnterCustomisation : MonoBehaviour
     private PlayerInput _playerInput;
     [SerializeField] private GameObject _customisationCanvas;
     [SerializeField] private GameObject _customisationSetup;
+
     public bool _canTransfer;
     private SwitchCamera _switchCamera;
 
@@ -20,12 +21,12 @@ public class EnterCustomisation : MonoBehaviour
 
     private void Update()
     {
-        if (_canTransfer && _playerInput._interact)
+        if (_canTransfer && _playerInput._playerControls.Controls.Interact.WasPerformedThisFrame())
         {
             TransferPlayer();
             _canTransfer = false;
         }
-        else if (_customisationSetup.activeSelf == true &&  _playerInput._interact)
+        else if (_customisationSetup.activeSelf == true && _playerInput._playerControls.Controls.Interact.WasPerformedThisFrame())
         {
             TransferPlayer();
             _canTransfer = true;
