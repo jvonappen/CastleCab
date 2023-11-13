@@ -98,6 +98,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""4f46e380-72d0-4e93-af5e-dadb7133a742"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -375,6 +384,28 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""BarrelRoll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e88d3592-7338-4cc9-aedd-3b73ec06042a"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""32eab53f-f82d-4ffb-bfaa-37872dca6237"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -391,6 +422,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Controls_Reverse = m_Controls.FindAction("Reverse", throwIfNotFound: true);
         m_Controls_Backflip = m_Controls.FindAction("Backflip", throwIfNotFound: true);
         m_Controls_BarrelRoll = m_Controls.FindAction("BarrelRoll", throwIfNotFound: true);
+        m_Controls_Interact = m_Controls.FindAction("Interact", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -458,6 +490,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Controls_Reverse;
     private readonly InputAction m_Controls_Backflip;
     private readonly InputAction m_Controls_BarrelRoll;
+    private readonly InputAction m_Controls_Interact;
     public struct ControlsActions
     {
         private @PlayerControls m_Wrapper;
@@ -470,6 +503,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Reverse => m_Wrapper.m_Controls_Reverse;
         public InputAction @Backflip => m_Wrapper.m_Controls_Backflip;
         public InputAction @BarrelRoll => m_Wrapper.m_Controls_BarrelRoll;
+        public InputAction @Interact => m_Wrapper.m_Controls_Interact;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -503,6 +537,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @BarrelRoll.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnBarrelRoll;
                 @BarrelRoll.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnBarrelRoll;
                 @BarrelRoll.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnBarrelRoll;
+                @Interact.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnInteract;
             }
             m_Wrapper.m_ControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -531,6 +568,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @BarrelRoll.started += instance.OnBarrelRoll;
                 @BarrelRoll.performed += instance.OnBarrelRoll;
                 @BarrelRoll.canceled += instance.OnBarrelRoll;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
             }
         }
     }
@@ -545,5 +585,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnReverse(InputAction.CallbackContext context);
         void OnBackflip(InputAction.CallbackContext context);
         void OnBarrelRoll(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
 }

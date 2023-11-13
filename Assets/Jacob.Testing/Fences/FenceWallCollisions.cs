@@ -86,6 +86,7 @@ public class FenceWallCollisions : MonoBehaviour
         }
         if (collision.gameObject.tag == "BOOM")
         {
+            if (AchievementManager.unlockBaaBoom == false) { AchievementManager.Instance.BaaBoom(); }
             _particlePos = collision.transform;
             PlayParticle(_explosiveImpact);
             collision.gameObject.GetComponent<ExplosionForce>().Explode();
