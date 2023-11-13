@@ -93,6 +93,7 @@ public class PlayerMovement : MonoBehaviour
     private Coroutine _burnoutBoost;
     private const float NORMAL_FOV = 40f;
     private const float BOOST_FOV = 50f;
+    public static bool isBoostingForBoostBar;
 
     //Aniamtion Variables
     [SerializeField] private float _animSpeed = 0;
@@ -451,14 +452,16 @@ public class PlayerMovement : MonoBehaviour
 
         if (!_canBurnout || _playerInput._boost != 0 && _grounded && _playerInput._accelerationInput > 0 && particlesVal)
         {
-            PlayParticles(_speedParticles);
-            PlayParticles(_boostTrail);
-            _soundManager.Play("Boost");
-            _globalVolume.SetActive(true); //set motion blur
+                PlayParticles(_speedParticles);
+                PlayParticles(_boostTrail);
+                _soundManager.Play("Boost");
+                _globalVolume.SetActive(true); //set motion blur
 
-            //tighten wagon movement on boost
-            limit.limit = 5f;
-            _joint.angularYLimit = limit;
+                //tighten wagon movement on boost
+                limit.limit = 5f;
+                _joint.angularYLimit = limit;
+
+                isBoostingForBoostBar = true;
         }
         else
         {
@@ -470,6 +473,8 @@ public class PlayerMovement : MonoBehaviour
             //allow wagon wiggle 
             limit.limit = 45f;
             _joint.angularYLimit = limit;
+
+            isBoostingForBoostBar = false;
         }
     }
 
