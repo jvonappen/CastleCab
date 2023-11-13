@@ -92,8 +92,8 @@ public class PoliceAI : MonoBehaviour
             Vector3 point;
             if (FindRandomPoint(wanderTransform.position, searchRange0, out point)) //pass in centrepoint and radius of area
             {
-                agent.SetDestination(point);
-                transform.Rotate(point);
+                agent.SetDestination(point); 
+                
                 transform.LookAt(point);
             }
         }
@@ -123,7 +123,7 @@ public class PoliceAI : MonoBehaviour
             agent.transform.LookAt(lookAtDonkey);
            
             DishonourIncrease();
-            Debug.Log("WeeWoo");
+            //Debug.Log("WeeWoo");
         }
     }
     private void InRange()
