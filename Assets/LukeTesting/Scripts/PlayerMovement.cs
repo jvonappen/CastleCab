@@ -93,6 +93,7 @@ public class PlayerMovement : MonoBehaviour
     private Coroutine _burnoutBoost;
     private const float NORMAL_FOV = 40f;
     private const float BOOST_FOV = 50f;
+    public static bool isBoostingForBoostBar;
 
     //Aniamtion Variables
     [SerializeField] private float _animSpeed = 0;
@@ -451,14 +452,16 @@ public class PlayerMovement : MonoBehaviour
 
         if (!_canBurnout || _playerInput._boost != 0 && _grounded && _playerInput._accelerationInput > 0 && particlesVal)
         {
-            PlayParticles(_speedParticles);
-            PlayParticles(_boostTrail);
-            _soundManager.Play("Boost");
-            _globalVolume.SetActive(true); //set motion blur
+                PlayParticles(_speedParticles);
+                PlayParticles(_boostTrail);
+                _soundManager.Play("Boost");
+                _globalVolume.SetActive(true); //set motion blur
 
-            //tighten wagon movement on boost
-            limit.limit = 5f;
-            _joint.angularYLimit = limit;
+                //tighten wagon movement on boost
+                limit.limit = 5f;
+                _joint.angularYLimit = limit;
+
+                isBoostingForBoostBar = true;
         }
         else
         {
@@ -470,6 +473,8 @@ public class PlayerMovement : MonoBehaviour
             //allow wagon wiggle 
             limit.limit = 45f;
             _joint.angularYLimit = limit;
+
+            isBoostingForBoostBar = false;
         }
     }
 
@@ -635,55 +640,33 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.gameObject.tag == "Mud")
-    //    {
-    //        isInSlowdownZone = true;
-    //        SlowdownPlayer();
-    //    }
-    //    else if (other.CompareTag("JumpPad"))
-    //    {
-    //        LaunchPlayer();
-    //    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "SpeedRamps")
+        {
+            isInSlowdownZone = true;
+            SpeedUpPlayer();
+        }
+    }
 
-    //}
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "SpeedRamps")
+        {
+            isInSlowdownZone = false;
+            RestoreOriginalSpeed();
+        }
+    }
 
-    //private void OnTriggerExit(Collider other)
-    //{
-    //    if (other.gameObject.tag == "Mud")
-    //    {
-    //        isInSlowdownZone = false;
-    //        RestoreOriginalSpeed();
-    //    }
-    //}
+    private void SpeedUpPlayer()
+    {
+        _forwardAcceleration = 1500;
+    }
 
-    //private void SlowdownPlayer()
-    //{
-    //    _forwardAcceleration = 250; // Adjust this value as needed
-    //    _reverseAcceleration = 50;
-    //    _onSpotAcceleration = 1;
-    //    _tailWhipTurnStrength = 75f;
-    //    _boostTurnStrength = 25;
-    //    _dragOnGround = 1f;
-    //    _dragOnAcceleration = 5;
-    //}
+    private void RestoreOriginalSpeed()
+    {
+        _forwardAcceleration = 500;
+    }
 
-    //private void RestoreOriginalSpeed()
-    //{
-    //    _forwardAcceleration = 500; // Restore to the original value
-    //    _reverseAcceleration = 100;
-    //    _onSpotAcceleration = 50;
-    //    _tailWhipTurnStrength = 270f;
-    //    _boostTurnStrength = 45;
-    //    _dragOnGround = 3f;
-    //    _dragOnAcceleration = 10;
-    //}
-
-    //private void LaunchPlayer()
-    //{
-    //    _sphereRB.AddForce(transform.up * jumpPadForce, ForceMode.Impulse);
-    //    _sphereRB.AddForce(transform.forward, ForceMode.Impulse);
-    //}
 
 }
