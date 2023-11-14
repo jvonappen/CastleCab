@@ -7,6 +7,7 @@ public class ArriveAtObjective : MonoBehaviour
 {
     [SerializeField] private GameObject cartTargetPoint;
     [SerializeField] private GameObject exitLocation;
+    [SerializeField] public GameObject targetParticles;
 
     private TaxiService taxiPassenger;
 
@@ -34,6 +35,8 @@ public class ArriveAtObjective : MonoBehaviour
             timerObject.SetActive(false);
 
             taxiPassenger.isAtTarget = true;
+
+            targetParticles.SetActive(false);
 
         }
     }
