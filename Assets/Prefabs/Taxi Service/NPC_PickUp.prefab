@@ -2787,12 +2787,10 @@ GameObject:
   - component: {fileID: 4599727388349437014}
   - component: {fileID: 4599727388349437034}
   - component: {fileID: 4599727388349437015}
-  - component: {fileID: 4599727388349437012}
   - component: {fileID: 4599727388349437013}
-  - component: {fileID: 4599727388349437008}
   - component: {fileID: 3890743258259126947}
   m_Layer: 0
-  m_Name: Villager
+  m_Name: NPC_PickUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2902,21 +2900,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &4599727388349437012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4599727388349437035}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dcc9d50d6629704eabe3e3977b751b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: 9505f244365b82f4ba151d580198dd88, type: 2}
-  dialogue: {fileID: 11400000, guid: d7e4ef783fa0a044fa0db27d72a02cb6, type: 2}
-  villagerIsTalking: 0
 --- !u!114 &4599727388349437013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2937,21 +2920,6 @@ MonoBehaviour:
   timeValue: {fileID: 0}
   fareText: {fileID: 0}
   isAtTarget: 0
---- !u!114 &4599727388349437008
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4599727388349437035}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55b317824f86c764cb5442f70e320d8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementSpeed: 3.5
-  wanderTransform: {fileID: 3791559319984819921}
-  wanderRange: 25
 --- !u!114 &3890743258259126947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3122,7 +3090,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4918514096905781129
 RectTransform:
   m_ObjectHideFlags: 0
