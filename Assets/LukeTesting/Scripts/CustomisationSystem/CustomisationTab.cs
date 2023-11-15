@@ -12,6 +12,7 @@ public class CustomisationTab : MonoBehaviour
     [SerializeField] private MeshRenderer _cartMeshRenderer;
     [SerializeField] private List<MeshRenderer> _wheelMeshRenderer;
     [SerializeField] private SkinnedMeshRenderer _horseSkinnedMeshRenderer;
+    [SerializeField] private MeshFilter _cartMesh;
     [SerializeField] private Transform _hatPos;
     [SerializeField] private SetMaterials _setMaterials;
     [SerializeField] private Tab _tabs;
@@ -107,6 +108,13 @@ public class CustomisationTab : MonoBehaviour
                 }
             }
             _setMaterials.SetHatObject(_tabs.modelOption[index]);
+        }
+
+        //change cart material
+        if (_cartMesh != null)
+        {
+            _cartMesh.mesh = _tabs.cartOption[index];
+            _setMaterials.SetCartMesh(_tabs.cartOption[index]);
         }
     }
 

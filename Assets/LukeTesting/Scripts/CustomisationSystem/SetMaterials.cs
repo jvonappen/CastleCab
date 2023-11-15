@@ -10,6 +10,7 @@ public class SetMaterials : MonoBehaviour
     [SerializeField] private List<MeshRenderer> _wheelMeshRenderer;
     [SerializeField] private SkinnedMeshRenderer _horseSkinnedMeshRenderer;
     [SerializeField] private Transform _hatPos;
+    [SerializeField] private MeshFilter _cartMeshFilter;
 
     public void SetCartMaterials(Material cartMesh)
     {
@@ -59,5 +60,10 @@ public class SetMaterials : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void SetCartMesh(Mesh mesh)
+    {
+        if (_cartMeshFilter != null) _cartMeshFilter.mesh = mesh;
     }
 }

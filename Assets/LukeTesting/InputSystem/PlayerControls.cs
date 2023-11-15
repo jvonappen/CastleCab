@@ -408,6 +408,34 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Customisation"",
+            ""id"": ""9e4282c1-1e96-49ab-aa7c-ad96d2a6489a"",
+            ""actions"": [
+                {
+                    ""name"": ""Navigate"",
+                    ""type"": ""Value"",
+                    ""id"": ""91d3d1ed-575d-4958-8af9-0cd2e2cd234c"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""282e3e95-d51d-487d-beee-886e1c4b6b11"",
+                    ""path"": ""<Gamepad>/dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -423,6 +451,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Controls_Backflip = m_Controls.FindAction("Backflip", throwIfNotFound: true);
         m_Controls_BarrelRoll = m_Controls.FindAction("BarrelRoll", throwIfNotFound: true);
         m_Controls_Interact = m_Controls.FindAction("Interact", throwIfNotFound: true);
+        // Customisation
+        m_Customisation = asset.FindActionMap("Customisation", throwIfNotFound: true);
+        m_Customisation_Navigate = m_Customisation.FindAction("Navigate", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -575,6 +606,39 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         }
     }
     public ControlsActions @Controls => new ControlsActions(this);
+
+    // Customisation
+    private readonly InputActionMap m_Customisation;
+    private ICustomisationActions m_CustomisationActionsCallbackInterface;
+    private readonly InputAction m_Customisation_Navigate;
+    public struct CustomisationActions
+    {
+        private @PlayerControls m_Wrapper;
+        public CustomisationActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Navigate => m_Wrapper.m_Customisation_Navigate;
+        public InputActionMap Get() { return m_Wrapper.m_Customisation; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CustomisationActions set) { return set.Get(); }
+        public void SetCallbacks(ICustomisationActions instance)
+        {
+            if (m_Wrapper.m_CustomisationActionsCallbackInterface != null)
+            {
+                @Navigate.started -= m_Wrapper.m_CustomisationActionsCallbackInterface.OnNavigate;
+                @Navigate.performed -= m_Wrapper.m_CustomisationActionsCallbackInterface.OnNavigate;
+                @Navigate.canceled -= m_Wrapper.m_CustomisationActionsCallbackInterface.OnNavigate;
+            }
+            m_Wrapper.m_CustomisationActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Navigate.started += instance.OnNavigate;
+                @Navigate.performed += instance.OnNavigate;
+                @Navigate.canceled += instance.OnNavigate;
+            }
+        }
+    }
+    public CustomisationActions @Customisation => new CustomisationActions(this);
     public interface IControlsActions
     {
         void OnAcceleration(InputAction.CallbackContext context);
@@ -586,5 +650,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnBackflip(InputAction.CallbackContext context);
         void OnBarrelRoll(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+    }
+    public interface ICustomisationActions
+    {
+        void OnNavigate(InputAction.CallbackContext context);
     }
 }

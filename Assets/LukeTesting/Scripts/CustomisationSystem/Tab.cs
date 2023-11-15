@@ -9,6 +9,7 @@ public class Tab : MonoBehaviour
     public List<Material> colorOption;
     public List<Texture2D> texture2D;
     public List<GameObject> modelOption;
+    public List<Mesh> cartOption;
 }
 
 public enum CustomisationOption
