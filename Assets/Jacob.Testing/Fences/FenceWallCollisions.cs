@@ -26,7 +26,7 @@ public class FenceWallCollisions : MonoBehaviour
             AchievementManager.fenceTracker = AchievementManager.fenceTracker + 1;
             AchievementManager.Instance.PloughHorse();
 
-            AudioManager.Instance.StopSFX();
+            //AudioManager.Instance.StopSFX();
             AudioManager.Instance.PlayGroupAudio("FenceCollisions");
             _particlePos = collision.transform;
             PlayParticle(_fenceImpact);
@@ -34,7 +34,7 @@ public class FenceWallCollisions : MonoBehaviour
         }
         if (collision.gameObject.tag == "Sheep")
         {
-            AudioManager.Instance.StopSFX();
+            //AudioManager.Instance.StopSFX();
             AudioManager.Instance.PlaySFX("Sheep");
             _particlePos = collision.transform;
             PlayParticle(_sheepImpact);
@@ -42,7 +42,7 @@ public class FenceWallCollisions : MonoBehaviour
         }
         if (collision.gameObject.tag == "Chicken")
         {
-            AudioManager.Instance.StopSFX();
+            //AudioManager.Instance.StopSFX();
             AudioManager.Instance.PlaySFX("Chicken");
             AchievementManager.eggCheck = true;
             AchievementManager.Instance.BaconEggs();
@@ -52,7 +52,7 @@ public class FenceWallCollisions : MonoBehaviour
         }
         if (collision.gameObject.tag == "Pig")
         {
-            AudioManager.Instance.StopSFX();
+            //AudioManager.Instance.StopSFX();
             AudioManager.Instance.PlayGroupAudio("Pig");
             AchievementManager.baconCheck = true;
             AchievementManager.Instance.BaconEggs();
@@ -66,7 +66,7 @@ public class FenceWallCollisions : MonoBehaviour
             collision.gameObject.GetComponent<NavMeshAgent>().enabled = false;
             collision.gameObject.GetComponent<Rigidbody>().AddExplosionForce(1000, this.transform.position, 20, 500); //Same as pigsplode valuse
 
-            AudioManager.Instance.StopSFX();
+            //AudioManager.Instance.StopSFX();
             AudioManager.Instance.PlayGroupAudio("Horse");
             PlayParticle(_horseImpact);
             Destroy(collision.gameObject, 5);
@@ -74,7 +74,7 @@ public class FenceWallCollisions : MonoBehaviour
         }
         if (collision.gameObject.tag == "NPC")
         {
-            AudioManager.Instance.StopSFX();
+            //AudioManager.Instance.StopSFX();
             _particlePos = collision.transform;
             collision.gameObject.GetComponent<NavMeshAgent>().enabled = false;
             collision.gameObject.GetComponent<Rigidbody>().AddExplosionForce(1000, this.transform.position, 20, 500); //Same as pigsplode valuse
