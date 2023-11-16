@@ -6,6 +6,11 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using TMPro;
 using UnityEditor;
+using Cinemachine;
+using Cinemachine.PostFX;
+using Cinemachine.PostFX.Editor;
+using Cinemachine.Utility;
+using UnityEngine.Rendering;
 
 public class PoliceAI : MonoBehaviour
 {
@@ -24,6 +29,22 @@ public class PoliceAI : MonoBehaviour
     private NavMeshAgent agent;
     private Transform thisTransform;
 
+    /* Cinemachine Volume Settings are stinky poo holes*/
+    [Header("Arrest Behaviour Settings")]
+    [SerializeField] private float increaseRate_ArrestVignette;
+    [SerializeField] private float decreaseRate_ArrestVignette;
+    [SerializeField] private Cinemachine.VcamTargetPropertyAttribute _vignetteSettings; 
+    private float currentVignetteValue;
+    public static bool vignetteHit = false;
+
+    //[Header("Debug - Rotation")]
+    //[SerializeField] private Transform _target;
+    //[SerializeField] private float _rotateSpeed = 1f;
+    //private Quaternion rotationGoal;
+    //private Vector3 _rotateDirection;
+    //private Coroutine _lookCoroutine;
+
+
     [Header("Debug")]
     [SerializeField] private float chasingRange0; //how long for chase
     [SerializeField] private float chaseSpeed0; // speed
@@ -31,11 +52,14 @@ public class PoliceAI : MonoBehaviour
     [SerializeField] private bool sirenToggle;
     [SerializeField] private bool inPursuit = false;
 
+    
+
     private Transform playerTransform;
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         thisTransform = agent.transform;
+        
     }
     private void Start()
     {
@@ -89,12 +113,15 @@ public class PoliceAI : MonoBehaviour
 
         if (RD <= SD)
         {
+            
             Vector3 point;
             if (FindRandomPoint(wanderTransform.position, searchRange0, out point)) //pass in centrepoint and radius of area
             {
-                agent.SetDestination(point); 
-                
+                agent.SetDestination(point);
+
                 transform.LookAt(point);
+
+    
             }
         }
     }
@@ -120,6 +147,7 @@ public class PoliceAI : MonoBehaviour
         {
             Vector3 lookAtDonkey = new Vector3(_playerTransform.position.x, agent.transform.position.y, _playerTransform.position.z);
             agent.SetDestination(_playerTransform.position);
+
             agent.transform.LookAt(lookAtDonkey);
            
             DishonourIncrease();
@@ -147,5 +175,38 @@ public class PoliceAI : MonoBehaviour
     {
      Dishonour.dishonourLevel += Time.deltaTime * Dishonour._dishonourDepletionRef + 1;
     }
+
+    private void VignetteHitEffect()
+    {
+        
+    }
+
+    //private void SmoothRotate()
+    //{
+    //    _rotateDirection = (_target.position - thisTransform.position).normalized;
+    //    rotationGoal = Quaternion.LookRotation(_rotateDirection);
+    //    thisTransform.rotation = Quaternion.Slerp(thisTransform.rotation, rotationGoal, _rotateSpeed);
+    //}
+
+    //private void SmoothRotate()
+    //{
+    //    if(_lookCoroutine != null)
+    //    {
+    //        StopCoroutine( _lookCoroutine );
+    //    }
+    //    _lookCoroutine = StartCoroutine(SmoothLookAt());
+    //}
+
+    //private IEnumerator SmoothLookAt()
+    //{ 
+    //    Quaternion lookRotation = Quaternion.LookRotation(_target.position - thisTransform.position);
+    //    float time = 0;
+    //    while(time < 1)
+    //    {
+    //        transform.rotation = Quaternion.Slerp(thisTransform.rotation, lookRotation, time);
+    //        time += Time.deltaTime * _rotateSpeed;
+    //        yield return null;
+    //    }
+    //}
 
 }

@@ -100,7 +100,7 @@ public class TaxiService : MonoBehaviour
 
             SetTargetParticlesPosition();
             timeValue.inService = true;
-            timeValue.timerValue = 60;
+            //timeValue.timerValue = 60;
             
             
             timerObject.SetActive(true);
