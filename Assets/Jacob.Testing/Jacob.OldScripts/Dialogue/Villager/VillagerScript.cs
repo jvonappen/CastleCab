@@ -7,63 +7,63 @@ using Cinemachine;
 
 public class VillagerScript : MonoBehaviour
 {
-    public VillagerData data;
-    public DialogueData dialogue;
-    private TMP_Animated animatedText;
-    private DialogueAudio dialogueAudio;
-    private Animator animator;
-    //public Renderer eyesRenderer;
-    //public Transform particlesParent;
-    private GameObject _player;
-    [Header("Debug")]
-    public bool villagerIsTalking;
+    //public VillagerData data;
+    //public DialogueData dialogue;
+    //private TMP_Animated animatedText;
+    //private DialogueAudio dialogueAudio;
+    //private Animator animator;
+    ////public Renderer eyesRenderer;
+    ////public Transform particlesParent;
+    //private GameObject _player;
+    //[Header("Debug")]
+    //public bool villagerIsTalking;
 
-    //[Header("Debug-LookAt")]
-    //private GameObject villager;
-    private float X;
-    private float Y;
-    private float Z;
+    ////[Header("Debug-LookAt")]
+    ////private GameObject villager;
+    //private float X;
+    //private float Y;
+    //private float Z;
 
-    void Start()
-    {
-        _player = PlayerData.player;
-        dialogueAudio = GetComponent<DialogueAudio>();
-        animator = GetComponent<Animator>();
-        animatedText = InterfaceManager.instance.animatedText;
-        //animatedText.onEmotionChange.AddListener((newEmotion) => EmotionChanger(newEmotion));
-        animatedText.onAction.AddListener((action) => SetAction(action));
-    }
-    void LateUpdate()
-    {
-        transform.LookAt(_player.transform);
-        transform.Rotate(X, Y, Z);
-    }
+    //void Start()
+    //{
+    //    _player = PlayerData.player;
+    //    dialogueAudio = GetComponent<DialogueAudio>();
+    //    animator = GetComponent<Animator>();
+    //    animatedText = InterfaceManager.instance.animatedText;
+    //    //animatedText.onEmotionChange.AddListener((newEmotion) => EmotionChanger(newEmotion));
+    //    animatedText.onAction.AddListener((action) => SetAction(action));
+    //}
+    //void LateUpdate()
+    //{
+    //    transform.LookAt(_player.transform);
+    //    transform.Rotate(X, Y, Z);
+    //}
 
-    public void SetAction(string action)
-    {
-        if (this != InterfaceManager.instance.currentVillager)
-            return;
+    //public void SetAction(string action)
+    //{
+    //    if (this != InterfaceManager.instance.currentVillager)
+    //        return;
 
-        if (action == "shake")
-        {
-            Camera.main.GetComponent<CinemachineImpulseSource>().GenerateImpulse();
-        }
-        else
-        {
-            //PlayParticle(action);
+    //    if (action == "shake")
+    //    {
+    //        Camera.main.GetComponent<CinemachineImpulseSource>().GenerateImpulse();
+    //    }
+    //    else
+    //    {
+    //        //PlayParticle(action);
 
-            if (action == "sparkle")
-            {
-                dialogueAudio.effectSource.clip = dialogueAudio.sparkleClip;
-                dialogueAudio.effectSource.Play();
-            }
-            else if (action == "rain")
-            {
-                dialogueAudio.effectSource.clip = dialogueAudio.rainClip;
-                dialogueAudio.effectSource.Play();
-            }
-        }
-    }
+    //        if (action == "sparkle")
+    //        {
+    //            dialogueAudio.effectSource.clip = dialogueAudio.sparkleClip;
+    //            dialogueAudio.effectSource.Play();
+    //        }
+    //        else if (action == "rain")
+    //        {
+    //            dialogueAudio.effectSource.clip = dialogueAudio.rainClip;
+    //            dialogueAudio.effectSource.Play();
+    //        }
+    //    }
+    //}
 
     /* -----------------------------------------------------------------*/
     //NOTE: For later use when adding extra polish
