@@ -76,7 +76,10 @@ public class Timer : MonoBehaviour
             PlayerData.cartDestinationTarget = null;
             CompassBar.objectiveObjectTransform = null;
 
-            _taxi.destination = null;  
+            _taxi.destination = null;    
+            
+            _taxi.targetParticles.SetActive(false);
+            
             Destroy(_taxi.gameObject);
         }
     }

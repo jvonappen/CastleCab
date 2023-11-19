@@ -29,7 +29,8 @@ public class AchievementManager : MonoBehaviour
     public bool unlockCollidesdale = false;
 
     [Header("BaaBoom")]
-    public bool unlockBaaBoom = false;
+    public static bool unlockBaaBoom = false;
+    
 
     [Header("PloughHorse")]
     public bool unlockPloughHorse = false;
@@ -85,7 +86,7 @@ public class AchievementManager : MonoBehaviour
         _achievementCanvas.enabled = false;      
     }
 
-    private void Pegasus()  
+    public void Pegasus()  
     { /* Airtime of (5) seconds */
 
         //airTimeTick= (airTimeTick + 1) * Time.deltaTime;
@@ -98,7 +99,7 @@ public class AchievementManager : MonoBehaviour
         //}
         
     }
-    private void SmoothCriminal() 
+    public void SmoothCriminal() 
     { /* Remove max wanted level */
 
         _achievementText.text = "Smooth Criminal";
@@ -135,10 +136,11 @@ public class AchievementManager : MonoBehaviour
         
         _achievementText.text = "Collidesdale";
     }
-    private void BaaBoom() 
+    public void BaaBoom() 
     { /* Find the barrel sheep */
-        
+        unlockBaaBoom = true;
         _achievementText.text = "Baa Boom!";
+        DisplayAchievment();
     }
     public void PloughHorse() 
     { /* Destroy (X) amount of fences */

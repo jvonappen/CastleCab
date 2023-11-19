@@ -1,46 +1,43 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class NPCSpawner : MonoBehaviour
 {
-    [SerializeField] GameObject npcPrefabs;
-    [SerializeField] GameObject guardPrefabs;
+    [SerializeField] GameObject[] npcPrefabs;
     [SerializeField] Transform respawnPoint;
     [SerializeField] float respawnTime;
     [SerializeField] int maxNPCs = 40;
-    [SerializeField] int maxGuards = 15;
+    public List<GameObject> npcPool = new List<GameObject>();
 
-    void Awake()
+    private float timer = 0f;
+
+    void Update()
     {
-        SpawnNPC();
-        SpawnGuards();
-    }
+        // Update the timer
+        timer += Time.deltaTime;
 
-    private void SpawnGuards()
-    {
-        int currentGuards = GameObject.FindGameObjectsWithTag("Guards").Length;
-
-        if (currentGuards < maxGuards)
+        // Check if enough time has passed to spawn a new NPC
+        if (timer >= respawnTime)
         {
-            Instantiate(guardPrefabs, respawnPoint.position, respawnPoint.rotation);
+            // Reset the timer
+            timer = 0f;
+
+            // Check if the maximum limit is reached
+            if (npcPool != null && npcPool.Count < maxNPCs)
+            {
+                // Spawn a random NPC prefab at the respawn point
+                GameObject npcPrefab = npcPrefabs[Random.Range(0, npcPrefabs.Length)];
+                GameObject newNPC = Instantiate(npcPrefab, respawnPoint.position, respawnPoint.rotation);
+                // Add the spawned NPC to the pool
+                npcPool.Add(newNPC);
+
+            }
+            else
+            {
+                // Remove null references from npcPool
+                npcPool.RemoveAll(npc => npc == null);
+            }
         }
-
-        Invoke("SpawnGuards", respawnTime);
-    }
-
-    void SpawnNPC()
-    {
-        int currentNPCs = GameObject.FindGameObjectsWithTag("NPC").Length;
-
-        if (currentNPCs < maxNPCs)
-        {
-            Instantiate(npcPrefabs, respawnPoint.position, respawnPoint.rotation);
-        }
-
-        Invoke("SpawnNPC", respawnTime);
-
-
     }
 }

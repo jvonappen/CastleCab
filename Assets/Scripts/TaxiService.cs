@@ -28,8 +28,8 @@ public class TaxiService : MonoBehaviour
     [SerializeField] private GameObject timerObject;
     [SerializeField] private Timer timeValue;
 
-    [Header("Fare")]
-    [SerializeField] private TextMeshProUGUI fareText;
+    //[Header("Fare")]
+    //[SerializeField] private TextMeshProUGUI fareText;
 
 
 
@@ -81,6 +81,7 @@ public class TaxiService : MonoBehaviour
             this.transform.position = this.customerSeat.transform.position;
 
             ChangeAnimation(NPC_FLAP);
+            targetParticles.SetActive(true);
 
             PlayerData.cartDestinationTarget = destination;
             PlayerData.isOccupied = true;
@@ -99,7 +100,7 @@ public class TaxiService : MonoBehaviour
 
             SetTargetParticlesPosition();
             timeValue.inService = true;
-            timeValue.timerValue = 60;
+            //timeValue.timerValue = 60;
             
             
             timerObject.SetActive(true);
