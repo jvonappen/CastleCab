@@ -46,11 +46,11 @@ public class DisplayCollectables : MonoBehaviour
     public void SetCollectableActive(Collectable collectable)
     {
         //Display text box on collection
-        foreach(GameObject collectables in _collectables)
+        for (int i = 0; i < _collectables.Count; i++)
         {
-            if (collectable._collectibleLetter.ToString() == collectables.gameObject.name)
+            if (i == collectable._letterPos)
             {
-                collectables.SetActive(true);
+                _collectables[i].SetActive(true);  
             }
         }
     }

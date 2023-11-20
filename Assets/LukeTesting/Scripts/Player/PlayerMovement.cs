@@ -93,7 +93,6 @@ public class PlayerMovement : MonoBehaviour
     private Coroutine _burnoutBoost;
     private const float NORMAL_FOV = 40f;
     private const float BOOST_FOV = 50f;
-    public static bool isBoostingForBoostBar;
 
     //Aniamtion Variables
     [SerializeField] private float _animSpeed = 0;
@@ -157,7 +156,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (_playerInput._accelerationInput > 0 && _grounded) //forward acceleration on ground
         {
-            _speedInput = _playerInput._boost != 0 ? _forwardAcceleration * _boostMultiplier : _forwardAcceleration* _playerInput._accelerationInput;
+            _speedInput = _playerInput._boost != 0 && BoostBar.canBoost ? _forwardAcceleration * _boostMultiplier : _forwardAcceleration * _playerInput._accelerationInput; //boost
 
             _animSpeed = Mathf.InverseLerp(_dragOnAcceleration + 20, _dragNormal, _dragOnGround) * _playerInput._accelerationInput; //slowly speed up animation
             Mathf.Clamp(_animSpeed, 0, 1);
@@ -271,7 +270,7 @@ public class PlayerMovement : MonoBehaviour
             StopParticles(_chargedBurnoutParticles);
 
             //start effects
-            if (_playerInput._boost != 0) Boost(BOOST_FOV, true);
+            if (_playerInput._boost != 0 && BoostBar.canBoost) Boost(BOOST_FOV, true);
             else Boost(NORMAL_FOV, false);
             _soundManager.Play("DonkeyTrott");
             _soundManager.Play("Wagon");
@@ -450,7 +449,7 @@ public class PlayerMovement : MonoBehaviour
 
         SoftJointLimit limit = new SoftJointLimit();
 
-        if (!_canBurnout || _playerInput._boost != 0 && _grounded && _playerInput._accelerationInput > 0 && particlesVal)
+        if (!_canBurnout || _playerInput._boost != 0 && _grounded && _playerInput._accelerationInput > 0 && particlesVal && BoostBar.canBoost)
         {
                 PlayParticles(_speedParticles);
                 PlayParticles(_boostTrail);
@@ -460,8 +459,6 @@ public class PlayerMovement : MonoBehaviour
                 //tighten wagon movement on boost
                 limit.limit = 5f;
                 _joint.angularYLimit = limit;
-
-                isBoostingForBoostBar = true;
         }
         else
         {
@@ -473,8 +470,6 @@ public class PlayerMovement : MonoBehaviour
             //allow wagon wiggle 
             limit.limit = 45f;
             _joint.angularYLimit = limit;
-
-            isBoostingForBoostBar = false;
         }
     }
 
