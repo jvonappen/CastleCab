@@ -8,7 +8,7 @@ using TMPro;
 using UnityEditor;
 using Cinemachine;
 using Cinemachine.PostFX;
-using Cinemachine.PostFX.Editor;
+//using Cinemachine.PostFX.Editor;
 using Cinemachine.Utility;
 using UnityEngine.Rendering;
 
