@@ -99,7 +99,7 @@ public class FenceWallCollisions : MonoBehaviour
             //AudioManager.Instance.StopSFX();
             //AudioManager.Instance.PlaySFX("");
             _particlePos = collision.transform;
-            PlayParticle(_ghostImpact);
+            PlayParticle(_graveImpact);
             Destroy(collision.gameObject);
         }
 
