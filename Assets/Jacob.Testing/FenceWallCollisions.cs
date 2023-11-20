@@ -11,6 +11,8 @@ public class FenceWallCollisions : MonoBehaviour
     [SerializeField] ParticleSystem _sheepImpact;
     [SerializeField] ParticleSystem _horseImpact;
     [SerializeField] ParticleSystem _npcImpact;
+    [SerializeField] ParticleSystem _graveImpact;
+    [SerializeField] ParticleSystem _ghostImpact;
 
     [SerializeField] ParticleSystem _explosiveImpact;
 
@@ -90,6 +92,14 @@ public class FenceWallCollisions : MonoBehaviour
             _particlePos = collision.transform;
             PlayParticle(_explosiveImpact);
             collision.gameObject.GetComponent<ExplosionForce>().Explode();
+            Destroy(collision.gameObject);
+        }
+        if (collision.gameObject.tag == "Grave")
+        {
+            //AudioManager.Instance.StopSFX();
+            //AudioManager.Instance.PlaySFX("");
+            _particlePos = collision.transform;
+            PlayParticle(_ghostImpact);
             Destroy(collision.gameObject);
         }
 
