@@ -15,5 +15,6 @@ public class StaticToggle : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         rb.isKinematic = false;
+        this.gameObject.GetComponent<Rigidbody>().AddExplosionForce(1000, this.transform.position, 20, 500);
     }
 }
