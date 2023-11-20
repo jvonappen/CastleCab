@@ -5,6 +5,7 @@ using UnityEngine;
 public class Collectable : MonoBehaviour
 {
     [field: SerializeField] public char _collectibleLetter { get; private set; }
+    [field: SerializeField] public int _letterPos { get; private set; }
     private DisplayCollectables _collectables;
 
     private void Awake()
