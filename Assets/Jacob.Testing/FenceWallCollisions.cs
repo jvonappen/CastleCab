@@ -64,7 +64,7 @@ public class FenceWallCollisions : MonoBehaviour
         {
             _particlePos = collision.transform;
             collision.gameObject.GetComponent<NavMeshAgent>().enabled = false;
-            collision.gameObject.GetComponent<Rigidbody>().AddExplosionForce(1000, this.transform.position, 20, 500); //Same as pigsplode valuse
+            collision.gameObject.GetComponent<Rigidbody>().AddExplosionForce(10000, this.transform.position, 20, 500); //Same as pigsplode valuse
 
             //AudioManager.Instance.StopSFX();
             AudioManager.Instance.PlayGroupAudio("Horse");

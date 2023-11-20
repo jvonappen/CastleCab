@@ -17,6 +17,8 @@ public class Dialogue : MonoBehaviour
     public AudioSource voiceSource;
     public AudioSource punctuationSource;
 
+    [SerializeField] private PlayerInput _playerInput;
+
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +30,7 @@ public class Dialogue : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyUp(KeyCode.T))
+        if(_playerInput._playerControls.Controls.Interact.WasPressedThisFrame() /*Input.GetKeyUp(KeyCode.T*/)
         { 
             if(_text.text == _sentences[index]) { NextSentence(); }
             else { StopAllCoroutines(); _text.text = _sentences[index]; }
