@@ -7,17 +7,19 @@ using TMPro;
 
 public class TaxiService : MonoBehaviour
 {
-    [SerializeField] private GameObject customerSeat;
-    [SerializeField] public GameObject destination;
+    [SerializeField] private GameObject customerSeat;  
+    
     [SerializeField] public int dollarsGiven;
-
     [SerializeField] public GameObject targetParticles;
-
     public static bool isInCart = false;
+    [Space]
+    [SerializeField] private GameObject[] destinationList;
+    [Space]
 
+    private int listLength;
     //[SerializeField] private Canvas _npcMapMarker; //change this temp fix
     //[SerializeField] private Canvas _npcQuestIcon;//temp
-    
+
     private NavMeshAgent agent;
     private GameObject _player;
     private float X;
@@ -27,6 +29,9 @@ public class TaxiService : MonoBehaviour
     [Header("Timer")]
     [SerializeField] private GameObject timerObject;
     [SerializeField] private Timer timeValue;
+
+    [Header("Debug")]
+    [SerializeField] public GameObject destination;
 
     //[Header("Fare")]
     //[SerializeField] private TextMeshProUGUI fareText;
@@ -51,12 +56,17 @@ public class TaxiService : MonoBehaviour
     {
        // _npcMapMarker.enabled = true; //temp
         agent = this.gameObject.GetComponent<NavMeshAgent>();
+        listLength = destinationList.Length;
+        //Debug.Log(listLength.ToString());
     }
     private void Start()
     {
         _player = PlayerData.player;
         _animator = this.gameObject.GetComponent<Animator>();
         ChangeAnimation(NPC_ATTENTION);
+
+        int randomDestination = UnityEngine.Random.Range(0, listLength);
+        destination = destinationList[randomDestination];
 
 
     }
@@ -100,7 +110,7 @@ public class TaxiService : MonoBehaviour
 
             SetTargetParticlesPosition();
             timeValue.inService = true;
-            //timeValue.timerValue = 60;
+            timeValue.timerValue = 30;
             
             
             timerObject.SetActive(true);

@@ -16,7 +16,7 @@ public class Collectable : MonoBehaviour
 
     private void Update()
     {
-        transform.Rotate(0, 0.5f, 0);
+        transform.Rotate(0, 0.75f, 0);
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -25,6 +25,7 @@ public class Collectable : MonoBehaviour
         {
             Debug.Log("Hit Letter");
             _collectables.SetCollectableActive(this);
+            AudioManager.Instance.PlaySFX("Collectable");
             Destroy(gameObject);
         }
     }
