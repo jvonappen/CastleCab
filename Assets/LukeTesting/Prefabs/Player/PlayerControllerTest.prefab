@@ -1312,8 +1312,6 @@ MonoBehaviour:
   _sheepImpact: {fileID: 0}
   _horseImpact: {fileID: 0}
   _npcImpact: {fileID: 0}
-  _graveImpact: {fileID: 0}
-  _ghostImpact: {fileID: 0}
   _explosiveImpact: {fileID: 0}
 --- !u!1 &143783271931345159
 GameObject:
@@ -1329,10 +1327,10 @@ GameObject:
   - component: {fileID: 3517994449852718664}
   - component: {fileID: 5118950180513048449}
   - component: {fileID: 54325736}
+  - component: {fileID: 54325735}
   - component: {fileID: 87868920338312206}
   - component: {fileID: 1204590577}
   - component: {fileID: 1087233374}
-  - component: {fileID: 1486051915}
   m_Layer: 0
   m_Name: Donkey
   m_TagString: Player
@@ -1524,6 +1522,25 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.85, y: 0.93, z: 3.29}
   m_Center: {x: 0, y: 0, z: -0.77}
+--- !u!114 &54325735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143783271931345159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6285ad8ca4205bf49a7efe44029d462c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fenceImpact: {fileID: 0}
+  _chickenImpact: {fileID: 0}
+  _pigImpact: {fileID: 0}
+  _sheepImpact: {fileID: 0}
+  _horseImpact: {fileID: 0}
+  _npcImpact: {fileID: 0}
+  _explosiveImpact: {fileID: 0}
 --- !u!114 &87868920338312206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1569,7 +1586,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 143783271931345159}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b254fc7e757ed2f49aaf61d1bf13ecb1, type: 3}
   m_Name: 
@@ -1579,27 +1596,6 @@ MonoBehaviour:
   _switchCamera: {fileID: 0}
   _pauseGame: {fileID: 0}
   _canTransfer: 0
---- !u!114 &1486051915
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 143783271931345159}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6285ad8ca4205bf49a7efe44029d462c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _fenceImpact: {fileID: 0}
-  _chickenImpact: {fileID: 0}
-  _pigImpact: {fileID: 0}
-  _sheepImpact: {fileID: 0}
-  _horseImpact: {fileID: 0}
-  _npcImpact: {fileID: 0}
-  _graveImpact: {fileID: 0}
-  _ghostImpact: {fileID: 0}
-  _explosiveImpact: {fileID: 0}
 --- !u!1 &143783271959729889
 GameObject:
   m_ObjectHideFlags: 0
@@ -2743,7 +2739,7 @@ GameObject:
   - component: {fileID: 7936598871624589436}
   - component: {fileID: 4555001757148325501}
   m_Layer: 0
-  m_Name: BurnoutCanvas
+  m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
