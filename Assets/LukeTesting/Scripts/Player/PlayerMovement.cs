@@ -142,7 +142,7 @@ public class PlayerMovement : MonoBehaviour
         //_recenetering = FindObjectOfType<CinemachineFreeLook>();
         //_bubbles = FindObjectOfType<Water>();
         //_burnoutSlider = FindObjectOfType<BurnoutSlider>();
-        _burnoutSlider.ResetSlider();
+        //_burnoutSlider.ResetSlider();
     }
 
     private void Update()
@@ -172,7 +172,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (_playerInput._reverseInput < 0 && _grounded) //reverse acceleration on ground
         {
-            _burnoutSlider.ResetSlider();
+            //_burnoutSlider.ResetSlider();
             _speedInput = _reverseAcceleration;
             _speedInput *= _playerInput._reverseInput;
             _steeringTurnStrength = _turnStrength;
@@ -180,7 +180,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (_playerInput._accelerationInput == 0 && _playerInput._reverseInput == 0 && _playerInput._steeringInput != 0) //turning on spot acceleration
         {
-            _burnoutSlider.ResetSlider();
+            //_burnoutSlider.ResetSlider();
             _speedInput = _onSpotAcceleration;
             _steeringTurnStrength = _onSpotTurnStrength;
             _horseAnimator.SetFloat("Speed", 0.5f);
@@ -188,7 +188,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else //no acceleration or in air
         {
-            _burnoutSlider.ResetSlider();
+            //_burnoutSlider.ResetSlider();
             _speedInput = 0;
             _steeringTurnStrength = _inAirTurnStrength;
             _horseAnimator.SetFloat("Speed", 0f);
@@ -251,7 +251,7 @@ public class PlayerMovement : MonoBehaviour
             if (_canBurnout) _dragOnBurnoutRelease = _dragOnGround; //check what drag value is at on release of burnout
             _canBurnout = false;
             RotateWheels(_wheelForwardRotation);
-            _burnoutSlider.ResetSlider();
+            //_burnoutSlider.ResetSlider();
 
             _burnoutBoost = StartCoroutine(Takeoff());
             if (_dragOnBurnoutRelease <= 3) //boost out of burnout if drag is cooked to 3
@@ -355,7 +355,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!_burnout) _dragOnGround = _dragOnAcceleration;
         _burnout = true;
-        _burnoutSlider.BurnoutCharge(_dragOnGround);
+        //_burnoutSlider.BurnoutCharge(_dragOnGround);
 
         //kill effects
         StopParticles(_speedParticles);
