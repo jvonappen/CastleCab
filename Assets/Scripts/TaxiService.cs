@@ -30,6 +30,11 @@ public class TaxiService : MonoBehaviour
     [SerializeField] private GameObject timerObject;
     [SerializeField] private Timer timeValue;
 
+    [Header("Respawn")]
+    private Transform _ogTrans;
+    [SerializeField] private float resetDelay = 5;
+
+
     [Header("Debug")]
     [SerializeField] public GameObject destination;
 
@@ -58,6 +63,8 @@ public class TaxiService : MonoBehaviour
         agent = this.gameObject.GetComponent<NavMeshAgent>();
         listLength = destinationList.Length;
         //Debug.Log(listLength.ToString());
+
+        _ogTrans = this.transform;
     }
     private void Start()
     {
@@ -105,7 +112,6 @@ public class TaxiService : MonoBehaviour
 
             //_npcMapMarker.enabled = false; //temp
             //_npcQuestIcon.enabled = false ; //temp
-
             //destination.GetComponent<ArriveAtObjective>().minimapMarker.enabled = true;
 
             SetTargetParticlesPosition();
@@ -130,5 +136,22 @@ public class TaxiService : MonoBehaviour
 
         _animator.Play(newAnimation);
         _currentAnimation = newAnimation;
+    }
+
+    public void ResetTaxiPickUp()
+    {
+        StartCoroutine(ResetWait());
+    }
+
+    IEnumerator ResetWait()
+    {
+        Debug.Log("Doing a wait");
+        yield return new WaitForSeconds(resetDelay);
+        this.gameObject.transform.position = _ogTrans.position;
+        isAtTarget = false;
+        int randomDestination = UnityEngine.Random.Range(0, listLength);
+        destination = destinationList[randomDestination];
+
+        Debug.Log("Did a teleport reset");
     }
 }
