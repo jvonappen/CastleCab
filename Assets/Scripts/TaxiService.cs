@@ -151,6 +151,8 @@ public class TaxiService : MonoBehaviour
         isAtTarget = false;
         int randomDestination = UnityEngine.Random.Range(0, listLength);
         destination = destinationList[randomDestination];
+        ChangeAnimation(NPC_ATTENTION);
+        this.gameObject.GetComponentInChildren<Canvas>().enabled = true;
 
         Debug.Log("Did a teleport reset");
     }
