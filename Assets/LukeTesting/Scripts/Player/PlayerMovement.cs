@@ -137,11 +137,11 @@ public class PlayerMovement : MonoBehaviour
         _joint = _wagon.GetComponent<ConfigurableJoint>();
         _wagonRB = _wagon.GetComponent<Rigidbody>();
         _donkeyRB = this.GetComponent<Rigidbody>();
-        _soundManager = FindObjectOfType<SoundManager>();
-        _camera = FindObjectOfType<CameraFOV>();
-        _recenetering = FindObjectOfType<CinemachineFreeLook>();
-        _bubbles = FindObjectOfType<Water>();
-        _burnoutSlider = FindObjectOfType<BurnoutSlider>();
+        //_soundManager = FindObjectOfType<SoundManager>();
+        //_camera = FindObjectOfType<CameraFOV>();
+        //_recenetering = FindObjectOfType<CinemachineFreeLook>();
+        //_bubbles = FindObjectOfType<Water>();
+        //_burnoutSlider = FindObjectOfType<BurnoutSlider>();
         _burnoutSlider.ResetSlider();
     }
 
