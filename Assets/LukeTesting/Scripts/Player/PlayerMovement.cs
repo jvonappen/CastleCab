@@ -642,6 +642,10 @@ public class PlayerMovement : MonoBehaviour
             isInSlowdownZone = true;
             SpeedUpPlayer();
         }
+        else if (other.gameObject.tag == "Mud")
+        {
+            SlowDownPlayer();
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -649,6 +653,10 @@ public class PlayerMovement : MonoBehaviour
         if (other.gameObject.tag == "SpeedRamps")
         {
             isInSlowdownZone = false;
+            RestoreOriginalSpeed();
+        }
+        else if (other.gameObject.tag == "Mud")
+        {
             RestoreOriginalSpeed();
         }
     }
@@ -663,5 +671,8 @@ public class PlayerMovement : MonoBehaviour
         _forwardAcceleration = 500;
     }
 
-
+    private void SlowDownPlayer()
+    {
+        _forwardAcceleration = 350;
+    }
 }
