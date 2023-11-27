@@ -72,8 +72,6 @@ public class PoliceAI : MonoBehaviour
         {
             DishonourEvaluate();
         }
-
-
     }
 
 
@@ -121,8 +119,6 @@ public class PoliceAI : MonoBehaviour
                 thisTransform.LookAt(point);
                 thisTransform.Rotate(point);
                 thisTransform.forward = point;
-
-
             }
         }
     }
@@ -164,11 +160,9 @@ public class PoliceAI : MonoBehaviour
             inPursuit = true;
         }
         if (distance > chasingRange0) 
-        {
-            
+        {        
             WanderAllOver(); 
             inPursuit = false; 
-
         }
     }
 
