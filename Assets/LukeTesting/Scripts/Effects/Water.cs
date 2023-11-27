@@ -11,7 +11,7 @@ public class Water : MonoBehaviour
 
     private void Awake()
     {
-        _soundManager = FindObjectOfType<SoundManager>();
+        //_soundManager = FindObjectOfType<SoundManager>();
         _underWater = false;
     }
 
