@@ -117,11 +117,12 @@ public class PoliceAI : MonoBehaviour
             Vector3 point;
             if (FindRandomPoint(wanderTransform.position, searchRange0, out point)) //pass in centrepoint and radius of area
             {
-                agent.SetDestination(point);
+                this.agent.SetDestination(point);
+                thisTransform.LookAt(point);
+                thisTransform.Rotate(point);
+                thisTransform.forward = point;
 
-                transform.LookAt(point);
 
-    
             }
         }
     }

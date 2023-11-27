@@ -90,13 +90,13 @@ NavMeshAgent:
   m_Acceleration: 50
   avoidancePriority: 50
   m_AngularSpeed: 8
-  m_StoppingDistance: 2
+  m_StoppingDistance: 5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 1.5
   m_BaseOffset: -0.1
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 7
   m_ObstacleAvoidanceType: 4
 --- !u!54 &8373425612736236385
 Rigidbody:
@@ -131,6 +131,8 @@ MonoBehaviour:
   wanderRange: 30
   movementSpeed: 4
   data: {fileID: 11400000, guid: b0a6c6bad74cab740bc31f4a534668ce, type: 2}
+  increaseRate_ArrestVignette: 0
+  decreaseRate_ArrestVignette: 0
   chasingRange0: 0
   chaseSpeed0: 0
   searchRange0: 0
