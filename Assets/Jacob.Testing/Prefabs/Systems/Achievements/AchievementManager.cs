@@ -3,9 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using static System.TimeZoneInfo;
+using static UnityEngine.InputManagerEntry;
+using UnityEngine.Animations.Rigging;
 
 public class AchievementManager : MonoBehaviour
 {
+    /* 
+Achievements
+     * Spa Day – Find the Pigs in mud baths 
+     * Elderly Citizen’s Home – Delivery grandma 
+     * SmoothCriminal - Remove max wanted level 
+     * BaconEggs - Kill a chicken and pig within (5) seconds 
+     * Collidesdale - Break 100 objects
+     * BaaBoom
+     * PloughHorse – Fences
+     * Awakened – Equip Gold Skin
+     * ShowPony – Colour change
+     * Platnium Driver – Complete(x) Quests
+     * BBC – Find the big big chook
+    
+ Collectables: 
+     * Letters [Castle Cab] 
+     * Chicken Men 
+     * Scarecrows 
+     * Jesters 
+
+Breakable Achievements: 
+     * Pigs 
+     * Chickens 
+     * Horses 
+     * NPCS 
+     * Tomb stones
+
+     */
+
     public static AchievementManager Instance;
 
     [SerializeField] private Canvas _achievementCanvas;
