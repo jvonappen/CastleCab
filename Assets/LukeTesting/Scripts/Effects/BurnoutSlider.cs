@@ -13,6 +13,7 @@ public class BurnoutSlider : MonoBehaviour
     [SerializeField] private Canvas _canvas;
     [SerializeField] private Camera _camera;
     private bool _burnout = false;
+    private bool _tweening;
     private Tween _pulseTween;
 
     private void Awake()
@@ -21,13 +22,12 @@ public class BurnoutSlider : MonoBehaviour
         _fillAmount = _slider.rect.width;
         _slider.sizeDelta = new Vector2(0, _slider.rect.height);
         _canvas = GetComponentInParent<Canvas>();
-        _camera = FindObjectOfType<Camera>();
         _pulseTween = _canvas.gameObject.transform.DOScale(_canvas.transform.localScale * 1.5f, 0.5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
     }
 
     private void Update()
     {
-        //constanlt have burnout guage look at player
+        //constant have burnout guage look at player
         if (_burnout)
         {
             _canvas.gameObject.transform.LookAt(_camera.gameObject.transform);
@@ -41,9 +41,9 @@ public class BurnoutSlider : MonoBehaviour
         _canvas.gameObject.SetActive(true);
         _sliderValue = Mathf.InverseLerp(10, 3, value); //magic math to get percentage of 
         _sliderValue *= _fillAmount;
-        _fill = new Vector2(_sliderValue, _slider.rect.height) ;
+        _fill = new Vector2(_sliderValue, _slider.rect.height);
         _slider.sizeDelta = _fill;
-        if (_sliderValue == _fillAmount) //start tween when guage is full
+        if (_sliderValue == _fillAmount && !_tweening) //start tween when guage is full
         {
             SliderPulse();
         }
@@ -51,6 +51,7 @@ public class BurnoutSlider : MonoBehaviour
 
     public void ResetSlider()
     {
+        _tweening = false;
         _pulseTween.Kill(); //kill tween
         _canvas.gameObject.transform.localScale = Vector3.one; //reset canvas scale
         _burnout = false;
@@ -61,8 +62,7 @@ public class BurnoutSlider : MonoBehaviour
 
     private void SliderPulse()
     {
-        if (_pulseTween.IsPlaying()) return;
+        _tweening = true;
         _pulseTween = _canvas.gameObject.transform.DOScale(_canvas.transform.localScale * 1.5f, 0.5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo); //set tween
-        _pulseTween.Play();
     }
 }
