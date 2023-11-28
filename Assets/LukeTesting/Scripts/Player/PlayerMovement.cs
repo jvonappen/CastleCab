@@ -255,6 +255,7 @@ public class PlayerMovement : MonoBehaviour
             _burnoutBoost = StartCoroutine(Takeoff());
             if (_dragOnBurnoutRelease <= 3) //boost out of burnout if drag is cooked to 3
             {
+                if (_steeringTurnStrength != _boostTurnStrength) _steeringTurnStrength = _boostTurnStrength;
                 _speedInput = _forwardAcceleration * _boostMultiplier;
                 Boost(BOOST_FOV, true);
             }
@@ -269,7 +270,10 @@ public class PlayerMovement : MonoBehaviour
             StopParticles(_chargedBurnoutParticles);
 
             //start effects
-            if (_playerInput._boost != 0 && BoostBar.canBoost) Boost(BOOST_FOV, true);
+            if (_playerInput._boost != 0 && BoostBar.canBoost)
+            {
+                Boost(BOOST_FOV, true);
+            }
             else Boost(NORMAL_FOV, false);
             _soundManager.Play("DonkeyTrott");
             _soundManager.Play("Wagon");
@@ -283,7 +287,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void ReverseAcceleration()
     {
-        Debug.Log("Reverse");
         _burnout = false;
         if (!_stopped) _stopped = true;
 
@@ -301,13 +304,13 @@ public class PlayerMovement : MonoBehaviour
     {
         _burnout = false;
         _recenetering.m_RecenterToTargetHeading.m_enabled = false;
-        Boost(NORMAL_FOV, false);
+        if (_canBurnout) Boost(NORMAL_FOV, false);
 
         //kill effects 
         if (_burnoutBoost != null) //post burnout process
         {
             StopCoroutine(Takeoff());
-            Boost(NORMAL_FOV, false);
+            if (_canBurnout) Boost(NORMAL_FOV, false);
             _burnout = false;
             _canBurnout = true;
             _burnoutBoost = null;
@@ -340,12 +343,12 @@ public class PlayerMovement : MonoBehaviour
         //kill effects
         StopParticles(_chargedBurnoutParticles);
         _soundManager.Fade("Burnout");
-        if (_playerInput._accelerationInput == 0) yield break; 
+        if (_playerInput._accelerationInput == 0) yield break;
 
         //reset effects and values after a second
         yield return new WaitForSeconds(1f);
         _burnoutBoost = null;
-        Boost(NORMAL_FOV, false); //turn off boost
+        //Boost(NORMAL_FOV, false); //turn off boost
         _burnout = false;
         _canBurnout = true;
     }
@@ -450,14 +453,14 @@ public class PlayerMovement : MonoBehaviour
 
         if (!_canBurnout || _playerInput._boost != 0 && _grounded && _playerInput._accelerationInput > 0 && particlesVal && BoostBar.canBoost)
         {
-                PlayParticles(_speedParticles);
-                PlayParticles(_boostTrail);
-                _soundManager.Play("Boost");
-                _globalVolume.SetActive(true); //set motion blur
+            PlayParticles(_speedParticles);
+            PlayParticles(_boostTrail);
+            _soundManager.Play("Boost");
+            _globalVolume.SetActive(true); //set motion blur
 
-                //tighten wagon movement on boost
-                limit.limit = 5f;
-                _joint.angularYLimit = limit;
+            //tighten wagon movement on boost
+            limit.limit = 5f;
+            _joint.angularYLimit = limit;
         }
         else
         {
