@@ -16,7 +16,7 @@ public class CoinCollect : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             DollarDisplay.dollarValue = DollarDisplay.dollarValue + coinValue;
-            AudioManager.Instance.PlaySFX("Collectable");
+            AudioManager.Instance.PlaySFX("Money");
             Destroy(gameObject);
         }       
     }
