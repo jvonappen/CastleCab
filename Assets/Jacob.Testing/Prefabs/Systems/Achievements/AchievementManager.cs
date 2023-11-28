@@ -5,6 +5,8 @@ using TMPro;
 using static System.TimeZoneInfo;
 using static UnityEngine.InputManagerEntry;
 using UnityEngine.Animations.Rigging;
+using System;
+using UnityEngine.InputSystem;
 
 public class AchievementManager : MonoBehaviour
 {
@@ -36,6 +38,9 @@ Breakable Achievements:
      * Tomb stones
 
      */
+
+    [SerializeField] private PlayerInput _playerInput;
+    [SerializeField] private GameObject _achievementTrackerCanvas;
 
     public static AchievementManager Instance;
 
@@ -103,6 +108,12 @@ Breakable Achievements:
     void Update()
     {
         //CheckAchievement();
+
+        if (_playerInput._playerControls.Controls.Achievement.WasPressedThisFrame() /*Input.GetKeyUp(KeyCode.T*/)
+        {
+            _achievementTrackerCanvas.SetActive(!_achievementTrackerCanvas.activeSelf);
+        }
+
     }
 
     public void DisplayAchievment()
