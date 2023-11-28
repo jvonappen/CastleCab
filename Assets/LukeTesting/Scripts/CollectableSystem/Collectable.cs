@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,7 +24,6 @@ public class Collectable : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
-            Debug.Log("Hit Letter");
             _collectables.SetCollectableActive(this);
             AudioManager.Instance.PlaySFX("Collectable");
             Destroy(gameObject);

@@ -22,7 +22,6 @@ public class BurnoutSlider : MonoBehaviour
         _fillAmount = _slider.rect.width;
         _slider.sizeDelta = new Vector2(0, _slider.rect.height);
         _canvas = GetComponentInParent<Canvas>();
-        //_camera = FindObjectOfType<Camera>();
         _pulseTween = _canvas.gameObject.transform.DOScale(_canvas.transform.localScale * 1.5f, 0.5f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
     }
 
