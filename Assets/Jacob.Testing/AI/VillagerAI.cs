@@ -67,5 +67,19 @@ public class VillagerAI : MonoBehaviour
         result = Vector3.zero;
         return false;
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Mud")
+        {
+            agent.speed = agent.speed/ 2f;
+        }
+    }
+    private void OnTriggerExit (Collider other)
+    {
+        if (other.gameObject.tag == "Mud")
+        {
+            agent.speed = movementSpeed;
+        }
+    }
 
 }
