@@ -7,6 +7,8 @@ using static UnityEngine.InputManagerEntry;
 using UnityEngine.Animations.Rigging;
 using System;
 using UnityEngine.InputSystem;
+using DG.Tweening;
+using static UnityEditor.Progress;
 
 public class AchievementManager : MonoBehaviour
 {
@@ -40,7 +42,7 @@ Breakable Achievements:
      */
 
     [SerializeField] private PlayerInput _playerInput;
-    [SerializeField] private GameObject _achievementTrackerCanvas;
+    [SerializeField] private GameObject _achievementGameObject;
 
     public static AchievementManager Instance;
 
@@ -85,6 +87,9 @@ Breakable Achievements:
     [Header("PlatniumDriver")]
     public bool unlockPlatniumDriver = false;
 
+    private UITween _uiTween;
+    private bool _showUI;
+
 
     private void Awake()
     {
@@ -102,6 +107,7 @@ Breakable Achievements:
     void Start()
     {
         _achievementCanvas.enabled = false;
+        
     }
 
     // Update is called once per frame
@@ -109,23 +115,27 @@ Breakable Achievements:
     {
         //CheckAchievement();
 
-        if (_playerInput._playerControls.Controls.Achievement.WasPressedThisFrame() /*Input.GetKeyUp(KeyCode.T*/)
-        {
-            _achievementTrackerCanvas.SetActive(!_achievementTrackerCanvas.activeSelf);
-        }
-
+        //if (_playerInput._playerControls.Controls.Achievement.WasPressedThisFrame() /*Input.GetKeyUp(KeyCode.T*/)
+        //{
+        //    _achievementTrackerCanvas.SetActive(!_achievementTrackerCanvas.activeSelf);
+        //}
     }
 
     public void DisplayAchievment()
     {
+        _achievementGameObject.transform.localScale = Vector3.zero;
         _achievementCanvas.enabled = true;
+        _achievementGameObject.transform.DOScale(1f, 1f).SetEase(Ease.InOutElastic);
         StartCoroutine(EndDisplayAchievment());
     }
 
     IEnumerator EndDisplayAchievment()
     {
-        yield return new WaitForSeconds(5);
-        _achievementCanvas.enabled = false;      
+        yield return new WaitForSeconds(3);
+        _achievementGameObject.transform.DOScale(0f, 1f).SetEase(Ease.OutFlash);
+        yield return new WaitForSeconds(1);
+        _achievementCanvas.enabled = false;    
+        
     }
 
     public void Pegasus()  
