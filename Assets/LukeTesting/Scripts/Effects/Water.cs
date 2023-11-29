@@ -14,15 +14,15 @@ public class Water : MonoBehaviour
         _underWater = false;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.layer == 4)
-        {
-            _underWater = true;
-            PlayParticles(_bubbles);
-            _soundManager.Play("Water");
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.layer == 4)
+    //    {
+    //        _underWater = true;
+    //        PlayParticles(_bubbles);
+    //        _soundManager.Play("Water");
+    //    }
+    //}
 
     private void OnTriggerStay(Collider other)
     {
@@ -41,7 +41,6 @@ public class Water : MonoBehaviour
             _underWater = false;
             StopParticles(_bubbles);
             _soundManager.Stop("Water");
-            Debug.Log("Stop Particles");
         }
     }
 
@@ -53,7 +52,6 @@ public class Water : MonoBehaviour
             {
                 if (!particles[i].isEmitting)
                 {
-                    Debug.Log("Play Particles");
                     particles[i].Play();
                 }
             }
