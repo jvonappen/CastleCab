@@ -18,6 +18,9 @@ public class UITween : MonoBehaviour
     [SerializeField] private PlayerInput _playerInput;
     private bool _showUI;
 
+    [Header("Debug")]
+    [SerializeField] private float _pauseDelay = 2.5f;
+
     private void Update()
     {
         if (_playerInput._playerControls.Controls.Achievement.WasPressedThisFrame() /*Input.GetKeyUp(KeyCode.T*/)

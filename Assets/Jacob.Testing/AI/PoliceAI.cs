@@ -147,7 +147,7 @@ public class PoliceAI : MonoBehaviour
 
             agent.transform.LookAt(lookAtDonkey);
            
-            DishonourIncrease();
+           // DishonourIncrease();
             //Debug.Log("WeeWoo");
         }
     }

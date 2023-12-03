@@ -28,6 +28,9 @@ public class FenceWallCollisions : MonoBehaviour
 
     ExplosionForce explosionForce;
 
+    [Header("Debug")]
+    [SerializeField] private float _objectRespawnDelay = 30;
+
     private void OnCollisionEnter(Collision collision)
     {
         
@@ -37,11 +40,11 @@ public class FenceWallCollisions : MonoBehaviour
             AchievementManager.fenceTracker = AchievementManager.fenceTracker + 1;
             AchievementManager.Instance.PloughHorse();
 
-            //AudioManager.Instance.StopSFX();
             AudioManager.Instance.PlayGroupAudio("FenceCollisions");
             _particlePos = collision.transform;
             PlayParticle(_fenceImpact);
-            Destroy(collision.gameObject);
+            collision.gameObject.SetActive(false);
+            StartCoroutine(ObjectRespawnDelay(collision.gameObject));
         }
         if (collision.gameObject.tag == "Sheep")
         {
@@ -95,7 +98,7 @@ public class FenceWallCollisions : MonoBehaviour
             
             Destroy(collision.gameObject, 5);
         }
-        if (collision.gameObject.tag == "BOOM")
+        if (collision.gameObject.tag == "BOOM" && PlayerData.isOccupied == false)
         {
             if (AchievementManager.unlockBaaBoom == false) { AchievementManager.Instance.BaaBoom(); }
             _particlePos = collision.transform;
@@ -109,7 +112,8 @@ public class FenceWallCollisions : MonoBehaviour
             //AudioManager.Instance.PlaySFX("");
             _particlePos = collision.transform;
             PlayParticle(_graveImpact);
-            Destroy(collision.gameObject);
+            collision.gameObject.SetActive(false);
+            StartCoroutine(ObjectRespawnDelay(collision.gameObject));
         }
         if (collision.gameObject.tag == "MarketStall")
         {
@@ -117,7 +121,9 @@ public class FenceWallCollisions : MonoBehaviour
             //AudioManager.Instance.PlaySFX("");
             _particlePos = collision.transform;
             PlayParticleMarketStall();
-            Destroy(collision.gameObject);
+            //Destroy(collision.gameObject);
+            collision.gameObject.SetActive(false);
+            StartCoroutine(ObjectRespawnDelay(collision.gameObject));
         }
         if (collision.gameObject.tag == "Vat")
         {
@@ -125,7 +131,8 @@ public class FenceWallCollisions : MonoBehaviour
             //AudioManager.Instance.PlaySFX("");
             _particlePos = collision.transform;
             PlayParticle(_vatImpact);
-            Destroy(collision.gameObject);
+            collision.gameObject.SetActive(false);
+            StartCoroutine(ObjectRespawnDelay(collision.gameObject));
         }
 
     }
@@ -143,5 +150,11 @@ public class FenceWallCollisions : MonoBehaviour
         ParticleSystem particle = _stallImpactList[randomVal];
 
         PlayParticle(particle);     
+    }
+
+    IEnumerator ObjectRespawnDelay(GameObject obj)
+    {
+        yield return new WaitForSeconds(_objectRespawnDelay);
+        obj.SetActive(true);
     }
 }
