@@ -11,11 +11,20 @@ public class Water : MonoBehaviour
 
     private void Awake()
     {
-        _soundManager = FindObjectOfType<SoundManager>();
         _underWater = false;
     }
 
     private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == 4)
+        {
+            _underWater = true;
+            PlayParticles(_bubbles);
+            _soundManager.Play("Water");
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.layer == 4)
         {
@@ -32,7 +41,7 @@ public class Water : MonoBehaviour
             _underWater = false;
             StopParticles(_bubbles);
             _soundManager.Stop("Water");
-            //_soundManager.Fade("Water");
+            Debug.Log("Stop Particles");
         }
     }
 
@@ -44,7 +53,7 @@ public class Water : MonoBehaviour
             {
                 if (!particles[i].isEmitting)
                 {
-                    Debug.Log("Play particles");
+                    Debug.Log("Play Particles");
                     particles[i].Play();
                 }
             }

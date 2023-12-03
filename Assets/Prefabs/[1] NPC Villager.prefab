@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4599727388349437012}
   - component: {fileID: 4599727388349437008}
   - component: {fileID: 3890743258259126947}
+  - component: {fileID: 547391771410252996}
   m_Layer: 0
   m_Name: '[1] NPC Villager'
   m_TagString: NPC
@@ -99,8 +100,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.58
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 4
+  m_Acceleration: 12
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 1
@@ -168,6 +169,30 @@ MonoBehaviour:
   - {fileID: 6795451421304508188}
   - {fileID: 5009114243414419233}
   - {fileID: 1198746594591487170}
+--- !u!205 &547391771410252996
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4599727388349437035}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.6
+    fadeTransitionWidth: 0
+    renderers: []
+  - screenRelativeHeight: 0.3
+    fadeTransitionWidth: 0
+    renderers: []
+  - screenRelativeHeight: 0.10758307
+    fadeTransitionWidth: 0
+    renderers: []
+  m_Enabled: 1
 --- !u!1001 &4473725844172750992
 PrefabInstance:
   m_ObjectHideFlags: 0

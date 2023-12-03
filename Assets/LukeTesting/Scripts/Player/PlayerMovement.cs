@@ -137,12 +137,11 @@ public class PlayerMovement : MonoBehaviour
         _joint = _wagon.GetComponent<ConfigurableJoint>();
         _wagonRB = _wagon.GetComponent<Rigidbody>();
         _donkeyRB = this.GetComponent<Rigidbody>();
-        //_soundManager = FindObjectOfType<SoundManager>();
-        //_camera = FindObjectOfType<CameraFOV>();
-        //_recenetering = FindObjectOfType<CinemachineFreeLook>();
-        //_bubbles = FindObjectOfType<Water>();
-        //_burnoutSlider = FindObjectOfType<BurnoutSlider>();
-        //_burnoutSlider.ResetSlider();
+    }
+
+    private void Start()
+    {
+        _burnoutSlider.ResetSlider();
     }
 
     private void Update()
@@ -172,7 +171,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (_playerInput._reverseInput < 0 && _grounded) //reverse acceleration on ground
         {
-            //_burnoutSlider.ResetSlider();
+            _burnoutSlider.ResetSlider();
             _speedInput = _reverseAcceleration;
             _speedInput *= _playerInput._reverseInput;
             _steeringTurnStrength = _turnStrength;
@@ -180,7 +179,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (_playerInput._accelerationInput == 0 && _playerInput._reverseInput == 0 && _playerInput._steeringInput != 0) //turning on spot acceleration
         {
-            //_burnoutSlider.ResetSlider();
+            _burnoutSlider.ResetSlider();
             _speedInput = _onSpotAcceleration;
             _steeringTurnStrength = _onSpotTurnStrength;
             _horseAnimator.SetFloat("Speed", 0.5f);
@@ -188,7 +187,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else //no acceleration or in air
         {
-            //_burnoutSlider.ResetSlider();
+            _burnoutSlider.ResetSlider();
             _speedInput = 0;
             _steeringTurnStrength = _inAirTurnStrength;
             _horseAnimator.SetFloat("Speed", 0f);
@@ -251,11 +250,12 @@ public class PlayerMovement : MonoBehaviour
             if (_canBurnout) _dragOnBurnoutRelease = _dragOnGround; //check what drag value is at on release of burnout
             _canBurnout = false;
             RotateWheels(_wheelForwardRotation);
-            //_burnoutSlider.ResetSlider();
+            _burnoutSlider.ResetSlider();
 
             _burnoutBoost = StartCoroutine(Takeoff());
             if (_dragOnBurnoutRelease <= 3) //boost out of burnout if drag is cooked to 3
             {
+                if (_steeringTurnStrength != _boostTurnStrength) _steeringTurnStrength = _boostTurnStrength;
                 _speedInput = _forwardAcceleration * _boostMultiplier;
                 Boost(BOOST_FOV, true);
             }
@@ -270,7 +270,10 @@ public class PlayerMovement : MonoBehaviour
             StopParticles(_chargedBurnoutParticles);
 
             //start effects
-            if (_playerInput._boost != 0 && BoostBar.canBoost) Boost(BOOST_FOV, true);
+            if (_playerInput._boost != 0 && BoostBar.canBoost)
+            {
+                Boost(BOOST_FOV, true);
+            }
             else Boost(NORMAL_FOV, false);
             _soundManager.Play("DonkeyTrott");
             _soundManager.Play("Wagon");
@@ -284,7 +287,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void ReverseAcceleration()
     {
-        Debug.Log("Reverse");
         _burnout = false;
         if (!_stopped) _stopped = true;
 
@@ -302,18 +304,17 @@ public class PlayerMovement : MonoBehaviour
     {
         _burnout = false;
         _recenetering.m_RecenterToTargetHeading.m_enabled = false;
-        Boost(NORMAL_FOV, false);
+        if (_canBurnout) Boost(NORMAL_FOV, false);
 
         //kill effects 
         if (_burnoutBoost != null) //post burnout process
         {
             StopCoroutine(Takeoff());
-            Boost(NORMAL_FOV, false);
+            if (_canBurnout) Boost(NORMAL_FOV, false);
             _burnout = false;
             _canBurnout = true;
             _burnoutBoost = null;
             _soundManager.Fade("Burnout");
-            Debug.Log("Kill boost");
         }
 
         if (!_burnout) _soundManager.Fade("Burnout");
@@ -341,12 +342,12 @@ public class PlayerMovement : MonoBehaviour
         //kill effects
         StopParticles(_chargedBurnoutParticles);
         _soundManager.Fade("Burnout");
-        if (_playerInput._accelerationInput == 0) yield break; 
+        if (_playerInput._accelerationInput == 0) yield break;
 
         //reset effects and values after a second
         yield return new WaitForSeconds(1f);
         _burnoutBoost = null;
-        Boost(NORMAL_FOV, false); //turn off boost
+        //Boost(NORMAL_FOV, false); //turn off boost
         _burnout = false;
         _canBurnout = true;
     }
@@ -355,7 +356,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!_burnout) _dragOnGround = _dragOnAcceleration;
         _burnout = true;
-        //_burnoutSlider.BurnoutCharge(_dragOnGround);
+        _burnoutSlider.BurnoutCharge(_dragOnGround);
 
         //kill effects
         StopParticles(_speedParticles);
@@ -451,14 +452,14 @@ public class PlayerMovement : MonoBehaviour
 
         if (!_canBurnout || _playerInput._boost != 0 && _grounded && _playerInput._accelerationInput > 0 && particlesVal && BoostBar.canBoost)
         {
-                PlayParticles(_speedParticles);
-                PlayParticles(_boostTrail);
-                _soundManager.Play("Boost");
-                _globalVolume.SetActive(true); //set motion blur
+            PlayParticles(_speedParticles);
+            PlayParticles(_boostTrail);
+            _soundManager.Play("Boost");
+            _globalVolume.SetActive(true); //set motion blur
 
-                //tighten wagon movement on boost
-                limit.limit = 5f;
-                _joint.angularYLimit = limit;
+            //tighten wagon movement on boost
+            limit.limit = 5f;
+            _joint.angularYLimit = limit;
         }
         else
         {
@@ -642,24 +643,21 @@ public class PlayerMovement : MonoBehaviour
             isInSlowdownZone = true;
             SpeedUpPlayer();
         }
-
-        if (other.gameObject.tag == "Mud")
+        else if (other.gameObject.tag == "Mud")
         {
-            isInSlowdownZone = true;
             SlowDownPlayer();
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "SpeedRamps"  )
+        if (other.gameObject.tag == "SpeedRamps")
         {
             isInSlowdownZone = false;
             RestoreOriginalSpeed();
         }
-        if (other.gameObject.tag == "Mud")
+        else if (other.gameObject.tag == "Mud")
         {
-            isInSlowdownZone = false;
             RestoreOriginalSpeed();
         }
     }
@@ -676,7 +674,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void SlowDownPlayer()
     {
-        _forwardAcceleration = 150;
+        _forwardAcceleration = 350;
     }
-
 }
