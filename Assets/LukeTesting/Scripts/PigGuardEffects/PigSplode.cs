@@ -33,6 +33,8 @@ public class PigSplode : MonoBehaviour
     [SerializeField] private bool _collisionOccured = false;
     [SerializeField] private float _resetTimer = 0.5f;
     private float _whamTimer = 0;
+    [Space]
+    [SerializeField] private int _goldRemoved = 5;
 
     private void Awake()
     {
@@ -92,6 +94,12 @@ public class PigSplode : MonoBehaviour
                 AudioManager.Instance.PlayGroupAudio("GuardPunch");
                 ParticleSystem impact = Instantiate(_playerImpact, other.transform);
                 other.rigidbody.AddForce((other.transform.position - this.transform.position) * _playerForce, ForceMode.Impulse);
+
+                //Remove Gold from Player
+                DollarDisplay.dollarValue = DollarDisplay.dollarValue - _goldRemoved;
+                //Remove Dishonour Level p/Hit
+                Dishonour.dishonourLevel = Dishonour.dishonourLevel - _goldRemoved;
+
 
                 ParticleSystem wham = Instantiate(_wham, _whamPos);
                 _whams.Add(wham.gameObject); //add to list to be destroyed

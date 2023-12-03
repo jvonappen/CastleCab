@@ -345,6 +345,8 @@ GameObject:
   - component: {fileID: 1266509624903028064}
   - component: {fileID: 1266509624903028065}
   - component: {fileID: 1266509624903028066}
+  - component: {fileID: 1343444631}
+  - component: {fileID: 1343444632}
   m_Layer: 0
   m_Name: Achievement Tracker
   m_TagString: Untagged
@@ -425,7 +427,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1266509624903028068}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
@@ -435,6 +437,34 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!225 &1343444631
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266509624903028068}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &1343444632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266509624903028068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7de55f861d74d844a1588bfcfde3180, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fadeTime: 0.25
+  _canvasGroup: {fileID: 1343444631}
+  _rectTransform: {fileID: 1266509624903028067}
+  _playerInput: {fileID: 0}
 --- !u!1001 &1266509624238969489
 PrefabInstance:
   m_ObjectHideFlags: 0

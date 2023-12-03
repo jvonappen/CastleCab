@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class WeaponRandom : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [Header("Left Hand")]
+    [SerializeField] private GameObject[] _leftHand;
+    [Space]
+    [Header("Right Hand")]
+    [SerializeField] private GameObject[] _rightHand;
+
+    void Awake()
     {
-        
+        int leftVal = UnityEngine.Random.Range(0, _leftHand.Length);
+        _leftHand[leftVal].SetActive(true);
+
+        int rightVal = UnityEngine.Random.Range(0, _rightHand.Length);
+        _rightHand[rightVal].SetActive(true);
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

@@ -107,6 +107,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Achievement"",
+                    ""type"": ""Button"",
+                    ""id"": ""5e73b3dc-3b21-4d31-b4fe-d78d5618c08a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -406,6 +415,28 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dc0e280f-7e30-4f30-9017-d5ecf1c3b58a"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Achievement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ad01c546-228a-4b9b-81d8-b71df298bfef"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Achievement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -451,6 +482,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Controls_Backflip = m_Controls.FindAction("Backflip", throwIfNotFound: true);
         m_Controls_BarrelRoll = m_Controls.FindAction("BarrelRoll", throwIfNotFound: true);
         m_Controls_Interact = m_Controls.FindAction("Interact", throwIfNotFound: true);
+        m_Controls_Achievement = m_Controls.FindAction("Achievement", throwIfNotFound: true);
         // Customisation
         m_Customisation = asset.FindActionMap("Customisation", throwIfNotFound: true);
         m_Customisation_Navigate = m_Customisation.FindAction("Navigate", throwIfNotFound: true);
@@ -522,6 +554,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Controls_Backflip;
     private readonly InputAction m_Controls_BarrelRoll;
     private readonly InputAction m_Controls_Interact;
+    private readonly InputAction m_Controls_Achievement;
     public struct ControlsActions
     {
         private @PlayerControls m_Wrapper;
@@ -535,6 +568,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Backflip => m_Wrapper.m_Controls_Backflip;
         public InputAction @BarrelRoll => m_Wrapper.m_Controls_BarrelRoll;
         public InputAction @Interact => m_Wrapper.m_Controls_Interact;
+        public InputAction @Achievement => m_Wrapper.m_Controls_Achievement;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -571,6 +605,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Interact.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnInteract;
+                @Achievement.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnAchievement;
+                @Achievement.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnAchievement;
+                @Achievement.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnAchievement;
             }
             m_Wrapper.m_ControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -602,6 +639,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @Achievement.started += instance.OnAchievement;
+                @Achievement.performed += instance.OnAchievement;
+                @Achievement.canceled += instance.OnAchievement;
             }
         }
     }
@@ -650,6 +690,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnBackflip(InputAction.CallbackContext context);
         void OnBarrelRoll(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnAchievement(InputAction.CallbackContext context);
     }
     public interface ICustomisationActions
     {

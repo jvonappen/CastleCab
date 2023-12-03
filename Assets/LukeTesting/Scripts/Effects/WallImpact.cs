@@ -15,7 +15,7 @@ public class WallImpact : MonoBehaviour
 
     private void Awake()
     {
-        _soundManager = FindObjectOfType<SoundManager>();
+        //_soundManager = FindObjectOfType<SoundManager>();
         _playerRB = GetComponent<Rigidbody>();
     }
 

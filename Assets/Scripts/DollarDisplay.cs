@@ -28,6 +28,12 @@ public class DollarDisplay : MonoBehaviour
     public void UpdateDollarDisplay()
     {
         _dollarDisplay.text = dollarValue.ToString();
+
+        if(dollarValue < 0)
+        {
+            _dollarDisplay.color = Color.red;
+        }
+        else _dollarDisplay.color = Color.black;
     }
 
     
