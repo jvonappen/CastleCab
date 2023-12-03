@@ -13,10 +13,19 @@ public class FenceWallCollisions : MonoBehaviour
     [SerializeField] ParticleSystem _npcImpact;
     [SerializeField] ParticleSystem _graveImpact;
     [SerializeField] ParticleSystem _ghostImpact;
+    [SerializeField] ParticleSystem _vatImpact;
 
     [SerializeField] ParticleSystem _explosiveImpact;
+    [Space]
+    [SerializeField] List<ParticleSystem> _stallImpactList;
+    //[SerializeField] ParticleSystem _stallImpact1;
+    //[SerializeField] ParticleSystem _stallImpact2;
+    //[SerializeField] ParticleSystem _stallImpact3;
+    //[SerializeField] ParticleSystem _stallImpact4;
 
     private static Transform _particlePos;
+    //private static Transform _marketParticlePos;
+
     ExplosionForce explosionForce;
 
     private void OnCollisionEnter(Collision collision)
@@ -102,6 +111,22 @@ public class FenceWallCollisions : MonoBehaviour
             PlayParticle(_graveImpact);
             Destroy(collision.gameObject);
         }
+        if (collision.gameObject.tag == "MarketStall")
+        {
+            //AudioManager.Instance.StopSFX();
+            //AudioManager.Instance.PlaySFX("");
+            _particlePos = collision.transform;
+            PlayParticleMarketStall();
+            Destroy(collision.gameObject);
+        }
+        if (collision.gameObject.tag == "Vat")
+        {
+            //AudioManager.Instance.StopSFX();
+            //AudioManager.Instance.PlaySFX("");
+            _particlePos = collision.transform;
+            PlayParticle(_vatImpact);
+            Destroy(collision.gameObject);
+        }
 
     }
 
@@ -109,5 +134,14 @@ public class FenceWallCollisions : MonoBehaviour
     {
         particle.transform.position = _particlePos.position;
         particle.Play();
+    }
+
+    public void PlayParticleMarketStall()
+    {
+        int randomVal = UnityEngine.Random.Range(0, _stallImpactList.Count);
+
+        ParticleSystem particle = _stallImpactList[randomVal];
+
+        PlayParticle(particle);     
     }
 }
