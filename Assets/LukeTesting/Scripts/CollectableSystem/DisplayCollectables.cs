@@ -94,7 +94,6 @@ public class DisplayCollectables : MonoBehaviour
         if (CompleteCheck()) //finial special tween when all letters are collected
         {
             yield return new WaitForSeconds(1f);
-            Debug.Log("Finish Him");
             for (int i = 0; i < _collectables.Count; i++)
             {
                 _collectables[i].transform.DOPunchScale(Vector3.one, 1f);

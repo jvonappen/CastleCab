@@ -315,7 +315,6 @@ public class PlayerMovement : MonoBehaviour
             _canBurnout = true;
             _burnoutBoost = null;
             _soundManager.Fade("Burnout");
-            Debug.Log("Kill boost");
         }
 
         if (!_burnout) _soundManager.Fade("Burnout");
