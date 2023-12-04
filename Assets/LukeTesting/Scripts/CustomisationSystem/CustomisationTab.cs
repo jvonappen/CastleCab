@@ -13,7 +13,7 @@ public class CustomisationTab : MonoBehaviour
     [SerializeField] private List<MeshRenderer> _wheelMeshRenderer;
     [SerializeField] private SkinnedMeshRenderer _horseSkinnedMeshRenderer;
     [SerializeField] private MeshFilter _cartMesh;
-    [SerializeField] private Transform _hatPos;
+    [SerializeField] private GameObject _horseHat;
     [SerializeField] private SetMaterials _setMaterials;
     [SerializeField] private Tab _tabs;
     [SerializeField] private int index = 0;
@@ -34,6 +34,7 @@ public class CustomisationTab : MonoBehaviour
         //set customisation details to correct index
         _text.text = _tabs.tabOption[index].ToString();
         ChangeMaterials(index);
+        ResetCart();
     }
 
     private void OnLeftButtonClicked()
@@ -91,22 +92,14 @@ public class CustomisationTab : MonoBehaviour
         }
 
         //spawn hats
-        if (_hatPos != null)
+        if (_horseHat != null)
         {
-            if (_hatPos.childCount == 0 && _tabs.modelOption[index] != null)
+            foreach (Transform child in _horseHat.transform)
             {
-                GameObject hat = Instantiate(_tabs.modelOption[index], _hatPos);
-                hat.transform.parent = _hatPos.transform;
+                if (child.gameObject.activeSelf) child.gameObject.SetActive(false);
             }
-            else
-            {
-                if (_hatPos.childCount != 0) Destroy(_hatPos.GetChild(0).gameObject);
-                if (_tabs.modelOption[index] != null)
-                {
-                    GameObject hat = Instantiate(_tabs.modelOption[index], _hatPos);
-                    hat.transform.parent = _hatPos.transform;
-                }
-            }
+            if (_tabs.modelOption[index] != null) _tabs.modelOption[index].SetActive(true);
+
             _setMaterials.SetHatObject(_tabs.modelOption[index]);
         }
 
