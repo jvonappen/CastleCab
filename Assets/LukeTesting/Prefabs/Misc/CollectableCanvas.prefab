@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3571583074863030022}
   - component: {fileID: 3571583074863030023}
   - component: {fileID: 3571583074863030020}
+  - component: {fileID: 2014420607}
   m_Layer: 0
   m_Name: CollectableCanvas
   m_TagString: Untagged
@@ -113,10 +114,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6481b6118b6a9cb438456db2cbe47507, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characters: 4300410052005400
+  _characters: 43004100530054004c004500430041004200
   _collectables: []
   _textBox: {fileID: 7022080556250290314, guid: 2545f8bbfc636d847b52b53965ce7616, type: 3}
-  _spacingX: -360
-  _spacingY: 150
+  _spacingX: 0
+  _spacingY: 145
   _adjustYSpacing: 0
-  _adjustXSpacing: 40
+  _adjustXSpacing: 50
+  _uncollectedColour: {r: 0, g: 0, b: 0, a: 0.27058825}
+  _collectedColour: {r: 0, g: 0, b: 0, a: 1}
+--- !u!225 &2014420607
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3571583074863030074}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
