@@ -2825,10 +2825,10 @@ Animator:
   m_GameObject: {fileID: 4599727388349437035}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: d6d1cbd796098c644b713441935485c0, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 095a6394ab411e74d9b81411c154f791, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -2907,18 +2907,19 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4599727388349437035}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 20555fb68c2cecc4d90a3878377d495e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   customerSeat: {fileID: 0}
-  destination: {fileID: 0}
   dollarsGiven: 100
   targetParticles: {fileID: 0}
+  destinationList: []
   timerObject: {fileID: 0}
   timeValue: {fileID: 0}
-  fareText: {fileID: 0}
+  resetDelay: 60
+  destination: {fileID: 0}
   isAtTarget: 0
 --- !u!114 &3890743258259126947
 MonoBehaviour:

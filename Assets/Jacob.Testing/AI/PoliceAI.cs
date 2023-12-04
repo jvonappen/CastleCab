@@ -8,7 +8,7 @@ using TMPro;
 using UnityEditor;
 using Cinemachine;
 using Cinemachine.PostFX;
-using Cinemachine.PostFX.Editor;
+//using Cinemachine.PostFX.Editor;
 using Cinemachine.Utility;
 using UnityEngine.Rendering;
 
@@ -72,8 +72,6 @@ public class PoliceAI : MonoBehaviour
         {
             DishonourEvaluate();
         }
-
-
     }
 
 
@@ -117,11 +115,10 @@ public class PoliceAI : MonoBehaviour
             Vector3 point;
             if (FindRandomPoint(wanderTransform.position, searchRange0, out point)) //pass in centrepoint and radius of area
             {
-                agent.SetDestination(point);
-
-                transform.LookAt(point);
-
-    
+                this.agent.SetDestination(point);
+                thisTransform.LookAt(point);
+                thisTransform.Rotate(point);
+                thisTransform.forward = point;
             }
         }
     }
@@ -150,7 +147,7 @@ public class PoliceAI : MonoBehaviour
 
             agent.transform.LookAt(lookAtDonkey);
            
-            DishonourIncrease();
+           // DishonourIncrease();
             //Debug.Log("WeeWoo");
         }
     }
@@ -163,11 +160,9 @@ public class PoliceAI : MonoBehaviour
             inPursuit = true;
         }
         if (distance > chasingRange0) 
-        {
-            
+        {        
             WanderAllOver(); 
             inPursuit = false; 
-
         }
     }
 

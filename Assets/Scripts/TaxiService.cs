@@ -7,17 +7,19 @@ using TMPro;
 
 public class TaxiService : MonoBehaviour
 {
-    [SerializeField] private GameObject customerSeat;
-    [SerializeField] public GameObject destination;
+    [SerializeField] private GameObject customerSeat;  
+    
     [SerializeField] public int dollarsGiven;
-
     [SerializeField] public GameObject targetParticles;
-
     public static bool isInCart = false;
+    [Space]
+    [SerializeField] private GameObject[] destinationList;
+    [Space]
 
+    private int listLength;
     //[SerializeField] private Canvas _npcMapMarker; //change this temp fix
     //[SerializeField] private Canvas _npcQuestIcon;//temp
-    
+
     private NavMeshAgent agent;
     private GameObject _player;
     private float X;
@@ -27,6 +29,14 @@ public class TaxiService : MonoBehaviour
     [Header("Timer")]
     [SerializeField] private GameObject timerObject;
     [SerializeField] private Timer timeValue;
+
+    [Header("Respawn")]
+    private Transform _ogTrans;
+    [SerializeField] private float resetDelay = 5;
+
+
+    [Header("Debug")]
+    [SerializeField] public GameObject destination;
 
     //[Header("Fare")]
     //[SerializeField] private TextMeshProUGUI fareText;
@@ -51,12 +61,19 @@ public class TaxiService : MonoBehaviour
     {
        // _npcMapMarker.enabled = true; //temp
         agent = this.gameObject.GetComponent<NavMeshAgent>();
+        listLength = destinationList.Length;
+        //Debug.Log(listLength.ToString());
+
+        _ogTrans = this.transform;
     }
     private void Start()
     {
         _player = PlayerData.player;
         _animator = this.gameObject.GetComponent<Animator>();
         ChangeAnimation(NPC_ATTENTION);
+
+        int randomDestination = UnityEngine.Random.Range(0, listLength);
+        destination = destinationList[randomDestination];
 
 
     }
@@ -95,12 +112,11 @@ public class TaxiService : MonoBehaviour
 
             //_npcMapMarker.enabled = false; //temp
             //_npcQuestIcon.enabled = false ; //temp
-
             //destination.GetComponent<ArriveAtObjective>().minimapMarker.enabled = true;
 
             SetTargetParticlesPosition();
             timeValue.inService = true;
-            //timeValue.timerValue = 60;
+            timeValue.timerValue = 45;
             
             
             timerObject.SetActive(true);
@@ -120,5 +136,24 @@ public class TaxiService : MonoBehaviour
 
         _animator.Play(newAnimation);
         _currentAnimation = newAnimation;
+    }
+
+    public void ResetTaxiPickUp()
+    {
+        StartCoroutine(ResetWait());
+    }
+
+    IEnumerator ResetWait()
+    {
+        Debug.Log("Doing a wait");
+        yield return new WaitForSeconds(resetDelay);
+        this.gameObject.transform.position = _ogTrans.position;
+        isAtTarget = false;
+        int randomDestination = UnityEngine.Random.Range(0, listLength);
+        destination = destinationList[randomDestination];
+        ChangeAnimation(NPC_ATTENTION);
+        this.gameObject.GetComponentInChildren<Canvas>().enabled = true;
+
+        Debug.Log("Did a teleport reset");
     }
 }

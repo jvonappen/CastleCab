@@ -38,6 +38,9 @@ public class ArriveAtObjective : MonoBehaviour
 
             targetParticles.SetActive(false);
 
+            taxiPassenger.ResetTaxiPickUp();
+            
+
         }
     }
 }

@@ -11,11 +11,25 @@ public class FenceWallCollisions : MonoBehaviour
     [SerializeField] ParticleSystem _sheepImpact;
     [SerializeField] ParticleSystem _horseImpact;
     [SerializeField] ParticleSystem _npcImpact;
+    [SerializeField] ParticleSystem _graveImpact;
+    [SerializeField] ParticleSystem _ghostImpact;
+    [SerializeField] ParticleSystem _vatImpact;
 
     [SerializeField] ParticleSystem _explosiveImpact;
+    [Space]
+    [SerializeField] List<ParticleSystem> _stallImpactList;
+    //[SerializeField] ParticleSystem _stallImpact1;
+    //[SerializeField] ParticleSystem _stallImpact2;
+    //[SerializeField] ParticleSystem _stallImpact3;
+    //[SerializeField] ParticleSystem _stallImpact4;
 
     private static Transform _particlePos;
+    //private static Transform _marketParticlePos;
+
     ExplosionForce explosionForce;
+
+    [Header("Debug")]
+    [SerializeField] private float _objectRespawnDelay = 30;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -26,11 +40,11 @@ public class FenceWallCollisions : MonoBehaviour
             AchievementManager.fenceTracker = AchievementManager.fenceTracker + 1;
             AchievementManager.Instance.PloughHorse();
 
-            //AudioManager.Instance.StopSFX();
             AudioManager.Instance.PlayGroupAudio("FenceCollisions");
             _particlePos = collision.transform;
             PlayParticle(_fenceImpact);
-            Destroy(collision.gameObject);
+            collision.gameObject.SetActive(false);
+            StartCoroutine(ObjectRespawnDelay(collision.gameObject));
         }
         if (collision.gameObject.tag == "Sheep")
         {
@@ -77,20 +91,48 @@ public class FenceWallCollisions : MonoBehaviour
             //AudioManager.Instance.StopSFX();
             _particlePos = collision.transform;
             collision.gameObject.GetComponent<NavMeshAgent>().enabled = false;
+
             collision.gameObject.GetComponent<Rigidbody>().AddExplosionForce(1000, this.transform.position, 20, 500); //Same as pigsplode valuse
-
             AudioManager.Instance.PlayGroupAudio("NPCScreams");
-
             PlayParticle(_npcImpact);
+            
             Destroy(collision.gameObject, 5);
         }
-        if (collision.gameObject.tag == "BOOM")
+        if (collision.gameObject.tag == "BOOM" && PlayerData.isOccupied == false)
         {
             if (AchievementManager.unlockBaaBoom == false) { AchievementManager.Instance.BaaBoom(); }
             _particlePos = collision.transform;
             PlayParticle(_explosiveImpact);
             collision.gameObject.GetComponent<ExplosionForce>().Explode();
             Destroy(collision.gameObject);
+        }
+        if (collision.gameObject.tag == "Grave")
+        {
+            //AudioManager.Instance.StopSFX();
+            //AudioManager.Instance.PlaySFX("");
+            _particlePos = collision.transform;
+            PlayParticle(_graveImpact);
+            collision.gameObject.SetActive(false);
+            StartCoroutine(ObjectRespawnDelay(collision.gameObject));
+        }
+        if (collision.gameObject.tag == "MarketStall")
+        {
+            //AudioManager.Instance.StopSFX();
+            //AudioManager.Instance.PlaySFX("");
+            _particlePos = collision.transform;
+            PlayParticleMarketStall();
+            //Destroy(collision.gameObject);
+            collision.gameObject.SetActive(false);
+            StartCoroutine(ObjectRespawnDelay(collision.gameObject));
+        }
+        if (collision.gameObject.tag == "Vat")
+        {
+            //AudioManager.Instance.StopSFX();
+            //AudioManager.Instance.PlaySFX("");
+            _particlePos = collision.transform;
+            PlayParticle(_vatImpact);
+            collision.gameObject.SetActive(false);
+            StartCoroutine(ObjectRespawnDelay(collision.gameObject));
         }
 
     }
@@ -99,5 +141,20 @@ public class FenceWallCollisions : MonoBehaviour
     {
         particle.transform.position = _particlePos.position;
         particle.Play();
+    }
+
+    public void PlayParticleMarketStall()
+    {
+        int randomVal = UnityEngine.Random.Range(0, _stallImpactList.Count);
+
+        ParticleSystem particle = _stallImpactList[randomVal];
+
+        PlayParticle(particle);     
+    }
+
+    IEnumerator ObjectRespawnDelay(GameObject obj)
+    {
+        yield return new WaitForSeconds(_objectRespawnDelay);
+        obj.SetActive(true);
     }
 }

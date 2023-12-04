@@ -8,25 +8,27 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: cfxr star ab
-  m_Shader: {fileID: 4800000, guid: e198026df304af84a85675be636192ea, type: 3}
+  m_Shader: {fileID: 4800000, guid: 8516d7a69675844a7a0b7095af7c46af, type: 3}
   m_ValidKeywords:
-  - _ALPHABLEND_ON
-  - _CFXR_DITHERED_SHADOWS_ON
-  - _CFXR_SINGLE_CHANNEL
-  - _FADING_ON
+  - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords:
-  - _
-  - _CFXR_OVERLAYBLEND_RGBA
-  - _CFXR_OVERLAYTEX_OFF
-  m_LightmapFlags: 0
+  - _FLIPBOOKBLENDING_OFF
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
+  m_CustomRenderQueue: 3000
+  stringTagMap:
+    RenderType: Transparent
+  disabledShaderPasses:
+  - DepthOnly
+  - SHADOWCASTER
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: 07bc34640f9bb1d458db89a9c6d8b616, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -43,12 +45,16 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _GradientMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 2e87876b19af3de43947a0cb28d5a578, type: 3}
+        m_Texture: {fileID: 2800000, guid: 07bc34640f9bb1d458db89a9c6d8b616, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OverlayTex:
@@ -59,36 +65,65 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlphaClip: 0
     - _BacklightTransmittance: 1
+    - _Blend: 0
+    - _BlendOp: 0
     - _BlendingType: 0
     - _BumpScale: 1
     - _CFXR_DITHERED_SHADOWS: 1
     - _CFXR_OVERLAYBLEND: 0
     - _CFXR_OVERLAYTEX: 0
+    - _CameraFadingEnabled: 0
+    - _CameraFarFadeDistance: 2
+    - _CameraNearFadeDistance: 1
+    - _ColorMode: 0
+    - _Cull: 2
     - _Cutoff: 0.1
     - _DirLightScreenAtten: 1
     - _DirectLightingRamp: 1
     - _DissolveSmooth: 0.1
     - _Distort: 0.1
+    - _DistortionBlend: 0.5
+    - _DistortionEnabled: 0
+    - _DistortionStrength: 1
+    - _DistortionStrengthScaled: 0.1
     - _DoubleDissolve: 0
     - _DstBlend: 10
     - _EdgeFadePow: 1
     - _FadeAlongU: 0
+    - _FlipbookBlending: 0
+    - _FlipbookMode: 0
+    - _Glossiness: 0
     - _HdrBoost: 0
     - _HdrMultiply: 4
     - _IndirectLightingMix: 0.5
     - _InvertDissolveTex: 0
     - _LightingWorldPosStrength: 0.2
+    - _Mode: 0
     - _OVERLAYBLEND: 0
     - _OVERLAYTEX: 0
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
     - _SecondColorSmooth: 0.2
     - _ShadowStrength: 0.55
-    - _SingleChannel: 1
+    - _SingleChannel: 0
+    - _Smoothness: 0.5
+    - _SmoothnessSource: 0
+    - _SoftParticlesEnabled: 0
     - _SoftParticlesFadeDistanceFar: 2
     - _SoftParticlesFadeDistanceNear: 0
+    - _SoftParticlesFarFadeDistance: 1
+    - _SoftParticlesNearFadeDistance: 0
+    - _SpecularHighlights: 1
     - _SrcBlend: 5
+    - _Surface: 1
     - _UVDistortionAdd: 0
     - _UseAlphaClip: 0
     - _UseBackLighting: 0
@@ -108,9 +143,28 @@ Material:
     - _UseUVDistortion: 0
     - _ZWrite: 0
     m_Colors:
-    - _Color: {r: 3.8792846, g: 3.8792846, b: 3.8792846, a: 0}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
+    - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DissolveScroll: {r: 0, g: 0, b: 0, a: 0}
     - _DistortScrolling: {r: 0, g: 0, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _OverlayTex_Scroll: {r: 0.1, g: 0.1, b: 1, a: 1}
     - _ShadowColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
+    - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
+--- !u!114 &5453974846351388276
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 5

@@ -6,7 +6,7 @@ using TMPro;
 public class Timer : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI timerText;
-    [SerializeField] public float timerValue = 60;
+    [SerializeField] public float timerValue = 30;
     [SerializeField] private GameObject _failedUI;
 
     [Header("Passenger")]
