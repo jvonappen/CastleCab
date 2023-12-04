@@ -31,7 +31,7 @@ public class TaxiService : MonoBehaviour
     [SerializeField] private Timer timeValue;
 
     [Header("Respawn")]
-    private Transform _ogTrans;
+    //private Transform _ogTrans;
     [SerializeField] private float resetDelay = 5;
 
 
@@ -64,7 +64,7 @@ public class TaxiService : MonoBehaviour
         listLength = destinationList.Length;
         //Debug.Log(listLength.ToString());
 
-        _ogTrans = this.transform;
+       // _ogTrans = this.transform;
     }
     private void Start()
     {
@@ -147,13 +147,12 @@ public class TaxiService : MonoBehaviour
     {
         Debug.Log("Doing a wait");
         yield return new WaitForSeconds(resetDelay);
-        this.gameObject.transform.position = _ogTrans.position;
+        //this.gameObject.transform.position = _ogTrans.position;
         isAtTarget = false;
         int randomDestination = UnityEngine.Random.Range(0, listLength);
         destination = destinationList[randomDestination];
         ChangeAnimation(NPC_ATTENTION);
         this.gameObject.GetComponentInChildren<Canvas>().enabled = true;
-
-        Debug.Log("Did a teleport reset");
+        Debug.Log("Did a reset");
     }
 }
