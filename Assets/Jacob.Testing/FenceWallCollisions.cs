@@ -14,6 +14,7 @@ public class FenceWallCollisions : MonoBehaviour
     [SerializeField] ParticleSystem _graveImpact;
     [SerializeField] ParticleSystem _ghostImpact;
     [SerializeField] ParticleSystem _vatImpact;
+    [SerializeField] ParticleSystem _boxImpact;
 
     [SerializeField] ParticleSystem _explosiveImpact;
     [Space]
@@ -134,7 +135,15 @@ public class FenceWallCollisions : MonoBehaviour
             collision.gameObject.SetActive(false);
             StartCoroutine(ObjectRespawnDelay(collision.gameObject));
         }
-
+        if (collision.gameObject.tag == "Box")
+        {
+            //AudioManager.Instance.StopSFX();
+            //AudioManager.Instance.PlaySFX("");
+            _particlePos = collision.transform;
+            PlayParticle(_boxImpact);
+            collision.gameObject.SetActive(false);
+            StartCoroutine(ObjectRespawnDelay(collision.gameObject));
+        }
     }
 
     public void PlayParticle(ParticleSystem particle)
