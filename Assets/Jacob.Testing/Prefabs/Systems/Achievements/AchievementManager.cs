@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using static System.TimeZoneInfo;
-using static UnityEngine.InputManagerEntry;
 using UnityEngine.Animations.Rigging;
 using System;
 using UnityEngine.InputSystem;
 using DG.Tweening;
-using static UnityEditor.Progress;
+
 
 public class AchievementManager : MonoBehaviour
 {
