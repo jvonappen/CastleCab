@@ -9,7 +9,7 @@ public class SetMaterials : MonoBehaviour
     [SerializeField] private MeshRenderer _cartMeshRenderer;
     [SerializeField] private List<MeshRenderer> _wheelMeshRenderer;
     [SerializeField] private SkinnedMeshRenderer _horseSkinnedMeshRenderer;
-    [SerializeField] private Transform _hatPos;
+    [SerializeField] private GameObject _horseHat;
     [SerializeField] private MeshFilter _cartMeshFilter;
 
     public void SetCartMaterials(Material cartMesh)
@@ -43,21 +43,12 @@ public class SetMaterials : MonoBehaviour
     public void SetHatObject(GameObject hatObj)
     {
         //spawn hats
-        if (_hatPos != null)
+        if (_horseHat != null)
         {
-            if (_hatPos.childCount == 0 && hatObj != null)
+            foreach (Transform child in _horseHat.transform)
             {
-                GameObject hat = Instantiate(hatObj, _hatPos);
-                hat.transform.parent = _hatPos.transform;
-            }
-            else
-            {
-                if (_hatPos.childCount != 0) Destroy(_hatPos.GetChild(0).gameObject);
-                if (hatObj != null)
-                {
-                    GameObject hat = Instantiate(hatObj, _hatPos);
-                    hat.transform.parent = _hatPos.transform;
-                }
+                if (child.gameObject.activeSelf) child.gameObject.SetActive(false);
+                if (hatObj != null && hatObj.gameObject.name == child.gameObject.name) child.gameObject.SetActive(true);
             }
         }
     }
