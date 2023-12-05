@@ -8,19 +8,13 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Chicken2_Material
-  m_Shader: {fileID: 4800000, guid: 766736548846cdf459a9766614dcccab, type: 3}
-  m_ValidKeywords:
-  - _EMISSIVE_SIMPLE
-  - _IS_ANGELRING_OFF
-  - _IS_CLIPPING_OFF
-  - _IS_OUTLINE_CLIPPING_NO
-  - _OUTLINE_NML
-  m_InvalidKeywords:
-  - _
+  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: -1
   stringTagMap:
     IgnoreProjection: False
     RenderType: Opaque
@@ -45,7 +39,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 5cc49564406f8d742b6ab80510e4cda4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -140,6 +134,22 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _1st2nd_Shades_Feather: 0.0001
@@ -151,6 +161,7 @@ Material:
     - _AR_OffsetU: 0
     - _AR_OffsetV: 0.3
     - _Add_Antipodean_RimLight: 0
+    - _AlphaClip: 0
     - _AngelRing: 0
     - _Ap_RimLight_FeatherOff: 0
     - _Ap_RimLight_Power: 0.1
@@ -158,20 +169,26 @@ Material:
     - _BaseColor_Step: 0.5
     - _BaseShade_Feather: 0.0001
     - _Base_Speed: 0
+    - _Blend: 0
     - _BlurLevelMatcap: 0
     - _BlurLevelSGM: 0
     - _BumpScale: 1
     - _BumpScaleMatcap: 1
     - _CameraRolling_Stabilizer: 0
+    - _ClearCoatMask: 0
+    - _ClearCoatSmoothness: 0
     - _ClippingMode: 0
     - _Clipping_Level: 0
     - _ColorShift_Speed: 0
+    - _Cull: 2
     - _CullMode: 2
     - _Cutoff: 0.5
+    - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DitherThreshold: 0
     - _DstBlend: 0
     - _EMISSIVE: 0
+    - _EnvironmentReflections: 1
     - _Farthest_Distance: 100
     - _GI_Intensity: 0
     - _GlossMapScale: 1
@@ -223,6 +240,8 @@ Material:
     - _Offset_Z: 0
     - _Outline_Width: 5
     - _Parallax: 0.02
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
     - _RimAmount: 0.716
     - _RimLight: 0
     - _RimLight_FeatherOff: 0
@@ -238,7 +257,7 @@ Material:
     - _Scroll_EmissiveV: 0
     - _Set_SystemShadowsToBase: 1
     - _ShadeColor_Step: 0
-    - _Smoothness: 0.5
+    - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -248,6 +267,7 @@ Material:
     - _StencilOpFail: 0
     - _StencilOpPass: 0
     - _StepOffset: 0
+    - _Surface: 0
     - _TransparentEnabled: 0
     - _TweakHighColorOnShadow: 0
     - _TweakMatCapOnShadow: 0
@@ -263,6 +283,7 @@ Material:
     - _Unlit_Intensity: 1
     - _Use_1stAs2nd: 0
     - _Use_BaseAs1st: 0
+    - _WorkflowMode: 1
     - _ZOverDrawMode: 0
     - _ZWrite: 1
     - _ZWriteMode: 1
@@ -291,3 +312,16 @@ Material:
     - _SpecularColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
     - _ViewShift: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
+--- !u!114 &8190107894336784028
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 5
