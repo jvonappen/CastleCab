@@ -106,6 +106,7 @@ public class TaxiService : MonoBehaviour
             CompassBar.objectiveObjectTransform = destination.transform;
             this.gameObject.GetComponent<CapsuleCollider>().enabled = false; 
             this.gameObject.GetComponentInChildren<Canvas>().enabled = false;
+            this.gameObject.GetComponentInChildren<ParticleSystem>().Stop();
 
             this.agent.enabled = false;
             isInCart = true;
@@ -153,6 +154,7 @@ public class TaxiService : MonoBehaviour
         destination = destinationList[randomDestination];
         ChangeAnimation(NPC_ATTENTION);
         this.gameObject.GetComponentInChildren<Canvas>().enabled = true;
+        this.gameObject.GetComponentInChildren<ParticleSystem>().Play();
         Debug.Log("Did a reset");
     }
 }
