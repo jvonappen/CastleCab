@@ -1,10 +1,10 @@
 using Cinemachine;
 using DG.Tweening;
-using System;
+//using System;
 using System.Collections;
 //using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.WindowsRuntime;
+//using System.Runtime.CompilerServices;
+//using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 
@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("PARTICLES")]
     [SerializeField] private ParticleSystem[] _dustTrail;
     [SerializeField] private ParticleSystem[] _boostTrail;
+    [SerializeField] private ParticleSystem[] _waterBoostParticles;
     [SerializeField] private GameObject[] _wheelTrail;
     [SerializeField] private ParticleSystem[] _tailWhipParticles;
     [SerializeField] private ParticleSystem[] _speedParticles;
@@ -39,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Rigidbody _wagonRB;
     [SerializeField] private ConfigurableJoint _joint;
     [SerializeField] private CinemachineFreeLook _recenetering;
-    [SerializeField] private Water _bubbles;
+    [SerializeField] private Water _water;
     [SerializeField] private BurnoutSlider _burnoutSlider;
 
     [Header("DRIVING VARIABLES")]
@@ -105,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
     private const string Horse_Blend_Tree = "Movement Blend Tree";
 
     private bool isInSlowdownZone = false;
-    private bool hasBurst = false;
+    //private bool hasBurst = false;
     [SerializeField] private bool _canBackflip = false;
     [SerializeField] private bool _backflipComplete = false;
     [SerializeField] private bool _barrelrollComplete = false;
@@ -114,7 +115,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _backflipReset = 0.8f;
     [SerializeField] private float _barrelRollReset = 0.8f;
     [SerializeField] private float _barrelrollTimer = 0.8f;
-    [SerializeField] private float jumpPadForce = 1; // Adjust the force as needed
+    //[SerializeField] private float jumpPadForce = 1; // Adjust the force as needed
 
 
  
@@ -282,7 +283,7 @@ public class PlayerMovement : MonoBehaviour
             _soundManager.Play("Wagon");
             RotateWheels(_rigidbodySpeed / _wheelSpinModifier);
             if (!IsAnimationPlaying(_horseAnimator, Horse_Stop)) ChangeAnimatorState(Horse_Blend_Tree);//ChangeAnimatorState(Horse_Run);
-            if (!_bubbles._underWater) PlayParticles(_dustTrail);
+            if (!_water._underWater) PlayParticles(_dustTrail);
             else StopParticles(_dustTrail);
             PlayTrail(_wheelTrail, true);
         }
@@ -464,7 +465,8 @@ public class PlayerMovement : MonoBehaviour
         if (!_canBurnout || _playerInput._boost != 0 && _grounded && _playerInput._accelerationInput > 0 && particlesVal && BoostBar.canBoost)
         {
             PlayParticles(_speedParticles);
-            PlayParticles(_boostTrail);
+            if (_water._underWater) PlayParticles(_waterBoostParticles);
+            else PlayParticles(_boostTrail);
             _soundManager.Play("Boost");
             _globalVolume.SetActive(true); //set motion blur
 
@@ -475,6 +477,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             StopParticles(_speedParticles);
+            StopParticles(_waterBoostParticles);
             StopParticles(_boostTrail);
             _soundManager.Stop("Boost");
             _globalVolume.SetActive(false);
@@ -520,7 +523,7 @@ public class PlayerMovement : MonoBehaviour
         {
             for (int i = 0; i < trail.Length; i++)
             {
-                if (_bubbles._underWater) trail[i].SetActive(false);
+                if (_water._underWater) trail[i].SetActive(false);
                 else trail[i].SetActive(value);
             }
         }
