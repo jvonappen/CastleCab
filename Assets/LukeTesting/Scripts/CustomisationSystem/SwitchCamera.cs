@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SwitchCamera : MonoBehaviour
 {
     public GameObject Camera1;
     public GameObject Camera2;
     public int Manager = 0;
+    [SerializeField] private Button _startButton;
 
     public void ManageCamera()
     {
@@ -32,5 +34,6 @@ public class SwitchCamera : MonoBehaviour
     {
         Camera2.SetActive(true);
         Camera1.SetActive(false);
+        _startButton.Select();
     }
 }

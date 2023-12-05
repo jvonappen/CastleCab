@@ -23,8 +23,7 @@ public class SetMaterials : MonoBehaviour
         //change horse colour
         if (_horseSkinnedMeshRenderer != null)
         {
-            _horseSkinnedMeshRenderer.material.SetTexture("_1st_ShadeMap", horseTexture);
-            _horseSkinnedMeshRenderer.material.SetTexture("_MainTex", horseTexture);
+            _horseSkinnedMeshRenderer.material.SetTexture("_BaseMap", horseTexture);
         }
     }
 
