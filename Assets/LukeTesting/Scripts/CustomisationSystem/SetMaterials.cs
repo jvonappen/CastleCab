@@ -48,9 +48,8 @@ public class SetMaterials : MonoBehaviour
             foreach (Transform child in _horseHat.transform)
             {
                 if (child.gameObject.activeSelf) child.gameObject.SetActive(false);
-                if (hatObj.gameObject.name == child.gameObject.name) child.gameObject.SetActive(true);
+                if (hatObj != null && hatObj.gameObject.name == child.gameObject.name) child.gameObject.SetActive(true);
             }
-            //if (hatObj != null) hatObj.SetActive(true);
         }
     }
 

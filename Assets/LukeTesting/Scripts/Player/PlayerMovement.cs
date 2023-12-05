@@ -1,10 +1,10 @@
 using Cinemachine;
 using DG.Tweening;
-using System;
+//using System;
 using System.Collections;
 //using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.WindowsRuntime;
+//using System.Runtime.CompilerServices;
+//using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 
@@ -106,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
     private const string Horse_Blend_Tree = "Movement Blend Tree";
 
     private bool isInSlowdownZone = false;
-    private bool hasBurst = false;
+    //private bool hasBurst = false;
     [SerializeField] private bool _canBackflip = false;
     [SerializeField] private bool _backflipComplete = false;
     [SerializeField] private bool _barrelrollComplete = false;
@@ -115,7 +115,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _backflipReset = 0.8f;
     [SerializeField] private float _barrelRollReset = 0.8f;
     [SerializeField] private float _barrelrollTimer = 0.8f;
-    [SerializeField] private float jumpPadForce = 1; // Adjust the force as needed
+    //[SerializeField] private float jumpPadForce = 1; // Adjust the force as needed
 
     public bool freeze  //freeze player for Jacob's dialogue system
     {

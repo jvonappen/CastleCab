@@ -19,6 +19,7 @@ public class CustomisationTab : MonoBehaviour
     [SerializeField] private int index = 0;
     [SerializeField] private string _saveString;
     [SerializeField] private Transform right, left;
+    public bool canClick = true;
 
     private void Awake()
     {
@@ -42,11 +43,14 @@ public class CustomisationTab : MonoBehaviour
         left.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         left.DOScale(1f, 0.3f).SetEase(Ease.OutElastic).SetUpdate(true);
 
-        //set index
-        if (index == 0) index = _tabs.tabOption.Count - 1;
-        else index -= 1;
-        ChangeMaterials(index);
-        SaveData();
+        if(canClick)
+        {
+            //set index
+            if (index == 0) index = _tabs.tabOption.Count - 1;
+            else index -= 1;
+            ChangeMaterials(index);
+            SaveData();
+        }
     }
 
     private void OnRightButtonClicked()
@@ -54,11 +58,14 @@ public class CustomisationTab : MonoBehaviour
         right.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         right.DOScale(1f, 0.3f).SetEase(Ease.OutElastic).SetUpdate(true);
 
-        //set index
-        if (index == _tabs.tabOption.Count - 1) index = 0;
-        else index += 1;
-        ChangeMaterials(index);
-        SaveData();
+        if (canClick)
+        {
+            //set index
+            if (index == _tabs.tabOption.Count - 1) index = 0;
+            else index += 1;
+            ChangeMaterials(index);
+            SaveData();
+        }
     }
 
     private void ChangeMaterials(int index)
@@ -70,7 +77,7 @@ public class CustomisationTab : MonoBehaviour
         if (_cartMeshRenderer != null)
         {
             _cartMeshRenderer.material = _tabs.colorOption[index];
-            _setMaterials.SetCartMaterials(_tabs.colorOption[index]);
+            _setMaterials.SetCartMaterials(_tabs.colorOption[index]);          
         }
         
         //chnage horse colour
@@ -97,9 +104,8 @@ public class CustomisationTab : MonoBehaviour
             foreach (Transform child in _horseHat.transform)
             {
                 if (child.gameObject.activeSelf) child.gameObject.SetActive(false);
+                if (_tabs.modelOption[index] != null && _tabs.modelOption[index].gameObject.name == child.gameObject.name) child.gameObject.SetActive(true);
             }
-            if (_tabs.modelOption[index] != null) _tabs.modelOption[index].SetActive(true);
-
             _setMaterials.SetHatObject(_tabs.modelOption[index]);
         }
 
@@ -107,7 +113,7 @@ public class CustomisationTab : MonoBehaviour
         if (_cartMesh != null)
         {
             _cartMesh.mesh = _tabs.cartOption[index];
-            _setMaterials.SetCartMesh(_tabs.cartOption[index]);
+            _setMaterials.SetCartMesh(_tabs.cartOption[index]); 
         }
     }
 
@@ -127,5 +133,20 @@ public class CustomisationTab : MonoBehaviour
         index = 0;
         _text.text = _tabs.tabOption[index].ToString();
         ChangeMaterials(index);
+    }
+
+    public int GetIndex()
+    {
+        return index;
+    }
+
+    public void SetColour()
+    {
+        //change cart material
+        if (_cartMeshRenderer != null)
+        {
+            _cartMeshRenderer.material = _tabs.colorOption[index];
+            _setMaterials.SetCartMaterials(_tabs.colorOption[index]);
+        }
     }
 }
