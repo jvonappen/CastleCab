@@ -116,6 +116,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _barrelrollTimer = 0.8f;
     [SerializeField] private float jumpPadForce = 1; // Adjust the force as needed
 
+
+ 
+
     public bool freeze  //freeze player for Jacob's dialogue system
     {
         get => _freeze;
@@ -415,7 +418,11 @@ public class PlayerMovement : MonoBehaviour
             if (_backflipTimer <= 0)
             {
                 _backflipComplete = true;
+
                 //add points to system
+                AchievementManager.airTrickTracker = AchievementManager.airTrickTracker + 1;
+                AchievementManager.Instance.Pegasus();
+
                 _canBackflip = false;
             }
         }
@@ -430,7 +437,11 @@ public class PlayerMovement : MonoBehaviour
             if (_barrelrollTimer <= 0)
             {
                 _barrelrollComplete = true;
+
                 //add points to system
+                AchievementManager.airTrickTracker = AchievementManager.airTrickTracker + 1;
+                AchievementManager.Instance.Pegasus();
+
                 _canBarrelroll = false;
             }
         }
@@ -676,4 +687,5 @@ public class PlayerMovement : MonoBehaviour
     {
         _forwardAcceleration = 350;
     }
+
 }
