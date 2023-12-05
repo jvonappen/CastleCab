@@ -19,13 +19,8 @@ public class FenceWallCollisions : MonoBehaviour
     [SerializeField] ParticleSystem _explosiveImpact;
     [Space]
     [SerializeField] List<ParticleSystem> _stallImpactList;
-    //[SerializeField] ParticleSystem _stallImpact1;
-    //[SerializeField] ParticleSystem _stallImpact2;
-    //[SerializeField] ParticleSystem _stallImpact3;
-    //[SerializeField] ParticleSystem _stallImpact4;
 
     private static Transform _particlePos;
-    //private static Transform _marketParticlePos;
 
     ExplosionForce explosionForce;
 
@@ -47,6 +42,14 @@ public class FenceWallCollisions : MonoBehaviour
             collision.gameObject.SetActive(false);
             StartCoroutine(ObjectRespawnDelay(collision.gameObject));
         }
+        if (collision.gameObject.tag == "NotFence")
+        {
+            AudioManager.Instance.PlayGroupAudio("FenceCollisions");
+            _particlePos = collision.transform;
+            PlayParticle(_fenceImpact);
+            collision.gameObject.SetActive(false);
+            StartCoroutine(ObjectRespawnDelay(collision.gameObject));
+        }
         if (collision.gameObject.tag == "Sheep")
         {
             //AudioManager.Instance.StopSFX();
@@ -57,6 +60,9 @@ public class FenceWallCollisions : MonoBehaviour
         }
         if (collision.gameObject.tag == "Chicken")
         {
+            AchievementManager.cluckTracker = AchievementManager.cluckTracker + 1;
+            AchievementManager.Instance.CluckMe();
+
             //AudioManager.Instance.StopSFX();
             AudioManager.Instance.PlaySFX("Chicken");
             AchievementManager.eggCheck = true;
@@ -67,6 +73,8 @@ public class FenceWallCollisions : MonoBehaviour
         }
         if (collision.gameObject.tag == "Pig")
         {
+            AchievementManager.pigTracker = AchievementManager.pigTracker + 1;
+            AchievementManager.Instance.MakinBacon();
             //AudioManager.Instance.StopSFX();
             AudioManager.Instance.PlayGroupAudio("Pig");
             AchievementManager.baconCheck = true;
@@ -77,6 +85,8 @@ public class FenceWallCollisions : MonoBehaviour
         }
         if (collision.gameObject.tag == "Horse")
         {
+            AchievementManager.glueTracker = AchievementManager.glueTracker + 1;
+            AchievementManager.Instance.GlueFactory();
             _particlePos = collision.transform;
             collision.gameObject.GetComponent<NavMeshAgent>().enabled = false;
             collision.gameObject.GetComponent<Rigidbody>().AddExplosionForce(1000, this.transform.position, 20, 500); //Same as pigsplode valuse
@@ -89,6 +99,8 @@ public class FenceWallCollisions : MonoBehaviour
         }
         if (collision.gameObject.tag == "NPC")
         {
+            AchievementManager.menaceTracker = AchievementManager.menaceTracker + 1;
+            AchievementManager.Instance.Menace();
             //AudioManager.Instance.StopSFX();
             _particlePos = collision.transform;
             collision.gameObject.GetComponent<NavMeshAgent>().enabled = false;
@@ -109,6 +121,9 @@ public class FenceWallCollisions : MonoBehaviour
         }
         if (collision.gameObject.tag == "Grave")
         {
+            AchievementManager.graveTracker = AchievementManager.graveTracker + 1;
+            AchievementManager.Instance.GraveDigger();
+
             //AudioManager.Instance.StopSFX();
             //AudioManager.Instance.PlaySFX("");
             _particlePos = collision.transform;
@@ -118,6 +133,9 @@ public class FenceWallCollisions : MonoBehaviour
         }
         if (collision.gameObject.tag == "MarketStall")
         {
+            AchievementManager.stallTracker = AchievementManager.stallTracker + 1;
+            AchievementManager.Instance.Collidesdale();
+
             //AudioManager.Instance.StopSFX();
             //AudioManager.Instance.PlaySFX("");
             _particlePos = collision.transform;
