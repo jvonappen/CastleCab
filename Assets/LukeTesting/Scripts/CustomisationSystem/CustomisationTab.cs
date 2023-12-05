@@ -83,8 +83,7 @@ public class CustomisationTab : MonoBehaviour
         //chnage horse colour
         if (_horseSkinnedMeshRenderer != null)
         {
-            _horseSkinnedMeshRenderer.material.SetTexture("_1st_ShadeMap", _tabs.texture2D[index]);
-            _horseSkinnedMeshRenderer.material.SetTexture("_MainTex", _tabs.texture2D[index]);
+            _horseSkinnedMeshRenderer.material.SetTexture("_BaseMap", _tabs.texture2D[index]);
             _setMaterials.SetHorseMaterials(_tabs.texture2D[index]);
         }
 
