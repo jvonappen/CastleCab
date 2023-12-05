@@ -116,6 +116,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _barrelrollTimer = 0.8f;
     [SerializeField] private float jumpPadForce = 1; // Adjust the force as needed
 
+
+ 
+
     public bool freeze  //freeze player for Jacob's dialogue system
     {
         get => _freeze;
@@ -684,4 +687,5 @@ public class PlayerMovement : MonoBehaviour
     {
         _forwardAcceleration = 350;
     }
+
 }
