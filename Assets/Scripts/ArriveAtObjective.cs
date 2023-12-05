@@ -30,6 +30,9 @@ public class ArriveAtObjective : MonoBehaviour
             DollarDisplay.dollarValue = DollarDisplay.dollarValue + taxiPassenger.dollarsGiven;
             AudioManager.Instance.PlaySFX("Money");
 
+            AchievementManager.platniumTracker = AchievementManager.platniumTracker + 1;
+            AchievementManager.Instance.PlatniumDriver();
+
             taxiPassenger.destination = null;
 
             timerObject.SetActive(false);
