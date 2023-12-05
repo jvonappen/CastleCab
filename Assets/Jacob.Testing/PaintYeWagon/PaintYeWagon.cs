@@ -4,29 +4,29 @@ using UnityEngine;
 
 public class PaintYeWagon : MonoBehaviour
 {
-    [SerializeField] private GameObject wagon;
+    //[SerializeField] private GameObject wagon;
     [SerializeField] private int _removeDishonourCost = 50;
     [SerializeField] private int _paintJobCost = 10;
     [SerializeField] private Canvas paintYeWagonCanvas;
 
-    [SerializeField] private Paint _paintData;
-    private Material tempMat;
+    //[SerializeField] private Paint _paintData;
+    //private Material tempMat;
 
     [SerializeField] ParticleSystem _paintYeWagonParticle;
     private static Transform _particlePos;
 
     [SerializeField] private ParticleSystem _bigSpray;
 
-    private int currentColourIndex;
-    private int minValue;
-    private int maxValue;
+    //private int currentColourIndex;
+    //private int minValue;
+    //private int maxValue;
 
 
     private void Start()
     {
         paintYeWagonCanvas.enabled = false;
-        minValue = 0;
-        maxValue = _paintData.material.Length;
+        //minValue = 0;
+        //maxValue = _paintData.material.Length;
         
     }
 
@@ -51,7 +51,7 @@ public class PaintYeWagon : MonoBehaviour
 
         if (DollarDisplay.dollarValue >= _paintJobCost)
         {
-            wagon.GetComponent<Renderer>().material = _paintData.material[Random.Range(0, 4)];
+            //wagon.GetComponent<Renderer>().material = _paintData.material[Random.Range(0, 4)];
 
             //wagon.GetComponent<Renderer>().material = _paintData.material[currentColourIndex];
 
@@ -62,7 +62,7 @@ public class PaintYeWagon : MonoBehaviour
         }
         if (Dishonour.dishonourLevel >= Dishonour._oneStar && DollarDisplay.dollarValue >= _removeDishonourCost)
         {
-            wagon.GetComponent<Renderer>().material = _paintData.material[Random.Range(minValue, maxValue)];
+            //wagon.GetComponent<Renderer>().material = _paintData.material[Random.Range(minValue, maxValue)];
             PlayParticle();
             AudioManager.Instance.PlaySFX("PaintYeWagon");
             Dishonour.dishonourLevel = 0;
@@ -82,17 +82,17 @@ public class PaintYeWagon : MonoBehaviour
 
     private void GetRandomColour()
     {
-        int randomColour = Random.Range(0, 4);
+        //int randomColour = Random.Range(0, 4);
 
-        if(currentColourIndex == randomColour)
-        {
+        //if(currentColourIndex == randomColour)
+        //{
 
-        }
+        //}
 
-        if(currentColourIndex != randomColour)
-        {
-            currentColourIndex = randomColour;
-        }
+        //if(currentColourIndex != randomColour)
+        //{
+        //    currentColourIndex = randomColour;
+        //}
     }
 
 }
