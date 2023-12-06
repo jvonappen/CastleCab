@@ -64,6 +64,7 @@ Achievements
     public bool unlockCollidesdale = false;
     public static int stallTracker = 0;
     [SerializeField] private int stallsNeeded = 20;
+    [SerializeField] private AchievementBoxDetail _achvCollidesdale;
 
     [Header("BaaBoom")]
     public static bool unlockBaaBoom = false;
@@ -131,9 +132,14 @@ Achievements
     void Start()
     {
         _achievementCanvas.enabled = false;
+        TrackerStartUp();
         
     }
 
+    private void TrackerStartUp()
+    {
+        _achvCollidesdale.SetTracker(stallTracker, stallsNeeded);
+    }
 
     public void DisplayAchievment()
     {
@@ -166,29 +172,6 @@ Achievements
 
         _achievementText.text = "Smooth Criminal";
     }
-    public void BaconEggs() 
-    { /* Kill a chicken and pig within (5) seconds */
-
-        StartCoroutine(BaconEggTimer());
-
-    }
-    IEnumerator BaconEggTimer()
-    {
-        Debug.Log("Timer Started");
-        yield return new WaitForSeconds(bTimer);
-        if (eggCheck && baconCheck == true && unlockBaconEggs == false) { unlockBaconEggs = true; }
-        else
-        {
-            eggCheck = false; baconCheck = false;
-        }
-
-        if (unlockBaconEggs == true)
-        {
-            _achievementText.text = "Bacon and Eggs";
-            StartCoroutine(EndDisplayAchievment());
-        }
-        Debug.Log("Timer finished");          
-    }
 
     public void Collidesdale() 
     { /* Break 100 objects */
@@ -198,9 +181,15 @@ Achievements
             unlockCollidesdale = true;
             _achievementText.text = "Collidesdale";
             DisplayAchievment();
+            _achvCollidesdale._greenTick.SetActive(true);
+            _achvCollidesdale.CapTracker();
+        }
+        if (stallTracker <= stallsNeeded && unlockCollidesdale == false)
+        {
+           _achvCollidesdale.UpdateTrackerText(stallTracker);
         }
 
-        
+
     }
     public void BaaBoom() 
     { /* Find the barrel sheep */
