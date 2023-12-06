@@ -50,6 +50,7 @@ Achievements
     public bool unlockPegasus = false;
     public static int airTrickTracker = 0;
     [SerializeField] private int airTricksNeeded = 5;
+    [SerializeField] private AchievementBoxDetail AT_Pegasus;
 
     [Header("SmoothCriminal")]
     public bool unlockSmoothCriminal = false;
@@ -64,7 +65,7 @@ Achievements
     public bool unlockCollidesdale = false;
     public static int stallTracker = 0;
     [SerializeField] private int stallsNeeded = 20;
-    [SerializeField] private AchievementBoxDetail _achvCollidesdale;
+    [SerializeField] private AchievementBoxDetail AT_Collidesdale;
 
     [Header("BaaBoom")]
     public static bool unlockBaaBoom = false;
@@ -73,6 +74,7 @@ Achievements
     public bool unlockPloughHorse = false;
     public static int fenceTracker = 0;
     [SerializeField] private int fencesNeeded = 50;
+    [SerializeField] private AchievementBoxDetail AT_PloughHorse;
 
     [Header("ShowPony")]
     public bool unlockShowPony = false;
@@ -138,7 +140,9 @@ Achievements
 
     private void TrackerStartUp()
     {
-        _achvCollidesdale.SetTracker(stallTracker, stallsNeeded);
+        AT_Pegasus.SetTracker(airTricksNeeded);
+        AT_Collidesdale.SetTracker(stallsNeeded);
+        AT_PloughHorse.SetTracker(fencesNeeded);
     }
 
     public void DisplayAchievment()
@@ -165,6 +169,12 @@ Achievements
             unlockPegasus = true;
             _achievementText.text = "Pegasus";
             DisplayAchievment();
+            AT_Pegasus._greenTick.SetActive(true);
+            AT_Pegasus.CapTracker(airTricksNeeded);
+        }
+        if (airTrickTracker <= airTricksNeeded && unlockPegasus == false)
+        {
+            AT_Pegasus.UpdateTrackerText(airTrickTracker, airTricksNeeded);
         }
     }
     public void SmoothCriminal() 
@@ -181,15 +191,11 @@ Achievements
             unlockCollidesdale = true;
             _achievementText.text = "Collidesdale";
             DisplayAchievment();
-            _achvCollidesdale._greenTick.SetActive(true);
-            _achvCollidesdale.CapTracker();
+            AT_Collidesdale._greenTick.SetActive(true);
+            AT_Collidesdale.CapTracker(stallsNeeded);
         }
         if (stallTracker <= stallsNeeded && unlockCollidesdale == false)
-        {
-           _achvCollidesdale.UpdateTrackerText(stallTracker);
-        }
-
-
+        {   AT_Collidesdale.UpdateTrackerText(stallTracker, stallsNeeded); }
     }
     public void BaaBoom() 
     { /* Find the barrel sheep */
@@ -205,8 +211,11 @@ Achievements
             unlockPloughHorse = true;
             _achievementText.text = "Plough Horse";
             DisplayAchievment();
+            AT_PloughHorse._greenTick.SetActive(true);
+            AT_PloughHorse.CapTracker(fencesNeeded);
         }
-        
+        if (fenceTracker <= fencesNeeded && unlockPloughHorse == false)
+        {   AT_PloughHorse.UpdateTrackerText(fenceTracker, fencesNeeded); }
     }
     public void ShowPony() 
     { /* Change appearance */
