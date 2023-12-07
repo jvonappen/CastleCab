@@ -36,6 +36,7 @@ Achievements
     //Once off Achievements:
 
     [Header("SmoothCriminal")]
+    [SerializeField] private AchievementBoxDetail AT_SmoothCriminal;
     private bool unlockSmoothCriminal = false;
     [Space]
     [Header("BaaBoom")]
@@ -48,6 +49,28 @@ Achievements
     [Header("BBC")]
     [SerializeField] private AchievementBoxDetail AT_BBC;
     private bool unlockBBC = false;
+    [Space]
+    [Header("SpaDay")]
+    [SerializeField] private AchievementBoxDetail AT_SpaDay;
+    private bool unlockSpaDay = false;
+    [Space]
+    [Header("PartyGoblins")]
+    [SerializeField] private AchievementBoxDetail AT_PartyGoblins;
+    private bool unlockPartyGoblins = false;
+    [Header("OldSpice")]
+    [SerializeField] private AchievementBoxDetail AT_OldSpice;
+    private bool unlockOldSpice = false;
+    [Header("TheColonel")]
+    [SerializeField] private AchievementBoxDetail AT_Colonel;
+    private bool unlockColonel = false;
+    [Space]
+    [Header("HayMan")]
+    [SerializeField] private AchievementBoxDetail AT_HayMan;
+    private bool unlockHayMan = false;
+    [Space]
+    [Header("FunnyGuy")]
+    [SerializeField] private AchievementBoxDetail AT_FunnyGuy;
+    private bool unlockFunnyGuy = false;
     [Space]
     [Space]
     [Header("Pegasus")]
@@ -110,23 +133,9 @@ Achievements
     private bool unlockSpellingBee = false;
     public static int spellingTracker = 0;
     [Space]
-    [Header("TheColonel")]
-    [SerializeField] private int chickenmenNeeded = 10;
-    [SerializeField] private AchievementBoxDetail AT_Colonel;
-    private bool unlockColonel = false;
-    public static int chickenmanTracker = 0;
-    [Space]
-    [Header("HayMan")]
-    [SerializeField] private int scarecrowsNeeded = 10;
-    [SerializeField] private AchievementBoxDetail AT_HayMan;
-    private bool unlockHayMan = false;
-    public static int scarecrowTracker = 0;
-    [Space]
-    [Header("FunnyGuy")]
-    [SerializeField] private int jestersNeeded = 10;
-    [SerializeField] private AchievementBoxDetail AT_FunnyGuy;
-    private bool unlockFunnyGuy = false;
-    public static int jesterTracker = 0;
+
+
+
 
     private UITween _uiTween;
     private bool _showUI;
@@ -164,9 +173,6 @@ Achievements
         AT_PublicMenace.SetTracker(npcsNeeded);
         AT_GraveDigger.SetTracker(gravesNeeded);
         AT_SpellingBee.SetTracker(lettersNeeded);
-        AT_Colonel.SetTracker(chickenmenNeeded);
-        AT_HayMan.SetTracker(scarecrowsNeeded);
-        AT_FunnyGuy.SetTracker(jestersNeeded);
     }
 
     public void DisplayAchievment()
@@ -199,6 +205,17 @@ Achievements
             DisplayAchievment();
             AT._greenTick.SetActive(true);
             AT.CapTracker(maxVal);          
+        }
+    }
+
+    private void DoOnceOffStuff(ref bool unlock, string achvText, AchievementBoxDetail AT)
+    {
+        if (unlock == false)
+        {
+            unlock = true;
+            _achievementText.text = achvText;
+            DisplayAchievment();
+            AT._greenTick.SetActive(true);
         }
     }
 
@@ -239,10 +256,8 @@ Achievements
         {   AT_Collidesdale.UpdateTrackerText(stallTracker, stallsNeeded); }
     }
     public void BaaBoom() 
-    { /* Find the barrel sheep */
-        unlockBaaBoom = true;
-        _achievementText.text = "Baa Boom!";
-        DisplayAchievment();
+    {
+        DoOnceOffStuff(ref unlockBaaBoom, "Baa Boom!", AT_BaBoom);
     }
     public void PloughHorse() 
     { /* Destroy (X) amount of fences */
@@ -279,13 +294,21 @@ Achievements
 
     public void BBC()
     {
-        if(unlockBBC == false)
-        {
-            unlockBBC = true;
-            _achievementText.text = "B.B.C.";
-            DisplayAchievment();
-            AT_BBC._greenTick.SetActive(true);
-        }
+        DoOnceOffStuff(ref unlockBBC, "B.B.C.", AT_BBC);
+    }
+
+    public void SpaDay()
+    {
+        DoOnceOffStuff(ref unlockSpaDay, "Spa Day", AT_SpaDay);
+    }
+
+    public void PartyGoblin()
+    {
+        DoOnceOffStuff(ref unlockPartyGoblins, "Party Goblins", AT_PartyGoblins);
+    }
+    public void OldSpice()
+    {
+        DoOnceOffStuff(ref unlockOldSpice, "Old Spice", AT_OldSpice);
     }
 
     public void MakinBacon()
@@ -319,15 +342,15 @@ Achievements
 
     public void Colonel()
     {
-        DoAllTheTrackerStuff(chickenmanTracker, chickenmenNeeded, AT_Colonel, "The Colonel", ref unlockColonel);
+        DoOnceOffStuff(ref unlockColonel, "The Colonel", AT_Colonel);
     }
     public void HayMan()
     {
-        DoAllTheTrackerStuff(scarecrowTracker, scarecrowsNeeded, AT_HayMan, "Hay-Man!", ref unlockHayMan);
+        DoOnceOffStuff(ref unlockHayMan, "Hay-Man!", AT_HayMan);
     }
     public void FunnyGuy()
     {
-        DoAllTheTrackerStuff(jesterTracker, jestersNeeded, AT_FunnyGuy, "Funny Guy", ref unlockHayMan);
+        DoOnceOffStuff(ref unlockFunnyGuy, "Funny Guy", AT_FunnyGuy);
     }
 
 }
