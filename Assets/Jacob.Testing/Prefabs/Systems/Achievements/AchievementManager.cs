@@ -186,7 +186,7 @@ Achievements
         
     }
 
-    private void DoAllTheTrackerStuff(int trackedVal, int maxVal, AchievementBoxDetail AT, string achvName, bool unlock)
+    private void DoAllTheTrackerStuff(int trackedVal, int maxVal, AchievementBoxDetail AT, string achvName, ref bool unlock)
     {
         if (trackedVal <= maxVal && unlock == false)
         {
@@ -198,14 +198,13 @@ Achievements
             _achievementText.text = achvName;
             DisplayAchievment();
             AT._greenTick.SetActive(true);
-            AT.CapTracker(maxVal);
-           
+            AT.CapTracker(maxVal);          
         }
     }
 
     public void Pegasus()  
     {
-        DoAllTheTrackerStuff(airTrickTracker, airTricksNeeded, AT_Pegasus, "Pegasus", unlockPegasus);
+        DoAllTheTrackerStuff(airTrickTracker, airTricksNeeded, AT_Pegasus, "Pegasus", ref unlockPegasus);
         //if (airTrickTracker >= airTricksNeeded && unlockPegasus == false)
         //{
         //    unlockPegasus = true;
@@ -290,53 +289,45 @@ Achievements
     }
 
     public void MakinBacon()
-    { /* Pigs */
-        if (pigTracker >= pigsNeeded && unlockMakinBacon == false)
-        {
-            unlockMakinBacon = true;
-            _achievementText.text = "Makin' Bacon";
-            DisplayAchievment();
-        }
+    {
+        DoAllTheTrackerStuff(pigTracker, pigsNeeded, AT_MakinBacon, "Makin' Bacon", ref unlockMakinBacon);
     }
 
     public void CluckMe()
-    { /* Chickens */
-        if (cluckTracker >= chickensNeeded && unlockCluckMe == false)
-        {
-            unlockCluckMe = true;
-            _achievementText.text = "Cluck Me!";
-            DisplayAchievment();
-        }
+    {
+        DoAllTheTrackerStuff(cluckTracker, chickensNeeded, AT_CluckMe, "Cluck Me!", ref unlockCluckMe);
     }
 
     public void GlueFactory()
-    { /* Horses */
-        if (glueTracker >= horsesNeeded && unlockGlueFactory == false)
-        {
-            unlockGlueFactory = true;
-            _achievementText.text = "Glue Factory";
-            DisplayAchievment();
-        }
+    {
+        DoAllTheTrackerStuff(glueTracker, horsesNeeded, AT_GlueFactory, "Glue Factory", ref unlockGlueFactory);
     }
     public void GraveDigger()
-    { /* Graves */
-        if (graveTracker >= gravesNeeded && unlockGraveDigger == false)
-        {
-            unlockGraveDigger = true;
-            _achievementText.text = "Grave Digger";
-            DisplayAchievment();
-        }
+    {
+        DoAllTheTrackerStuff(graveTracker, gravesNeeded, AT_GraveDigger, "Grave Digger", ref unlockGraveDigger);
     }
 
-    public void Menace()
-    { /* Graves */
-        if (menaceTracker >= npcsNeeded && unlockMenace == false)
-        {
-            unlockMenace = true;
-            _achievementText.text = "Menace";
-            DisplayAchievment();
-        }
+    public void PublicMenace()
+    {
+        DoAllTheTrackerStuff(menaceTracker, npcsNeeded, AT_PublicMenace, "Public Menace", ref unlockMenace);
     }
 
+    public void SpellingBee()
+    {
+        DoAllTheTrackerStuff(spellingTracker, lettersNeeded, AT_SpellingBee, "Spelling Bee", ref unlockSpellingBee);
+    }
+
+    public void Colonel()
+    {
+        DoAllTheTrackerStuff(chickenmanTracker, chickenmenNeeded, AT_Colonel, "The Colonel", ref unlockColonel);
+    }
+    public void HayMan()
+    {
+        DoAllTheTrackerStuff(scarecrowTracker, scarecrowsNeeded, AT_HayMan, "Hay-Man!", ref unlockHayMan);
+    }
+    public void FunnyGuy()
+    {
+        DoAllTheTrackerStuff(jesterTracker, jestersNeeded, AT_FunnyGuy, "Funny Guy", ref unlockHayMan);
+    }
 
 }
