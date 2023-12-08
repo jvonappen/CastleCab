@@ -128,7 +128,7 @@ Achievements
     public static int graveTracker = 0;
     [Space]
     [Header("SpellingBee")]
-    [SerializeField] private int lettersNeeded = 10;
+    [SerializeField] private int lettersNeeded = 9;
     [SerializeField] private AchievementBoxDetail AT_SpellingBee;
     private bool unlockSpellingBee = false;
     public static int spellingTracker = 0;
@@ -236,9 +236,8 @@ Achievements
         //}
     }
     public void SmoothCriminal() 
-    { /* Remove max wanted level */
-
-        _achievementText.text = "Smooth Criminal";
+    {
+        DoOnceOffStuff(ref unlockSmoothCriminal, "Smooth Criminal", AT_SmoothCriminal);
     }
 
     public void Collidesdale() 

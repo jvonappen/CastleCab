@@ -72,6 +72,14 @@ public class PaintYeWagon : MonoBehaviour
         {
             paintYeWagonCanvas.enabled = true;
         }
+        if (Dishonour.dishonourLevel >= Dishonour._fiveStar && DollarDisplay.dollarValue >= _removeDishonourCost)
+        {
+            PlayParticle();
+            AudioManager.Instance.PlaySFX("PaintYeWagon");
+            Dishonour.dishonourLevel = 0;
+            DollarDisplay.dollarValue = DollarDisplay.dollarValue - _removeDishonourCost;
+            AchievementManager.Instance.SmoothCriminal();
+        }
     }
 
     public void PlayParticle()
