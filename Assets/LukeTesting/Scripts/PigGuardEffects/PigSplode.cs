@@ -76,7 +76,7 @@ public class PigSplode : MonoBehaviour
                 if (!_freezer._isFrozen) _jiggles.enabled = true;
 
                 // Police Dishonor Level Increase
-                Dishonour.dishonourLevel = Dishonour.dishonourLevel + 100;
+                Dishonour.dishonourLevel = Dishonour.dishonourLevel + 40;
 
                 GetComponent<PoliceAI>().enabled = false;
                 Destroy(this.gameObject, _destroyTime);
