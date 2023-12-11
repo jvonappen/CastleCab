@@ -26,7 +26,9 @@ public class Collectable : MonoBehaviour
         {
             _collectables.SetCollectableActive(this);
             AudioManager.Instance.PlaySFX("Collectable");
+
             Destroy(gameObject);
+            
         }
     }
 }

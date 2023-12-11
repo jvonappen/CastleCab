@@ -65,8 +65,6 @@ public class FenceWallCollisions : MonoBehaviour
 
             //AudioManager.Instance.StopSFX();
             AudioManager.Instance.PlaySFX("Chicken");
-            AchievementManager.eggCheck = true;
-            AchievementManager.Instance.BaconEggs();
             _particlePos = collision.transform;
             PlayParticle(_chickenImpact);
             Destroy(collision.gameObject);
@@ -75,10 +73,9 @@ public class FenceWallCollisions : MonoBehaviour
         {
             AchievementManager.pigTracker = AchievementManager.pigTracker + 1;
             AchievementManager.Instance.MakinBacon();
+
             //AudioManager.Instance.StopSFX();
             AudioManager.Instance.PlayGroupAudio("Pig");
-            AchievementManager.baconCheck = true;
-            AchievementManager.Instance.BaconEggs();
             _particlePos = collision.transform;
             PlayParticle(_pigImpact);
             Destroy(collision.gameObject);
@@ -87,6 +84,7 @@ public class FenceWallCollisions : MonoBehaviour
         {
             AchievementManager.glueTracker = AchievementManager.glueTracker + 1;
             AchievementManager.Instance.GlueFactory();
+
             _particlePos = collision.transform;
             collision.gameObject.GetComponent<NavMeshAgent>().enabled = false;
             collision.gameObject.GetComponent<Rigidbody>().AddExplosionForce(1000, this.transform.position, 20, 500); //Same as pigsplode valuse
@@ -100,7 +98,8 @@ public class FenceWallCollisions : MonoBehaviour
         if (collision.gameObject.tag == "NPC")
         {
             AchievementManager.menaceTracker = AchievementManager.menaceTracker + 1;
-            AchievementManager.Instance.Menace();
+            AchievementManager.Instance.PublicMenace();
+
             //AudioManager.Instance.StopSFX();
             _particlePos = collision.transform;
             collision.gameObject.GetComponent<NavMeshAgent>().enabled = false;
@@ -140,7 +139,6 @@ public class FenceWallCollisions : MonoBehaviour
             //AudioManager.Instance.PlaySFX("");
             _particlePos = collision.transform;
             PlayParticleMarketStall();
-            //Destroy(collision.gameObject);
             collision.gameObject.SetActive(false);
             StartCoroutine(ObjectRespawnDelay(collision.gameObject));
         }

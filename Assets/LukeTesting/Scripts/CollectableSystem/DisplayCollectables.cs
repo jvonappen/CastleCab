@@ -59,6 +59,9 @@ public class DisplayCollectables : MonoBehaviour
                 this.GetComponent<CanvasGroup>().DOFade(1, 0.5f);
                 _collectables[i].GetComponent<TextMeshProUGUI>().color = _collectedColour;
                 Coroutine letter = StartCoroutine(CollectableTween(_collectables[i]));
+
+                AchievementManager.spellingTracker = AchievementManager.spellingTracker + 1;
+                AchievementManager.Instance.SpellingBee();
             }
         }
     }

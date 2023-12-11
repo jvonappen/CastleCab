@@ -3,39 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using static System.TimeZoneInfo;
-using static UnityEngine.InputManagerEntry;
 using UnityEngine.Animations.Rigging;
 using System;
 using UnityEngine.InputSystem;
 using DG.Tweening;
-using static UnityEditor.Progress;
+
 
 public class AchievementManager : MonoBehaviour
 {
     /* 
 Achievements
      * Spa Day – Find the Pigs in mud baths 
-     * Elderly Citizen’s Home – Delivery grandma 
-     * SmoothCriminal - Remove max wanted level 
-  X   * Collidesdale - Break 100 Market Stalls
-  X   * BaaBoom 
-  X   * PloughHorse – Fences
-  X   * Pegasus - Do a flip
-     * ShowPony – Colour change
-  X   * Platnium Driver – Complete(x) Quests
-  X   * BBC – Find the big big chook
+     * Elderly Citizen’s Home – Deliver grandma 
     
- Collectables: 
+ Collectables:  still missing
      * Letters [Castle Cab] **Castle Cab
      * Chicken Men ** The Colonel
      * Scarecrows ** Hay-man
      * Jesters  ** Funny Guy
-
-     * Pigs ** Makin' Bacon
-     * Chickens ** Cluck Me!
-     * Horses ** Glue factory
-     * NPCS ** Menace
-     * Tomb stones ** Grave Digger
+     * Goblin Party
 
      */
 
@@ -47,68 +33,107 @@ Achievements
     [SerializeField] private Canvas _achievementCanvas;
     [SerializeField] private TextMeshProUGUI _achievementText;
 
-    [Header("Pegasus")]
-    public bool unlockPegasus = false;
-    public static int airTrickTracker = 0;
-    [SerializeField] private int airTricksNeeded = 5;
+    //Once off Achievements:
 
     [Header("SmoothCriminal")]
-    public bool unlockSmoothCriminal = false;
-
-    [Header("BaconEggs")]
-    public bool unlockBaconEggs = false;
-    private float bTimer = 5;
-    public static bool eggCheck = false;
-    public static bool baconCheck = false;
-
-    [Header("Collidesdale")]
-    public bool unlockCollidesdale = false;
-    public static int stallTracker = 0;
-    [SerializeField] private int stallsNeeded = 20;
-
+    [SerializeField] private AchievementBoxDetail AT_SmoothCriminal;
+    private bool unlockSmoothCriminal = false;
+    [Space]
     [Header("BaaBoom")]
+    [SerializeField] private AchievementBoxDetail AT_BaBoom;
     public static bool unlockBaaBoom = false;
-
-    [Header("PloughHorse")]
-    public bool unlockPloughHorse = false;
-    public static int fenceTracker = 0;
-    [SerializeField] private int fencesNeeded = 50;
-
+    [Space]
     [Header("ShowPony")]
-    public bool unlockShowPony = false;
-
+    private bool unlockShowPony = false;
+    [Space]
     [Header("BBC")]
-    public bool unlockBBC = false;
-
+    [SerializeField] private AchievementBoxDetail AT_BBC;
+    private bool unlockBBC = false;
+    [Space]
+    [Header("SpaDay")]
+    [SerializeField] private AchievementBoxDetail AT_SpaDay;
+    private bool unlockSpaDay = false;
+    [Space]
+    [Header("PartyGoblins")]
+    [SerializeField] private AchievementBoxDetail AT_PartyGoblins;
+    private bool unlockPartyGoblins = false;
+    [Header("OldSpice")]
+    [SerializeField] private AchievementBoxDetail AT_OldSpice;
+    private bool unlockOldSpice = false;
+    [Header("TheColonel")]
+    [SerializeField] private AchievementBoxDetail AT_Colonel;
+    private bool unlockColonel = false;
+    [Space]
+    [Header("HayMan")]
+    [SerializeField] private AchievementBoxDetail AT_HayMan;
+    private bool unlockHayMan = false;
+    [Space]
+    [Header("FunnyGuy")]
+    [SerializeField] private AchievementBoxDetail AT_FunnyGuy;
+    private bool unlockFunnyGuy = false;
+    [Space]
+    [Space]
+    [Header("Pegasus")]
+    [SerializeField] private int airTricksNeeded = 5;
+    [SerializeField] private AchievementBoxDetail AT_Pegasus;
+    public bool unlockPegasus = false;          //Public for debug testing
+    public static int airTrickTracker = 0;
+    [Space]
+    [Header("Collidesdale")]
+    [SerializeField] private int stallsNeeded = 20;
+    [SerializeField] private AchievementBoxDetail AT_Collidesdale;
+    private bool unlockCollidesdale = false;
+    public static int stallTracker = 0;
+    [Space]
+    [Header("PloughHorse")]
+    [SerializeField] private int fencesNeeded = 50;
+    [SerializeField] private AchievementBoxDetail AT_PloughHorse;
+    private bool unlockPloughHorse = false;
+    public static int fenceTracker = 0;
+    [Space]
     [Header("PlatniumDriver")]
-    public bool unlockPlatniumDriver = false;
-    public static int platniumTracker = 0;
     [SerializeField] private int taxiNeeded = 10;
-
+    [SerializeField] private AchievementBoxDetail AT_PlatniumDriver;
+    private bool unlockPlatniumDriver = false;
+    public static int platniumTracker = 0;
+    [Space]
     [Header("Makin'Bacon")]
-    public bool unlockMakinBacon = false;
-    public static int pigTracker = 0;
     [SerializeField] private int pigsNeeded = 10;
-
+    [SerializeField] private AchievementBoxDetail AT_MakinBacon;
+    private bool unlockMakinBacon = false;
+    public static int pigTracker = 0;
+    [Space]
     [Header("CluckMe")]
-    public bool unlockCluckMe = false;
-    public static int cluckTracker = 0;
     [SerializeField] private int chickensNeeded = 10;
-
+    [SerializeField] private AchievementBoxDetail AT_CluckMe;
+    private bool unlockCluckMe = false;
+    public static int cluckTracker = 0;
+    [Space]
     [Header("GlueFactory")]
-    public bool unlockGlueFactory = false;
-    public static int glueTracker = 0;
     [SerializeField] private int horsesNeeded = 10;
-
-    [Header("Menace")]
-    public bool unlockMenace = false;
-    public static int menaceTracker = 0;
+    [SerializeField] private AchievementBoxDetail AT_GlueFactory;
+    private bool unlockGlueFactory = false;
+    public static int glueTracker = 0;
+    [Space]
+    [Header("PublicMenace")]
     [SerializeField] private int npcsNeeded = 10;
-
+    [SerializeField] private AchievementBoxDetail AT_PublicMenace;
+    private bool unlockMenace = false;
+    public static int menaceTracker = 0;
+    [Space]
     [Header("GraveDigger")]
-    public bool unlockGraveDigger = false;
-    public static int graveTracker = 0;
     [SerializeField] private int gravesNeeded = 10;
+    [SerializeField] private AchievementBoxDetail AT_GraveDigger;
+    private bool unlockGraveDigger = false;
+    public static int graveTracker = 0;
+    [Space]
+    [Header("SpellingBee")]
+    [SerializeField] private int lettersNeeded = 9;
+    [SerializeField] private AchievementBoxDetail AT_SpellingBee;
+    private bool unlockSpellingBee = false;
+    public static int spellingTracker = 0;
+    [Space]
+
 
 
 
@@ -132,9 +157,23 @@ Achievements
     void Start()
     {
         _achievementCanvas.enabled = false;
+        TrackerStartUp();
         
     }
 
+    private void TrackerStartUp()
+    {
+        AT_Pegasus.SetTracker(airTricksNeeded);
+        AT_Collidesdale.SetTracker(stallsNeeded);
+        AT_PloughHorse.SetTracker(fencesNeeded);
+        AT_PlatniumDriver.SetTracker(taxiNeeded);
+        AT_MakinBacon.SetTracker(pigsNeeded);
+        AT_CluckMe.SetTracker(chickensNeeded);
+        AT_GlueFactory.SetTracker(horsesNeeded);
+        AT_PublicMenace.SetTracker(npcsNeeded);
+        AT_GraveDigger.SetTracker(gravesNeeded);
+        AT_SpellingBee.SetTracker(lettersNeeded);
+    }
 
     public void DisplayAchievment()
     {
@@ -153,42 +192,52 @@ Achievements
         
     }
 
-    public void Pegasus()  
-    { /* Airtime of (5) seconds */
-        if (airTrickTracker >= airTricksNeeded && unlockPegasus == false)
+    private void DoAllTheTrackerStuff(int trackedVal, int maxVal, AchievementBoxDetail AT, string achvName, ref bool unlock)
+    {
+        if (trackedVal <= maxVal && unlock == false)
         {
-            unlockPegasus = true;
-            _achievementText.text = "Pegasus";
-            DisplayAchievment();
+            AT.UpdateTrackerText(trackedVal, maxVal);
         }
+        if (trackedVal >= maxVal && unlock == false)
+        {
+            unlock = true;
+            _achievementText.text = achvName;
+            DisplayAchievment();
+            AT._greenTick.SetActive(true);
+            AT.CapTracker(maxVal);          
+        }
+    }
+
+    private void DoOnceOffStuff(ref bool unlock, string achvText, AchievementBoxDetail AT)
+    {
+        if (unlock == false)
+        {
+            unlock = true;
+            _achievementText.text = achvText;
+            DisplayAchievment();
+            AT._greenTick.SetActive(true);
+        }
+    }
+
+    public void Pegasus()  
+    {
+        DoAllTheTrackerStuff(airTrickTracker, airTricksNeeded, AT_Pegasus, "Pegasus", ref unlockPegasus);
+        //if (airTrickTracker >= airTricksNeeded && unlockPegasus == false)
+        //{
+        //    unlockPegasus = true;
+        //    _achievementText.text = "Pegasus";
+        //    DisplayAchievment();
+        //    AT_Pegasus._greenTick.SetActive(true);
+        //    AT_Pegasus.CapTracker(airTricksNeeded);
+        //}
+        //if (airTrickTracker <= airTricksNeeded && unlockPegasus == false)
+        //{
+        //    AT_Pegasus.UpdateTrackerText(airTrickTracker, airTricksNeeded);
+        //}
     }
     public void SmoothCriminal() 
-    { /* Remove max wanted level */
-
-        _achievementText.text = "Smooth Criminal";
-    }
-    public void BaconEggs() 
-    { /* Kill a chicken and pig within (5) seconds */
-
-        StartCoroutine(BaconEggTimer());
-
-    }
-    IEnumerator BaconEggTimer()
     {
-        Debug.Log("Timer Started");
-        yield return new WaitForSeconds(bTimer);
-        if (eggCheck && baconCheck == true && unlockBaconEggs == false) { unlockBaconEggs = true; }
-        else
-        {
-            eggCheck = false; baconCheck = false;
-        }
-
-        if (unlockBaconEggs == true)
-        {
-            _achievementText.text = "Bacon and Eggs";
-            StartCoroutine(EndDisplayAchievment());
-        }
-        Debug.Log("Timer finished");          
+        DoOnceOffStuff(ref unlockSmoothCriminal, "Smooth Criminal", AT_SmoothCriminal);
     }
 
     public void Collidesdale() 
@@ -199,15 +248,15 @@ Achievements
             unlockCollidesdale = true;
             _achievementText.text = "Collidesdale";
             DisplayAchievment();
+            AT_Collidesdale._greenTick.SetActive(true);
+            AT_Collidesdale.CapTracker(stallsNeeded);
         }
-
-        
+        if (stallTracker <= stallsNeeded && unlockCollidesdale == false)
+        {   AT_Collidesdale.UpdateTrackerText(stallTracker, stallsNeeded); }
     }
     public void BaaBoom() 
-    { /* Find the barrel sheep */
-        unlockBaaBoom = true;
-        _achievementText.text = "Baa Boom!";
-        DisplayAchievment();
+    {
+        DoOnceOffStuff(ref unlockBaaBoom, "Baa Boom!", AT_BaBoom);
     }
     public void PloughHorse() 
     { /* Destroy (X) amount of fences */
@@ -217,8 +266,11 @@ Achievements
             unlockPloughHorse = true;
             _achievementText.text = "Plough Horse";
             DisplayAchievment();
+            AT_PloughHorse._greenTick.SetActive(true);
+            AT_PloughHorse.CapTracker(fencesNeeded);
         }
-        
+        if (fenceTracker <= fencesNeeded && unlockPloughHorse == false)
+        {   AT_PloughHorse.UpdateTrackerText(fenceTracker, fencesNeeded); }
     }
     public void ShowPony() 
     { /* Change appearance */
@@ -232,65 +284,72 @@ Achievements
             unlockPlatniumDriver = true;
             _achievementText.text = "Platnium Driver";
             DisplayAchievment();
+            AT_PlatniumDriver._greenTick.SetActive(true);
+            AT_PlatniumDriver.CapTracker(taxiNeeded);
         }
+        if (platniumTracker <= taxiNeeded && unlockPlatniumDriver == false)
+        { AT_PlatniumDriver.UpdateTrackerText(platniumTracker, taxiNeeded); }
     }
 
     public void BBC()
     {
-        if(unlockBBC == false)
-        {
-            unlockBBC = true;
-            _achievementText.text = "B.B.C.";
-            DisplayAchievment();
-        }
+        DoOnceOffStuff(ref unlockBBC, "B.B.C.", AT_BBC);
+    }
+
+    public void SpaDay()
+    {
+        DoOnceOffStuff(ref unlockSpaDay, "Spa Day", AT_SpaDay);
+    }
+
+    public void PartyGoblin()
+    {
+        DoOnceOffStuff(ref unlockPartyGoblins, "Party Goblins", AT_PartyGoblins);
+    }
+    public void OldSpice()
+    {
+        DoOnceOffStuff(ref unlockOldSpice, "Old Spice", AT_OldSpice);
     }
 
     public void MakinBacon()
-    { /* Pigs */
-        if (pigTracker >= pigsNeeded && unlockMakinBacon == false)
-        {
-            unlockMakinBacon = true;
-            _achievementText.text = "Makin' Bacon";
-            DisplayAchievment();
-        }
+    {
+        DoAllTheTrackerStuff(pigTracker, pigsNeeded, AT_MakinBacon, "Makin' Bacon", ref unlockMakinBacon);
     }
 
     public void CluckMe()
-    { /* Chickens */
-        if (cluckTracker >= chickensNeeded && unlockCluckMe == false)
-        {
-            unlockCluckMe = true;
-            _achievementText.text = "Cluck Me!";
-            DisplayAchievment();
-        }
+    {
+        DoAllTheTrackerStuff(cluckTracker, chickensNeeded, AT_CluckMe, "Cluck Me!", ref unlockCluckMe);
     }
 
     public void GlueFactory()
-    { /* Horses */
-        if (glueTracker >= horsesNeeded && unlockGlueFactory == false)
-        {
-            unlockGlueFactory = true;
-            _achievementText.text = "Glue Factory";
-            DisplayAchievment();
-        }
+    {
+        DoAllTheTrackerStuff(glueTracker, horsesNeeded, AT_GlueFactory, "Glue Factory", ref unlockGlueFactory);
     }
     public void GraveDigger()
-    { /* Graves */
-        if (graveTracker >= gravesNeeded && unlockGraveDigger == false)
-        {
-            unlockGraveDigger = true;
-            _achievementText.text = "Grave Digger";
-            DisplayAchievment();
-        }
+    {
+        DoAllTheTrackerStuff(graveTracker, gravesNeeded, AT_GraveDigger, "Grave Digger", ref unlockGraveDigger);
     }
 
-    public void Menace()
-    { /* Graves */
-        if (menaceTracker >= npcsNeeded && unlockMenace == false)
-        {
-            unlockMenace = true;
-            _achievementText.text = "Menace";
-            DisplayAchievment();
-        }
+    public void PublicMenace()
+    {
+        DoAllTheTrackerStuff(menaceTracker, npcsNeeded, AT_PublicMenace, "Public Menace", ref unlockMenace);
     }
+
+    public void SpellingBee()
+    {
+        DoAllTheTrackerStuff(spellingTracker, lettersNeeded, AT_SpellingBee, "Spelling Bee", ref unlockSpellingBee);
+    }
+
+    public void Colonel()
+    {
+        DoOnceOffStuff(ref unlockColonel, "The Colonel", AT_Colonel);
+    }
+    public void HayMan()
+    {
+        DoOnceOffStuff(ref unlockHayMan, "Hay-Man!", AT_HayMan);
+    }
+    public void FunnyGuy()
+    {
+        DoOnceOffStuff(ref unlockFunnyGuy, "Funny Guy", AT_FunnyGuy);
+    }
+
 }
