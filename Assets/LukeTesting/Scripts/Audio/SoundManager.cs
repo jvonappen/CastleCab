@@ -15,7 +15,7 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
 
         foreach (Sound s in sounds)
         {
@@ -29,7 +29,7 @@ public class SoundManager : MonoBehaviour
 
     private void Start()
     {
-        Play("Theme");
+        //Play("Theme");
     }
 
     //play audio if source is not already playing this sound
