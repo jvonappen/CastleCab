@@ -44,6 +44,7 @@ Achievements
     public static bool unlockBaaBoom = false;
     [Space]
     [Header("ShowPony")]
+    [SerializeField] private AchievementBoxDetail AT_ShowPony;
     private bool unlockShowPony = false;
     [Space]
     [Header("BBC")]
@@ -275,7 +276,7 @@ Achievements
     }
     public void ShowPony() 
     { /* Change appearance */
-        
+        DoOnceOffStuff(ref unlockShowPony, "Show Pony", AT_ShowPony);
         _achievementText.text = "Show Pony";
     }
     public void PlatniumDriver() 

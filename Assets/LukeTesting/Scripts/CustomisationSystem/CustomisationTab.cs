@@ -119,6 +119,7 @@ public class CustomisationTab : MonoBehaviour
     public void SaveData()
     {
         PlayerPrefs.SetInt(_saveString, index);
+        AchievementManager.Instance.ShowPony();
     }
 
     public void LoadData()
