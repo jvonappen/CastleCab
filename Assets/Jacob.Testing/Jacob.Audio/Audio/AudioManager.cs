@@ -10,7 +10,7 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance;
 
     public AudioDetails[] musicAudio, sfxAudio;
-    public AudioSource musicSource, sfxSource;
+    public AudioSource musicSource, sfxSource, achvSource, vatSource, marketSource; //Add extra sources to play various sfx at once
 
     public AudioGroupDetails[] audioGroups;
 
@@ -62,6 +62,18 @@ public class AudioManager : MonoBehaviour
         }
 
     }
+    public void PlaySFX_Achv(string name)
+    {
+        AudioDetails audio = Array.Find(sfxAudio, x => x.audioName == name);
+        if (audio == null) { Debug.Log("Audio not found"); }
+        if (achvSource.isPlaying) return;
+        else
+        {
+            achvSource.clip = audio.clip;
+            achvSource.PlayOneShot(audio.clip);
+        }
+
+    }
 
     public void PlayGroupAudio(string name)
     {
@@ -73,6 +85,31 @@ public class AudioManager : MonoBehaviour
             int randomVal = UnityEngine.Random.Range(0, audio.audioClips.Length);
             sfxSource.clip = audio.audioClips[randomVal];
             sfxSource.PlayOneShot(audio.audioClips[randomVal]);
+        }
+    }
+
+    public void PlayGroupAudio_Vat(string name)
+    {
+        AudioGroupDetails audio = Array.Find(audioGroups, x => x.audioGroupName == name);
+        if (audio == null) { Debug.Log("Audio not found"); }
+        if (vatSource.isPlaying) return;
+        else
+        {
+            int randomVal = UnityEngine.Random.Range(0, audio.audioClips.Length);
+            vatSource.clip = audio.audioClips[randomVal];
+            vatSource.PlayOneShot(audio.audioClips[randomVal]);
+        }
+    }
+    public void PlayGroupAudio_Market(string name)
+    {
+        AudioGroupDetails audio = Array.Find(audioGroups, x => x.audioGroupName == name);
+        if (audio == null) { Debug.Log("Audio not found"); }
+        if (marketSource.isPlaying) return;
+        else
+        {
+            int randomVal = UnityEngine.Random.Range(0, audio.audioClips.Length);
+            marketSource.clip = audio.audioClips[randomVal];
+            marketSource.PlayOneShot(audio.audioClips[randomVal]);
         }
     }
     public void StopMusic(string name)

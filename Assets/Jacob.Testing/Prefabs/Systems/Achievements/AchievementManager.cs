@@ -180,6 +180,7 @@ Achievements
         _achievementGameObject.transform.localScale = Vector3.zero;
         _achievementCanvas.enabled = true;
         _achievementGameObject.transform.DOScale(1f, 1f).SetEase(Ease.InOutElastic);
+        AudioManager.Instance.PlaySFX_Achv("Collectable");
         StartCoroutine(EndDisplayAchievment());
     }
 
