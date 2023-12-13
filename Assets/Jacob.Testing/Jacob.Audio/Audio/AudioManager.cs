@@ -10,7 +10,7 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance;
 
     public AudioDetails[] musicAudio, sfxAudio;
-    public AudioSource musicSource, sfxSource, achvSource, vatSource, marketSource; //Add extra sources to play various sfx at once
+    public AudioSource musicSource, sfxSource, achvSource, vatSource, marketSource, animalSource; //Add extra sources to play various sfx at once
 
     public AudioGroupDetails[] audioGroups;
 
@@ -74,6 +74,18 @@ public class AudioManager : MonoBehaviour
         }
 
     }
+    public void PlaySFX_Animal(string name)
+    {
+        AudioDetails audio = Array.Find(sfxAudio, x => x.audioName == name);
+        if (audio == null) { Debug.Log("Audio not found"); }
+        if (animalSource.isPlaying) return;
+        else
+        {
+            animalSource.clip = audio.clip;
+            animalSource.PlayOneShot(audio.clip);
+        }
+
+    }
 
     public void PlayGroupAudio(string name)
     {
@@ -110,6 +122,19 @@ public class AudioManager : MonoBehaviour
             int randomVal = UnityEngine.Random.Range(0, audio.audioClips.Length);
             marketSource.clip = audio.audioClips[randomVal];
             marketSource.PlayOneShot(audio.audioClips[randomVal]);
+        }
+    }
+
+    public void PlayGroupAudio_Animal(string name)
+    {
+        AudioGroupDetails audio = Array.Find(audioGroups, x => x.audioGroupName == name);
+        if (audio == null) { Debug.Log("Audio not found"); }
+        if (animalSource.isPlaying) return;
+        else
+        {
+            int randomVal = UnityEngine.Random.Range(0, audio.audioClips.Length);
+            animalSource.clip = audio.audioClips[randomVal];
+            animalSource.PlayOneShot(audio.audioClips[randomVal]);
         }
     }
     public void StopMusic(string name)

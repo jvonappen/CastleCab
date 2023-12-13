@@ -57,7 +57,7 @@ public class FenceWallCollisions : MonoBehaviour
         {
             Dishonour.dishonourLevel = Dishonour.dishonourLevel + 3;
             //AudioManager.Instance.StopSFX();
-            AudioManager.Instance.PlaySFX("Sheep");
+            AudioManager.Instance.PlaySFX_Animal("Sheep");
             _particlePos = collision.transform;
             PlayParticle(_sheepImpact);
             Destroy(collision.gameObject);
@@ -69,7 +69,7 @@ public class FenceWallCollisions : MonoBehaviour
             AchievementManager.Instance.CluckMe();
 
             //AudioManager.Instance.StopSFX();
-            AudioManager.Instance.PlaySFX("Chicken");
+            AudioManager.Instance.PlaySFX_Animal("Chicken");
             _particlePos = collision.transform;
             PlayParticle(_chickenImpact);
             Destroy(collision.gameObject);
@@ -81,7 +81,7 @@ public class FenceWallCollisions : MonoBehaviour
             AchievementManager.Instance.MakinBacon();
 
             //AudioManager.Instance.StopSFX();
-            AudioManager.Instance.PlayGroupAudio("Pig");
+            AudioManager.Instance.PlayGroupAudio_Animal("Pig");
             _particlePos = collision.transform;
             PlayParticle(_pigImpact);
             Destroy(collision.gameObject);
@@ -97,7 +97,7 @@ public class FenceWallCollisions : MonoBehaviour
             collision.gameObject.GetComponent<Rigidbody>().AddExplosionForce(1000, this.transform.position, 20, 500); //Same as pigsplode valuse
 
             //AudioManager.Instance.StopSFX();
-            AudioManager.Instance.PlayGroupAudio("Horse");
+            AudioManager.Instance.PlayGroupAudio_Animal("Horse");
             PlayParticle(_horseImpact);
             Destroy(collision.gameObject, 5);
            
@@ -122,6 +122,7 @@ public class FenceWallCollisions : MonoBehaviour
         {
             if (AchievementManager.unlockBaaBoom == false) { AchievementManager.Instance.BaaBoom(); }
             _particlePos = collision.transform;
+            AudioManager.Instance.PlaySFX("BOOM");
             PlayParticle(_explosiveImpact);
             collision.gameObject.GetComponent<ExplosionForce>().Explode();
             Destroy(collision.gameObject);
@@ -146,7 +147,7 @@ public class FenceWallCollisions : MonoBehaviour
             AchievementManager.Instance.Collidesdale();
 
             //AudioManager.Instance.StopSFX();
-            //AudioManager.Instance.PlaySFX("");
+            AudioManager.Instance.PlayGroupAudio_Market("Market");
             _particlePos = collision.transform;
             PlayParticleMarketStall();
             collision.gameObject.SetActive(false);
@@ -156,7 +157,7 @@ public class FenceWallCollisions : MonoBehaviour
         {
             Dishonour.dishonourLevel = Dishonour.dishonourLevel + 2;
             //AudioManager.Instance.StopSFX();
-            //AudioManager.Instance.PlaySFX("");
+            AudioManager.Instance.PlayGroupAudio_Vat("Vat");
             _particlePos = collision.transform;
             PlayParticle(_vatImpact);
             collision.gameObject.SetActive(false);
@@ -166,7 +167,7 @@ public class FenceWallCollisions : MonoBehaviour
         {
             Dishonour.dishonourLevel = Dishonour.dishonourLevel + 2;
             //AudioManager.Instance.StopSFX();
-            //AudioManager.Instance.PlaySFX("");
+            AudioManager.Instance.PlayGroupAudio("FenceCollisions");
             _particlePos = collision.transform;
             PlayParticle(_boxImpact);
             collision.gameObject.SetActive(false);
