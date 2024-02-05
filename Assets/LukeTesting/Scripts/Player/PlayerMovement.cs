@@ -33,20 +33,19 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform[] _wheels;
     [SerializeField] private Animator _horseAnimator;
     [SerializeField] private GameObject _globalVolume;
-    
-    [Header("AUTO ASSIGNED VARIABLES")]
     [SerializeField] private CameraFOV _camera;
     [SerializeField] private SoundManager _soundManager;
-    [SerializeField] private Rigidbody _donkeyRB;
-    [SerializeField] private Rigidbody _wagonRB;
-    [SerializeField] private ConfigurableJoint _joint;
-    [SerializeField] private CinemachineFreeLook _recenetering;
     [SerializeField] private Water _water;
     [SerializeField] private BurnoutSlider _burnoutSlider;
 
+    private Rigidbody _wagonRB;
+    private ConfigurableJoint _joint;
+    private Rigidbody _donkeyRB;
+    private CinemachineFreeLook _recenetering;
+
     [Header("DRIVING VARIABLES")]
-    [SerializeField] private float _speedInput = 0;
-    [field: SerializeField] public float _rigidbodySpeed { get; private set; }
+    private float _speedInput = 0;
+    public float _rigidbodySpeed { get; private set; }
     [SerializeField] private float _forwardAcceleration = 500f;
     [SerializeField] private float _reverseAcceleration = 100f;
     [SerializeField] private float _onSpotAcceleration = 50f;
@@ -69,26 +68,26 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _dragOnGround = 3f;
     [SerializeField] private float _dragOnAcceleration = 10f;
     [SerializeField] private float _dragOnStop = 1.5f;
-    [SerializeField] private float _dragNormal = 3f;
-    [SerializeField] private float _dragOnBurnoutRelease = 0;
-    [SerializeField] private bool _dragSet = false;
+    private float _dragNormal = 3f;
+    private float _dragOnBurnoutRelease = 0;
+    private bool _dragSet = false;
 
     [Header("IN AIR VARIABLES")]
     [SerializeField] private float _gravityForce = 1.5f;
     [SerializeField] private float maxTippingAngle = 45f;
     [SerializeField] private float _groundRayLength = 2f;
     [SerializeField] private float _inAirRayLength = 10f;
-    [field: SerializeField] public bool _grounded { get; private set; }
-    [field: SerializeField] public bool _noMoreTricksGrounded { get; private set; }
+    public bool _grounded { get; private set; }
+    private bool _noMoreTricksGrounded;
     
-    [Header("BURNOUT VARIABLES")]
-    [SerializeField] private bool _burnout = false;
-    [SerializeField] private bool _canBurnout = true;
+    // Burnout variables
+    private bool _isDoingBurnout = false;
+    private bool _canBurnout = true;
     
     [Header("TAIL WHIP VARIABLES")]
     [SerializeField] private float _tailWhipForce = 10;
-    [SerializeField] private bool _tailWhipRight = false;
-    [SerializeField] private bool _tailWhipLeft = false;
+    private bool _tailWhipRight = false;
+    private bool _tailWhipLeft = false;
 
     [Header("BOOST VARIABLES")]
     [SerializeField] private float _boostMultiplier = 2;
@@ -106,20 +105,17 @@ public class PlayerMovement : MonoBehaviour
     private const string Horse_Reverse = "Reverse";
     private const string Horse_Blend_Tree = "Movement Blend Tree";
 
-    private bool isInSlowdownZone = false;
-    //private bool hasBurst = false;
     [SerializeField] private bool _canBackflip = false;
-    [SerializeField] private bool _backflipComplete = false;
-    [SerializeField] private bool _barrelrollComplete = false;
+    private bool _backflipComplete = false;
+
     [SerializeField] private bool _canBarrelroll = false;
-    [SerializeField] private float _backflipTimer = 0.8f;
+    private bool _barrelrollComplete = false;
+    
     [SerializeField] private float _backflipReset = 0.8f;
+    private float _backflipTimer = 0.8f;
+
     [SerializeField] private float _barrelRollReset = 0.8f;
-    [SerializeField] private float _barrelrollTimer = 0.8f;
-    //[SerializeField] private float jumpPadForce = 1; // Adjust the force as needed
-
-
- 
+    private float _barrelrollTimer = 0.8f;
 
     public bool freeze  //freeze player for Jacob's dialogue system
     {
@@ -143,7 +139,8 @@ public class PlayerMovement : MonoBehaviour
         _wagonRB = _wagon.GetComponent<Rigidbody>();
         _donkeyRB = this.GetComponent<Rigidbody>();
 
-        _playerInput.onAcceleratePerformed += OnAccelerate;
+        _dragNormal = _dragOnGround;
+        _recenetering = _camera.GetComponent<CinemachineFreeLook>();
     }
 
     private void Start()
@@ -151,60 +148,68 @@ public class PlayerMovement : MonoBehaviour
         _burnoutSlider.ResetSlider();
     }
 
-    public void OnAccelerate(InputAction.CallbackContext context)
-    {
-
-    }
-
     public void Move()
     {
-        //get and assign acceleration values for each driving state
-        if (_playerInput._accelerationInput > 0 && _playerInput._reverseInput < 0 && _grounded) //burnout acceleration on ground
-        {
-            _speedInput = 0;
-            _steeringTurnStrength = _turnStrength;
-            if (_canBurnout && _rigidbodySpeed < 5) Burnout();
-        }
-        else if (_playerInput._accelerationInput > 0 && _grounded) //forward acceleration on ground
-        {
-            _speedInput = _playerInput._boost != 0 && BoostBar.canBoost ? _forwardAcceleration * _boostMultiplier : _forwardAcceleration * _playerInput._accelerationInput; //boost
+        bool notMoving = false;
 
-            _animSpeed = Mathf.InverseLerp(_dragOnAcceleration + 20, _dragNormal, _dragOnGround) * _playerInput._accelerationInput; //slowly speed up animation
-            Mathf.Clamp(_animSpeed, 0, 1);
-            _horseAnimator.SetFloat("Speed", _animSpeed);
-
-            if (_tailWhipLeft || _tailWhipRight)
+        if (_grounded)
+        {
+            if (_playerInput._accelerationInput > 0)
             {
-                if (_playerInput._boost == 0) _steeringTurnStrength = _tailWhipTurnStrength;
-                else _steeringTurnStrength = _playerInput._boost != 0 ? _boostTurnStrength : _turnStrength;
+                if (_playerInput._reverseInput < 0) // burnout and charge boost
+                {
+                    _speedInput = 0;
+                    _steeringTurnStrength = _turnStrength;
+                    if (_canBurnout && _rigidbodySpeed < 5) Burnout();
+                }
+                else  // moving forward
+                {
+                    _speedInput = _playerInput._boost != 0 && BoostBar.canBoost ? _forwardAcceleration * _boostMultiplier : _forwardAcceleration * _playerInput._accelerationInput; //boost
+
+                    _animSpeed = Mathf.InverseLerp(_dragOnAcceleration + 20, _dragNormal, _dragOnGround) * _playerInput._accelerationInput; //slowly speed up animation
+                    Mathf.Clamp(_animSpeed, 0, 1);
+                    _horseAnimator.SetFloat("Speed", _animSpeed);
+
+                    if (_tailWhipLeft || _tailWhipRight)
+                    {
+                        if (_playerInput._boost == 0) _steeringTurnStrength = _tailWhipTurnStrength;
+                        else _steeringTurnStrength = _playerInput._boost != 0 ? _boostTurnStrength : _turnStrength;
+                    }
+                    else _steeringTurnStrength = _playerInput._boost != 0 ? _boostTurnStrength : _turnStrength;
+                    ForwardAcceleration();
+                }
             }
-            else _steeringTurnStrength = _playerInput._boost != 0 ? _boostTurnStrength : _turnStrength;
-            ForwardAcceleration();
+            else if (_playerInput._reverseInput < 0) // reversing
+            {
+                _burnoutSlider.ResetSlider();
+                _speedInput = _reverseAcceleration;
+                _speedInput *= _playerInput._reverseInput;
+                _steeringTurnStrength = _turnStrength;
+                ReverseAcceleration();
+            }
+            else notMoving = true;
         }
-        else if (_playerInput._reverseInput < 0 && _grounded) //reverse acceleration on ground
+        
+        if (notMoving)
         {
-            _burnoutSlider.ResetSlider();
-            _speedInput = _reverseAcceleration;
-            _speedInput *= _playerInput._reverseInput;
-            _steeringTurnStrength = _turnStrength;
-            ReverseAcceleration();
+            if (_playerInput._accelerationInput == 0 && _playerInput._reverseInput == 0 && _playerInput._steeringInput != 0) // turning without moving
+            {
+                _burnoutSlider.ResetSlider();
+                _speedInput = _onSpotAcceleration;
+                _steeringTurnStrength = _onSpotTurnStrength;
+                _horseAnimator.SetFloat("Speed", 0.5f);
+                Boost(NORMAL_FOV, false); //turn off boost
+            }
+            else // cancel acceleration
+            {
+                _burnoutSlider.ResetSlider();
+                _speedInput = 0;
+                _steeringTurnStrength = _inAirTurnStrength;
+                _horseAnimator.SetFloat("Speed", 0f);
+                NoAcceleration();
+            }
         }
-        else if (_playerInput._accelerationInput == 0 && _playerInput._reverseInput == 0 && _playerInput._steeringInput != 0) //turning on spot acceleration
-        {
-            _burnoutSlider.ResetSlider();
-            _speedInput = _onSpotAcceleration;
-            _steeringTurnStrength = _onSpotTurnStrength;
-            _horseAnimator.SetFloat("Speed", 0.5f);
-            Boost(NORMAL_FOV, false); //turn off boost
-        }
-        else //no acceleration or in air
-        {
-            _burnoutSlider.ResetSlider();
-            _speedInput = 0;
-            _steeringTurnStrength = _inAirTurnStrength;
-            _horseAnimator.SetFloat("Speed", 0f);
-            NoAcceleration();
-        }
+        
     }
 
     private void Update()
@@ -212,7 +217,6 @@ public class PlayerMovement : MonoBehaviour
         Move();
 
         ReverseLockWagon(); //adjust wagon lock for reversing
-        Debug.DrawRay(_groundRayPoint.position, -Vector3.up, Color.red); //DEBUG: for ground check
     }
 
     private void FixedUpdate()
@@ -262,7 +266,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_playerInput._reverseInput < 0) return; // kill forward momentum on reverse
         
-        if (_burnout) //post burnout process
+        if (_isDoingBurnout) //post burnout process
         {
             if (_canBurnout) _dragOnBurnoutRelease = _dragOnGround; //check what drag value is at on release of burnout
             _canBurnout = false;
@@ -304,11 +308,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void ReverseAcceleration()
     {
-        _burnout = false;
+        _isDoingBurnout = false;
         if (!_stopped) _stopped = true;
 
         //kill effects
-        if (!_burnout)_soundManager.Stop("Burnout");
+        if (!_isDoingBurnout)_soundManager.Stop("Burnout");
         StopParticles(_burnoutParticles);
         StopParticles(_chargedBurnoutParticles);
 
@@ -319,7 +323,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void NoAcceleration()
     {
-        _burnout = false;
+        _isDoingBurnout = false;
         _recenetering.m_RecenterToTargetHeading.m_enabled = false;
         if (_canBurnout) Boost(NORMAL_FOV, false);
 
@@ -328,13 +332,13 @@ public class PlayerMovement : MonoBehaviour
         {
             StopCoroutine(Takeoff());
             if (_canBurnout) Boost(NORMAL_FOV, false);
-            _burnout = false;
+            _isDoingBurnout = false;
             _canBurnout = true;
             _burnoutBoost = null;
             _soundManager.Fade("Burnout");
         }
 
-        if (!_burnout) _soundManager.Fade("Burnout");
+        if (!_isDoingBurnout) _soundManager.Fade("Burnout");
         RotateWheels(_rigidbodySpeed * 0.1f); //slow wheel rotaion by rigidbody speed when not accelerating
 
         //play stopping animation once then change to idle when finished(speed dependent)
@@ -365,14 +369,14 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(1f);
         _burnoutBoost = null;
         //Boost(NORMAL_FOV, false); //turn off boost
-        _burnout = false;
+        _isDoingBurnout = false;
         _canBurnout = true;
     }
 
     private void Burnout()
     {
-        if (!_burnout) _dragOnGround = _dragOnAcceleration;
-        _burnout = true;
+        if (!_isDoingBurnout) _dragOnGround = _dragOnAcceleration;
+        _isDoingBurnout = true;
         _burnoutSlider.BurnoutCharge(_dragOnGround);
 
         //kill effects
@@ -544,7 +548,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void CanTailWhip()
     {
-        if (_playerInput._tailWhip > 0 && _grounded && _playerInput._accelerationInput > 0.5 && !_burnout)
+        if (_playerInput._tailWhip > 0 && _grounded && _playerInput._accelerationInput > 0.5 && !_isDoingBurnout)
         {
             if (_playerInput._steeringInput > 0.2)
             {
@@ -576,8 +580,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void ReverseLockWagon()
     {
-        _joint.angularYMotion = _playerInput._reverseInput < 0 && !_burnout ? ConfigurableJointMotion.Locked : ConfigurableJointMotion.Limited;
-        _joint.angularXMotion = _playerInput._reverseInput < 0 && !_burnout ? ConfigurableJointMotion.Locked : ConfigurableJointMotion.Limited;
+        _joint.angularYMotion = _playerInput._reverseInput < 0 && !_isDoingBurnout ? ConfigurableJointMotion.Locked : ConfigurableJointMotion.Limited;
+        _joint.angularXMotion = _playerInput._reverseInput < 0 && !_isDoingBurnout ? ConfigurableJointMotion.Locked : ConfigurableJointMotion.Limited;
     }
 
     private void RotateWheels(float turnSPeed)
@@ -667,7 +671,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.gameObject.tag == "SpeedRamps")
         {
-            isInSlowdownZone = true;
             SpeedUpPlayer();
         }
         else if (other.gameObject.tag == "Mud")
@@ -680,7 +683,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.gameObject.tag == "SpeedRamps")
         {
-            isInSlowdownZone = false;
             RestoreOriginalSpeed();
         }
         else if (other.gameObject.tag == "Mud")

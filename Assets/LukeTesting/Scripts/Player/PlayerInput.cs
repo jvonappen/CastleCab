@@ -15,8 +15,6 @@ public class PlayerInput : MonoBehaviour
     [field: SerializeField] public float _barrelRoll { get; private set; }
     [field: SerializeField] public bool _interact { get; private set; }
 
-    public Action<InputAction.CallbackContext> onAcceleratePerformed;
-    public Action<InputAction.CallbackContext> onAccelerateCancel;
 
 
     private void Awake()
@@ -27,8 +25,6 @@ public class PlayerInput : MonoBehaviour
     private void OnEnable()
     {
         _playerControls.Enable();
-        //_playerControls.Controls.Acceleration.performed += onAcceleratePerformed;
-        //_playerControls.Controls.Acceleration.canceled += onAccelerateCancel;
         _playerControls.Controls.Acceleration.performed += OnAccelerate;
         _playerControls.Controls.Acceleration.canceled += OnReleaseAccelerate;
         _playerControls.Controls.Reverse.performed += OnReverse;
