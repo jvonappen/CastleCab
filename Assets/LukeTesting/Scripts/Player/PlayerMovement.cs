@@ -6,6 +6,7 @@ using System.Collections;
 //using System.Runtime.CompilerServices;
 //using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 
 public class PlayerMovement : MonoBehaviour
@@ -141,6 +142,8 @@ public class PlayerMovement : MonoBehaviour
         _joint = _wagon.GetComponent<ConfigurableJoint>();
         _wagonRB = _wagon.GetComponent<Rigidbody>();
         _donkeyRB = this.GetComponent<Rigidbody>();
+
+        _playerInput.onAcceleratePerformed += OnAccelerate;
     }
 
     private void Start()
@@ -148,7 +151,12 @@ public class PlayerMovement : MonoBehaviour
         _burnoutSlider.ResetSlider();
     }
 
-    private void Update()
+    public void OnAccelerate(InputAction.CallbackContext context)
+    {
+
+    }
+
+    public void Move()
     {
         //get and assign acceleration values for each driving state
         if (_playerInput._accelerationInput > 0 && _playerInput._reverseInput < 0 && _grounded) //burnout acceleration on ground
@@ -170,7 +178,7 @@ public class PlayerMovement : MonoBehaviour
                 if (_playerInput._boost == 0) _steeringTurnStrength = _tailWhipTurnStrength;
                 else _steeringTurnStrength = _playerInput._boost != 0 ? _boostTurnStrength : _turnStrength;
             }
-            else _steeringTurnStrength = _playerInput._boost != 0 ? _boostTurnStrength : _turnStrength; 
+            else _steeringTurnStrength = _playerInput._boost != 0 ? _boostTurnStrength : _turnStrength;
             ForwardAcceleration();
         }
         else if (_playerInput._reverseInput < 0 && _grounded) //reverse acceleration on ground
@@ -197,6 +205,11 @@ public class PlayerMovement : MonoBehaviour
             _horseAnimator.SetFloat("Speed", 0f);
             NoAcceleration();
         }
+    }
+
+    private void Update()
+    {
+        Move();
 
         ReverseLockWagon(); //adjust wagon lock for reversing
         Debug.DrawRay(_groundRayPoint.position, -Vector3.up, Color.red); //DEBUG: for ground check

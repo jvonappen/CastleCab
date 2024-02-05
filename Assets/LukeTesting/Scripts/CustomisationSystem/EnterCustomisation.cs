@@ -18,40 +18,46 @@ public class EnterCustomisation : MonoBehaviour
     {
         _playerInput = GetComponent<PlayerInput>();
         _playerMovement = GetComponent<PlayerMovement>();
-        _customisationCanvas.SetActive(false);
+        if (_customisationCanvas) _customisationCanvas.SetActive(false);
     }
 
     private void Start()
     {
-        _customisationSetup.SetActive(false); //do this after awake so customisation materials can be applied
+        if (_customisationCanvas) _customisationSetup.SetActive(false); //do this after awake so customisation materials can be applied
     }
 
     private void Update()
     {
         if (_canTransfer && _playerInput._playerControls.Controls.Interact.WasPerformedThisFrame())
         {
-            TransferPlayer();
+            if (_customisationCanvas) TransferPlayer();
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "PaintShop")
+        if (_customisationCanvas)
         {
-            if (_customisationCanvas.activeSelf == false && _customisationSetup.activeSelf != true)
+            if (other.gameObject.tag == "PaintShop")
             {
-                _customisationCanvas.SetActive(true);
-                _canTransfer = true;
+                if (_customisationCanvas.activeSelf == false && _customisationSetup.activeSelf != true)
+                {
+                    _customisationCanvas.SetActive(true);
+                    _canTransfer = true;
+                }
             }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "PaintShop")
+        if (_customisationCanvas)
         {
-            _customisationCanvas.SetActive(false);
-            _canTransfer = false;
+            if (other.gameObject.tag == "PaintShop")
+            {
+                _customisationCanvas.SetActive(false);
+                _canTransfer = false;
+            }
         }
     }
 
