@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInput : MonoBehaviour
+public class PlayerInputOld : MonoBehaviour
 {
     //[Header("INPUT VARIABLES FOR DEBUGGING, DO NOT TOUCH")]
     public PlayerControls _playerControls {  get; private set; }

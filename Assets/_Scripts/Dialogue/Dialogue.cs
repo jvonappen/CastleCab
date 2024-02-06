@@ -17,7 +17,7 @@ public class Dialogue : MonoBehaviour
     public AudioSource voiceSource;
     public AudioSource punctuationSource;
 
-    [SerializeField] private PlayerInput _playerInput;
+    [SerializeField] private PlayerInputOld _playerInput;
 
 
     // Start is called before the first frame update

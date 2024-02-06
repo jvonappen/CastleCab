@@ -15,7 +15,7 @@ public class UITween : MonoBehaviour
     [SerializeField] private float _betweenPopUpTime = 0.25f;
 
 
-    [SerializeField] private PlayerInput _playerInput;
+    [SerializeField] private PlayerInputOld _playerInput;
     private bool _showUI;
 
     [Header("Debug")]

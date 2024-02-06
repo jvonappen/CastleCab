@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class NavigateMenu : MonoBehaviour
 {
-    [SerializeField] private PlayerInput _playerInput;
+    [SerializeField] private PlayerInputOld _playerInput;
     [SerializeField] private List<GameObject> _tabs = new List<GameObject>();
     [SerializeField] private Canvas _canvas;
 
     private void Awake()
     {
-        _playerInput = FindObjectOfType<PlayerInput>();
+        _playerInput = FindObjectOfType<PlayerInputOld>();
         Buttons();
     }
 

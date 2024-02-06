@@ -8,7 +8,7 @@ public class BoostBar : MonoBehaviour
     [SerializeField] private Image boostFill;
     [SerializeField] private float depletionRate = 0.1f;
     [SerializeField] private float refillrate = 0.1f;
-    [SerializeField] private PlayerInput _input;
+    [SerializeField] private PlayerInputOld _input;
     public static bool canBoost;
 
 

@@ -25,7 +25,7 @@ Achievements
 
      */
 
-    [SerializeField] private PlayerInput _playerInput;
+    [SerializeField] private PlayerInputOld _playerInput;
     [SerializeField] private GameObject _achievementGameObject;
 
     public static AchievementManager Instance;

@@ -9,14 +9,14 @@ public class EnterCustomisation : MonoBehaviour
     [SerializeField] private SwitchCamera _switchCamera;
     [SerializeField] private PauseGame _pauseGame;
 
-    private PlayerInput _playerInput;
+    private PlayerInputOld _playerInput;
     private PlayerMovementOld _playerMovement;
     public bool _canTransfer;
     
 
     private void Awake()
     {
-        _playerInput = GetComponent<PlayerInput>();
+        _playerInput = GetComponent<PlayerInputOld>();
         _playerMovement = GetComponent<PlayerMovementOld>();
         if (_customisationCanvas) _customisationCanvas.SetActive(false);
     }

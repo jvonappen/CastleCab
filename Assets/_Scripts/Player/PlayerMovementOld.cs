@@ -11,7 +11,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovementOld : MonoBehaviour
 {
-    private PlayerInput _playerInput;
+    private PlayerInputOld _playerInput;
 
     [Header("PARTICLES")]
     [SerializeField] private ParticleSystem[] _dustTrail;
@@ -134,7 +134,7 @@ public class PlayerMovementOld : MonoBehaviour
     private void Awake()
     {
         //Assign necessary variables
-        _playerInput = GetComponent<PlayerInput>();
+        _playerInput = GetComponent<PlayerInputOld>();
         _joint = _wagon.GetComponent<ConfigurableJoint>();
         _wagonRB = _wagon.GetComponent<Rigidbody>();
         _donkeyRB = this.GetComponent<Rigidbody>();
