@@ -54,8 +54,8 @@ public class PigSplode : MonoBehaviour
         if (_collisionOccured) return;
         if (other.gameObject.name == "Wagon" || other.gameObject.name == "Donkey")
         {
-            if (other.gameObject.GetComponent<PlayerMovement>() == null) return;
-            PlayerMovement playerMovement = other.gameObject.GetComponent<PlayerMovement>();
+            if (other.gameObject.GetComponent<PlayerMovementOld>() == null) return;
+            PlayerMovementOld playerMovement = other.gameObject.GetComponent<PlayerMovementOld>();
             PlayerInput player = other.gameObject.GetComponent<PlayerInput>();
 
             if (player._accelerationInput > 0 && playerMovement._rigidbodySpeed > 1500 /*Increased to stop boost kills - Jacob*/ || Tailwhip(player, playerMovement))
@@ -135,7 +135,7 @@ public class PigSplode : MonoBehaviour
 
     }
 
-    private bool Tailwhip(PlayerInput player, PlayerMovement playerMovement)
+    private bool Tailwhip(PlayerInput player, PlayerMovementOld playerMovement)
     {
         return player._tailWhip > 0 && playerMovement._rigidbodySpeed > 5;
     }
