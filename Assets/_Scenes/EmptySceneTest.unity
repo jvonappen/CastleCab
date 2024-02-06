@@ -513,6 +513,11 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0.21429774, z: 0.00000016488272}
+--- !u!54 &610322152 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 6675228846841819017, guid: f7ba25f0efbe4a14e9be606e528b3a34, type: 3}
+  m_PrefabInstance: {fileID: 1488028139531617233}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &638202665
 GameObject:
   m_ObjectHideFlags: 0
@@ -4369,6 +4374,38 @@ PrefabInstance:
     - target: {fileID: 907714351756314196, guid: f7ba25f0efbe4a14e9be606e528b3a34, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146461577161820009, guid: f7ba25f0efbe4a14e9be606e528b3a34, type: 3}
+      propertyPath: rb
+      value: 
+      objectReference: {fileID: 610322152}
+    - target: {fileID: 5146461577161820009, guid: f7ba25f0efbe4a14e9be606e528b3a34, type: 3}
+      propertyPath: m_maxSpeed
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146461577161820009, guid: f7ba25f0efbe4a14e9be606e528b3a34, type: 3}
+      propertyPath: m_maxReverseSpeed
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146461577161820009, guid: f7ba25f0efbe4a14e9be606e528b3a34, type: 3}
+      propertyPath: m_accelerationRate
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146461577161820009, guid: f7ba25f0efbe4a14e9be606e528b3a34, type: 3}
+      propertyPath: m_decelerationRate
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146461577161820009, guid: f7ba25f0efbe4a14e9be606e528b3a34, type: 3}
+      propertyPath: m_reverseAccelerationRate
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146461577161820009, guid: f7ba25f0efbe4a14e9be606e528b3a34, type: 3}
+      propertyPath: m_reverseDecelerationRate
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6675228846841819017, guid: f7ba25f0efbe4a14e9be606e528b3a34, type: 3}
+      propertyPath: m_Mass
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7295361350551407811, guid: f7ba25f0efbe4a14e9be606e528b3a34, type: 3}
       propertyPath: m_LocalPosition.x
