@@ -535,6 +535,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02699a934821ccf40a57b84852e87ce8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 6675228846841819017}
+  wagon: {fileID: 2993029738518890700}
+  m_maxSpeed: 15
+  m_accelerationRate: 30
+  m_decelerationRate: 40
+  m_maxReverseSpeed: 25
+  m_reverseAccelerationRate: 15
+  m_reverseDecelerationRate: 20
+  m_maxTurnSpeed: 150
+  m_accelerateNoTurnAngularDrag: 20
+  m_turningDrag: 0.8
 --- !u!1 &942951462321015585
 GameObject:
   m_ObjectHideFlags: 0
@@ -5475,6 +5486,7 @@ GameObject:
   - component: {fileID: 7863771096885059532}
   - component: {fileID: 2993029738518890700}
   - component: {fileID: 2164328937564679809}
+  - component: {fileID: 9180054635175572274}
   m_Layer: 3
   m_Name: Wagon
   m_TagString: Player
@@ -5511,7 +5523,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2522102798336021031}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -5632,6 +5644,21 @@ ConfigurableJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &9180054635175572274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2522102798336021031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e167752fb6f896045aa6df1a4b4d94ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_dragX: 1
+  m_dragY: 1
+  m_dragZ: 1
 --- !u!1 &2711936263577685615
 GameObject:
   m_ObjectHideFlags: 0
@@ -5709,7 +5736,7 @@ MonoBehaviour:
   interpolate: 1
   jiggleRigs:
   - rootTransform: {fileID: 8502695823397422782}
-    jiggleSettings: {fileID: 11400000, guid: 39e25b1ddcdbae04eabd7bdc48ca31fd, type: 2}
+    jiggleSettings: {fileID: 11400000, guid: 5d8b4519449100049aa4902a4f33bb8c, type: 2}
     ignoredTransforms: []
     colliders: []
   - rootTransform: {fileID: 5130678132584851243}

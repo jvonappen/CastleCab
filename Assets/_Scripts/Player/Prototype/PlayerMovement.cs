@@ -8,92 +8,177 @@ public class PlayerMovement : MonoBehaviour
     PlayerInput m_playerInput;
 
     [SerializeField] Rigidbody rb;
+    [SerializeField] Rigidbody wagon;
+    CustomDrag m_wagonDrag;
 
     bool m_isAccelerating;
     bool m_isReversing;
 
     // Speed
-    [SerializeField] float m_maxSpeed = 10, m_accelerationRate = 0.5f, m_decelerationRate = 1;
+    [Header("Speed")]
+    [SerializeField] float m_maxSpeed = 10;
+    [SerializeField] float m_accelerationRate = 0.5f, m_decelerationRate = 1;
     float m_currentSpeed;
 
     [SerializeField] float m_maxReverseSpeed = 10, m_reverseAccelerationRate = 0.5f, m_reverseDecelerationRate = 1;
-    float m_reverseSpeed;
+
+    [Header("Turning")]
+    [SerializeField] float m_maxTurnSpeed = 10;
+    float m_turnInput = 0;
+
+    [Header("Cart Control")]
+    [SerializeField] float m_accelerateNoTurnAngularDrag = 20;
+    float m_defaultWagonAngularDrag;
+    [SerializeField] float m_turningDrag = 0.1f;
+    float m_defaultWagonDrag;
+
+    /*[SerializeField] */
+    bool m_lockYPosOnTurn = false; // Removed due to ignoring gravity
 
     private void Start()
     {
         m_playerInput = GetComponent<PlayerInput>();
 
+        m_defaultWagonAngularDrag = wagon.angularDrag;
+
+        m_wagonDrag = wagon.GetComponent<CustomDrag>();
+        m_defaultWagonDrag = m_wagonDrag.dragX;
+
+        #region Delegates
         m_playerInput.m_playerControls.Controls.Acceleration.performed += OnAccelerate;
         m_playerInput.m_playerControls.Controls.Acceleration.canceled += OnDecelerate;
 
         m_playerInput.m_playerControls.Controls.Reverse.performed += OnReversePerformed;
         m_playerInput.m_playerControls.Controls.Reverse.canceled += OnReverseCancelled;
+
+        m_playerInput.m_playerControls.Controls.Steering.performed += OnSteeringPerformed;
+        m_playerInput.m_playerControls.Controls.Steering.canceled += OnSteeringCancelled;
+        #endregion
+    } 
+
+    #region Events
+    void OnAccelerate(InputAction.CallbackContext context)
+    {
+        m_isAccelerating = true;
+        if (m_turnInput == 0) OnAccelerateNoTurn();
     }
+
+    void OnDecelerate(InputAction.CallbackContext context)
+    {
+        m_isAccelerating = false;
+        if (m_turnInput == 0) OnAccelerateNoTurnCancel();
+    }
+
+    void OnReversePerformed(InputAction.CallbackContext context) => m_isReversing = true;
+    void OnReverseCancelled(InputAction.CallbackContext context) => m_isReversing = false;
+
+    void OnSteeringPerformed(InputAction.CallbackContext context)
+    {
+        m_turnInput = context.ReadValue<float>();
+        if (m_isAccelerating) OnAccelerateNoTurnCancel();
+        if (m_lockYPosOnTurn) wagon.constraints |= RigidbodyConstraints.FreezePositionY;
+        if (m_turningDrag != 0)
+        {
+            m_wagonDrag.dragX = m_turningDrag;
+            m_wagonDrag.dragZ = m_turningDrag;
+        }
+    }
+    void OnSteeringCancelled(InputAction.CallbackContext context)
+    {
+        m_turnInput = 0;
+        if (m_isAccelerating) OnAccelerateNoTurn();
+        if (m_lockYPosOnTurn) wagon.constraints -= RigidbodyConstraints.FreezePositionY;
+        if (m_turningDrag != 0)
+        {
+            m_wagonDrag.dragX = m_defaultWagonDrag;
+            m_wagonDrag.dragZ = m_defaultWagonDrag;
+        }
+    }
+    #endregion
 
     private void FixedUpdate()
     {
+        Turn();
         MoveVelocity();
     }
 
     void MoveVelocity()
     {
+        #region CalculateSpeed
         if (m_isAccelerating)
         {
-            // Accelerate if player is accelerating and isn't at max speed
-            if (m_currentSpeed < m_maxSpeed)
+            if (m_isReversing)
             {
-                m_currentSpeed += Time.fixedDeltaTime * m_accelerationRate;
-                if (m_currentSpeed > m_maxSpeed) m_currentSpeed = m_maxSpeed; // Caps speed
+                // Player is reversing and accelerating simultaniously
+
+                // TODO
             }
-            
-            rb.velocity = transform.forward * m_currentSpeed;
+            else
+            {
+                // Accelerate if player is accelerating and isn't at max speed
+                if (m_currentSpeed < m_maxSpeed)
+                {
+                    m_currentSpeed += Time.fixedDeltaTime * m_accelerationRate;
+                    if (m_currentSpeed > m_maxSpeed) m_currentSpeed = m_maxSpeed; // Caps speed at max
+                }
+            }
+        }
+        else if (m_isReversing)
+        {
+            // Decelerates if player is reversing and isn't at max reverse speed.
+            // Uses deceleration rate instead of reverse acceleration if it is still going forward to prevent sliding 
+            if (m_currentSpeed > 0) m_currentSpeed -= Time.fixedDeltaTime * m_decelerationRate; 
+            else if (m_currentSpeed > -m_maxReverseSpeed) // Accelerates in reverse with different rate once player starts moving backwards
+            {
+                m_currentSpeed -= Time.fixedDeltaTime * m_reverseAccelerationRate;
+                if (m_currentSpeed < -m_maxReverseSpeed) m_currentSpeed = -m_maxReverseSpeed; // Caps speed (in negative because it is moving backwards)
+            }
         }
         else
         {
-            // Decelerates
-            if (m_currentSpeed > 0)
+            // If neither moving forward or backward, decelerate to 0, rate based on if player is reversing or moving forward
+            if (m_currentSpeed > 0) // Lower speed (player was moving forward)
             {
                 m_currentSpeed -= Time.fixedDeltaTime * m_decelerationRate;
-                if (m_currentSpeed < 0) m_currentSpeed = 0; 
-
-                rb.velocity = transform.forward * m_currentSpeed;
+                if (m_currentSpeed < 0) m_currentSpeed = 0;
+            }
+            else if (m_currentSpeed < 0) // Increase speed (player was reversing)
+            {
+                m_currentSpeed += Time.fixedDeltaTime * m_reverseDecelerationRate;
+                if (m_currentSpeed > 0) m_currentSpeed = 0;
             }
         }
+        #endregion
 
-        if (m_isReversing)
+        // Apply velocity based on calculated speed, Without affecting y velocity
+        if (m_currentSpeed != 0)
         {
-            // Accelerate if player is reversing and isn't at max speed
-            if (m_reverseSpeed < m_maxReverseSpeed)
-            {
-                m_reverseSpeed += Time.fixedDeltaTime * m_reverseAccelerationRate;
-                if (m_reverseSpeed > m_maxReverseSpeed) m_reverseSpeed = m_maxReverseSpeed; // Caps speed
-            }
-
-            rb.velocity = -transform.forward * m_reverseSpeed;
-        }
-        else
-        {
-            // Decelerates
-            if (m_reverseSpeed > 0)
-            {
-                m_reverseSpeed -= Time.fixedDeltaTime * m_reverseDecelerationRate;
-                if (m_reverseSpeed < 0) m_reverseSpeed = 0;
-
-                rb.velocity = -transform.forward * m_reverseSpeed;
-            }
+            float velY = rb.velocity.y;
+            rb.velocity = rb.transform.forward * m_currentSpeed;
+            rb.velocity = new Vector3(rb.velocity.x, velY, rb.velocity.z);
         }
     }
 
-    void MoveForce()
+    //void MoveForce()
+    //{
+    //    if (m_isAccelerating) rb.AddForce(rb.transform.forward * m_maxSpeed);
+    //    if (m_isReversing) rb.AddForce(-rb.transform.forward * m_maxSpeed);
+    //}
+
+    void Turn()
     {
-        if (m_isAccelerating) rb.AddForce(transform.forward * m_maxSpeed);
-        if (m_isReversing) rb.AddForce(-transform.forward * m_maxSpeed);
+        if (m_turnInput != 0) rb.transform.rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + new Vector3(0f, m_turnInput * m_maxTurnSpeed * Time.deltaTime, 0f));
     }
 
-    void OnAccelerate(InputAction.CallbackContext context) => m_isAccelerating = true;
+    #region CartPhysics
+    void OnAccelerateNoTurn()
+    {
+        wagon.angularDrag = m_accelerateNoTurnAngularDrag;
+    }
 
-    void OnDecelerate(InputAction.CallbackContext context) => m_isAccelerating = false;
-
-    void OnReversePerformed(InputAction.CallbackContext context) => m_isReversing = true;
-    void OnReverseCancelled(InputAction.CallbackContext context) => m_isReversing = false;
+    void OnAccelerateNoTurnCancel()
+    {
+        wagon.angularDrag = m_defaultWagonAngularDrag;
+    }
+    #endregion
 }
