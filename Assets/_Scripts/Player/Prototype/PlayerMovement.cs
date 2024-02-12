@@ -14,6 +14,12 @@ public class PlayerMovement : MonoBehaviour
     bool m_isAccelerating;
     bool m_isReversing;
 
+    [Header("Grounded")]
+    [SerializeField] LayerMask m_groundLayer;
+    [SerializeField] Transform m_raycastPoint;
+    [SerializeField] float m_groundRayLength = 1;
+    bool m_isGrounded = false;
+
     // Speed
     [Header("Speed")]
     [SerializeField] float m_maxSpeed = 10;
@@ -32,8 +38,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float m_turningDrag = 0.1f;
     float m_defaultWagonDrag;
 
-    /*[SerializeField] */
-    bool m_lockYPosOnTurn = false; // Removed due to ignoring gravity
 
     private void Start()
     {
@@ -61,12 +65,14 @@ public class PlayerMovement : MonoBehaviour
     {
         m_isAccelerating = true;
         if (m_turnInput == 0) OnAccelerateNoTurn();
+        else OnAccelerateTurn();
     }
 
     void OnDecelerate(InputAction.CallbackContext context)
     {
         m_isAccelerating = false;
         if (m_turnInput == 0) OnAccelerateNoTurnCancel();
+        else OnAccelerateTurnCancel();
     }
 
     void OnReversePerformed(InputAction.CallbackContext context) => m_isReversing = true;
@@ -75,9 +81,12 @@ public class PlayerMovement : MonoBehaviour
     void OnSteeringPerformed(InputAction.CallbackContext context)
     {
         m_turnInput = context.ReadValue<float>();
-        if (m_isAccelerating) OnAccelerateNoTurnCancel();
-        if (m_lockYPosOnTurn) wagon.constraints |= RigidbodyConstraints.FreezePositionY;
-        if (m_turningDrag != 0)
+        if (m_isAccelerating)
+        {
+            OnAccelerateNoTurnCancel();
+            OnAccelerateTurn();
+        }
+        if (m_isGrounded && m_turningDrag != 0)
         {
             m_wagonDrag.dragX = m_turningDrag;
             m_wagonDrag.dragZ = m_turningDrag;
@@ -86,9 +95,30 @@ public class PlayerMovement : MonoBehaviour
     void OnSteeringCancelled(InputAction.CallbackContext context)
     {
         m_turnInput = 0;
-        if (m_isAccelerating) OnAccelerateNoTurn();
-        if (m_lockYPosOnTurn) wagon.constraints -= RigidbodyConstraints.FreezePositionY;
+        if (m_isAccelerating)
+        {
+            OnAccelerateNoTurn();
+            OnAccelerateTurnCancel();
+        }
         if (m_turningDrag != 0)
+        {
+            m_wagonDrag.dragX = m_defaultWagonDrag;
+            m_wagonDrag.dragZ = m_defaultWagonDrag;
+        }
+    }
+
+    void OnBeginGrounded()
+    {
+        if (m_turnInput != 0)
+        {
+            m_wagonDrag.dragX = m_turningDrag;
+            m_wagonDrag.dragZ = m_turningDrag;
+        }
+    }
+
+    void OnExitGrounded()
+    {
+        if (m_turnInput != 0)
         {
             m_wagonDrag.dragX = m_defaultWagonDrag;
             m_wagonDrag.dragZ = m_defaultWagonDrag;
@@ -98,8 +128,25 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        GroundCheck();
         Turn();
         MoveVelocity();
+    }
+
+    private void GroundCheck()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(m_raycastPoint.position, Vector3.down, out hit, m_groundRayLength, m_groundLayer))
+        {
+            if (!m_isGrounded) OnBeginGrounded();
+            m_isGrounded = true;
+            rb.transform.rotation = Quaternion.Slerp(rb.transform.rotation, Quaternion.FromToRotation(rb.transform.up, hit.normal) * rb.transform.rotation, Time.fixedDeltaTime * 10.0f);
+        }
+        else
+        {
+            if (m_isGrounded) OnExitGrounded();
+            m_isGrounded = false;
+        }
     }
 
     void MoveVelocity()
@@ -179,6 +226,16 @@ public class PlayerMovement : MonoBehaviour
     void OnAccelerateNoTurnCancel()
     {
         wagon.angularDrag = m_defaultWagonAngularDrag;
+    }
+
+    void OnAccelerateTurn()
+    {
+        
+    }
+
+    void OnAccelerateTurnCancel()
+    {
+
     }
     #endregion
 }
