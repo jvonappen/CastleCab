@@ -35,7 +35,9 @@ public class PlayerMovement : MonoBehaviour
     [Header("Turning")]
     [SerializeField] float m_defaultTurnSpeed = 150;
     [SerializeField] float m_turnOnSpotSpeed = 250, m_turnInAirSpeed = 400;
+    [SerializeField] float m_tailWhipSpeed = 600;
     float m_turnInput = 0;
+    bool m_isTailWhipping;
 
     [Header("Cart Control")]
     [SerializeField] float m_accelerateNoTurnAngularDrag = 20;
@@ -75,6 +77,9 @@ public class PlayerMovement : MonoBehaviour
 
         m_playerInput.m_playerControls.Controls.Boost.performed += OnBoostPerformed;
         m_playerInput.m_playerControls.Controls.Boost.canceled += OnBoostCanceled;
+
+        m_playerInput.m_playerControls.Controls.TailWhip.performed += OnTailWhipPerformed;
+        m_playerInput.m_playerControls.Controls.TailWhip.canceled += OnTailWhipCanceled;
         #endregion
     }
 
@@ -168,6 +173,13 @@ public class PlayerMovement : MonoBehaviour
             m_wagonDrag.dragZ = m_defaultWagonDrag;
         }
     }
+    #endregion
+
+    #region Tail Whip
+
+    void OnTailWhipPerformed(InputAction.CallbackContext context) => m_isTailWhipping = true;
+    void OnTailWhipCanceled(InputAction.CallbackContext context) => m_isTailWhipping = false;
+
     #endregion
 
     #endregion
@@ -297,6 +309,8 @@ public class PlayerMovement : MonoBehaviour
         }
         #endregion
 
+         
+
         // Apply velocity based on calculated speed, Without affecting y velocity
         if (m_currentSpeed != 0)
         {
@@ -311,8 +325,9 @@ public class PlayerMovement : MonoBehaviour
     void Turn()
     {
         float turnSpeed = m_defaultTurnSpeed;
-        if (!m_isGrounded && !m_isBoosting) turnSpeed = m_turnInAirSpeed;
-        else if (m_turnInput == 0) turnSpeed = m_turnOnSpotSpeed;
+        if (m_isTailWhipping) turnSpeed = m_tailWhipSpeed;
+        else if (!m_isGrounded && !m_isBoosting) turnSpeed = m_turnInAirSpeed;
+        else if (!m_isAccelerating && !m_isReversing) turnSpeed = m_turnOnSpotSpeed;
 
         if (m_turnInput != 0) rb.transform.rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + new Vector3(0f, m_turnInput * turnSpeed * Time.deltaTime, 0f));
     }
