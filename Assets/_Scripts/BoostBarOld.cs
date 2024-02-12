@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BoostBar : MonoBehaviour
+public class BoostBarOld : MonoBehaviour
 {
     [SerializeField] private Image boostFill;
     [SerializeField] private float depletionRate = 0.1f;

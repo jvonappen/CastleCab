@@ -164,7 +164,7 @@ public class PlayerMovementOld : MonoBehaviour
                 }
                 else  // moving forward
                 {
-                    _speedInput = _playerInput._boost != 0 && BoostBar.canBoost ? _forwardAcceleration * _boostMultiplier : _forwardAcceleration * _playerInput._accelerationInput; //boost
+                    _speedInput = _playerInput._boost != 0 && BoostBarOld.canBoost ? _forwardAcceleration * _boostMultiplier : _forwardAcceleration * _playerInput._accelerationInput; //boost
 
                     _animSpeed = Mathf.InverseLerp(_dragOnAcceleration + 20, _dragNormal, _dragOnGround) * _playerInput._accelerationInput; //slowly speed up animation
                     Mathf.Clamp(_animSpeed, 0, 1);
@@ -291,7 +291,7 @@ public class PlayerMovementOld : MonoBehaviour
             StopParticles(_chargedBurnoutParticles);
 
             //start effects
-            if (_playerInput._boost != 0 && BoostBar.canBoost)
+            if (_playerInput._boost != 0 && BoostBarOld.canBoost)
             {
                 Boost(BOOST_FOV, true);
             }
@@ -479,7 +479,7 @@ public class PlayerMovementOld : MonoBehaviour
 
         SoftJointLimit limit = new SoftJointLimit();
 
-        if (!_canBurnout || _playerInput._boost != 0 && _grounded && _playerInput._accelerationInput > 0 && particlesVal && BoostBar.canBoost)
+        if (!_canBurnout || _playerInput._boost != 0 && _grounded && _playerInput._accelerationInput > 0 && particlesVal && BoostBarOld.canBoost)
         {
             PlayParticles(_speedParticles);
             if (_water._underWater) PlayParticles(_waterBoostParticles);
