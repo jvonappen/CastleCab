@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+    #region Variables
+
     PlayerInput m_playerInput;
 
     [SerializeField] Rigidbody rb;
@@ -48,6 +50,8 @@ public class PlayerMovement : MonoBehaviour
     float m_boostRegenTimer;
     bool m_isBoosting;
 
+    #endregion
+
     private void Start()
     {
         m_playerInput = GetComponent<PlayerInput>();
@@ -56,6 +60,8 @@ public class PlayerMovement : MonoBehaviour
 
         m_wagonDrag = wagon.GetComponent<CustomDrag>();
         m_defaultWagonDrag = m_wagonDrag.dragX;
+
+        if (!m_boostBar) Debug.LogWarning("Boost bar reference not found");
 
         #region Delegates
         m_playerInput.m_playerControls.Controls.Acceleration.performed += OnAccelerate;
@@ -70,9 +76,11 @@ public class PlayerMovement : MonoBehaviour
         m_playerInput.m_playerControls.Controls.Boost.performed += OnBoostPerformed;
         m_playerInput.m_playerControls.Controls.Boost.canceled += OnBoostCanceled;
         #endregion
-    } 
+    }
 
     #region Events
+
+    #region Acceleration
     void OnAccelerate(InputAction.CallbackContext context)
     {
         m_isAccelerating = true;
@@ -86,7 +94,9 @@ public class PlayerMovement : MonoBehaviour
         if (m_turnInput == 0) OnAccelerateNoTurnCancel();
         else OnAccelerateTurnCancel();
     }
+    #endregion
 
+    #region Reverse
     void OnReversePerformed(InputAction.CallbackContext context)
     {
         m_isReversing = true;
@@ -94,6 +104,9 @@ public class PlayerMovement : MonoBehaviour
     }
     void OnReverseCanceled(InputAction.CallbackContext context) => m_isReversing = false;
 
+    #endregion
+
+    #region Turning
     void OnSteeringPerformed(InputAction.CallbackContext context)
     {
         m_turnInput = context.ReadValue<float>();
@@ -120,6 +133,10 @@ public class PlayerMovement : MonoBehaviour
         m_wagonDrag.dragZ = m_defaultWagonDrag;
     }
 
+    #endregion
+
+    #region Boost
+
     void OnBoostPerformed(InputAction.CallbackContext context)
     {
         m_isBoosting = true;
@@ -133,6 +150,10 @@ public class PlayerMovement : MonoBehaviour
         m_isBoosting = false;
         if (m_turnInput != 0) SetTurnDrag();
     }
+
+    #endregion
+
+    #region Grounded
 
     void OnBeginGrounded()
     {
@@ -149,6 +170,8 @@ public class PlayerMovement : MonoBehaviour
     }
     #endregion
 
+    #endregion
+
     private void FixedUpdate()
     {
         GroundCheck();
@@ -156,6 +179,7 @@ public class PlayerMovement : MonoBehaviour
         MoveVelocity();
     }
 
+    #region GroundCheck
     private void GroundCheck()
     {
         RaycastHit hit;
@@ -171,32 +195,37 @@ public class PlayerMovement : MonoBehaviour
             m_isGrounded = false;
         }
     }
+    #endregion
 
+    #region Move
     void MoveVelocity()
     {
         #region CalculateSpeed
 
         // Recharge boost
-        if (!m_isBoosting)
+        if (m_boostBar)
         {
-            if (m_boostBar.progress < 1)
+            if (!m_isBoosting)
             {
-                if (m_boostRegenTimer < m_boostRegenCooldown) m_boostRegenTimer += Time.fixedDeltaTime;
-                else
+                if (m_boostBar.progress < 1)
                 {
-                    // Boost is recharging
-                    m_boostBar.progress += Time.fixedDeltaTime * m_boostRegenPerSec;
-                    m_boostBar.UpdateProgress();
+                    if (m_boostRegenTimer < m_boostRegenCooldown) m_boostRegenTimer += Time.fixedDeltaTime;
+                    else
+                    {
+                        // Boost is recharging
+                        m_boostBar.progress += Time.fixedDeltaTime * m_boostRegenPerSec;
+                        m_boostBar.UpdateProgress();
+                    }
                 }
             }
+            else if (m_boostBar.progress <= 0)
+            {
+                m_isBoosting = false;
+                m_boostBar.progress = 0;
+                m_boostBar.UpdateProgress();
+            }
         }
-        else if (m_boostBar.progress <= 0)
-        {
-            m_isBoosting = false;
-            m_boostBar.progress = 0;
-            m_boostBar.UpdateProgress();
-        }
-
+        
         if (m_isAccelerating)
         {
             if (m_isReversing)
@@ -232,8 +261,11 @@ public class PlayerMovement : MonoBehaviour
                             if (m_currentSpeed > m_maxBoostSpeed) m_currentSpeed = m_maxBoostSpeed; // Caps speed at max
                         }
                         
-                        m_boostBar.progress -= Time.fixedDeltaTime * m_boostCostPerSec;
-                        m_boostBar.UpdateProgress();
+                        if (m_boostBar)
+                        {
+                            m_boostBar.progress -= Time.fixedDeltaTime * m_boostCostPerSec;
+                            m_boostBar.UpdateProgress();
+                        }
                     }
                 }
             }
@@ -273,13 +305,9 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector3(rb.velocity.x, velY, rb.velocity.z);
         }
     }
+    #endregion
 
-    //void MoveForce()
-    //{
-    //    if (m_isAccelerating) rb.AddForce(rb.transform.forward * m_maxSpeed);
-    //    if (m_isReversing) rb.AddForce(-rb.transform.forward * m_maxSpeed);
-    //}
-
+    #region Turn
     void Turn()
     {
         float turnSpeed = m_defaultTurnSpeed;
@@ -302,26 +330,12 @@ public class PlayerMovement : MonoBehaviour
             m_wagonDrag.dragZ = m_turningDrag;
         }
     }
+    #endregion
 
     #region CartPhysics
-    void OnAccelerateNoTurn()
-    {
-        wagon.angularDrag = m_accelerateNoTurnAngularDrag;
-    }
-
-    void OnAccelerateNoTurnCancel()
-    {
-        wagon.angularDrag = m_defaultWagonAngularDrag;
-    }
-
-    void OnAccelerateTurn()
-    {
-        
-    }
-
-    void OnAccelerateTurnCancel()
-    {
-
-    }
+    void OnAccelerateNoTurn() => wagon.angularDrag = m_accelerateNoTurnAngularDrag;
+    void OnAccelerateNoTurnCancel() => wagon.angularDrag = m_defaultWagonAngularDrag;
+    void OnAccelerateTurn() { }
+    void OnAccelerateTurnCancel() { }
     #endregion
 }
