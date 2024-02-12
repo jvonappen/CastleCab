@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Rigidbody wagon;
     CustomDrag m_wagonDrag;
 
+    [SerializeField] ProgressBar m_boostBar;
+
     bool m_isAccelerating;
     bool m_isReversing;
 
@@ -42,7 +44,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Boost")]
     [SerializeField] float m_maxBoostSpeed = 25;
     [SerializeField] float m_boostAccelerationRate = 20, m_boostDecelerationRate = 30;
-    [SerializeField] float m_boostCostPerSecond = 10;
+    [SerializeField] float m_boostCostPerSec = 10, m_boostRegenPerSec = 20, m_boostRegenCooldown = 2.5f;
+    float m_boostRegenTimer;
     bool m_isBoosting;
 
     private void Start()
@@ -121,6 +124,8 @@ public class PlayerMovement : MonoBehaviour
     {
         m_isBoosting = true;
         if (m_turnInput != 0) SetTurnDrag();
+
+        m_boostRegenTimer = 0;
     }
 
     void OnBoostCanceled(InputAction.CallbackContext context)
@@ -170,6 +175,28 @@ public class PlayerMovement : MonoBehaviour
     void MoveVelocity()
     {
         #region CalculateSpeed
+
+        // Recharge boost
+        if (!m_isBoosting)
+        {
+            if (m_boostBar.progress < 1)
+            {
+                if (m_boostRegenTimer < m_boostRegenCooldown) m_boostRegenTimer += Time.fixedDeltaTime;
+                else
+                {
+                    // Boost is recharging
+                    m_boostBar.progress += Time.fixedDeltaTime * m_boostRegenPerSec;
+                    m_boostBar.UpdateProgress();
+                }
+            }
+        }
+        else if (m_boostBar.progress <= 0)
+        {
+            m_isBoosting = false;
+            m_boostBar.progress = 0;
+            m_boostBar.UpdateProgress();
+        }
+
         if (m_isAccelerating)
         {
             if (m_isReversing)
@@ -197,10 +224,16 @@ public class PlayerMovement : MonoBehaviour
                 else
                 {
                     // Accelerate if player is boosting and isn't at max boost speed
-                    if (m_currentSpeed < m_maxBoostSpeed)
+                    if (m_currentSpeed <= m_maxBoostSpeed)
                     {
-                        m_currentSpeed += Time.fixedDeltaTime * m_boostAccelerationRate;
-                        if (m_currentSpeed > m_maxBoostSpeed) m_currentSpeed = m_maxBoostSpeed; // Caps speed at max
+                        if (m_currentSpeed < m_maxBoostSpeed)
+                        {
+                            m_currentSpeed += Time.fixedDeltaTime * m_boostAccelerationRate;
+                            if (m_currentSpeed > m_maxBoostSpeed) m_currentSpeed = m_maxBoostSpeed; // Caps speed at max
+                        }
+                        
+                        m_boostBar.progress -= Time.fixedDeltaTime * m_boostCostPerSec;
+                        m_boostBar.UpdateProgress();
                     }
                 }
             }
@@ -250,7 +283,7 @@ public class PlayerMovement : MonoBehaviour
     void Turn()
     {
         float turnSpeed = m_defaultTurnSpeed;
-        if (!m_isGrounded) turnSpeed = m_turnInAirSpeed;
+        if (!m_isGrounded && !m_isBoosting) turnSpeed = m_turnInAirSpeed;
         else if (m_turnInput == 0) turnSpeed = m_turnOnSpotSpeed;
 
         if (m_turnInput != 0) rb.transform.rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + new Vector3(0f, m_turnInput * turnSpeed * Time.deltaTime, 0f));
