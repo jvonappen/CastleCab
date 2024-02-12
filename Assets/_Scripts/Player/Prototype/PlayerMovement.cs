@@ -29,15 +29,21 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float m_maxReverseSpeed = 10, m_reverseAccelerationRate = 0.5f, m_reverseDecelerationRate = 1;
 
     [Header("Turning")]
-    [SerializeField] float m_maxTurnSpeed = 10;
+    [SerializeField] float m_defaultTurnSpeed = 150;
+    [SerializeField] float m_turnOnSpotSpeed = 250, m_turnInAirSpeed = 400;
     float m_turnInput = 0;
 
     [Header("Cart Control")]
     [SerializeField] float m_accelerateNoTurnAngularDrag = 20;
     float m_defaultWagonAngularDrag;
-    [SerializeField] float m_turningDrag = 0.1f;
+    [SerializeField] float m_turningDrag = 0.8f, m_boostTurnDrag = 0.95f;
     float m_defaultWagonDrag;
 
+    [Header("Boost")]
+    [SerializeField] float m_maxBoostSpeed = 25;
+    [SerializeField] float m_boostAccelerationRate = 20, m_boostDecelerationRate = 30;
+    [SerializeField] float m_boostCostPerSecond = 10;
+    bool m_isBoosting;
 
     private void Start()
     {
@@ -53,10 +59,13 @@ public class PlayerMovement : MonoBehaviour
         m_playerInput.m_playerControls.Controls.Acceleration.canceled += OnDecelerate;
 
         m_playerInput.m_playerControls.Controls.Reverse.performed += OnReversePerformed;
-        m_playerInput.m_playerControls.Controls.Reverse.canceled += OnReverseCancelled;
+        m_playerInput.m_playerControls.Controls.Reverse.canceled += OnReverseCanceled;
 
         m_playerInput.m_playerControls.Controls.Steering.performed += OnSteeringPerformed;
-        m_playerInput.m_playerControls.Controls.Steering.canceled += OnSteeringCancelled;
+        m_playerInput.m_playerControls.Controls.Steering.canceled += OnSteeringCanceled;
+
+        m_playerInput.m_playerControls.Controls.Boost.performed += OnBoostPerformed;
+        m_playerInput.m_playerControls.Controls.Boost.canceled += OnBoostCanceled;
         #endregion
     } 
 
@@ -75,8 +84,12 @@ public class PlayerMovement : MonoBehaviour
         else OnAccelerateTurnCancel();
     }
 
-    void OnReversePerformed(InputAction.CallbackContext context) => m_isReversing = true;
-    void OnReverseCancelled(InputAction.CallbackContext context) => m_isReversing = false;
+    void OnReversePerformed(InputAction.CallbackContext context)
+    {
+        m_isReversing = true;
+        m_isBoosting = false;
+    }
+    void OnReverseCanceled(InputAction.CallbackContext context) => m_isReversing = false;
 
     void OnSteeringPerformed(InputAction.CallbackContext context)
     {
@@ -86,13 +99,12 @@ public class PlayerMovement : MonoBehaviour
             OnAccelerateNoTurnCancel();
             OnAccelerateTurn();
         }
-        if (m_isGrounded && m_turningDrag != 0)
+        if (m_isGrounded)
         {
-            m_wagonDrag.dragX = m_turningDrag;
-            m_wagonDrag.dragZ = m_turningDrag;
+            SetTurnDrag();
         }
     }
-    void OnSteeringCancelled(InputAction.CallbackContext context)
+    void OnSteeringCanceled(InputAction.CallbackContext context)
     {
         m_turnInput = 0;
         if (m_isAccelerating)
@@ -100,20 +112,26 @@ public class PlayerMovement : MonoBehaviour
             OnAccelerateNoTurn();
             OnAccelerateTurnCancel();
         }
-        if (m_turningDrag != 0)
-        {
-            m_wagonDrag.dragX = m_defaultWagonDrag;
-            m_wagonDrag.dragZ = m_defaultWagonDrag;
-        }
+
+        m_wagonDrag.dragX = m_defaultWagonDrag;
+        m_wagonDrag.dragZ = m_defaultWagonDrag;
+    }
+
+    void OnBoostPerformed(InputAction.CallbackContext context)
+    {
+        m_isBoosting = true;
+        if (m_turnInput != 0) SetTurnDrag();
+    }
+
+    void OnBoostCanceled(InputAction.CallbackContext context)
+    {
+        m_isBoosting = false;
+        if (m_turnInput != 0) SetTurnDrag();
     }
 
     void OnBeginGrounded()
     {
-        if (m_turnInput != 0)
-        {
-            m_wagonDrag.dragX = m_turningDrag;
-            m_wagonDrag.dragZ = m_turningDrag;
-        }
+        if (m_turnInput != 0) SetTurnDrag();
     }
 
     void OnExitGrounded()
@@ -162,11 +180,28 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                // Accelerate if player is accelerating and isn't at max speed
-                if (m_currentSpeed < m_maxSpeed)
+                if (!m_isBoosting)
                 {
-                    m_currentSpeed += Time.fixedDeltaTime * m_accelerationRate;
-                    if (m_currentSpeed > m_maxSpeed) m_currentSpeed = m_maxSpeed; // Caps speed at max
+                    // Accelerate if player is accelerating and isn't at max speed
+                    if (m_currentSpeed < m_maxSpeed)
+                    {
+                        m_currentSpeed += Time.fixedDeltaTime * m_accelerationRate;
+                        if (m_currentSpeed > m_maxSpeed) m_currentSpeed = m_maxSpeed; // Caps speed at max
+                    }
+                    else if (m_currentSpeed > m_maxSpeed)
+                    {
+                        m_currentSpeed -= Time.fixedDeltaTime * m_boostDecelerationRate;
+                        if (m_currentSpeed < m_maxSpeed) m_currentSpeed = m_maxSpeed;
+                    }
+                }
+                else
+                {
+                    // Accelerate if player is boosting and isn't at max boost speed
+                    if (m_currentSpeed < m_maxBoostSpeed)
+                    {
+                        m_currentSpeed += Time.fixedDeltaTime * m_boostAccelerationRate;
+                        if (m_currentSpeed > m_maxBoostSpeed) m_currentSpeed = m_maxBoostSpeed; // Caps speed at max
+                    }
                 }
             }
         }
@@ -174,7 +209,7 @@ public class PlayerMovement : MonoBehaviour
         {
             // Decelerates if player is reversing and isn't at max reverse speed.
             // Uses deceleration rate instead of reverse acceleration if it is still going forward to prevent sliding 
-            if (m_currentSpeed > 0) m_currentSpeed -= Time.fixedDeltaTime * m_decelerationRate; 
+            if (m_currentSpeed > 0) m_currentSpeed -= Time.fixedDeltaTime * m_decelerationRate;
             else if (m_currentSpeed > -m_maxReverseSpeed) // Accelerates in reverse with different rate once player starts moving backwards
             {
                 m_currentSpeed -= Time.fixedDeltaTime * m_reverseAccelerationRate;
@@ -214,7 +249,25 @@ public class PlayerMovement : MonoBehaviour
 
     void Turn()
     {
-        if (m_turnInput != 0) rb.transform.rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + new Vector3(0f, m_turnInput * m_maxTurnSpeed * Time.deltaTime, 0f));
+        float turnSpeed = m_defaultTurnSpeed;
+        if (!m_isGrounded) turnSpeed = m_turnInAirSpeed;
+        else if (m_turnInput == 0) turnSpeed = m_turnOnSpotSpeed;
+
+        if (m_turnInput != 0) rb.transform.rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + new Vector3(0f, m_turnInput * turnSpeed * Time.deltaTime, 0f));
+    }
+
+    void SetTurnDrag()
+    {
+        if (m_isBoosting)
+        {
+            m_wagonDrag.dragX = m_boostTurnDrag;
+            m_wagonDrag.dragZ = m_boostTurnDrag;
+        }
+        else
+        {
+            m_wagonDrag.dragX = m_turningDrag;
+            m_wagonDrag.dragZ = m_turningDrag;
+        }
     }
 
     #region CartPhysics
