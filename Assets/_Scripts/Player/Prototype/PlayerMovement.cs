@@ -309,8 +309,6 @@ public class PlayerMovement : MonoBehaviour
         }
         #endregion
 
-         
-
         // Apply velocity based on calculated speed, Without affecting y velocity
         if (m_currentSpeed != 0)
         {
