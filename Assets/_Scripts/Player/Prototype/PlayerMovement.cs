@@ -32,6 +32,8 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] float m_maxReverseSpeed = 10, m_reverseAccelerationRate = 0.5f, m_reverseDecelerationRate = 1;
 
+    Vector3 prevDir;
+
     [Header("Turning")]
     [SerializeField] float m_defaultTurnSpeed = 150;
     [SerializeField] float m_turnOnSpotSpeed = 250, m_turnInAirSpeed = 400;
@@ -51,6 +53,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float m_boostCostPerSec = 10, m_boostRegenPerSec = 20, m_boostRegenCooldown = 2.5f;
     float m_boostRegenTimer;
     bool m_isBoosting;
+
+    [Header("Hurricane")]
+    [SerializeField] float m_hurricaneSpeed = 1500;
+    bool m_isHurricane;
+    bool m_endingHurricane;
 
     #endregion
 
@@ -80,6 +87,9 @@ public class PlayerMovement : MonoBehaviour
 
         m_playerInput.m_playerControls.Controls.TailWhip.performed += OnTailWhipPerformed;
         m_playerInput.m_playerControls.Controls.TailWhip.canceled += OnTailWhipCanceled;
+
+        m_playerInput.m_playerControls.Controls.Hurricane.performed += OnHurricanePerformed;
+        m_playerInput.m_playerControls.Controls.Hurricane.canceled += OnHurricaneCanceled;
         #endregion
     }
 
@@ -179,6 +189,20 @@ public class PlayerMovement : MonoBehaviour
 
     void OnTailWhipPerformed(InputAction.CallbackContext context) => m_isTailWhipping = true;
     void OnTailWhipCanceled(InputAction.CallbackContext context) => m_isTailWhipping = false;
+
+    #endregion
+
+    #region Hurricane
+
+    void OnHurricanePerformed(InputAction.CallbackContext context)
+    {
+        m_isHurricane = true;
+    }
+
+    void OnHurricaneCanceled(InputAction.CallbackContext context)
+    {
+        m_endingHurricane = true;
+    }
 
     #endregion
 
@@ -309,19 +333,55 @@ public class PlayerMovement : MonoBehaviour
         }
         #endregion
 
-        // Apply velocity based on calculated speed, Without affecting y velocity
-        if (m_currentSpeed != 0)
+        if (!m_isHurricane && !m_endingHurricane)
         {
-            float velY = rb.velocity.y;
-            rb.velocity = rb.transform.forward * m_currentSpeed;
-            rb.velocity = new Vector3(rb.velocity.x, velY, rb.velocity.z);
+            prevDir = rb.transform.forward;
+
+            // Apply velocity based on calculated speed, Without affecting y velocity
+            if (m_currentSpeed != 0)
+            {
+                float velY = rb.velocity.y;
+                rb.velocity = rb.transform.forward * m_currentSpeed;
+                rb.velocity = new Vector3(rb.velocity.x, velY, rb.velocity.z);
+            }
         }
+        else
+        {
+            rb.transform.rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + new Vector3(0f, m_hurricaneSpeed * Time.deltaTime, 0f));
+
+            float velY = rb.velocity.y;
+            rb.velocity = prevDir * m_currentSpeed;
+            rb.velocity = new Vector3(rb.velocity.x, velY, rb.velocity.z);
+
+            if (m_endingHurricane)
+            {
+                if (rb.transform.forward.x > prevDir.x - 2 && rb.transform.forward.x < prevDir.x + 2)
+                {
+                    if (rb.transform.forward.z > prevDir.z - 2 && rb.transform.forward.z < prevDir.z + 2)
+                    {
+                        m_isHurricane = false;
+                        m_endingHurricane = false;
+
+                        // Bug - makes player jump sometimes, maybe make player temporarily kinematic or kill velocity?
+                        rb.transform.forward = prevDir;
+                    }
+                }
+            }
+        }
+
     }
     #endregion
 
     #region Turn
     void Turn()
     {
+        if (m_isHurricane)
+        {
+            //rb.transform.rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + new Vector3(0f, m_turnInput * m_hurricaneSpeed * Time.deltaTime, 0f));
+
+            return;
+        }
+
         float turnSpeed = m_defaultTurnSpeed;
         if (m_isTailWhipping) turnSpeed = m_tailWhipSpeed;
         else if (!m_isGrounded && !m_isBoosting) turnSpeed = m_turnInAirSpeed;
