@@ -29,17 +29,22 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float m_maxSpeed = 10;
     [SerializeField] float m_accelerationRate = 0.5f, m_decelerationRate = 1;
     float m_currentSpeed;
-
+    
     [SerializeField] float m_maxReverseSpeed = 10, m_reverseAccelerationRate = 0.5f, m_reverseDecelerationRate = 1;
 
     Vector3 prevDir;
 
     [Header("Turning")]
     [SerializeField] float m_defaultTurnSpeed = 150;
-    [SerializeField] float m_turnOnSpotSpeed = 250, m_turnInAirSpeed = 400;
-    [SerializeField] float m_tailWhipSpeed = 600;
+    [SerializeField] float m_turnOnSpotSpeed = 350, m_turnInAirSpeed = 400;
     float m_turnInput = 0;
-    bool m_isTailWhipping;
+    
+    [Header("Drifting")]
+    [SerializeField] float m_driftMoveMultiplier = 1;
+    [SerializeField] float m_driftMinTurnSpeed = 50, m_driftMaxTurnSpeed = 250, m_driftTurnAcceleration = 10;
+    [SerializeField] float m_driftBoostThreshold1 = 2, m_driftBoostThreshold2 = 3, m_driftBoostThreshold3 = 5;
+    float m_currentDriftTurnSpeed = 50;
+    bool m_isDrifting;
 
     [Header("Cart Control")]
     [SerializeField] float m_accelerateNoTurnAngularDrag = 20;
@@ -85,8 +90,8 @@ public class PlayerMovement : MonoBehaviour
         m_playerInput.m_playerControls.Controls.Boost.performed += OnBoostPerformed;
         m_playerInput.m_playerControls.Controls.Boost.canceled += OnBoostCanceled;
 
-        m_playerInput.m_playerControls.Controls.TailWhip.performed += OnTailWhipPerformed;
-        m_playerInput.m_playerControls.Controls.TailWhip.canceled += OnTailWhipCanceled;
+        m_playerInput.m_playerControls.Controls.TailWhip.performed += OnDriftPerformed;
+        m_playerInput.m_playerControls.Controls.TailWhip.canceled += OnDriftCanceled;
 
         m_playerInput.m_playerControls.Controls.Hurricane.performed += OnHurricanePerformed;
         m_playerInput.m_playerControls.Controls.Hurricane.canceled += OnHurricaneCanceled;
@@ -185,10 +190,14 @@ public class PlayerMovement : MonoBehaviour
     }
     #endregion
 
-    #region Tail Whip
+    #region Drift
 
-    void OnTailWhipPerformed(InputAction.CallbackContext context) => m_isTailWhipping = true;
-    void OnTailWhipCanceled(InputAction.CallbackContext context) => m_isTailWhipping = false;
+    void OnDriftPerformed(InputAction.CallbackContext context)
+    {
+        m_isDrifting = true;
+        m_currentDriftTurnSpeed = m_driftMinTurnSpeed;
+    }
+    void OnDriftCanceled(InputAction.CallbackContext context) => m_isDrifting = false;
 
     #endregion
 
@@ -337,11 +346,23 @@ public class PlayerMovement : MonoBehaviour
         {
             prevDir = rb.transform.forward;
 
+            Vector3 dir = rb.transform.forward;
+            if (m_isDrifting)
+            {
+                if (m_turnInput != 0)
+                {
+                    if (m_turnInput > 0) dir -= rb.transform.right;
+                    else if (m_turnInput < 0) dir += rb.transform.right;
+
+                    dir *= m_driftMoveMultiplier;
+                }
+            }
+
             // Apply velocity based on calculated speed, Without affecting y velocity
             if (m_currentSpeed != 0)
             {
                 float velY = rb.velocity.y;
-                rb.velocity = rb.transform.forward * m_currentSpeed;
+                rb.velocity = dir * m_currentSpeed;
                 rb.velocity = new Vector3(rb.velocity.x, velY, rb.velocity.z);
             }
         }
@@ -375,15 +396,19 @@ public class PlayerMovement : MonoBehaviour
     #region Turn
     void Turn()
     {
-        if (m_isHurricane)
-        {
-            //rb.transform.rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + new Vector3(0f, m_turnInput * m_hurricaneSpeed * Time.deltaTime, 0f));
-
-            return;
-        }
+        if (m_isHurricane) return;
 
         float turnSpeed = m_defaultTurnSpeed;
-        if (m_isTailWhipping) turnSpeed = m_tailWhipSpeed;
+        if (m_isDrifting)
+        {
+            if (m_currentDriftTurnSpeed < m_driftMaxTurnSpeed)
+            {
+                m_currentDriftTurnSpeed += Time.fixedDeltaTime * m_driftTurnAcceleration;
+                if (m_currentDriftTurnSpeed > m_driftMaxTurnSpeed) m_currentDriftTurnSpeed = m_driftMaxTurnSpeed;
+            }
+
+            turnSpeed = m_currentDriftTurnSpeed;
+        }
         else if (!m_isGrounded && !m_isBoosting) turnSpeed = m_turnInAirSpeed;
         else if (!m_isAccelerating && !m_isReversing) turnSpeed = m_turnOnSpotSpeed;
 
