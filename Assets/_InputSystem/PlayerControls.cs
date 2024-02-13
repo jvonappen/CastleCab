@@ -116,6 +116,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Hurricane"",
+                    ""type"": ""Button"",
+                    ""id"": ""ea2a450e-b99d-463d-9f8b-983f74d0003e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -437,6 +446,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Achievement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""25149d40-4ec1-4485-8ac4-d33c250540ae"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hurricane"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""acbc8731-97c9-456f-8af9-83835d515fc5"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hurricane"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -483,6 +514,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Controls_BarrelRoll = m_Controls.FindAction("BarrelRoll", throwIfNotFound: true);
         m_Controls_Interact = m_Controls.FindAction("Interact", throwIfNotFound: true);
         m_Controls_Achievement = m_Controls.FindAction("Achievement", throwIfNotFound: true);
+        m_Controls_Hurricane = m_Controls.FindAction("Hurricane", throwIfNotFound: true);
         // Customisation
         m_Customisation = asset.FindActionMap("Customisation", throwIfNotFound: true);
         m_Customisation_Navigate = m_Customisation.FindAction("Navigate", throwIfNotFound: true);
@@ -557,6 +589,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Controls_BarrelRoll;
     private readonly InputAction m_Controls_Interact;
     private readonly InputAction m_Controls_Achievement;
+    private readonly InputAction m_Controls_Hurricane;
     public struct ControlsActions
     {
         private @PlayerControls m_Wrapper;
@@ -571,6 +604,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @BarrelRoll => m_Wrapper.m_Controls_BarrelRoll;
         public InputAction @Interact => m_Wrapper.m_Controls_Interact;
         public InputAction @Achievement => m_Wrapper.m_Controls_Achievement;
+        public InputAction @Hurricane => m_Wrapper.m_Controls_Hurricane;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -610,6 +644,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Achievement.started += instance.OnAchievement;
             @Achievement.performed += instance.OnAchievement;
             @Achievement.canceled += instance.OnAchievement;
+            @Hurricane.started += instance.OnHurricane;
+            @Hurricane.performed += instance.OnHurricane;
+            @Hurricane.canceled += instance.OnHurricane;
         }
 
         private void UnregisterCallbacks(IControlsActions instance)
@@ -644,6 +681,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Achievement.started -= instance.OnAchievement;
             @Achievement.performed -= instance.OnAchievement;
             @Achievement.canceled -= instance.OnAchievement;
+            @Hurricane.started -= instance.OnHurricane;
+            @Hurricane.performed -= instance.OnHurricane;
+            @Hurricane.canceled -= instance.OnHurricane;
         }
 
         public void RemoveCallbacks(IControlsActions instance)
@@ -719,6 +759,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnBarrelRoll(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnAchievement(InputAction.CallbackContext context);
+        void OnHurricane(InputAction.CallbackContext context);
     }
     public interface ICustomisationActions
     {
