@@ -43,8 +43,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float m_driftMoveMultiplier = 1;
     [SerializeField] float m_driftMinTurnSpeed = 50, m_driftMaxTurnSpeed = 250, m_driftTurnAcceleration = 10;
     [SerializeField] float m_driftBoostThreshold1 = 2, m_driftBoostThreshold2 = 3, m_driftBoostThreshold3 = 5;
+    [SerializeField] float m_driftStrengthMultiplier = 0.5f;
     float m_currentDriftTurnSpeed = 50;
-    bool m_isDrifting;
+    bool m_isDrifting, m_attemptingDrift;
+    float m_driftTurnInput;
 
     [Header("Cart Control")]
     [SerializeField] float m_accelerateNoTurnAngularDrag = 20;
@@ -129,13 +131,22 @@ public class PlayerMovement : MonoBehaviour
     #region Turning
     void OnSteeringPerformed(InputAction.CallbackContext context)
     {
+        float prevTurnInput = m_turnInput;
+
         m_turnInput = context.ReadValue<float>();
+
         if (m_isAccelerating)
         {
             OnAccelerateNoTurnCancel();
             OnAccelerateTurn();
 
-            if (m_isDrifting) OnTurnDrift();
+            if (m_attemptingDrift && !m_isDrifting)
+            {
+                if (prevTurnInput == 0 || (prevTurnInput < 0 && m_turnInput > 0) || (prevTurnInput > 0 && m_turnInput < 0))
+                {
+                    OnTurnDrift();
+                }
+            }
         }
         if (m_isGrounded)
         {
@@ -196,23 +207,33 @@ public class PlayerMovement : MonoBehaviour
 
     void OnDriftPerformed(InputAction.CallbackContext context)
     {
-        m_isDrifting = true;
-        m_currentDriftTurnSpeed = m_driftMinTurnSpeed;
+        m_attemptingDrift = true;
 
-        OnTurnDrift();
+        if (!m_isDrifting)
+        {
+            if (m_turnInput != 0 && m_isAccelerating)
+            {
+                m_isDrifting = true;
+                m_currentDriftTurnSpeed = m_driftMinTurnSpeed;
+
+                OnTurnDrift();
+            }
+        }
     }
-    void OnDriftCanceled(InputAction.CallbackContext context) => m_isDrifting = false;
+    void OnDriftCanceled(InputAction.CallbackContext context)
+    {
+        m_isDrifting = false;
+        m_attemptingDrift = false;
+    }
 
     void OnTurnDrift()
     {
-        if (m_isAccelerating)
-        {
-            Vector3 rbRot = rb.transform.eulerAngles;
+        Vector3 rbRot = rb.transform.eulerAngles;
+        m_driftTurnInput = m_turnInput;
 
-            Vector3 rotateAmount = new Vector3(0, 75, 0);
-            if (m_turnInput > 0) rb.rotation = Quaternion.Euler(rbRot.x + rotateAmount.x, rbRot.y + rotateAmount.y, rbRot.z + rotateAmount.z);
-            else if (m_turnInput < 0) rb.rotation = Quaternion.Euler(rbRot.x - rotateAmount.x, rbRot.y - rotateAmount.y, rbRot.z - rotateAmount.z);
-        }
+        Vector3 rotateAmount = new Vector3(0, 45, 0);
+        if (m_turnInput > 0) rb.rotation = Quaternion.Euler(rbRot.x + rotateAmount.x, rbRot.y + rotateAmount.y, rbRot.z + rotateAmount.z);
+        else if (m_turnInput < 0) rb.rotation = Quaternion.Euler(rbRot.x - rotateAmount.x, rbRot.y - rotateAmount.y, rbRot.z - rotateAmount.z);
     }
 
     #endregion
@@ -365,10 +386,10 @@ public class PlayerMovement : MonoBehaviour
             Vector3 dir = rb.transform.forward;
             if (m_isDrifting)
             {
-                if (m_turnInput != 0)
+                if (m_driftTurnInput != 0)
                 {
-                    if (m_turnInput > 0) dir = -rb.transform.right;
-                    else if (m_turnInput < 0) dir = rb.transform.right;
+                    if (m_driftTurnInput > 0) dir -= rb.transform.right;
+                    else if (m_driftTurnInput < 0) dir += rb.transform.right;
 
                     dir *= m_driftMoveMultiplier;
                 }
@@ -414,21 +435,25 @@ public class PlayerMovement : MonoBehaviour
     {
         if (m_isHurricane) return;
 
+        float turnInput = m_turnInput;
         float turnSpeed = m_defaultTurnSpeed;
         if (m_isDrifting)
         {
+            turnInput = m_driftTurnInput;
+
             if (m_currentDriftTurnSpeed < m_driftMaxTurnSpeed)
             {
                 m_currentDriftTurnSpeed += Time.fixedDeltaTime * m_driftTurnAcceleration;
                 if (m_currentDriftTurnSpeed > m_driftMaxTurnSpeed) m_currentDriftTurnSpeed = m_driftMaxTurnSpeed;
             }
 
-            turnSpeed = m_currentDriftTurnSpeed;
+            // TODO - fix so that going opposite direction of drift makes player go straight
+            turnSpeed = m_currentDriftTurnSpeed * (Mathf.Abs(m_turnInput) * m_driftStrengthMultiplier);
         }
         else if (!m_isGrounded && !m_isBoosting) turnSpeed = m_turnInAirSpeed;
         else if (!m_isAccelerating && !m_isReversing) turnSpeed = m_turnOnSpotSpeed;
 
-        if (m_turnInput != 0) rb.transform.rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + new Vector3(0f, m_turnInput * turnSpeed * Time.deltaTime, 0f));
+        if (turnInput != 0) rb.transform.rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + new Vector3(0f, turnInput * turnSpeed * Time.deltaTime, 0f));
     }
 
     void SetTurnDrag()
