@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float m_driftMinTurnSpeed = 50, m_driftMaxTurnSpeed = 250, m_driftTurnAcceleration = 10;
     [SerializeField] float m_driftBoostThreshold1 = 2, m_driftBoostThreshold2 = 3, m_driftBoostThreshold3 = 5;
     float m_currentDriftTurnSpeed = 50;
-    bool m_isDrifting, m_startedDrift;
+    bool m_isDrifting;
 
     [Header("Cart Control")]
     [SerializeField] float m_accelerateNoTurnAngularDrag = 20;
@@ -207,21 +207,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (m_isAccelerating)
         {
-            m_startedDrift = true;
             Vector3 rbRot = rb.transform.eulerAngles;
 
             Vector3 rotateAmount = new Vector3(0, 75, 0);
             if (m_turnInput > 0) rb.rotation = Quaternion.Euler(rbRot.x + rotateAmount.x, rbRot.y + rotateAmount.y, rbRot.z + rotateAmount.z);
             else if (m_turnInput < 0) rb.rotation = Quaternion.Euler(rbRot.x - rotateAmount.x, rbRot.y - rotateAmount.y, rbRot.z - rotateAmount.z);
-        }
-    }
-
-    private void LateUpdate()
-    {
-        if (m_startedDrift)
-        {
-            m_startedDrift = false;
-            //rb.interpolation = RigidbodyInterpolation.Interpolate;
         }
     }
 
