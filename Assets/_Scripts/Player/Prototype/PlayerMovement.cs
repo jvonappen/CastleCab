@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float m_driftMinTurnSpeed = 50, m_driftMaxTurnSpeed = 250, m_driftTurnAcceleration = 10;
     [SerializeField] float m_driftBoostThreshold1 = 2, m_driftBoostThreshold2 = 3, m_driftBoostThreshold3 = 5;
     float m_currentDriftTurnSpeed = 50;
-    bool m_isDrifting;
+    bool m_isDrifting, m_startedDrift;
 
     [Header("Cart Control")]
     [SerializeField] float m_accelerateNoTurnAngularDrag = 20;
@@ -134,6 +134,8 @@ public class PlayerMovement : MonoBehaviour
         {
             OnAccelerateNoTurnCancel();
             OnAccelerateTurn();
+
+            if (m_isDrifting) OnTurnDrift();
         }
         if (m_isGrounded)
         {
@@ -196,8 +198,32 @@ public class PlayerMovement : MonoBehaviour
     {
         m_isDrifting = true;
         m_currentDriftTurnSpeed = m_driftMinTurnSpeed;
+
+        OnTurnDrift();
     }
     void OnDriftCanceled(InputAction.CallbackContext context) => m_isDrifting = false;
+
+    void OnTurnDrift()
+    {
+        if (m_isAccelerating)
+        {
+            m_startedDrift = true;
+            Vector3 rbRot = rb.transform.eulerAngles;
+
+            Vector3 rotateAmount = new Vector3(0, 75, 0);
+            if (m_turnInput > 0) rb.rotation = Quaternion.Euler(rbRot.x + rotateAmount.x, rbRot.y + rotateAmount.y, rbRot.z + rotateAmount.z);
+            else if (m_turnInput < 0) rb.rotation = Quaternion.Euler(rbRot.x - rotateAmount.x, rbRot.y - rotateAmount.y, rbRot.z - rotateAmount.z);
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (m_startedDrift)
+        {
+            m_startedDrift = false;
+            //rb.interpolation = RigidbodyInterpolation.Interpolate;
+        }
+    }
 
     #endregion
 
@@ -351,8 +377,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (m_turnInput != 0)
                 {
-                    if (m_turnInput > 0) dir -= rb.transform.right;
-                    else if (m_turnInput < 0) dir += rb.transform.right;
+                    if (m_turnInput > 0) dir = -rb.transform.right;
+                    else if (m_turnInput < 0) dir = rb.transform.right;
 
                     dir *= m_driftMoveMultiplier;
                 }
@@ -368,7 +394,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            rb.transform.rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + new Vector3(0f, m_hurricaneSpeed * Time.deltaTime, 0f));
+           rb.transform.rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + new Vector3(0f, m_hurricaneSpeed * Time.fixedDeltaTime, 0f));
 
             float velY = rb.velocity.y;
             rb.velocity = prevDir * m_currentSpeed;
