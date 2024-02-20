@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float m_driftBoostThreshold1 = 2, m_driftBoostThreshold2 = 3, m_driftBoostThreshold3 = 5;
     [SerializeField] float m_driftStrengthMultiplier = 0.5f;
     float m_currentDriftTurnSpeed = 50;
-    bool m_isDrifting, m_attemptingDrift;
+    [SerializeField] bool m_isDrifting, m_attemptingDrift;
     float m_driftTurnInput;
 
     [Header("Cart Control")]
@@ -68,6 +68,7 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
 
+    #region Start/Update
     private void Start()
     {
         m_playerInput = GetComponent<PlayerInput>();
@@ -100,6 +101,14 @@ public class PlayerMovement : MonoBehaviour
         #endregion
     }
 
+    private void FixedUpdate()
+    {
+        GroundCheck();
+        Turn();
+        MoveVelocity();
+    }
+    #endregion
+
     #region Events
 
     #region Acceleration
@@ -107,14 +116,12 @@ public class PlayerMovement : MonoBehaviour
     {
         m_isAccelerating = true;
         if (m_turnInput == 0) OnAccelerateNoTurn();
-        else OnAccelerateTurn();
     }
 
     void OnDecelerate(InputAction.CallbackContext context)
     {
         m_isAccelerating = false;
         if (m_turnInput == 0) OnAccelerateNoTurnCancel();
-        else OnAccelerateTurnCancel();
     }
     #endregion
 
@@ -131,37 +138,20 @@ public class PlayerMovement : MonoBehaviour
     #region Turning
     void OnSteeringPerformed(InputAction.CallbackContext context)
     {
-        //float prevTurnInput = m_turnInput;
-
         m_turnInput = context.ReadValue<float>();
 
         if (m_isAccelerating)
         {
             OnAccelerateNoTurnCancel();
-            OnAccelerateTurn();
 
-            if (m_attemptingDrift && !m_isDrifting)
-            {
-                OnTurnDrift();
-                //if (prevTurnInput == 0 || (prevTurnInput < 0 && m_turnInput > 0) || (prevTurnInput > 0 && m_turnInput < 0))
-                //{
-                //    OnTurnDrift();
-                //}
-            }
+            if (m_attemptingDrift && !m_isDrifting) OnTurnDrift();
         }
-        if (m_isGrounded)
-        {
-            SetTurnDrag();
-        }
+        if (m_isGrounded) SetTurnDrag();
     }
     void OnSteeringCanceled(InputAction.CallbackContext context)
     {
         m_turnInput = 0;
-        if (m_isAccelerating)
-        {
-            OnAccelerateNoTurn();
-            OnAccelerateTurnCancel();
-        }
+        if (m_isAccelerating) OnAccelerateNoTurn();
 
         m_wagonDrag.dragX = m_defaultWagonDrag;
         m_wagonDrag.dragZ = m_defaultWagonDrag;
@@ -214,9 +204,6 @@ public class PlayerMovement : MonoBehaviour
         {
             if (m_turnInput != 0 && m_isAccelerating)
             {
-                m_isDrifting = true;
-                m_currentDriftTurnSpeed = m_driftMinTurnSpeed;
-
                 OnTurnDrift();
             }
         }
@@ -229,6 +216,9 @@ public class PlayerMovement : MonoBehaviour
 
     void OnTurnDrift()
     {
+        m_isDrifting = true;
+        m_currentDriftTurnSpeed = m_driftMinTurnSpeed;
+
         Vector3 rbRot = rb.transform.eulerAngles;
         m_driftTurnInput = m_turnInput;
 
@@ -254,13 +244,6 @@ public class PlayerMovement : MonoBehaviour
     #endregion
 
     #endregion
-
-    private void FixedUpdate()
-    {
-        GroundCheck();
-        Turn();
-        MoveVelocity();
-    }
 
     #region GroundCheck
     private void GroundCheck()
@@ -478,7 +461,5 @@ public class PlayerMovement : MonoBehaviour
     #region CartPhysics
     void OnAccelerateNoTurn() => wagon.angularDrag = m_accelerateNoTurnAngularDrag;
     void OnAccelerateNoTurnCancel() => wagon.angularDrag = m_defaultWagonAngularDrag;
-    void OnAccelerateTurn() { }
-    void OnAccelerateTurnCancel() { }
     #endregion
 }
