@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     #region Variables
 
-    PlayerInput m_playerInput;
+    PlayerInputHandler m_playerInput;
 
     [SerializeField] Rigidbody rb;
     [SerializeField] Rigidbody wagon;
@@ -73,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
     #region Start/Update
     private void Start()
     {
-        m_playerInput = GetComponent<PlayerInput>();
+        m_playerInput = GetComponent<PlayerInputHandler>();
 
         m_defaultWagonAngularDrag = wagon.angularDrag;
 
