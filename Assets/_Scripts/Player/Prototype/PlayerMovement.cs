@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float m_driftBoostThreshold1 = 2, m_driftBoostThreshold2 = 3, m_driftBoostThreshold3 = 5;
     [SerializeField] float m_driftStrengthMultiplier = 0.5f;
     float m_currentDriftTurnSpeed = 50;
-    [SerializeField] bool m_isDrifting, m_attemptingDrift;
+    bool m_isDrifting, m_attemptingDrift;
     float m_driftTurnInput;
 
     [Header("Cart Control")]
