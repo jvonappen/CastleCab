@@ -131,7 +131,7 @@ public class PlayerMovement : MonoBehaviour
     #region Turning
     void OnSteeringPerformed(InputAction.CallbackContext context)
     {
-        float prevTurnInput = m_turnInput;
+        //float prevTurnInput = m_turnInput;
 
         m_turnInput = context.ReadValue<float>();
 
@@ -142,10 +142,11 @@ public class PlayerMovement : MonoBehaviour
 
             if (m_attemptingDrift && !m_isDrifting)
             {
-                if (prevTurnInput == 0 || (prevTurnInput < 0 && m_turnInput > 0) || (prevTurnInput > 0 && m_turnInput < 0))
-                {
-                    OnTurnDrift();
-                }
+                OnTurnDrift();
+                //if (prevTurnInput == 0 || (prevTurnInput < 0 && m_turnInput > 0) || (prevTurnInput > 0 && m_turnInput < 0))
+                //{
+                //    OnTurnDrift();
+                //}
             }
         }
         if (m_isGrounded)
@@ -448,7 +449,10 @@ public class PlayerMovement : MonoBehaviour
             }
 
             // TODO - fix so that going opposite direction of drift makes player go straight
-            turnSpeed = m_currentDriftTurnSpeed * (Mathf.Abs(m_turnInput) * m_driftStrengthMultiplier);
+            float turnStrength = m_turnInput + 1;
+            if (turnInput < 0) turnStrength = Mathf.Abs(m_turnInput - 1);
+
+            turnSpeed = m_currentDriftTurnSpeed * turnStrength * m_driftStrengthMultiplier;
         }
         else if (!m_isGrounded && !m_isBoosting) turnSpeed = m_turnInAirSpeed;
         else if (!m_isAccelerating && !m_isReversing) turnSpeed = m_turnOnSpotSpeed;
