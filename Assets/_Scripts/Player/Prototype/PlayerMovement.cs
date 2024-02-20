@@ -66,6 +66,8 @@ public class PlayerMovement : MonoBehaviour
     bool m_isHurricane;
     bool m_endingHurricane;
 
+    Animator m_animator;
+
     #endregion
 
     #region Start/Update
@@ -77,6 +79,8 @@ public class PlayerMovement : MonoBehaviour
 
         m_wagonDrag = wagon.GetComponent<CustomDrag>();
         m_defaultWagonDrag = m_wagonDrag.dragX;
+
+        m_animator = GetComponentInChildren<Animator>();
 
         if (!m_boostBar) Debug.LogWarning("Boost bar reference not found");
 
@@ -362,6 +366,8 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         #endregion
+
+        m_animator.SetFloat("Speed", m_currentSpeed / m_maxSpeed);
 
         if (!m_isHurricane && !m_endingHurricane)
         {
