@@ -541,37 +541,40 @@ MonoBehaviour:
   rb: {fileID: 6675228846841819017}
   wagon: {fileID: 2993029738518890700}
   m_boostBar: {fileID: 7246406548184296393}
-  m_groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  m_raycastPoint: {fileID: 7533446497650998052}
-  m_groundRayLength: 1
-  m_maxSpeed: 15
-  m_accelerationRate: 10
-  m_decelerationRate: 40
-  m_maxReverseSpeed: 25
-  m_reverseAccelerationRate: 15
-  m_reverseDecelerationRate: 50
-  m_defaultTurnSpeed: 150
-  m_turnOnSpotSpeed: 350
-  m_turnInAirSpeed: 400
-  m_driftMoveMultiplier: 0.8
-  m_driftMinTurnSpeed: 0
-  m_driftMaxTurnSpeed: 80
-  m_driftTurnAcceleration: 70
-  m_driftBoostThreshold1: 2
-  m_driftBoostThreshold2: 3
-  m_driftBoostThreshold3: 5
-  m_driftStrengthMultiplier: 2
-  m_accelerateNoTurnAngularDrag: 20
-  m_turningDrag: 0.8
-  m_boostTurnDrag: 0.95
-  m_maxBoostSpeed: 30
-  m_boostAccelerationRate: 20
-  m_boostDecelerationRate: 30
-  m_boostCostPerSec: 0.3
-  m_boostRegenPerSec: 1
-  m_boostRegenCooldown: 2.5
+  _Grounded:
+    m_groundLayer:
+      serializedVersion: 2
+      m_Bits: 64
+    m_raycastPoint: {fileID: 7533446497650998052}
+    m_groundRayLength: 1
+  _Speed:
+    m_maxSpeed: 15
+    m_accelerationRate: 10
+    m_decelerationRate: 40
+    m_maxReverseSpeed: 25
+    m_reverseAccelerationRate: 15
+    m_reverseDecelerationRate: 50
+  _Turning:
+    m_defaultTurnSpeed: 150
+    m_turnOnSpotSpeed: 350
+    m_turnInAirSpeed: 400
+  _Drifting:
+    m_driftMoveMultiplier: 0.8
+    m_driftMinTurnSpeed: 0
+    m_driftMaxTurnSpeed: 80
+    m_driftTurnAcceleration: 70
+    m_driftStrengthMultiplier: 2
+  _CartControl:
+    m_accelerateNoTurnAngularDrag: 20
+    m_turningDrag: 0.8
+    m_boostTurnDrag: 0.95
+  _Boost:
+    m_maxBoostSpeed: 30
+    m_boostAccelerationRate: 20
+    m_boostDecelerationRate: 30
+    m_boostCostPerSec: 0.3
+    m_boostRegenPerSec: 1
+    m_boostRegenCooldown: 2.5
   m_hurricaneSpeed: 1200
 --- !u!114 &7117010442671544349
 MonoBehaviour:

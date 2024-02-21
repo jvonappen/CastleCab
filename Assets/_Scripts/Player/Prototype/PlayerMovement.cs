@@ -19,49 +19,88 @@ public class PlayerMovement : MonoBehaviour
     bool m_isAccelerating;
     bool m_isReversing;
 
-    [Header("Grounded")]
-    [SerializeField] LayerMask m_groundLayer;
-    [SerializeField] Transform m_raycastPoint;
-    [SerializeField] float m_groundRayLength = 1;
-    bool m_isGrounded = false;
+    #region Grounded
+    [System.Serializable]
+    public struct Grounded
+    {
+        [SerializeField] internal LayerMask m_groundLayer;
+        [SerializeField] internal Transform m_raycastPoint;
+        [SerializeField] internal float m_groundRayLength;
+    }
+    bool m_isGrounded;
+    [SerializeField] Grounded _Grounded;
+    #endregion
 
-    // Speed
-    [Header("Speed")]
-    [SerializeField] float m_maxSpeed = 10;
-    [SerializeField] float m_accelerationRate = 0.5f, m_decelerationRate = 1;
+    #region Speed
+    [System.Serializable]
+    public struct Speed
+    {
+        [SerializeField] internal float m_maxSpeed;
+        [SerializeField] internal float m_accelerationRate, m_decelerationRate;
+
+        [SerializeField] internal float m_maxReverseSpeed, m_reverseAccelerationRate, m_reverseDecelerationRate;
+    }
     float m_currentSpeed;
     bool m_attemptingAccelerate;
-    
-    [SerializeField] float m_maxReverseSpeed = 10, m_reverseAccelerationRate = 0.5f, m_reverseDecelerationRate = 1;
 
     Vector3 prevDir;
 
-    [Header("Turning")]
-    [SerializeField] float m_defaultTurnSpeed = 150;
-    [SerializeField] float m_turnOnSpotSpeed = 350, m_turnInAirSpeed = 400;
+    [SerializeField] Speed _Speed;
+    #endregion
+
+    #region Turning
+    [System.Serializable]
+    public struct Turning
+    {
+        [SerializeField] internal float m_defaultTurnSpeed;
+        [SerializeField] internal float m_turnOnSpotSpeed, m_turnInAirSpeed;
+    }
     float m_turnInput = 0;
-    
-    [Header("Drifting")]
-    [SerializeField] float m_driftMoveMultiplier = 1;
-    [SerializeField] float m_driftMinTurnSpeed = 50, m_driftMaxTurnSpeed = 250, m_driftTurnAcceleration = 10;
-    [SerializeField] float m_driftBoostThreshold1 = 2, m_driftBoostThreshold2 = 3, m_driftBoostThreshold3 = 5;
-    [SerializeField] float m_driftStrengthMultiplier = 0.5f;
+
+    [SerializeField] Turning _Turning;
+    #endregion
+
+    #region Drifting
+    [System.Serializable]
+    public struct Drifting
+    {
+        [SerializeField] internal float m_driftMoveMultiplier;
+        [SerializeField] internal float m_driftMinTurnSpeed, m_driftMaxTurnSpeed, m_driftTurnAcceleration;
+        [SerializeField] internal float m_driftStrengthMultiplier;
+    }
     float m_currentDriftTurnSpeed = 50;
     bool m_isDrifting, m_attemptingDrift;
     float m_driftTurnInput;
 
-    [Header("Cart Control")]
-    [SerializeField] float m_accelerateNoTurnAngularDrag = 20;
+    [SerializeField] Drifting _Drifting;
+    #endregion
+
+    #region CartControl
+    [System.Serializable]
+    public struct CartControl
+    {
+        [SerializeField] internal float m_accelerateNoTurnAngularDrag;
+        [SerializeField] internal float m_turningDrag, m_boostTurnDrag;
+    }
     float m_defaultWagonAngularDrag;
-    [SerializeField] float m_turningDrag = 0.8f, m_boostTurnDrag = 0.95f;
     float m_defaultWagonDrag;
 
-    [Header("Boost")]
-    [SerializeField] float m_maxBoostSpeed = 25;
-    [SerializeField] float m_boostAccelerationRate = 20, m_boostDecelerationRate = 30;
-    [SerializeField] float m_boostCostPerSec = 10, m_boostRegenPerSec = 20, m_boostRegenCooldown = 2.5f;
+    [SerializeField] CartControl _CartControl;
+    #endregion
+
+    #region Boost
+    [System.Serializable]
+    public struct Boost
+    {
+        [SerializeField] internal float m_maxBoostSpeed;
+        [SerializeField] internal float m_boostAccelerationRate, m_boostDecelerationRate;
+        [SerializeField] internal float m_boostCostPerSec, m_boostRegenPerSec, m_boostRegenCooldown;
+    }
     float m_boostRegenTimer;
     bool m_isBoosting;
+
+    [SerializeField] Boost _Boost;
+    #endregion
 
     [Header("Hurricane")]
     [SerializeField] float m_hurricaneSpeed = 1500;
@@ -202,32 +241,19 @@ public class PlayerMovement : MonoBehaviour
     }
     #endregion
 
-    Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, Vector3 angles)
-    {
-        Vector3 dir = point - pivot; // get point direction relative to pivot
-        dir = Quaternion.Euler(angles) * dir; // rotate it
-        point = dir + pivot; // calculate rotated point
-        return point; // return it
-    }
-
     #region Drift
-    //Vector3 m_driftCamOffset;
-
     void OnDriftPerformed(InputAction.CallbackContext context)
     {
-        //m_driftCamOffset = m_cam.camOffset;
         if (m_turnInput < 0) m_cam.camOffset = RotatePointAroundPivot(m_cam.m_originalCameraOffset, Vector3.zero, Vector3.up * 45);
         else if (m_turnInput > 0) m_cam.camOffset = RotatePointAroundPivot(m_cam.m_originalCameraOffset, Vector3.zero, -Vector3.up * 45);
 
         m_cam.TweenToOriginalCamPosition(1);
 
-        //m_cam.camSpeed = 10;
-
         m_attemptingDrift = true;
 
         if (!m_isDrifting)
         {
-            if (m_turnInput != 0/* && m_isAccelerating*/)
+            if (m_turnInput != 0)
             {
                 OnTurnDrift();
             }
@@ -238,10 +264,6 @@ public class PlayerMovement : MonoBehaviour
         m_isDrifting = false;
         m_attemptingDrift = false;
 
-        //m_cam.camSpeed = m_cam.m_originalCamSpeed;
-
-        //m_cam.camOffset = m_cam.m_originalCameraOffset;
-
         if (!m_attemptingAccelerate) m_isAccelerating = false;
     }
 
@@ -250,12 +272,11 @@ public class PlayerMovement : MonoBehaviour
         m_isAccelerating = true;
 
         m_isDrifting = true;
-        m_currentDriftTurnSpeed = m_driftMinTurnSpeed;
+        m_currentDriftTurnSpeed = _Drifting.m_driftMinTurnSpeed;
 
         Vector3 rbRot = rb.transform.eulerAngles;
         if (m_turnInput < 0) m_driftTurnInput = -1;
         else m_driftTurnInput = 1;
-        //m_driftTurnInput = m_turnInput;
 
         Vector3 rotateAmount = new Vector3(0, 45, 0);
         if (m_turnInput > 0) rb.rotation = Quaternion.Euler(rbRot.x + rotateAmount.x, rbRot.y + rotateAmount.y, rbRot.z + rotateAmount.z);
@@ -298,7 +319,7 @@ public class PlayerMovement : MonoBehaviour
     private void GroundCheck()
     {
         RaycastHit hit;
-        if (Physics.Raycast(m_raycastPoint.position, Vector3.down, out hit, m_groundRayLength, m_groundLayer))
+        if (Physics.Raycast(_Grounded.m_raycastPoint.position, Vector3.down, out hit, _Grounded.m_groundRayLength, _Grounded.m_groundLayer))
         {
             if (!m_isGrounded) OnBeginGrounded();
             m_isGrounded = true;
@@ -324,11 +345,11 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (m_boostBar.progress < 1)
                 {
-                    if (m_boostRegenTimer < m_boostRegenCooldown) m_boostRegenTimer += Time.fixedDeltaTime;
+                    if (m_boostRegenTimer < _Boost.m_boostRegenCooldown) m_boostRegenTimer += Time.fixedDeltaTime;
                     else
                     {
                         // Boost is recharging
-                        m_boostBar.progress += Time.fixedDeltaTime * m_boostRegenPerSec;
+                        m_boostBar.progress += Time.fixedDeltaTime * _Boost.m_boostRegenPerSec;
                         m_boostBar.UpdateProgress();
                     }
                 }
@@ -354,31 +375,31 @@ public class PlayerMovement : MonoBehaviour
                 if (!m_isBoosting)
                 {
                     // Accelerate if player is accelerating and isn't at max speed
-                    if (m_currentSpeed < m_maxSpeed)
+                    if (m_currentSpeed < _Speed.m_maxSpeed)
                     {
-                        m_currentSpeed += Time.fixedDeltaTime * m_accelerationRate;
-                        if (m_currentSpeed > m_maxSpeed) m_currentSpeed = m_maxSpeed; // Caps speed at max
+                        m_currentSpeed += Time.fixedDeltaTime * _Speed.m_accelerationRate;
+                        if (m_currentSpeed > _Speed.m_maxSpeed) m_currentSpeed = _Speed.m_maxSpeed; // Caps speed at max
                     }
-                    else if (m_currentSpeed > m_maxSpeed)
+                    else if (m_currentSpeed > _Speed.m_maxSpeed)
                     {
-                        m_currentSpeed -= Time.fixedDeltaTime * m_boostDecelerationRate;
-                        if (m_currentSpeed < m_maxSpeed) m_currentSpeed = m_maxSpeed;
+                        m_currentSpeed -= Time.fixedDeltaTime * _Boost.m_boostDecelerationRate;
+                        if (m_currentSpeed < _Speed.m_maxSpeed) m_currentSpeed = _Speed.m_maxSpeed;
                     }
                 }
                 else
                 {
                     // Accelerate if player is boosting and isn't at max boost speed
-                    if (m_currentSpeed <= m_maxBoostSpeed)
+                    if (m_currentSpeed <= _Boost.m_maxBoostSpeed)
                     {
-                        if (m_currentSpeed < m_maxBoostSpeed)
+                        if (m_currentSpeed < _Boost.m_maxBoostSpeed)
                         {
-                            m_currentSpeed += Time.fixedDeltaTime * m_boostAccelerationRate;
-                            if (m_currentSpeed > m_maxBoostSpeed) m_currentSpeed = m_maxBoostSpeed; // Caps speed at max
+                            m_currentSpeed += Time.fixedDeltaTime * _Boost.m_boostAccelerationRate;
+                            if (m_currentSpeed > _Boost.m_maxBoostSpeed) m_currentSpeed = _Boost.m_maxBoostSpeed; // Caps speed at max
                         }
                         
                         if (m_boostBar)
                         {
-                            m_boostBar.progress -= Time.fixedDeltaTime * m_boostCostPerSec;
+                            m_boostBar.progress -= Time.fixedDeltaTime * _Boost.m_boostCostPerSec;
                             m_boostBar.UpdateProgress();
                         }
                     }
@@ -389,11 +410,11 @@ public class PlayerMovement : MonoBehaviour
         {
             // Decelerates if player is reversing and isn't at max reverse speed.
             // Uses deceleration rate instead of reverse acceleration if it is still going forward to prevent sliding 
-            if (m_currentSpeed > 0) m_currentSpeed -= Time.fixedDeltaTime * m_decelerationRate;
-            else if (m_currentSpeed > -m_maxReverseSpeed) // Accelerates in reverse with different rate once player starts moving backwards
+            if (m_currentSpeed > 0) m_currentSpeed -= Time.fixedDeltaTime * _Speed.m_decelerationRate;
+            else if (m_currentSpeed > -_Speed.m_maxReverseSpeed) // Accelerates in reverse with different rate once player starts moving backwards
             {
-                m_currentSpeed -= Time.fixedDeltaTime * m_reverseAccelerationRate;
-                if (m_currentSpeed < -m_maxReverseSpeed) m_currentSpeed = -m_maxReverseSpeed; // Caps speed (in negative because it is moving backwards)
+                m_currentSpeed -= Time.fixedDeltaTime * _Speed.m_reverseAccelerationRate;
+                if (m_currentSpeed < -_Speed.m_maxReverseSpeed) m_currentSpeed = -_Speed.m_maxReverseSpeed; // Caps speed (in negative because it is moving backwards)
             }
         }
         else
@@ -401,18 +422,18 @@ public class PlayerMovement : MonoBehaviour
             // If neither moving forward or backward, decelerate to 0, rate based on if player is reversing or moving forward
             if (m_currentSpeed > 0) // Lower speed (player was moving forward)
             {
-                m_currentSpeed -= Time.fixedDeltaTime * m_decelerationRate;
+                m_currentSpeed -= Time.fixedDeltaTime * _Speed.m_decelerationRate;
                 if (m_currentSpeed < 0) m_currentSpeed = 0;
             }
             else if (m_currentSpeed < 0) // Increase speed (player was reversing)
             {
-                m_currentSpeed += Time.fixedDeltaTime * m_reverseDecelerationRate;
+                m_currentSpeed += Time.fixedDeltaTime * _Speed.m_reverseDecelerationRate;
                 if (m_currentSpeed > 0) m_currentSpeed = 0;
             }
         }
         #endregion
 
-        m_animator.SetFloat("Speed", m_currentSpeed / m_maxSpeed);
+        m_animator.SetFloat("Speed", m_currentSpeed / _Speed.m_maxSpeed);
 
         if (!m_isHurricane && !m_endingHurricane)
         {
@@ -426,7 +447,7 @@ public class PlayerMovement : MonoBehaviour
                     if (m_driftTurnInput > 0) dir -= rb.transform.right;
                     else if (m_driftTurnInput < 0) dir += rb.transform.right;
 
-                    dir *= m_driftMoveMultiplier;
+                    dir *= _Drifting.m_driftMoveMultiplier;
                 }
             }
 
@@ -473,25 +494,25 @@ public class PlayerMovement : MonoBehaviour
         if (m_isHurricane) return;
 
         float turnInput = m_turnInput;
-        float turnSpeed = m_defaultTurnSpeed;
+        float turnSpeed = _Turning.m_defaultTurnSpeed;
         if (m_isDrifting)
         {
             turnInput = m_driftTurnInput;
 
-            if (m_currentDriftTurnSpeed < m_driftMaxTurnSpeed)
+            if (m_currentDriftTurnSpeed < _Drifting.m_driftMaxTurnSpeed)
             {
-                m_currentDriftTurnSpeed += Time.fixedDeltaTime * m_driftTurnAcceleration;
-                if (m_currentDriftTurnSpeed > m_driftMaxTurnSpeed) m_currentDriftTurnSpeed = m_driftMaxTurnSpeed;
+                m_currentDriftTurnSpeed += Time.fixedDeltaTime * _Drifting.m_driftTurnAcceleration;
+                if (m_currentDriftTurnSpeed > _Drifting.m_driftMaxTurnSpeed) m_currentDriftTurnSpeed = _Drifting.m_driftMaxTurnSpeed;
             }
 
             // TODO - fix so that going opposite direction of drift makes player go straight
             float turnStrength = m_turnInput + 1;
             if (turnInput < 0) turnStrength = Mathf.Abs(m_turnInput - 1);
 
-            turnSpeed = m_currentDriftTurnSpeed * turnStrength * m_driftStrengthMultiplier;
+            turnSpeed = m_currentDriftTurnSpeed * turnStrength * _Drifting.m_driftStrengthMultiplier;
         }
-        else if (!m_isGrounded && !m_isBoosting) turnSpeed = m_turnInAirSpeed;
-        else if (!m_isAccelerating && !m_isReversing) turnSpeed = m_turnOnSpotSpeed;
+        else if (!m_isGrounded && !m_isBoosting) turnSpeed = _Turning.m_turnInAirSpeed;
+        else if (!m_isAccelerating && !m_isReversing) turnSpeed = _Turning.m_turnOnSpotSpeed;
 
         if (turnInput != 0) rb.transform.rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + new Vector3(0f, turnInput * turnSpeed * Time.deltaTime, 0f));
     }
@@ -500,19 +521,29 @@ public class PlayerMovement : MonoBehaviour
     {
         if (m_isBoosting)
         {
-            m_wagonDrag.dragX = m_boostTurnDrag;
-            m_wagonDrag.dragZ = m_boostTurnDrag;
+            m_wagonDrag.dragX = _CartControl.m_boostTurnDrag;
+            m_wagonDrag.dragZ = _CartControl.m_boostTurnDrag;
         }
         else
         {
-            m_wagonDrag.dragX = m_turningDrag;
-            m_wagonDrag.dragZ = m_turningDrag;
+            m_wagonDrag.dragX = _CartControl.m_turningDrag;
+            m_wagonDrag.dragZ = _CartControl.m_turningDrag;
         }
     }
     #endregion
 
     #region CartPhysics
-    void OnAccelerateNoTurn() => wagon.angularDrag = m_accelerateNoTurnAngularDrag;
+    void OnAccelerateNoTurn() => wagon.angularDrag = _CartControl.m_accelerateNoTurnAngularDrag;
     void OnAccelerateNoTurnCancel() => wagon.angularDrag = m_defaultWagonAngularDrag;
+    #endregion
+
+    #region Helper
+    Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, Vector3 angles)
+    {
+        Vector3 dir = point - pivot; // get point direction relative to pivot
+        dir = Quaternion.Euler(angles) * dir; // rotate it
+        point = dir + pivot; // calculate rotated point
+        return point; // return it
+    }
     #endregion
 }
