@@ -15,6 +15,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Reverse",
+                    "type": "Value",
+                    "id": "41622d10-1084-4de4-b517-7e8b22301341",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Steering",
                     "type": "Value",
                     "id": "af6ed0d1-4391-45a5-a951-e267b84fef2a",
@@ -24,22 +33,13 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "TailWhip",
+                    "name": "Drift",
                     "type": "Button",
                     "id": "085c4b4a-05f6-4bb0-8fe2-99b1c139d527",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Look",
-                    "type": "Value",
-                    "id": "4cf0fca4-08cb-453a-87ea-4167e4b84a32",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
                 },
                 {
                     "name": "Boost",
@@ -51,13 +51,13 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Reverse",
-                    "type": "Value",
-                    "id": "41622d10-1084-4de4-b517-7e8b22301341",
+                    "name": "Hurricane",
+                    "type": "Button",
+                    "id": "ea2a450e-b99d-463d-9f8b-983f74d0003e",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Backflip",
@@ -96,13 +96,13 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Hurricane",
-                    "type": "Button",
-                    "id": "ea2a450e-b99d-463d-9f8b-983f74d0003e",
-                    "expectedControlType": "Button",
+                    "name": "Look",
+                    "type": "Value",
+                    "id": "4cf0fca4-08cb-453a-87ea-4167e4b84a32",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -129,26 +129,15 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "Controller",
-                    "id": "3c4d8720-2d7f-4d0d-9609-cee4cdfb08b3",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Acceleration",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "positive",
-                    "id": "366e3c12-7cd7-4b62-8a16-9a64ef30b711",
-                    "path": "<Gamepad>/rightTrigger",
+                    "name": "",
+                    "id": "f86b8adb-88c5-4c3c-9e62-4a69be2c22f3",
+                    "path": "<Gamepad>/leftStick/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Acceleration",
                     "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "Keyboard",
@@ -223,7 +212,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "TailWhip",
+                    "action": "Drift",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -234,40 +223,29 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "TailWhip",
+                    "action": "Drift",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "261328fb-4efe-4547-8a33-2c7772fbe515",
-                    "path": "<Gamepad>/rightStick",
+                    "id": "2bef17d9-9057-4129-a482-8bce5cdf629f",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Look",
+                    "action": "Drift",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "f6ebfee8-4e66-40c4-a3e8-296171ef7227",
-                    "path": "<Pointer>/delta",
+                    "id": "ded819a8-3606-4d79-8fe2-17bd9d579d60",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7fe84ff9-c76d-4eb1-aef3-cd7aa633a840",
-                    "path": "<Joystick>/{Hatswitch}",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Look",
+                    "action": "Drift",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -292,50 +270,6 @@
                     "action": "Boost",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "Controller",
-                    "id": "99ba21f6-75aa-48a0-bdf2-ebaeede71e7f",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Reverse",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "04044f88-6c4d-41a7-a3d3-89acf36e19ae",
-                    "path": "<Gamepad>/leftTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Reverse",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Keyboard",
-                    "id": "2eeefc4d-3381-4520-bb4e-e1f5fbba5860",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Reverse",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "7394c7ac-e47f-4b14-933e-a493e7dc39d7",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Reverse",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
@@ -427,6 +361,39 @@
                 },
                 {
                     "name": "",
+                    "id": "261328fb-4efe-4547-8a33-2c7772fbe515",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f6ebfee8-4e66-40c4-a3e8-296171ef7227",
+                    "path": "<Pointer>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7fe84ff9-c76d-4eb1-aef3-cd7aa633a840",
+                    "path": "<Joystick>/{Hatswitch}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "25149d40-4ec1-4485-8ac4-d33c250540ae",
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
@@ -446,6 +413,50 @@
                     "action": "Hurricane",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "Keyboard",
+                    "id": "2eeefc4d-3381-4520-bb4e-e1f5fbba5860",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Reverse",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "7394c7ac-e47f-4b14-933e-a493e7dc39d7",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Reverse",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Controller",
+                    "id": "9bbdeefe-ff58-4419-9e8d-c16d2c1f2482",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Reverse",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "52b4d04e-f2ff-4638-895e-575bb96191af",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Reverse",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },
