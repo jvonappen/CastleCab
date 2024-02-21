@@ -31,8 +31,8 @@ public class PlayerInputOld : MonoBehaviour
         _playerControls.Controls.Reverse.canceled += OnReleaseReverse;
         _playerControls.Controls.Steering.performed += OnSteering;
         _playerControls.Controls.Steering.canceled += OnReleaseSteering;
-        _playerControls.Controls.TailWhip.performed += OnTailWhip;
-        _playerControls.Controls.TailWhip.canceled += OnReleaseTailWhip;
+        _playerControls.Controls.Drift.performed += OnTailWhip;
+        _playerControls.Controls.Drift.canceled += OnReleaseTailWhip;
         _playerControls.Controls.Boost.performed += OnBoost;
         _playerControls.Controls.Boost.canceled += OnReleaseBoost;
         _playerControls.Controls.Backflip.performed += OnBackflip;

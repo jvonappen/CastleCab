@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +7,8 @@ public class PlayerMovement : MonoBehaviour
     #region Variables
 
     PlayerInputHandler m_playerInput;
+
+    CameraFollow m_cam;
 
     [SerializeField] Rigidbody rb;
     [SerializeField] Rigidbody wagon;
@@ -29,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float m_maxSpeed = 10;
     [SerializeField] float m_accelerationRate = 0.5f, m_decelerationRate = 1;
     float m_currentSpeed;
+    bool m_attemptingAccelerate;
     
     [SerializeField] float m_maxReverseSpeed = 10, m_reverseAccelerationRate = 0.5f, m_reverseDecelerationRate = 1;
 
@@ -97,8 +99,8 @@ public class PlayerMovement : MonoBehaviour
         m_playerInput.m_playerControls.Controls.Boost.performed += OnBoostPerformed;
         m_playerInput.m_playerControls.Controls.Boost.canceled += OnBoostCanceled;
 
-        m_playerInput.m_playerControls.Controls.TailWhip.performed += OnDriftPerformed;
-        m_playerInput.m_playerControls.Controls.TailWhip.canceled += OnDriftCanceled;
+        m_playerInput.m_playerControls.Controls.Drift.performed += OnDriftPerformed;
+        m_playerInput.m_playerControls.Controls.Drift.canceled += OnDriftCanceled;
 
         m_playerInput.m_playerControls.Controls.Hurricane.performed += OnHurricanePerformed;
         m_playerInput.m_playerControls.Controls.Hurricane.canceled += OnHurricaneCanceled;
@@ -118,13 +120,15 @@ public class PlayerMovement : MonoBehaviour
     #region Acceleration
     void OnAccelerate(InputAction.CallbackContext context)
     {
+        m_attemptingAccelerate = true;
         m_isAccelerating = true;
         if (m_turnInput == 0) OnAccelerateNoTurn();
     }
 
     void OnDecelerate(InputAction.CallbackContext context)
     {
-        m_isAccelerating = false;
+        m_attemptingAccelerate = false;
+        if (!m_isDrifting) m_isAccelerating = false;
         if (m_turnInput == 0) OnAccelerateNoTurnCancel();
     }
     #endregion
@@ -198,15 +202,32 @@ public class PlayerMovement : MonoBehaviour
     }
     #endregion
 
+    Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, Vector3 angles)
+    {
+        Vector3 dir = point - pivot; // get point direction relative to pivot
+        dir = Quaternion.Euler(angles) * dir; // rotate it
+        point = dir + pivot; // calculate rotated point
+        return point; // return it
+    }
+
     #region Drift
+    //Vector3 m_driftCamOffset;
 
     void OnDriftPerformed(InputAction.CallbackContext context)
     {
+        //m_driftCamOffset = m_cam.camOffset;
+        if (m_turnInput < 0) m_cam.camOffset = RotatePointAroundPivot(m_cam.m_originalCameraOffset, Vector3.zero, Vector3.up * 45);
+        else if (m_turnInput > 0) m_cam.camOffset = RotatePointAroundPivot(m_cam.m_originalCameraOffset, Vector3.zero, -Vector3.up * 45);
+
+        m_cam.TweenToOriginalCamPosition(1);
+
+        //m_cam.camSpeed = 10;
+
         m_attemptingDrift = true;
 
         if (!m_isDrifting)
         {
-            if (m_turnInput != 0 && m_isAccelerating)
+            if (m_turnInput != 0/* && m_isAccelerating*/)
             {
                 OnTurnDrift();
             }
@@ -216,15 +237,25 @@ public class PlayerMovement : MonoBehaviour
     {
         m_isDrifting = false;
         m_attemptingDrift = false;
+
+        //m_cam.camSpeed = m_cam.m_originalCamSpeed;
+
+        //m_cam.camOffset = m_cam.m_originalCameraOffset;
+
+        if (!m_attemptingAccelerate) m_isAccelerating = false;
     }
 
     void OnTurnDrift()
     {
+        m_isAccelerating = true;
+
         m_isDrifting = true;
         m_currentDriftTurnSpeed = m_driftMinTurnSpeed;
 
         Vector3 rbRot = rb.transform.eulerAngles;
-        m_driftTurnInput = m_turnInput;
+        if (m_turnInput < 0) m_driftTurnInput = -1;
+        else m_driftTurnInput = 1;
+        //m_driftTurnInput = m_turnInput;
 
         Vector3 rotateAmount = new Vector3(0, 45, 0);
         if (m_turnInput > 0) rb.rotation = Quaternion.Euler(rbRot.x + rotateAmount.x, rbRot.y + rotateAmount.y, rbRot.z + rotateAmount.z);
@@ -238,13 +269,27 @@ public class PlayerMovement : MonoBehaviour
     void OnHurricanePerformed(InputAction.CallbackContext context)
     {
         m_isHurricane = true;
+        m_cam.camSpeed = 2;
+
+        //m_cam.transform.LookAt(m_cam.lookAt.position + m_cam.lookAtOffset);
+
+        m_cam.m_useOffsetOverride = true;
+        m_cam.m_worldOffsetOverride = (m_cam.lookAt.position + m_cam.lookAt.TransformDirection(m_cam.camOffset)) - m_cam.lookAt.position;
     }
 
     void OnHurricaneCanceled(InputAction.CallbackContext context)
     {
         m_endingHurricane = true;
+
+        m_cam.camSpeed = m_cam.m_originalCamSpeed;
+
+        m_cam.m_useOffsetOverride = false;
     }
 
+    #endregion
+
+    #region Camera
+    public void OnCameraSetTarget(CameraFollow _camFollow) => m_cam = _camFollow;
     #endregion
 
     #endregion
@@ -400,6 +445,8 @@ public class PlayerMovement : MonoBehaviour
             float velY = rb.velocity.y;
             rb.velocity = prevDir * m_currentSpeed;
             rb.velocity = new Vector3(rb.velocity.x, velY, rb.velocity.z);
+
+            m_cam.transform.position += rb.velocity * Time.fixedDeltaTime;
 
             if (m_endingHurricane)
             {

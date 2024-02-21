@@ -37,6 +37,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""Reverse"",
+                    ""type"": ""Value"",
+                    ""id"": ""41622d10-1084-4de4-b517-7e8b22301341"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""Steering"",
                     ""type"": ""Value"",
                     ""id"": ""af6ed0d1-4391-45a5-a951-e267b84fef2a"",
@@ -46,22 +55,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""TailWhip"",
+                    ""name"": ""Drift"",
                     ""type"": ""Button"",
                     ""id"": ""085c4b4a-05f6-4bb0-8fe2-99b1c139d527"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Look"",
-                    ""type"": ""Value"",
-                    ""id"": ""4cf0fca4-08cb-453a-87ea-4167e4b84a32"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Boost"",
@@ -73,13 +73,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Reverse"",
-                    ""type"": ""Value"",
-                    ""id"": ""41622d10-1084-4de4-b517-7e8b22301341"",
+                    ""name"": ""Hurricane"",
+                    ""type"": ""Button"",
+                    ""id"": ""ea2a450e-b99d-463d-9f8b-983f74d0003e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": true
+                    ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""Backflip"",
@@ -118,13 +118,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Hurricane"",
-                    ""type"": ""Button"",
-                    ""id"": ""ea2a450e-b99d-463d-9f8b-983f74d0003e"",
-                    ""expectedControlType"": ""Button"",
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""4cf0fca4-08cb-453a-87ea-4167e4b84a32"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -151,26 +151,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""Controller"",
-                    ""id"": ""3c4d8720-2d7f-4d0d-9609-cee4cdfb08b3"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Acceleration"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""366e3c12-7cd7-4b62-8a16-9a64ef30b711"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""name"": """",
+                    ""id"": ""f86b8adb-88c5-4c3c-9e62-4a69be2c22f3"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Acceleration"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": ""Keyboard"",
@@ -245,7 +234,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""TailWhip"",
+                    ""action"": ""Drift"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -256,40 +245,29 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""TailWhip"",
+                    ""action"": ""Drift"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""261328fb-4efe-4547-8a33-2c7772fbe515"",
-                    ""path"": ""<Gamepad>/rightStick"",
+                    ""id"": ""2bef17d9-9057-4129-a482-8bce5cdf629f"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Look"",
+                    ""action"": ""Drift"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""f6ebfee8-4e66-40c4-a3e8-296171ef7227"",
-                    ""path"": ""<Pointer>/delta"",
+                    ""id"": ""ded819a8-3606-4d79-8fe2-17bd9d579d60"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""7fe84ff9-c76d-4eb1-aef3-cd7aa633a840"",
-                    ""path"": ""<Joystick>/{Hatswitch}"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Look"",
+                    ""action"": ""Drift"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -314,50 +292,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Boost"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""Controller"",
-                    ""id"": ""99ba21f6-75aa-48a0-bdf2-ebaeede71e7f"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Reverse"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""04044f88-6c4d-41a7-a3d3-89acf36e19ae"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Reverse"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Keyboard"",
-                    ""id"": ""2eeefc4d-3381-4520-bb4e-e1f5fbba5860"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Reverse"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""7394c7ac-e47f-4b14-933e-a493e7dc39d7"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Reverse"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
@@ -449,6 +383,39 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""261328fb-4efe-4547-8a33-2c7772fbe515"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f6ebfee8-4e66-40c4-a3e8-296171ef7227"",
+                    ""path"": ""<Pointer>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7fe84ff9-c76d-4eb1-aef3-cd7aa633a840"",
+                    ""path"": ""<Joystick>/{Hatswitch}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""25149d40-4ec1-4485-8ac4-d33c250540ae"",
                     ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
@@ -468,6 +435,50 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Hurricane"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Keyboard"",
+                    ""id"": ""2eeefc4d-3381-4520-bb4e-e1f5fbba5860"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reverse"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""7394c7ac-e47f-4b14-933e-a493e7dc39d7"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reverse"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Controller"",
+                    ""id"": ""9bbdeefe-ff58-4419-9e8d-c16d2c1f2482"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reverse"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""52b4d04e-f2ff-4638-895e-575bb96191af"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reverse"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -505,16 +516,16 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         // Controls
         m_Controls = asset.FindActionMap("Controls", throwIfNotFound: true);
         m_Controls_Acceleration = m_Controls.FindAction("Acceleration", throwIfNotFound: true);
-        m_Controls_Steering = m_Controls.FindAction("Steering", throwIfNotFound: true);
-        m_Controls_TailWhip = m_Controls.FindAction("TailWhip", throwIfNotFound: true);
-        m_Controls_Look = m_Controls.FindAction("Look", throwIfNotFound: true);
-        m_Controls_Boost = m_Controls.FindAction("Boost", throwIfNotFound: true);
         m_Controls_Reverse = m_Controls.FindAction("Reverse", throwIfNotFound: true);
+        m_Controls_Steering = m_Controls.FindAction("Steering", throwIfNotFound: true);
+        m_Controls_Drift = m_Controls.FindAction("Drift", throwIfNotFound: true);
+        m_Controls_Boost = m_Controls.FindAction("Boost", throwIfNotFound: true);
+        m_Controls_Hurricane = m_Controls.FindAction("Hurricane", throwIfNotFound: true);
         m_Controls_Backflip = m_Controls.FindAction("Backflip", throwIfNotFound: true);
         m_Controls_BarrelRoll = m_Controls.FindAction("BarrelRoll", throwIfNotFound: true);
         m_Controls_Interact = m_Controls.FindAction("Interact", throwIfNotFound: true);
         m_Controls_Achievement = m_Controls.FindAction("Achievement", throwIfNotFound: true);
-        m_Controls_Hurricane = m_Controls.FindAction("Hurricane", throwIfNotFound: true);
+        m_Controls_Look = m_Controls.FindAction("Look", throwIfNotFound: true);
         // Customisation
         m_Customisation = asset.FindActionMap("Customisation", throwIfNotFound: true);
         m_Customisation_Navigate = m_Customisation.FindAction("Navigate", throwIfNotFound: true);
@@ -580,31 +591,31 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Controls;
     private List<IControlsActions> m_ControlsActionsCallbackInterfaces = new List<IControlsActions>();
     private readonly InputAction m_Controls_Acceleration;
-    private readonly InputAction m_Controls_Steering;
-    private readonly InputAction m_Controls_TailWhip;
-    private readonly InputAction m_Controls_Look;
-    private readonly InputAction m_Controls_Boost;
     private readonly InputAction m_Controls_Reverse;
+    private readonly InputAction m_Controls_Steering;
+    private readonly InputAction m_Controls_Drift;
+    private readonly InputAction m_Controls_Boost;
+    private readonly InputAction m_Controls_Hurricane;
     private readonly InputAction m_Controls_Backflip;
     private readonly InputAction m_Controls_BarrelRoll;
     private readonly InputAction m_Controls_Interact;
     private readonly InputAction m_Controls_Achievement;
-    private readonly InputAction m_Controls_Hurricane;
+    private readonly InputAction m_Controls_Look;
     public struct ControlsActions
     {
         private @PlayerControls m_Wrapper;
         public ControlsActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Acceleration => m_Wrapper.m_Controls_Acceleration;
-        public InputAction @Steering => m_Wrapper.m_Controls_Steering;
-        public InputAction @TailWhip => m_Wrapper.m_Controls_TailWhip;
-        public InputAction @Look => m_Wrapper.m_Controls_Look;
-        public InputAction @Boost => m_Wrapper.m_Controls_Boost;
         public InputAction @Reverse => m_Wrapper.m_Controls_Reverse;
+        public InputAction @Steering => m_Wrapper.m_Controls_Steering;
+        public InputAction @Drift => m_Wrapper.m_Controls_Drift;
+        public InputAction @Boost => m_Wrapper.m_Controls_Boost;
+        public InputAction @Hurricane => m_Wrapper.m_Controls_Hurricane;
         public InputAction @Backflip => m_Wrapper.m_Controls_Backflip;
         public InputAction @BarrelRoll => m_Wrapper.m_Controls_BarrelRoll;
         public InputAction @Interact => m_Wrapper.m_Controls_Interact;
         public InputAction @Achievement => m_Wrapper.m_Controls_Achievement;
-        public InputAction @Hurricane => m_Wrapper.m_Controls_Hurricane;
+        public InputAction @Look => m_Wrapper.m_Controls_Look;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -617,21 +628,21 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Acceleration.started += instance.OnAcceleration;
             @Acceleration.performed += instance.OnAcceleration;
             @Acceleration.canceled += instance.OnAcceleration;
-            @Steering.started += instance.OnSteering;
-            @Steering.performed += instance.OnSteering;
-            @Steering.canceled += instance.OnSteering;
-            @TailWhip.started += instance.OnTailWhip;
-            @TailWhip.performed += instance.OnTailWhip;
-            @TailWhip.canceled += instance.OnTailWhip;
-            @Look.started += instance.OnLook;
-            @Look.performed += instance.OnLook;
-            @Look.canceled += instance.OnLook;
-            @Boost.started += instance.OnBoost;
-            @Boost.performed += instance.OnBoost;
-            @Boost.canceled += instance.OnBoost;
             @Reverse.started += instance.OnReverse;
             @Reverse.performed += instance.OnReverse;
             @Reverse.canceled += instance.OnReverse;
+            @Steering.started += instance.OnSteering;
+            @Steering.performed += instance.OnSteering;
+            @Steering.canceled += instance.OnSteering;
+            @Drift.started += instance.OnDrift;
+            @Drift.performed += instance.OnDrift;
+            @Drift.canceled += instance.OnDrift;
+            @Boost.started += instance.OnBoost;
+            @Boost.performed += instance.OnBoost;
+            @Boost.canceled += instance.OnBoost;
+            @Hurricane.started += instance.OnHurricane;
+            @Hurricane.performed += instance.OnHurricane;
+            @Hurricane.canceled += instance.OnHurricane;
             @Backflip.started += instance.OnBackflip;
             @Backflip.performed += instance.OnBackflip;
             @Backflip.canceled += instance.OnBackflip;
@@ -644,9 +655,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Achievement.started += instance.OnAchievement;
             @Achievement.performed += instance.OnAchievement;
             @Achievement.canceled += instance.OnAchievement;
-            @Hurricane.started += instance.OnHurricane;
-            @Hurricane.performed += instance.OnHurricane;
-            @Hurricane.canceled += instance.OnHurricane;
+            @Look.started += instance.OnLook;
+            @Look.performed += instance.OnLook;
+            @Look.canceled += instance.OnLook;
         }
 
         private void UnregisterCallbacks(IControlsActions instance)
@@ -654,21 +665,21 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Acceleration.started -= instance.OnAcceleration;
             @Acceleration.performed -= instance.OnAcceleration;
             @Acceleration.canceled -= instance.OnAcceleration;
-            @Steering.started -= instance.OnSteering;
-            @Steering.performed -= instance.OnSteering;
-            @Steering.canceled -= instance.OnSteering;
-            @TailWhip.started -= instance.OnTailWhip;
-            @TailWhip.performed -= instance.OnTailWhip;
-            @TailWhip.canceled -= instance.OnTailWhip;
-            @Look.started -= instance.OnLook;
-            @Look.performed -= instance.OnLook;
-            @Look.canceled -= instance.OnLook;
-            @Boost.started -= instance.OnBoost;
-            @Boost.performed -= instance.OnBoost;
-            @Boost.canceled -= instance.OnBoost;
             @Reverse.started -= instance.OnReverse;
             @Reverse.performed -= instance.OnReverse;
             @Reverse.canceled -= instance.OnReverse;
+            @Steering.started -= instance.OnSteering;
+            @Steering.performed -= instance.OnSteering;
+            @Steering.canceled -= instance.OnSteering;
+            @Drift.started -= instance.OnDrift;
+            @Drift.performed -= instance.OnDrift;
+            @Drift.canceled -= instance.OnDrift;
+            @Boost.started -= instance.OnBoost;
+            @Boost.performed -= instance.OnBoost;
+            @Boost.canceled -= instance.OnBoost;
+            @Hurricane.started -= instance.OnHurricane;
+            @Hurricane.performed -= instance.OnHurricane;
+            @Hurricane.canceled -= instance.OnHurricane;
             @Backflip.started -= instance.OnBackflip;
             @Backflip.performed -= instance.OnBackflip;
             @Backflip.canceled -= instance.OnBackflip;
@@ -681,9 +692,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Achievement.started -= instance.OnAchievement;
             @Achievement.performed -= instance.OnAchievement;
             @Achievement.canceled -= instance.OnAchievement;
-            @Hurricane.started -= instance.OnHurricane;
-            @Hurricane.performed -= instance.OnHurricane;
-            @Hurricane.canceled -= instance.OnHurricane;
+            @Look.started -= instance.OnLook;
+            @Look.performed -= instance.OnLook;
+            @Look.canceled -= instance.OnLook;
         }
 
         public void RemoveCallbacks(IControlsActions instance)
@@ -750,16 +761,16 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     public interface IControlsActions
     {
         void OnAcceleration(InputAction.CallbackContext context);
-        void OnSteering(InputAction.CallbackContext context);
-        void OnTailWhip(InputAction.CallbackContext context);
-        void OnLook(InputAction.CallbackContext context);
-        void OnBoost(InputAction.CallbackContext context);
         void OnReverse(InputAction.CallbackContext context);
+        void OnSteering(InputAction.CallbackContext context);
+        void OnDrift(InputAction.CallbackContext context);
+        void OnBoost(InputAction.CallbackContext context);
+        void OnHurricane(InputAction.CallbackContext context);
         void OnBackflip(InputAction.CallbackContext context);
         void OnBarrelRoll(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnAchievement(InputAction.CallbackContext context);
-        void OnHurricane(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
     }
     public interface ICustomisationActions
     {
