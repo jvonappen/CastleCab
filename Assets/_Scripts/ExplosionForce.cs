@@ -11,6 +11,16 @@ public class ExplosionForce : MonoBehaviour
     public float rotationForce = 500f; // Adjust the rotation force as needed.
     // Start is called before the first frame update
 
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            Explode();
+            Debug.Log("boom");
+            Destroy(gameObject);
+        }
+    }
     public void Explode()
     {
         // Find all colliders within the explosion radius.
@@ -18,12 +28,7 @@ public class ExplosionForce : MonoBehaviour
 
         foreach (Collider collider in colliders)
         {
-            NavMeshAgent agent = collider.GetComponent<NavMeshAgent>();
-            if (agent != null)
-            {
-                agent.enabled = false;
-                Destroy(collider.gameObject, 5);
-            }
+
             // Apply an explosion force to rigidbodies.
             Rigidbody rb = collider.GetComponentInChildren<Rigidbody>();
             if (rb != null)
