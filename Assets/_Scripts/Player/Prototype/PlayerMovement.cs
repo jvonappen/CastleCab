@@ -70,10 +70,13 @@ public class PlayerMovement : MonoBehaviour
         [SerializeField] internal float m_driftMoveMultiplier;
         [SerializeField] internal float m_driftMinTurnSpeed, m_driftMaxTurnSpeed, m_driftTurnAcceleration;
         [SerializeField] internal float m_driftStrengthMultiplier;
+        [SerializeField] internal float m_driftStartCooldown;
     }
     float m_currentDriftTurnSpeed = 50;
     bool m_isDrifting, m_attemptingDrift;
     float m_driftTurnInput;
+
+    float m_driftCooldownTimer;
 
     [SerializeField] Drifting _Drifting;
     #endregion
@@ -151,6 +154,11 @@ public class PlayerMovement : MonoBehaviour
         GroundCheck();
         Turn();
         MoveVelocity();
+    }
+
+    private void Update()
+    {
+        if (m_driftCooldownTimer < _Drifting.m_driftStartCooldown) m_driftCooldownTimer += Time.deltaTime;
     }
     #endregion
 
@@ -270,6 +278,8 @@ public class PlayerMovement : MonoBehaviour
 
         m_isDrifting = true;
         m_currentDriftTurnSpeed = _Drifting.m_driftMinTurnSpeed;
+
+        m_driftCooldownTimer = 0;
 
         Vector3 rbRot = rb.transform.eulerAngles;
         if (m_turnInput < 0) m_driftTurnInput = -1;
@@ -496,13 +506,15 @@ public class PlayerMovement : MonoBehaviour
         {
             turnInput = m_driftTurnInput;
 
-            if (m_currentDriftTurnSpeed < _Drifting.m_driftMaxTurnSpeed)
+            if (m_driftCooldownTimer >= _Drifting.m_driftStartCooldown)
             {
-                m_currentDriftTurnSpeed += Time.fixedDeltaTime * _Drifting.m_driftTurnAcceleration;
-                if (m_currentDriftTurnSpeed > _Drifting.m_driftMaxTurnSpeed) m_currentDriftTurnSpeed = _Drifting.m_driftMaxTurnSpeed;
+                if (m_currentDriftTurnSpeed < _Drifting.m_driftMaxTurnSpeed)
+                {
+                    m_currentDriftTurnSpeed += Time.fixedDeltaTime * _Drifting.m_driftTurnAcceleration;
+                    if (m_currentDriftTurnSpeed > _Drifting.m_driftMaxTurnSpeed) m_currentDriftTurnSpeed = _Drifting.m_driftMaxTurnSpeed;
+                }
             }
 
-            // TODO - fix so that going opposite direction of drift makes player go straight
             float turnStrength = m_turnInput + 1;
             if (turnInput < 0) turnStrength = Mathf.Abs(m_turnInput - 1);
 
