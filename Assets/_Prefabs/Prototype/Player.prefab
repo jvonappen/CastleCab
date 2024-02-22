@@ -498,12 +498,12 @@ MonoBehaviour:
     m_maxSpeed: 15
     m_accelerationRate: 10
     m_decelerationRate: 40
-    m_maxReverseSpeed: 25
-    m_reverseAccelerationRate: 15
-    m_reverseDecelerationRate: 50
+    m_maxReverseSpeed: 6
+    m_reverseAccelerationRate: 6
+    m_reverseDecelerationRate: 40
   _Turning:
     m_defaultTurnSpeed: 150
-    m_turnOnSpotSpeed: 350
+    m_turnOnSpotSpeed: 150
     m_turnInAirSpeed: 400
   _Drifting:
     m_driftMoveMultiplier: 0.8
@@ -512,9 +512,8 @@ MonoBehaviour:
     m_driftTurnAcceleration: 70
     m_driftStrengthMultiplier: 2
   _CartControl:
-    m_accelerateNoTurnAngularDrag: 20
     m_turningDrag: 0.8
-    m_boostTurnDrag: 0.95
+    m_boostTurnDrag: 0.9
   _Boost:
     m_maxBoostSpeed: 30
     m_boostAccelerationRate: 20

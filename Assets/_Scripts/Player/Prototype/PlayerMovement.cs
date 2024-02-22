@@ -6,18 +6,17 @@ public class PlayerMovement : MonoBehaviour
 {
     #region Variables
 
+    #region References
     PlayerInputHandler m_playerInput;
-
     CameraFollow m_cam;
+
+    Animator m_animator;
 
     [SerializeField] Rigidbody rb;
     [SerializeField] Rigidbody wagon;
-    CustomDrag m_wagonDrag;
-
+    
     [SerializeField] ProgressBar m_boostBar;
-
-    bool m_isAccelerating;
-    bool m_isReversing;
+    #endregion
 
     #region Grounded
     [System.Serializable]
@@ -43,6 +42,9 @@ public class PlayerMovement : MonoBehaviour
     float m_currentSpeed;
     public float currentSpeed { get { return m_currentSpeed; } }
     bool m_attemptingAccelerate;
+
+    bool m_isAccelerating;
+    bool m_isReversing;
 
     Vector3 prevDir;
 
@@ -80,11 +82,10 @@ public class PlayerMovement : MonoBehaviour
     [System.Serializable]
     public struct CartControl
     {
-        [SerializeField] internal float m_accelerateNoTurnAngularDrag;
         [SerializeField] internal float m_turningDrag, m_boostTurnDrag;
     }
-    float m_defaultWagonAngularDrag;
     float m_defaultWagonDrag;
+    CustomDrag m_wagonDrag;
 
     [SerializeField] CartControl _CartControl;
     #endregion
@@ -103,12 +104,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Boost _Boost;
     #endregion
 
+    #region Hurricane
     [Header("Hurricane")]
     [SerializeField] float m_hurricaneSpeed = 1500;
     bool m_isHurricane;
     bool m_endingHurricane;
-
-    Animator m_animator;
+    #endregion
 
     #endregion
 
@@ -116,8 +117,6 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         m_playerInput = GetComponent<PlayerInputHandler>();
-
-        m_defaultWagonAngularDrag = wagon.angularDrag;
 
         m_wagonDrag = wagon.GetComponent<CustomDrag>();
         m_defaultWagonDrag = m_wagonDrag.dragX;
@@ -162,14 +161,12 @@ public class PlayerMovement : MonoBehaviour
     {
         m_attemptingAccelerate = true;
         m_isAccelerating = true;
-        if (m_turnInput == 0) OnAccelerateNoTurn();
     }
 
     void OnDecelerate(InputAction.CallbackContext context)
     {
         m_attemptingAccelerate = false;
         if (!m_isDrifting) m_isAccelerating = false;
-        if (m_turnInput == 0) OnAccelerateNoTurnCancel();
     }
     #endregion
 
@@ -190,8 +187,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (m_isAccelerating)
         {
-            OnAccelerateNoTurnCancel();
-
             if (m_attemptingDrift && !m_isDrifting) OnTurnDrift();
         }
         if (m_isGrounded) SetTurnDrag();
@@ -199,9 +194,9 @@ public class PlayerMovement : MonoBehaviour
     void OnSteeringCanceled(InputAction.CallbackContext context)
     {
         m_turnInput = 0;
-        if (m_isAccelerating) OnAccelerateNoTurn();
 
         m_wagonDrag.dragX = m_defaultWagonDrag;
+        m_wagonDrag.dragY = m_defaultWagonDrag;
         m_wagonDrag.dragZ = m_defaultWagonDrag;
     }
 
@@ -237,6 +232,7 @@ public class PlayerMovement : MonoBehaviour
         if (m_turnInput != 0)
         {
             m_wagonDrag.dragX = m_defaultWagonDrag;
+            m_wagonDrag.dragY = m_defaultWagonDrag;
             m_wagonDrag.dragZ = m_defaultWagonDrag;
         }
     }
@@ -523,19 +519,16 @@ public class PlayerMovement : MonoBehaviour
         if (m_isBoosting)
         {
             m_wagonDrag.dragX = _CartControl.m_boostTurnDrag;
+            m_wagonDrag.dragY = _CartControl.m_boostTurnDrag;
             m_wagonDrag.dragZ = _CartControl.m_boostTurnDrag;
         }
         else
         {
             m_wagonDrag.dragX = _CartControl.m_turningDrag;
+            m_wagonDrag.dragY = _CartControl.m_turningDrag;
             m_wagonDrag.dragZ = _CartControl.m_turningDrag;
         }
     }
-    #endregion
-
-    #region CartPhysics
-    void OnAccelerateNoTurn() => wagon.angularDrag = _CartControl.m_accelerateNoTurnAngularDrag;
-    void OnAccelerateNoTurnCancel() => wagon.angularDrag = m_defaultWagonAngularDrag;
     #endregion
 
     #region Helper
