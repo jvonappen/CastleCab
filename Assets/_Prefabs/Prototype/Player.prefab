@@ -487,13 +487,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 6675228846841819017}
   wagon: {fileID: 2993029738518890700}
-  m_boostBar: {fileID: 7246406548184296393}
+  m_staminaBar: {fileID: 7246406548184296393}
   _Grounded:
     m_groundLayer:
       serializedVersion: 2
       m_Bits: 64
     m_raycastPoint: {fileID: 7533446497650998052}
-    m_groundRayLength: 1
+    m_groundDist: 1
   _Speed:
     m_maxSpeed: 30
     m_accelerationRate: 10
@@ -502,27 +502,30 @@ MonoBehaviour:
     m_reverseAccelerationRate: 6
     m_reverseDecelerationRate: 40
   _Turning:
-    m_defaultTurnSpeed: 150
-    m_turnOnSpotSpeed: 150
-    m_turnInAirSpeed: 400
+    m_defaultSpeed: 150
+    m_onSpotSpeed: 150
+    m_inAirSpeed: 400
   _Drifting:
-    m_driftMoveMultiplier: 0.8
-    m_driftMinTurnSpeed: 0
-    m_driftMaxTurnSpeed: 80
-    m_driftTurnAcceleration: 70
-    m_driftStrengthMultiplier: 2
-    m_driftStartCooldown: 0.15
+    m_moveMultiplier: 0.8
+    m_minTurnSpeed: 0
+    m_maxTurnSpeed: 80
+    m_turnAcceleration: 70
+    m_strengthMultiplier: 2
+    m_startCooldown: 0.15
   _CartControl:
     m_turningDrag: 0.8
     m_boostTurnDrag: 0.9
+  _Stamina:
+    m_regenPerSec: 0.3
+    m_regenCooldown: 1
   _Boost:
-    m_maxBoostSpeed: 75
-    m_boostAccelerationRate: 30
-    m_boostDecelerationRate: 30
-    m_boostCostPerSec: 0
-    m_boostRegenPerSec: 1
-    m_boostRegenCooldown: 0
-  m_hurricaneSpeed: 1200
+    m_maxSpeed: 75
+    m_accelerationRate: 30
+    m_decelerationRate: 40
+    m_staminaCostPerSec: 0.1
+  _Hurricane:
+    m_speed: 1200
+    m_StaminaCostPerSec: 0.3
 --- !u!114 &7117010442671544349
 MonoBehaviour:
   m_ObjectHideFlags: 0
