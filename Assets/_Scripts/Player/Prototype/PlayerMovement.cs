@@ -41,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
         [SerializeField] internal float m_maxReverseSpeed, m_reverseAccelerationRate, m_reverseDecelerationRate;
     }
     float m_currentSpeed;
+    public float currentSpeed { get { return m_currentSpeed; } }
     bool m_attemptingAccelerate;
 
     Vector3 prevDir;
