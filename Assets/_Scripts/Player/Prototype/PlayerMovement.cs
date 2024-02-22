@@ -123,7 +123,7 @@ public class PlayerMovement : MonoBehaviour
     [System.Serializable]
     public struct Hurricane
     {
-        [SerializeField] internal float m_speed, m_StaminaCostPerSec;
+        [SerializeField] internal float m_spinSpeed, m_moveSpeed, m_StaminaCostPerSec;
     }
     bool m_isHurricane;
     bool m_endingHurricane;
@@ -275,18 +275,21 @@ public class PlayerMovement : MonoBehaviour
     #region Drift
     void OnDriftPerformed(InputAction.CallbackContext context)
     {
-        if (m_turnInput < 0) m_cam.camOffset = RotatePointAroundPivot(m_cam.m_originalCameraOffset, Vector3.zero, Vector3.up * 45);
-        else if (m_turnInput > 0) m_cam.camOffset = RotatePointAroundPivot(m_cam.m_originalCameraOffset, Vector3.zero, -Vector3.up * 45);
-
-        m_cam.TweenToOriginalCamPosition(1);
-
-        m_attemptingDrift = true;
-
-        if (!m_isDrifting)
+        if (!m_isHurricane)
         {
-            if (m_turnInput != 0)
+            if (m_turnInput < 0) m_cam.camOffset = RotatePointAroundPivot(m_cam.m_originalCameraOffset, Vector3.zero, Vector3.up * 45);
+            else if (m_turnInput > 0) m_cam.camOffset = RotatePointAroundPivot(m_cam.m_originalCameraOffset, Vector3.zero, -Vector3.up * 45);
+
+            m_cam.TweenToOriginalCamPosition(1);
+
+            m_attemptingDrift = true;
+
+            if (!m_isDrifting)
             {
-                OnTurnDrift();
+                if (m_turnInput != 0)
+                {
+                    OnTurnDrift();
+                }
             }
         }
     }
@@ -503,13 +506,23 @@ public class PlayerMovement : MonoBehaviour
 
                     m_staminaRegenTimer = 0;
 
-                    rb.transform.rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + new Vector3(0f, _Hurricane.m_speed * Time.fixedDeltaTime, 0f));
+                    rb.transform.rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + new Vector3(0f, _Hurricane.m_spinSpeed * Time.fixedDeltaTime, 0f));
+
+                    // Handle movement
+                    Vector3 dir = Vector3.zero;
+                    if (m_isAccelerating) dir = prevDir;
+                    else if (m_isReversing) dir = -prevDir;
+
+                    if (m_turnInput > 0) dir -= Vector3.Cross(prevDir, Vector3.up);
+                    else if (m_turnInput < 0) dir += Vector3.Cross(prevDir, Vector3.up);
 
                     float velY = rb.velocity.y;
-                    rb.velocity = prevDir * m_currentSpeed;
+                    rb.velocity = dir * _Hurricane.m_moveSpeed;
                     rb.velocity = new Vector3(rb.velocity.x, velY, rb.velocity.z);
 
                     m_cam.transform.position += rb.velocity * Time.fixedDeltaTime;
+
+                    
 
                     if (m_endingHurricane) EndHurricane();
                 }
