@@ -1,4 +1,3 @@
-using System.Drawing;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -127,6 +126,7 @@ public class PlayerMovement : MonoBehaviour
     }
     bool m_isHurricane;
     bool m_endingHurricane;
+    Vector2 m_hurricaneMoveInput;
 
     [SerializeField] Hurricane _Hurricane;
     #endregion
@@ -163,6 +163,9 @@ public class PlayerMovement : MonoBehaviour
 
         m_playerInput.m_playerControls.Controls.Hurricane.performed += OnHurricanePerformed;
         m_playerInput.m_playerControls.Controls.Hurricane.canceled += OnHurricaneCanceled;
+
+        m_playerInput.m_playerControls.Controls.HurricaneMove.performed += HurricaneMovePerformed;
+        m_playerInput.m_playerControls.Controls.HurricaneMove.canceled += HurricaneMoveCanceled;
         #endregion
     }
 
@@ -328,8 +331,6 @@ public class PlayerMovement : MonoBehaviour
         m_isHurricane = true;
         m_cam.camSpeed = 2;
 
-        //m_cam.transform.LookAt(m_cam.lookAt.position + m_cam.lookAtOffset);
-
         m_cam.m_useOffsetOverride = true;
         m_cam.m_worldOffsetOverride = (m_cam.lookAt.position + m_cam.lookAt.TransformDirection(m_cam.camOffset)) - m_cam.lookAt.position;
     }
@@ -357,6 +358,10 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+
+    void HurricaneMovePerformed(InputAction.CallbackContext context) => m_hurricaneMoveInput = context.ReadValue<Vector2>();
+
+    void HurricaneMoveCanceled(InputAction.CallbackContext context) => m_hurricaneMoveInput = Vector2.zero;
 
     #endregion
 
@@ -509,20 +514,15 @@ public class PlayerMovement : MonoBehaviour
                     rb.transform.rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + new Vector3(0f, _Hurricane.m_spinSpeed * Time.fixedDeltaTime, 0f));
 
                     // Handle movement
-                    Vector3 dir = Vector3.zero;
-                    if (m_isAccelerating) dir = prevDir;
-                    else if (m_isReversing) dir = -prevDir;
+                    Vector3 dir = new Vector3(m_hurricaneMoveInput.x, 0, m_hurricaneMoveInput.y); // Gets local movement direction vector
+                    dir = m_cam.transform.TransformDirection(dir); // Converts movement direction to world space
 
-                    if (m_turnInput > 0) dir -= Vector3.Cross(prevDir, Vector3.up);
-                    else if (m_turnInput < 0) dir += Vector3.Cross(prevDir, Vector3.up);
-
+                    // Converts movement direction to velocity and applies it to rigidbody
                     float velY = rb.velocity.y;
                     rb.velocity = dir * _Hurricane.m_moveSpeed;
                     rb.velocity = new Vector3(rb.velocity.x, velY, rb.velocity.z);
 
                     m_cam.transform.position += rb.velocity * Time.fixedDeltaTime;
-
-                    
 
                     if (m_endingHurricane) EndHurricane();
                 }
