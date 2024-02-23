@@ -45,6 +45,8 @@ public class PlayerMovement : MonoBehaviour
     bool m_isAccelerating;
     bool m_isReversing;
 
+    float m_accelerationAmount;
+
     Vector3 prevDir;
 
     [SerializeField] Speed _Speed;
@@ -200,12 +202,16 @@ public class PlayerMovement : MonoBehaviour
     {
         m_attemptingAccelerate = true;
         m_isAccelerating = true;
+
+        m_accelerationAmount = context.ReadValue<float>();
     }
 
     void OnDecelerate(InputAction.CallbackContext context)
     {
         m_attemptingAccelerate = false;
         if (!m_isDrifting) m_isAccelerating = false;
+
+        m_accelerationAmount = 0;
     }
     #endregion
 
@@ -417,7 +423,7 @@ public class PlayerMovement : MonoBehaviour
                     // Accelerate if player is accelerating and isn't at max speed
                     if (m_currentSpeed < _Speed.m_maxSpeed)
                     {
-                        m_currentSpeed += Time.fixedDeltaTime * _Speed.m_accelerationRate;
+                        m_currentSpeed += Time.fixedDeltaTime * _Speed.m_accelerationRate * m_accelerationAmount;
                         if (m_currentSpeed > _Speed.m_maxSpeed) m_currentSpeed = _Speed.m_maxSpeed; // Caps speed at max
                     }
                     else if (m_currentSpeed > _Speed.m_maxSpeed)
@@ -433,7 +439,7 @@ public class PlayerMovement : MonoBehaviour
                     {
                         if (m_currentSpeed < _Boost.m_maxSpeed)
                         {
-                            m_currentSpeed += Time.fixedDeltaTime * _Boost.m_accelerationRate;
+                            m_currentSpeed += Time.fixedDeltaTime * _Boost.m_accelerationRate * m_accelerationAmount;
                             if (m_currentSpeed > _Boost.m_maxSpeed) m_currentSpeed = _Boost.m_maxSpeed; // Caps speed at max
                         }
                         
