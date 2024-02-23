@@ -22,8 +22,13 @@ public class CameraFollow : MonoBehaviour
     public bool m_lockMovement { get; set; }
 
     bool m_isTweeningToOriginalCamPos;
-    float m_tweenDuration;
     Vector3 m_tweenVelocity;
+
+    public void SetOffsetWorldSpace()
+    {
+        m_useOffsetOverride = true;
+        m_worldOffsetOverride = m_lookAt.position + m_lookAt.TransformDirection(m_cameraOffset) - m_lookAt.position;
+    }
 
     private void Awake()
     {
@@ -74,9 +79,7 @@ public class CameraFollow : MonoBehaviour
 
     public void TweenToOriginalCamPosition(float _duration)
     {
-        m_tweenDuration = _duration;
         m_isTweeningToOriginalCamPos = true;
-
         m_tweenVelocity = (m_originalCameraOffset - m_cameraOffset) / _duration;
     }
 }

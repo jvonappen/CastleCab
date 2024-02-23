@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     public struct Grounded
     {
         [SerializeField] internal LayerMask m_groundLayer;
-        [SerializeField] internal Transform m_raycastPoint;
+        [SerializeField] internal Transform m_raycastPoint, m_secondaryPoint, m_thirdPoint;
         [SerializeField] internal float m_groundDist;
     }
     bool m_isGrounded;
@@ -278,6 +278,7 @@ public class PlayerMovement : MonoBehaviour
     void OnBeginGrounded()
     {
         if (m_turnInput != 0) SetTurnDrag();
+        if (m_isDrifting) m_cam.m_useOffsetOverride = false;
     }
 
     void OnExitGrounded()
@@ -288,28 +289,37 @@ public class PlayerMovement : MonoBehaviour
             m_wagonDrag.dragY = m_defaultWagonDrag;
             m_wagonDrag.dragZ = m_defaultWagonDrag;
         }
+        if (m_isDrifting) m_cam.SetOffsetWorldSpace();
     }
     #endregion
 
     #region Drift
     void OnDriftPerformed(InputAction.CallbackContext context)
     {
-        if (!m_isHurricane)
+        if (m_isGrounded)
         {
-            if (m_turnInput < 0) m_cam.camOffset = RotatePointAroundPivot(m_cam.m_originalCameraOffset, Vector3.zero, Vector3.up * 45);
-            else if (m_turnInput > 0) m_cam.camOffset = RotatePointAroundPivot(m_cam.m_originalCameraOffset, Vector3.zero, -Vector3.up * 45);
-
-            m_cam.TweenToOriginalCamPosition(1);
-
-            m_attemptingDrift = true;
-
-            if (!m_isDrifting)
+            if (!m_isHurricane)
             {
-                if (m_turnInput != 0)
+                if (m_turnInput < 0) m_cam.camOffset = RotatePointAroundPivot(m_cam.m_originalCameraOffset, Vector3.zero, Vector3.up * 45);
+                else if (m_turnInput > 0) m_cam.camOffset = RotatePointAroundPivot(m_cam.m_originalCameraOffset, Vector3.zero, -Vector3.up * 45);
+
+                m_cam.TweenToOriginalCamPosition(1);
+
+                m_attemptingDrift = true;
+
+                if (!m_isDrifting)
                 {
-                    OnTurnDrift();
+                    if (m_turnInput != 0)
+                    {
+                        OnTurnDrift();
+                    }
                 }
             }
+        }
+        else
+        {
+            m_cam.SetOffsetWorldSpace();
+            m_isDrifting = true;
         }
     }
     void OnDriftCanceled(InputAction.CallbackContext context)
@@ -318,6 +328,8 @@ public class PlayerMovement : MonoBehaviour
         m_attemptingDrift = false;
 
         if (!m_attemptingAccelerate) m_isAccelerating = false;
+
+        if (!m_isGrounded) m_cam.m_useOffsetOverride = false;
     }
 
     void OnTurnDrift()
@@ -347,8 +359,7 @@ public class PlayerMovement : MonoBehaviour
         m_isHurricane = true;
         m_cam.camSpeed = 2;
 
-        m_cam.m_useOffsetOverride = true;
-        m_cam.m_worldOffsetOverride = (m_cam.lookAt.position + m_cam.lookAt.TransformDirection(m_cam.camOffset)) - m_cam.lookAt.position;
+        m_cam.SetOffsetWorldSpace();
     }
 
     void OnHurricaneCanceled(InputAction.CallbackContext context)
@@ -392,17 +403,27 @@ public class PlayerMovement : MonoBehaviour
     private void GroundCheck()
     {
         RaycastHit hit;
-        if (Physics.Raycast(_Grounded.m_raycastPoint.position, Vector3.down, out hit, _Grounded.m_groundDist, _Grounded.m_groundLayer))
-        {
-            if (!m_isGrounded) OnBeginGrounded();
-            m_isGrounded = true;
-            rb.transform.rotation = Quaternion.Slerp(rb.transform.rotation, Quaternion.FromToRotation(rb.transform.up, hit.normal) * rb.transform.rotation, Time.fixedDeltaTime * 10.0f);
-        }
+        if (Physics.Raycast(_Grounded.m_raycastPoint.position, Vector3.down, out hit, _Grounded.m_groundDist, _Grounded.m_groundLayer)) SetGrounded(hit);
         else
         {
-            if (m_isGrounded) OnExitGrounded();
-            m_isGrounded = false;
+            if (Physics.Raycast(_Grounded.m_secondaryPoint.position, Vector3.down, out hit, _Grounded.m_groundDist, _Grounded.m_groundLayer)) SetGrounded(hit);
+            else
+            {
+                if (Physics.Raycast(_Grounded.m_thirdPoint.position, Vector3.down, out hit, _Grounded.m_groundDist, _Grounded.m_groundLayer)) SetGrounded(hit);
+                else
+                {
+                    if (m_isGrounded) OnExitGrounded();
+                    m_isGrounded = false;
+                }
+            }
         }
+    }
+
+    void SetGrounded(RaycastHit _hit)
+    {
+        if (!m_isGrounded) OnBeginGrounded();
+        m_isGrounded = true;
+        rb.transform.rotation = Quaternion.Slerp(rb.transform.rotation, Quaternion.FromToRotation(rb.transform.up, _hit.normal) * rb.transform.rotation, Time.fixedDeltaTime * 10.0f);
     }
     #endregion
 
@@ -499,12 +520,19 @@ public class PlayerMovement : MonoBehaviour
             Vector3 dir = rb.transform.forward;
             if (m_isDrifting)
             {
-                if (m_driftTurnInput != 0)
+                if (m_isGrounded)
                 {
-                    if (m_driftTurnInput > 0) dir -= rb.transform.right;
-                    else if (m_driftTurnInput < 0) dir += rb.transform.right;
+                    if (m_driftTurnInput != 0)
+                    {
+                        if (m_driftTurnInput > 0) dir -= rb.transform.right;
+                        else if (m_driftTurnInput < 0) dir += rb.transform.right;
 
-                    dir *= _Drifting.m_moveMultiplier;
+                        dir *= _Drifting.m_moveMultiplier;
+                    }
+                }
+                else // Air control
+                {
+                    dir = m_cam.transform.forward;
                 }
             }
 
@@ -587,7 +615,7 @@ public class PlayerMovement : MonoBehaviour
 
                 // Applies desired rotation
                 Vector3 rotateVector = new(rotX, 0, rotZ);
-                rb.transform.rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + rotateVector);
+                rb.transform.Rotate(rotateVector);// .rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + rotateVector);
             }
         }
         else if (!m_isGrounded && !m_isBoosting) turnSpeed = _Turning.m_inAirSpeed;
