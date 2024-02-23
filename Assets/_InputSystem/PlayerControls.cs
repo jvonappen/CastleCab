@@ -82,7 +82,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""HurricaneMove"",
+                    ""name"": ""DirectionInput"",
                     ""type"": ""PassThrough"",
                     ""id"": ""97287156-90b9-4d00-b436-546b36dafedc"",
                     ""expectedControlType"": ""Analog"",
@@ -507,7 +507,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""HurricaneMove"",
+                    ""action"": ""DirectionInput"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -518,7 +518,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""HurricaneMove"",
+                    ""action"": ""DirectionInput"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -529,7 +529,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""HurricaneMove"",
+                    ""action"": ""DirectionInput"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -540,7 +540,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""HurricaneMove"",
+                    ""action"": ""DirectionInput"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -551,7 +551,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""HurricaneMove"",
+                    ""action"": ""DirectionInput"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -562,7 +562,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""HurricaneMove"",
+                    ""action"": ""DirectionInput"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -607,7 +607,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Controls_Drift = m_Controls.FindAction("Drift", throwIfNotFound: true);
         m_Controls_Boost = m_Controls.FindAction("Boost", throwIfNotFound: true);
         m_Controls_Hurricane = m_Controls.FindAction("Hurricane", throwIfNotFound: true);
-        m_Controls_HurricaneMove = m_Controls.FindAction("HurricaneMove", throwIfNotFound: true);
+        m_Controls_DirectionInput = m_Controls.FindAction("DirectionInput", throwIfNotFound: true);
         m_Controls_Backflip = m_Controls.FindAction("Backflip", throwIfNotFound: true);
         m_Controls_BarrelRoll = m_Controls.FindAction("BarrelRoll", throwIfNotFound: true);
         m_Controls_Interact = m_Controls.FindAction("Interact", throwIfNotFound: true);
@@ -683,7 +683,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Controls_Drift;
     private readonly InputAction m_Controls_Boost;
     private readonly InputAction m_Controls_Hurricane;
-    private readonly InputAction m_Controls_HurricaneMove;
+    private readonly InputAction m_Controls_DirectionInput;
     private readonly InputAction m_Controls_Backflip;
     private readonly InputAction m_Controls_BarrelRoll;
     private readonly InputAction m_Controls_Interact;
@@ -699,7 +699,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Drift => m_Wrapper.m_Controls_Drift;
         public InputAction @Boost => m_Wrapper.m_Controls_Boost;
         public InputAction @Hurricane => m_Wrapper.m_Controls_Hurricane;
-        public InputAction @HurricaneMove => m_Wrapper.m_Controls_HurricaneMove;
+        public InputAction @DirectionInput => m_Wrapper.m_Controls_DirectionInput;
         public InputAction @Backflip => m_Wrapper.m_Controls_Backflip;
         public InputAction @BarrelRoll => m_Wrapper.m_Controls_BarrelRoll;
         public InputAction @Interact => m_Wrapper.m_Controls_Interact;
@@ -732,9 +732,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Hurricane.started += instance.OnHurricane;
             @Hurricane.performed += instance.OnHurricane;
             @Hurricane.canceled += instance.OnHurricane;
-            @HurricaneMove.started += instance.OnHurricaneMove;
-            @HurricaneMove.performed += instance.OnHurricaneMove;
-            @HurricaneMove.canceled += instance.OnHurricaneMove;
+            @DirectionInput.started += instance.OnDirectionInput;
+            @DirectionInput.performed += instance.OnDirectionInput;
+            @DirectionInput.canceled += instance.OnDirectionInput;
             @Backflip.started += instance.OnBackflip;
             @Backflip.performed += instance.OnBackflip;
             @Backflip.canceled += instance.OnBackflip;
@@ -772,9 +772,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Hurricane.started -= instance.OnHurricane;
             @Hurricane.performed -= instance.OnHurricane;
             @Hurricane.canceled -= instance.OnHurricane;
-            @HurricaneMove.started -= instance.OnHurricaneMove;
-            @HurricaneMove.performed -= instance.OnHurricaneMove;
-            @HurricaneMove.canceled -= instance.OnHurricaneMove;
+            @DirectionInput.started -= instance.OnDirectionInput;
+            @DirectionInput.performed -= instance.OnDirectionInput;
+            @DirectionInput.canceled -= instance.OnDirectionInput;
             @Backflip.started -= instance.OnBackflip;
             @Backflip.performed -= instance.OnBackflip;
             @Backflip.canceled -= instance.OnBackflip;
@@ -861,7 +861,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnDrift(InputAction.CallbackContext context);
         void OnBoost(InputAction.CallbackContext context);
         void OnHurricane(InputAction.CallbackContext context);
-        void OnHurricaneMove(InputAction.CallbackContext context);
+        void OnDirectionInput(InputAction.CallbackContext context);
         void OnBackflip(InputAction.CallbackContext context);
         void OnBarrelRoll(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);

@@ -488,11 +488,14 @@ MonoBehaviour:
   rb: {fileID: 6675228846841819017}
   wagon: {fileID: 2993029738518890700}
   m_staminaBar: {fileID: 7246406548184296393}
+  m_isGrounded: 0
   _Grounded:
     m_groundLayer:
       serializedVersion: 2
       m_Bits: 64
     m_raycastPoint: {fileID: 7533446497650998052}
+    m_secondaryPoint: {fileID: 2198368648947280710}
+    m_thirdPoint: {fileID: 4138167954780452142}
     m_groundDist: 1
   _Speed:
     m_maxSpeed: 30
@@ -515,6 +518,9 @@ MonoBehaviour:
   _CartControl:
     m_turningDrag: 0.8
     m_boostTurnDrag: 0.9
+  _AirControl:
+    m_flipSpeed: 400
+    m_rollSpeed: 400
   _Stamina:
     m_regenPerSec: 0.3
     m_regenCooldown: 1
@@ -648,6 +654,37 @@ Transform:
   - {fileID: 7275205711273165656}
   - {fileID: 1366726598684397080}
   m_Father: {fileID: 7863771096885059532}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1089218408094314523
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4138167954780452142}
+  m_Layer: 3
+  m_Name: GroundRayPoint (Third)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4138167954780452142
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1089218408094314523}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.235, z: -2.66}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6595079877914573971}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1420897432992280065
 GameObject:
@@ -5642,6 +5679,37 @@ Transform:
   - {fileID: 1763103430749949413}
   m_Father: {fileID: 7863771096885059532}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2479346817869127453
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2198368648947280710}
+  m_Layer: 3
+  m_Name: GroundRayPoint (Secondary)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2198368648947280710
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2479346817869127453}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.235, z: -1.02}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6595079877914573971}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2522102798336021031
 GameObject:
   m_ObjectHideFlags: 0
@@ -5861,6 +5929,8 @@ Transform:
   - {fileID: 3109330124365714059}
   - {fileID: 7045757518854862865}
   - {fileID: 7533446497650998052}
+  - {fileID: 2198368648947280710}
+  - {fileID: 4138167954780452142}
   m_Father: {fileID: 7295361350551407811}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &6675228846841819017
@@ -20512,7 +20582,7 @@ Transform:
   m_GameObject: {fileID: 6571156931622468955}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.235, z: -0.152}
+  m_LocalPosition: {x: 0, y: 0.235, z: 0.37}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
