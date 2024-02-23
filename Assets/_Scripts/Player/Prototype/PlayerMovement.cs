@@ -95,6 +95,16 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] CartControl _CartControl;
     #endregion
 
+    #region AirControl
+    [System.Serializable]
+    public struct AirControl
+    {
+        [SerializeField] internal float m_flipSpeed, m_rollSpeed;
+    }
+
+    [SerializeField] AirControl _AirControl;
+    #endregion
+
     #region Stamina
     [System.Serializable]
     public struct Stamina
@@ -128,7 +138,7 @@ public class PlayerMovement : MonoBehaviour
     }
     bool m_isHurricane;
     bool m_endingHurricane;
-    Vector2 m_hurricaneMoveInput;
+    Vector2 m_directionMoveInput;
 
     [SerializeField] Hurricane _Hurricane;
     #endregion
@@ -166,8 +176,8 @@ public class PlayerMovement : MonoBehaviour
         m_playerInput.m_playerControls.Controls.Hurricane.performed += OnHurricanePerformed;
         m_playerInput.m_playerControls.Controls.Hurricane.canceled += OnHurricaneCanceled;
 
-        m_playerInput.m_playerControls.Controls.HurricaneMove.performed += HurricaneMovePerformed;
-        m_playerInput.m_playerControls.Controls.HurricaneMove.canceled += HurricaneMoveCanceled;
+        m_playerInput.m_playerControls.Controls.DirectionInput.performed += DirectionMovePerformed;
+        m_playerInput.m_playerControls.Controls.DirectionInput.canceled += DirectionMoveCanceled;
         #endregion
     }
 
@@ -365,14 +375,15 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void HurricaneMovePerformed(InputAction.CallbackContext context) => m_hurricaneMoveInput = context.ReadValue<Vector2>();
-
-    void HurricaneMoveCanceled(InputAction.CallbackContext context) => m_hurricaneMoveInput = Vector2.zero;
-
     #endregion
 
     #region Camera
     public void OnCameraSetTarget(CameraFollow _camFollow) => m_cam = _camFollow;
+    #endregion
+
+    #region DirectionMove
+    void DirectionMovePerformed(InputAction.CallbackContext context) => m_directionMoveInput = context.ReadValue<Vector2>();
+    void DirectionMoveCanceled(InputAction.CallbackContext context) => m_directionMoveInput = Vector2.zero;
     #endregion
 
     #endregion
@@ -520,7 +531,7 @@ public class PlayerMovement : MonoBehaviour
                     rb.transform.rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + new Vector3(0f, _Hurricane.m_spinSpeed * Time.fixedDeltaTime, 0f));
 
                     // Handle movement
-                    Vector3 dir = new Vector3(m_hurricaneMoveInput.x, 0, m_hurricaneMoveInput.y); // Gets local movement direction vector
+                    Vector3 dir = new Vector3(m_directionMoveInput.x, 0, m_directionMoveInput.y); // Gets local movement direction vector
                     dir = m_cam.transform.TransformDirection(dir); // Converts movement direction to world space
 
                     // Converts movement direction to velocity and applies it to rigidbody
@@ -548,21 +559,36 @@ public class PlayerMovement : MonoBehaviour
         float turnSpeed = _Turning.m_defaultSpeed;
         if (m_isDrifting)
         {
-            turnInput = m_driftTurnInput;
-
-            if (m_driftCooldownTimer >= _Drifting.m_startCooldown)
+            if (m_isGrounded)
             {
-                if (m_currentDriftTurnSpeed < _Drifting.m_maxTurnSpeed)
+                turnInput = m_driftTurnInput;
+
+                if (m_driftCooldownTimer >= _Drifting.m_startCooldown)
                 {
-                    m_currentDriftTurnSpeed += Time.fixedDeltaTime * _Drifting.m_turnAcceleration;
-                    if (m_currentDriftTurnSpeed > _Drifting.m_maxTurnSpeed) m_currentDriftTurnSpeed = _Drifting.m_maxTurnSpeed;
+                    if (m_currentDriftTurnSpeed < _Drifting.m_maxTurnSpeed)
+                    {
+                        m_currentDriftTurnSpeed += Time.fixedDeltaTime * _Drifting.m_turnAcceleration;
+                        if (m_currentDriftTurnSpeed > _Drifting.m_maxTurnSpeed) m_currentDriftTurnSpeed = _Drifting.m_maxTurnSpeed;
+                    }
                 }
+
+                float turnStrength = m_turnInput + 1;
+                if (turnInput < 0) turnStrength = Mathf.Abs(m_turnInput - 1);
+
+                turnSpeed = m_currentDriftTurnSpeed * turnStrength * _Drifting.m_strengthMultiplier;
             }
+            else // Handle air control
+            {
+                turnInput = 0;
 
-            float turnStrength = m_turnInput + 1;
-            if (turnInput < 0) turnStrength = Mathf.Abs(m_turnInput - 1);
+                // Calculates rotation amount this physics update based on input and rotation speed
+                float rotZ = m_directionMoveInput.x * _AirControl.m_rollSpeed * Time.fixedDeltaTime;
+                float rotX = m_directionMoveInput.y * _AirControl.m_flipSpeed * Time.fixedDeltaTime;
 
-            turnSpeed = m_currentDriftTurnSpeed * turnStrength * _Drifting.m_strengthMultiplier;
+                // Applies desired rotation
+                Vector3 rotateVector = new(rotX, 0, rotZ);
+                rb.transform.rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + rotateVector);
+            }
         }
         else if (!m_isGrounded && !m_isBoosting) turnSpeed = _Turning.m_inAirSpeed;
         else if (!m_isAccelerating && !m_isReversing) turnSpeed = _Turning.m_onSpotSpeed;
