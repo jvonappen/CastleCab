@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -26,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
         [SerializeField] internal float m_groundDist;
     }
     bool m_isGrounded;
+    public bool isGrounded { get { return m_isGrounded; } }
     [SerializeField] Grounded _Grounded;
     #endregion
 
@@ -79,6 +81,7 @@ public class PlayerMovement : MonoBehaviour
 
     float m_driftCooldownTimer;
 
+    public bool isDrifting { get { return m_isDrifting; } }
     [SerializeField] Drifting _Drifting;
     #endregion
 
@@ -141,6 +144,22 @@ public class PlayerMovement : MonoBehaviour
     Vector2 m_directionMoveInput;
 
     [SerializeField] Hurricane _Hurricane;
+    #endregion
+
+    #region Actions
+
+    public Action onStartedMovement;
+    public Action onStoppedMovement;
+
+    public Action onGrounded;
+    public Action onExitGrounded;
+
+    public Action onDrift;
+    public Action onDriftCanceled;
+
+    public Action onBoost;
+    public Action onBoostCanceled;
+
     #endregion
 
     #endregion
@@ -210,6 +229,8 @@ public class PlayerMovement : MonoBehaviour
     #region Acceleration
     void OnAccelerate(InputAction.CallbackContext context)
     {
+        onStartedMovement?.Invoke();
+
         m_attemptingAccelerate = true;
         m_isAccelerating = true;
 
@@ -261,12 +282,16 @@ public class PlayerMovement : MonoBehaviour
 
     void OnBoostPerformed(InputAction.CallbackContext context)
     {
+        onBoost?.Invoke();
+
         m_isBoosting = true;
         if (m_turnInput != 0) SetTurnDrag();
     }
 
     void OnBoostCanceled(InputAction.CallbackContext context)
     {
+        onBoostCanceled?.Invoke();
+
         m_isBoosting = false;
         if (m_turnInput != 0) SetTurnDrag();
     }
@@ -277,12 +302,16 @@ public class PlayerMovement : MonoBehaviour
 
     void OnBeginGrounded()
     {
+        onGrounded?.Invoke();
+
         if (m_turnInput != 0) SetTurnDrag();
         if (m_isDrifting) m_cam.m_useOffsetOverride = false;
     }
 
     void OnExitGrounded()
     {
+        onExitGrounded?.Invoke();
+
         if (m_turnInput != 0)
         {
             m_wagonDrag.dragX = m_defaultWagonDrag;
@@ -324,6 +353,8 @@ public class PlayerMovement : MonoBehaviour
     }
     void OnDriftCanceled(InputAction.CallbackContext context)
     {
+        onDriftCanceled?.Invoke();
+
         m_isDrifting = false;
         m_attemptingDrift = false;
 
@@ -334,6 +365,8 @@ public class PlayerMovement : MonoBehaviour
 
     void OnTurnDrift()
     {
+        onDrift?.Invoke();
+
         m_isAccelerating = true;
 
         m_isDrifting = true;
@@ -437,6 +470,8 @@ public class PlayerMovement : MonoBehaviour
             // If stamina runs out, cancel boost
             if (m_staminaBar.progress <= 0)
             {
+                onBoostCanceled?.Invoke();
+
                 m_isBoosting = false;
                 m_staminaBar.progress = 0;
                 m_staminaBar.UpdateProgress();
@@ -501,7 +536,11 @@ public class PlayerMovement : MonoBehaviour
             if (m_currentSpeed > 0) // Lower speed (player was moving forward)
             {
                 m_currentSpeed -= Time.fixedDeltaTime * _Speed.m_decelerationRate;
-                if (m_currentSpeed < 0) m_currentSpeed = 0;
+                if (m_currentSpeed < 0)
+                {
+                    onStoppedMovement?.Invoke();
+                    m_currentSpeed = 0;
+                }
             }
             else if (m_currentSpeed < 0) // Increase speed (player was reversing)
             {
