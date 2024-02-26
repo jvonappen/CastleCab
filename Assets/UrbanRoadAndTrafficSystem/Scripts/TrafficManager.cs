@@ -38,6 +38,7 @@ namespace URNTS
             if (instance != null) Destroy(gameObject);
             else
                 instance = this;
+                
         }
 
         private void Start()
@@ -68,7 +69,8 @@ namespace URNTS
 
         void Update()
         {
-
+            
+                
         }
 
         public IEnumerator SignalRoutine()
