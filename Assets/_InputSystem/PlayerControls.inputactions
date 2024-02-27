@@ -69,6 +69,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "AirControl",
+                    "type": "Button",
+                    "id": "37c5e923-87d0-44d9-b58a-8343549445e5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Backflip",
                     "type": "Button",
                     "id": "e09e04a9-49ed-421f-a4f3-f0c17da74cd4",
@@ -213,17 +222,6 @@
                     "action": "Steering",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "ab0b5b9d-a093-4f8d-b6b5-51e58402b7f3",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Drift",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
@@ -543,6 +541,39 @@
                     "action": "DirectionInput",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "242fd242-3d5b-4ca3-858e-4c2627ddfa39",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AirControl",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e8130cc0-db2f-4015-8448-097533de1851",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AirControl",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eeae85e0-238f-4f61-a68b-1d1cda2c4bc3",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AirControl",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

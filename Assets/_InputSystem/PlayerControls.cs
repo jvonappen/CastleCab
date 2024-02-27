@@ -91,6 +91,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""AirControl"",
+                    ""type"": ""Button"",
+                    ""id"": ""37c5e923-87d0-44d9-b58a-8343549445e5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Backflip"",
                     ""type"": ""Button"",
                     ""id"": ""e09e04a9-49ed-421f-a4f3-f0c17da74cd4"",
@@ -235,17 +244,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Steering"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""ab0b5b9d-a093-4f8d-b6b5-51e58402b7f3"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Drift"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -565,6 +563,39 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""DirectionInput"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""242fd242-3d5b-4ca3-858e-4c2627ddfa39"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AirControl"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e8130cc0-db2f-4015-8448-097533de1851"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AirControl"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eeae85e0-238f-4f61-a68b-1d1cda2c4bc3"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AirControl"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -608,6 +639,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Controls_Boost = m_Controls.FindAction("Boost", throwIfNotFound: true);
         m_Controls_Hurricane = m_Controls.FindAction("Hurricane", throwIfNotFound: true);
         m_Controls_DirectionInput = m_Controls.FindAction("DirectionInput", throwIfNotFound: true);
+        m_Controls_AirControl = m_Controls.FindAction("AirControl", throwIfNotFound: true);
         m_Controls_Backflip = m_Controls.FindAction("Backflip", throwIfNotFound: true);
         m_Controls_BarrelRoll = m_Controls.FindAction("BarrelRoll", throwIfNotFound: true);
         m_Controls_Interact = m_Controls.FindAction("Interact", throwIfNotFound: true);
@@ -684,6 +716,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Controls_Boost;
     private readonly InputAction m_Controls_Hurricane;
     private readonly InputAction m_Controls_DirectionInput;
+    private readonly InputAction m_Controls_AirControl;
     private readonly InputAction m_Controls_Backflip;
     private readonly InputAction m_Controls_BarrelRoll;
     private readonly InputAction m_Controls_Interact;
@@ -700,6 +733,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Boost => m_Wrapper.m_Controls_Boost;
         public InputAction @Hurricane => m_Wrapper.m_Controls_Hurricane;
         public InputAction @DirectionInput => m_Wrapper.m_Controls_DirectionInput;
+        public InputAction @AirControl => m_Wrapper.m_Controls_AirControl;
         public InputAction @Backflip => m_Wrapper.m_Controls_Backflip;
         public InputAction @BarrelRoll => m_Wrapper.m_Controls_BarrelRoll;
         public InputAction @Interact => m_Wrapper.m_Controls_Interact;
@@ -735,6 +769,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @DirectionInput.started += instance.OnDirectionInput;
             @DirectionInput.performed += instance.OnDirectionInput;
             @DirectionInput.canceled += instance.OnDirectionInput;
+            @AirControl.started += instance.OnAirControl;
+            @AirControl.performed += instance.OnAirControl;
+            @AirControl.canceled += instance.OnAirControl;
             @Backflip.started += instance.OnBackflip;
             @Backflip.performed += instance.OnBackflip;
             @Backflip.canceled += instance.OnBackflip;
@@ -775,6 +812,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @DirectionInput.started -= instance.OnDirectionInput;
             @DirectionInput.performed -= instance.OnDirectionInput;
             @DirectionInput.canceled -= instance.OnDirectionInput;
+            @AirControl.started -= instance.OnAirControl;
+            @AirControl.performed -= instance.OnAirControl;
+            @AirControl.canceled -= instance.OnAirControl;
             @Backflip.started -= instance.OnBackflip;
             @Backflip.performed -= instance.OnBackflip;
             @Backflip.canceled -= instance.OnBackflip;
@@ -862,6 +902,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnBoost(InputAction.CallbackContext context);
         void OnHurricane(InputAction.CallbackContext context);
         void OnDirectionInput(InputAction.CallbackContext context);
+        void OnAirControl(InputAction.CallbackContext context);
         void OnBackflip(InputAction.CallbackContext context);
         void OnBarrelRoll(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);

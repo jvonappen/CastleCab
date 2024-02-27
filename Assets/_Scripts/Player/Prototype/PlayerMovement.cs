@@ -143,6 +143,7 @@ public class PlayerMovement : MonoBehaviour
     bool m_endingHurricane;
     Vector2 m_directionMoveInput;
 
+    public bool isHurricane { get { return m_isHurricane; } }
     [SerializeField] Hurricane _Hurricane;
     #endregion
 
@@ -159,6 +160,9 @@ public class PlayerMovement : MonoBehaviour
 
     public Action onBoost;
     public Action onBoostCanceled;
+
+    public Action onHurricane;
+    public Action onHurricaneCanceled;
 
     #endregion
 
@@ -389,6 +393,8 @@ public class PlayerMovement : MonoBehaviour
 
     void OnHurricanePerformed(InputAction.CallbackContext context)
     {
+        onHurricane?.Invoke();
+
         m_isHurricane = true;
         m_cam.camSpeed = 2;
 
@@ -397,7 +403,12 @@ public class PlayerMovement : MonoBehaviour
 
     void OnHurricaneCanceled(InputAction.CallbackContext context)
     {
-        if (m_isHurricane) m_endingHurricane = true;
+        if (m_isHurricane)
+        {
+            onHurricaneCanceled?.Invoke();
+
+            m_endingHurricane = true;
+        }
     }
 
     void EndHurricane()
