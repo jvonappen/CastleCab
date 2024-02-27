@@ -126,6 +126,7 @@ public class PlayerMovement : MonoBehaviour
         [SerializeField] internal float m_maxSpeed;
         [SerializeField] internal float m_accelerationRate, m_decelerationRate;
         [SerializeField] internal float m_staminaCostPerSec;
+        [SerializeField] internal float m_camFOV, m_tweenSpeedFOV;
     }
     bool m_isBoosting;
 
@@ -288,6 +289,8 @@ public class PlayerMovement : MonoBehaviour
     {
         onBoost?.Invoke();
 
+        m_cam.TweenFOV(_Boost.m_camFOV, _Boost.m_tweenSpeedFOV);
+
         m_isBoosting = true;
         if (m_turnInput != 0) SetTurnDrag();
     }
@@ -295,6 +298,8 @@ public class PlayerMovement : MonoBehaviour
     void OnBoostCanceled(InputAction.CallbackContext context)
     {
         onBoostCanceled?.Invoke();
+
+        m_cam.TweenFOV(m_cam.originalFOV, _Boost.m_tweenSpeedFOV);
 
         m_isBoosting = false;
         if (m_turnInput != 0) SetTurnDrag();

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
+    Camera m_cam;
+
     [SerializeField] Transform m_lookAt;
     [SerializeField] Vector3 m_cameraOffset, m_lookAtOffset;
     [SerializeField] float m_speed, m_camSpeed;
@@ -24,6 +26,13 @@ public class CameraFollow : MonoBehaviour
     bool m_isTweeningToOriginalCamPos;
     Vector3 m_tweenVelocity;
 
+
+    float m_originalFOV;
+    public float originalFOV { get { return m_originalFOV; } }
+    float m_currentFOV;
+    float m_targetFOV;
+    float m_tweenSpeedFOV;
+
     public void SetOffsetWorldSpace()
     {
         m_useOffsetOverride = true;
@@ -32,8 +41,14 @@ public class CameraFollow : MonoBehaviour
 
     private void Awake()
     {
+        m_cam = GetComponent<Camera>();
+
         m_originalCamSpeed = m_camSpeed;
         m_originalCameraOffset = m_cameraOffset;
+
+        m_currentFOV = m_cam.fieldOfView;
+        m_originalFOV = m_currentFOV;
+        m_targetFOV = m_currentFOV;
 
         if (m_lookAt.parent) m_lookAt.parent.BroadcastMessage("OnCameraSetTarget", this, SendMessageOptions.DontRequireReceiver);
         else m_lookAt.gameObject.BroadcastMessage("OnCameraSetTarget", this, SendMessageOptions.DontRequireReceiver);
@@ -64,6 +79,29 @@ public class CameraFollow : MonoBehaviour
             Vector3 moveVelocity = (m_lookAt.position + offset) - transform.position;
             transform.position += m_speed * Time.deltaTime * moveVelocity;
         }
+
+        // Handles FOV lerping
+        if (m_currentFOV != m_targetFOV)
+        {
+            if (m_currentFOV < m_targetFOV)
+            {
+                m_currentFOV += Time.deltaTime * m_tweenSpeedFOV;
+                if (m_currentFOV > m_targetFOV) m_currentFOV = m_targetFOV;
+            }
+            else if (m_currentFOV > m_targetFOV)
+            {
+                m_currentFOV -= Time.deltaTime * m_tweenSpeedFOV;
+                if (m_currentFOV < m_targetFOV) m_currentFOV = m_targetFOV;
+            }
+
+            m_cam.fieldOfView = m_currentFOV;
+        }
+    }
+
+    public void TweenFOV(float _targetFOV, float _speed)
+    {
+        m_targetFOV = _targetFOV;
+        m_tweenSpeedFOV = _speed;
     }
 
     private void LateUpdate()
