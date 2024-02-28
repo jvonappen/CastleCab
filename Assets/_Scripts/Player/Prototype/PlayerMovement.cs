@@ -408,12 +408,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnHurricaneCanceled(InputAction.CallbackContext context)
     {
-        if (m_isHurricane)
-        {
-            onHurricaneCanceled?.Invoke();
-
-            m_endingHurricane = true;
-        }
+        if (m_isHurricane) m_endingHurricane = true;
     }
 
     void EndHurricane()
@@ -422,6 +417,8 @@ public class PlayerMovement : MonoBehaviour
         {
             if (rb.transform.forward.z > prevDir.z - 2 && rb.transform.forward.z < prevDir.z + 2)
             {
+                onHurricaneCanceled?.Invoke();
+
                 m_isHurricane = false;
                 m_endingHurricane = false;
 
