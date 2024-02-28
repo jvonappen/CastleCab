@@ -105,6 +105,7 @@ public class PlayerMovement : MonoBehaviour
         [SerializeField] internal float m_flipSpeed, m_rollSpeed;
     }
 
+    bool m_isAirControl;
     [SerializeField] AirControl _AirControl;
     #endregion
 
@@ -268,7 +269,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (m_isAccelerating)
         {
-            if (m_attemptingDrift && !m_isDrifting) OnTurnDrift();
+            if (m_attemptingDrift && !m_isDrifting && isGrounded) OnTurnDrift();
         }
         if (m_isGrounded) SetTurnDrag();
     }
@@ -314,7 +315,13 @@ public class PlayerMovement : MonoBehaviour
         onGrounded?.Invoke();
 
         if (m_turnInput != 0) SetTurnDrag();
-        if (m_isDrifting) m_cam.m_useOffsetOverride = false;
+
+        if (m_attemptingDrift)
+        {
+            m_turnInput = m_driftTurnInput;
+            OnTurnDrift();
+        }
+        //if (m_isDrifting) m_cam.m_useOffsetOverride = false; // Unlocks camera to follow player after air control
     }
 
     void OnExitGrounded()
@@ -327,7 +334,9 @@ public class PlayerMovement : MonoBehaviour
             m_wagonDrag.dragY = m_defaultWagonDrag;
             m_wagonDrag.dragZ = m_defaultWagonDrag;
         }
-        if (m_isDrifting) m_cam.SetOffsetWorldSpace();
+
+        m_isDrifting = false;
+        //if (m_isDrifting) m_cam.SetOffsetWorldSpace(); // Locks camera rotation to world space while air control
     }
     #endregion
 
@@ -356,8 +365,8 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            m_cam.SetOffsetWorldSpace();
-            m_isDrifting = true;
+            //m_cam.SetOffsetWorldSpace(); // Locks camera for air control
+            //m_isDrifting = true;
         }
     }
     void OnDriftCanceled(InputAction.CallbackContext context)
@@ -369,7 +378,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (!m_attemptingAccelerate) m_isAccelerating = false;
 
-        if (!m_isGrounded) m_cam.m_useOffsetOverride = false;
+        //if (!m_isGrounded) m_cam.m_useOffsetOverride = false; // Unlocks camera if air control is canceled in air
     }
 
     void OnTurnDrift()
@@ -383,13 +392,18 @@ public class PlayerMovement : MonoBehaviour
 
         m_driftCooldownTimer = 0;
 
-        Vector3 rbRot = rb.transform.eulerAngles;
-        if (m_turnInput < 0) m_driftTurnInput = -1;
-        else m_driftTurnInput = 1;
+        SetDriftTurnInput();
 
+        Vector3 rbRot = rb.transform.eulerAngles;
         Vector3 rotateAmount = new Vector3(0, 45, 0);
         if (m_turnInput > 0) rb.rotation = Quaternion.Euler(rbRot.x + rotateAmount.x, rbRot.y + rotateAmount.y, rbRot.z + rotateAmount.z);
         else if (m_turnInput < 0) rb.rotation = Quaternion.Euler(rbRot.x - rotateAmount.x, rbRot.y - rotateAmount.y, rbRot.z - rotateAmount.z);
+    }
+
+    void SetDriftTurnInput()
+    {
+        if (m_turnInput < 0) m_driftTurnInput = -1;
+        else m_driftTurnInput = 1;
     }
 
     #endregion
@@ -584,7 +598,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 else // Air control
                 {
-                    dir = m_cam.transform.forward;
+                    //dir = m_cam.transform.forward;
                 }
             }
 
@@ -659,15 +673,15 @@ public class PlayerMovement : MonoBehaviour
             }
             else // Handle air control
             {
-                turnInput = 0;
-
-                // Calculates rotation amount this physics update based on input and rotation speed
-                float rotZ = m_directionMoveInput.x * _AirControl.m_rollSpeed * Time.fixedDeltaTime;
-                float rotX = m_directionMoveInput.y * _AirControl.m_flipSpeed * Time.fixedDeltaTime;
-
-                // Applies desired rotation
-                Vector3 rotateVector = new(rotX, 0, rotZ);
-                rb.transform.Rotate(rotateVector);// .rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + rotateVector);
+                //turnInput = 0;
+                //
+                //// Calculates rotation amount this physics update based on input and rotation speed
+                //float rotZ = m_directionMoveInput.x * _AirControl.m_rollSpeed * Time.fixedDeltaTime;
+                //float rotX = m_directionMoveInput.y * _AirControl.m_flipSpeed * Time.fixedDeltaTime;
+                //
+                //// Applies desired rotation
+                //Vector3 rotateVector = new(rotX, 0, rotZ);
+                //rb.transform.Rotate(rotateVector);// .rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + rotateVector);
             }
         }
         else if (!m_isGrounded && !m_isBoosting) turnSpeed = _Turning.m_inAirSpeed;
