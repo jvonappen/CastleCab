@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+
     #region Variables
 
     #region References
@@ -105,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
         [SerializeField] internal float m_flipSpeed, m_rollSpeed;
     }
 
-    bool m_isAirControl;
+    [SerializeField] bool m_isAirControl;
     [SerializeField] AirControl _AirControl;
     #endregion
 
@@ -203,6 +204,9 @@ public class PlayerMovement : MonoBehaviour
 
         m_playerInput.m_playerControls.Controls.DirectionInput.performed += DirectionMovePerformed;
         m_playerInput.m_playerControls.Controls.DirectionInput.canceled += DirectionMoveCanceled;
+
+        m_playerInput.m_playerControls.Controls.AirControl.performed += OnAirControl;
+        m_playerInput.m_playerControls.Controls.AirControl.canceled += OnAirControlCanceled;
         #endregion
     }
 
@@ -314,6 +318,8 @@ public class PlayerMovement : MonoBehaviour
     {
         onGrounded?.Invoke();
 
+        if (m_isAirControl) CancelAirControl();
+
         if (m_turnInput != 0) SetTurnDrag();
 
         if (m_attemptingDrift)
@@ -321,6 +327,7 @@ public class PlayerMovement : MonoBehaviour
             m_turnInput = m_driftTurnInput;
             OnTurnDrift();
         }
+
         //if (m_isDrifting) m_cam.m_useOffsetOverride = false; // Unlocks camera to follow player after air control
     }
 
@@ -455,6 +462,30 @@ public class PlayerMovement : MonoBehaviour
     #region DirectionMove
     void DirectionMovePerformed(InputAction.CallbackContext context) => m_directionMoveInput = context.ReadValue<Vector2>();
     void DirectionMoveCanceled(InputAction.CallbackContext context) => m_directionMoveInput = Vector2.zero;
+    #endregion
+
+    #region AirControl
+
+    void OnAirControl(InputAction.CallbackContext context)
+    {
+        if (!m_isGrounded)
+        {
+            m_isAirControl = true; 
+            m_cam.SetOffsetWorldSpace(); // Locks camera
+        }
+    }
+
+    void OnAirControlCanceled(InputAction.CallbackContext context)
+    {
+        if (m_isAirControl) CancelAirControl();
+    }
+
+    void CancelAirControl()
+    {
+        m_isAirControl = false;
+        m_cam.m_useOffsetOverride = false; // Unlocks camera if air control is canceled
+    }
+
     #endregion
 
     #endregion
@@ -601,6 +632,7 @@ public class PlayerMovement : MonoBehaviour
                     //dir = m_cam.transform.forward;
                 }
             }
+            else if (m_isAirControl) dir = m_cam.transform.forward;
 
             // Apply velocity based on calculated speed, Without affecting y velocity
             if (m_currentSpeed != 0)
@@ -683,6 +715,18 @@ public class PlayerMovement : MonoBehaviour
                 //Vector3 rotateVector = new(rotX, 0, rotZ);
                 //rb.transform.Rotate(rotateVector);// .rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + rotateVector);
             }
+        }
+        else if (m_isAirControl)
+        {
+            turnInput = 0;
+            
+            // Calculates rotation amount this physics update based on input and rotation speed
+            float rotZ = m_directionMoveInput.x * _AirControl.m_rollSpeed * Time.fixedDeltaTime;
+            float rotX = m_directionMoveInput.y * _AirControl.m_flipSpeed * Time.fixedDeltaTime;
+            
+            // Applies desired rotation
+            Vector3 rotateVector = new(rotX, 0, rotZ);
+            rb.transform.Rotate(rotateVector);// .rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + rotateVector);
         }
         else if (!m_isGrounded && !m_isBoosting) turnSpeed = _Turning.m_inAirSpeed;
         else if (!m_isAccelerating && !m_isReversing) turnSpeed = _Turning.m_onSpotSpeed;
