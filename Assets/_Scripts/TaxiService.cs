@@ -28,7 +28,7 @@ public class TaxiService : MonoBehaviour
 
     [Header("Timer")]
     [SerializeField] private GameObject timerObject;
-    [SerializeField] private Timer timeValue;
+    [SerializeField] private GameTimer timeValue;
 
     [Header("Respawn")]
     //private Transform _ogTrans;
