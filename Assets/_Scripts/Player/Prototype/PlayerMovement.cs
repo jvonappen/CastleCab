@@ -12,6 +12,8 @@ public class PlayerMovement : MonoBehaviour
 
     Animator m_animator;
 
+    CustomGravity m_customGravity;
+
     [SerializeField] Rigidbody rb;
     [SerializeField] Rigidbody wagon;
     
@@ -179,6 +181,9 @@ public class PlayerMovement : MonoBehaviour
         m_defaultWagonDrag = m_wagonDrag.dragX;
 
         m_animator = GetComponentInChildren<Animator>();
+
+        m_customGravity = GetComponentInChildren<CustomGravity>();
+        m_customGravity.enabled = false;
 
         if (!m_staminaBar) Debug.LogWarning("Boost bar reference not found");
 
