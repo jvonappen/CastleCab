@@ -4,7 +4,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-
     #region Variables
 
     #region References
@@ -106,7 +105,7 @@ public class PlayerMovement : MonoBehaviour
         [SerializeField] internal float m_flipSpeed, m_rollSpeed;
     }
 
-    [SerializeField] bool m_isAirControl;
+    bool m_isAirControl;
     [SerializeField] AirControl _AirControl;
     #endregion
 
