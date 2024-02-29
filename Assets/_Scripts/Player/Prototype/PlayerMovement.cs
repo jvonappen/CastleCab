@@ -41,6 +41,9 @@ public class PlayerMovement : MonoBehaviour
         [SerializeField] internal float m_accelerationRate, m_decelerationRate;
 
         [SerializeField] internal float m_maxReverseSpeed, m_reverseAccelerationRate, m_reverseDecelerationRate;
+
+        [SerializeField] internal float m_inAirMultiplier;
+        [SerializeField] internal float m_maxVelY;
     }
     float m_currentSpeed;
     public float currentSpeed { get { return m_currentSpeed; } }
@@ -612,7 +615,10 @@ public class PlayerMovement : MonoBehaviour
         }
         #endregion
 
-        m_animator.SetFloat("Speed", m_currentSpeed / _Speed.m_maxSpeed);
+        float newSpeed = m_currentSpeed;
+        if (!m_isGrounded) newSpeed *= _Speed.m_inAirMultiplier;
+
+        m_animator.SetFloat("Speed", newSpeed / _Speed.m_maxSpeed);
 
         if (!m_isHurricane && !m_endingHurricane)
         {
@@ -639,10 +645,12 @@ public class PlayerMovement : MonoBehaviour
             else if (m_isAirControl) dir = m_cam.transform.forward;
 
             // Apply velocity based on calculated speed, Without affecting y velocity
-            if (m_currentSpeed != 0)
+            if (newSpeed != 0)
             {
                 float velY = rb.velocity.y;
-                rb.velocity = dir * m_currentSpeed;
+                if (!m_isGrounded && velY > _Speed.m_maxVelY) velY = _Speed.m_maxVelY;
+                
+                rb.velocity = dir * newSpeed;
                 rb.velocity = new Vector3(rb.velocity.x, velY, rb.velocity.z);
             }
         }
