@@ -11,16 +11,27 @@ public class ExplosionForce : MonoBehaviour
     public float rotationForce = 500f; // Adjust the rotation force as needed.
     // Start is called before the first frame update
 
+    // TODO <- float Break force
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other) => CheckCollision(other);
+    private void OnCollisionEnter(Collision collision) => CheckCollision(collision.collider);
+
+    void CheckCollision(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
+            float playerForce = other.attachedRigidbody.velocity.magnitude;
+            Debug.Log("player force = " + playerForce);
+
+            // TODO <- if playerforce > breakforce
+
             Explode();
-            Debug.Log("boom");
             Destroy(gameObject);
+
+            // end
         }
     }
+
     public void Explode()
     {
         // Find all colliders within the explosion radius.
