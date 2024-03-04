@@ -36,7 +36,7 @@ public class Enemy : MonoBehaviour
 
     void OnDamaged(float _damageAmount)
     {
-
+        // Display damage popup text
     }
 
     void OnDeath()
