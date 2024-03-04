@@ -135,6 +135,7 @@ public class PlayerMovement : MonoBehaviour
         [SerializeField] internal float m_camFOV, m_tweenSpeedFOV;
     }
     bool m_isBoosting;
+    public bool isBoosting { get { return m_isBoosting; } }
 
     [Header("Ability")]
     [SerializeField] Boost _Boost;
