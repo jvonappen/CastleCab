@@ -74,7 +74,7 @@ namespace URNTS
         {
             if (mode == Mode.AI_freeroam)
             {
-                if ((TrafficManager.instance.player.position - transform.position).sqrMagnitude > TrafficManager.instance.spawnEndRadius * TrafficManager.instance.spawnEndRadius + 1000)
+                if ((TrafficManager.instance.player.position - transform.position).sqrMagnitude > TrafficManager.instance.spawnEndRadius * TrafficManager.instance.spawnEndRadius + 1000) //instance*
                 {
                     ObjectPooler.instance.StoreVehInPool("Vehicles", gameObject);
                 }

@@ -119,9 +119,10 @@ namespace URNTS
             }
             GameObject spawnObj = poolDictionary[tag].Dequeue();
 
-            spawnObj.SetActive(true);
+            
             spawnObj.transform.position = position;
             spawnObj.transform.rotation = rotation;
+            spawnObj.SetActive(true);
 
             IPoolObject poolObj = spawnObj.GetComponent<IPoolObject>();
             if (poolObj != null)

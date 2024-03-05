@@ -39,6 +39,7 @@ namespace URNTS
             else
                 instance = this;
                 
+            
         }
 
         private void Start()
