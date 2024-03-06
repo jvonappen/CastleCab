@@ -256,7 +256,7 @@ public class PlayerMovement : MonoBehaviour
 
         m_accelerationAmount = context.ReadValue<float>();
 
-        if (m_attemptingBoost) StartBoost();
+        if (m_attemptingBoost && !m_isBoosting) StartBoost();
     }
 
     void OnDecelerate(InputAction.CallbackContext context)
@@ -266,7 +266,7 @@ public class PlayerMovement : MonoBehaviour
 
         m_accelerationAmount = 0;
 
-        if (m_isBoosting) EndBoost();
+        if (m_isBoosting && !m_isDrifting) EndBoost();
     }
     #endregion
 
@@ -307,7 +307,7 @@ public class PlayerMovement : MonoBehaviour
     void OnBoostPerformed(InputAction.CallbackContext context)
     {
         m_attemptingBoost = true;
-        if (m_isAccelerating) StartBoost();
+        if (m_isAccelerating || m_isDrifting) StartBoost();
     }
 
     void OnBoostCanceled(InputAction.CallbackContext context)
@@ -412,6 +412,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (!m_attemptingAccelerate) m_isAccelerating = false;
 
+        if (m_isBoosting && !m_isAccelerating) EndBoost();
         //if (!m_isGrounded) m_cam.m_useOffsetOverride = false; // Unlocks camera if air control is canceled in air
     }
 
@@ -558,6 +559,7 @@ public class PlayerMovement : MonoBehaviour
                 onBoostCanceled?.Invoke();
 
                 m_isBoosting = false;
+                m_attemptingBoost = false;
                 m_staminaBar.progress = 0;
                 m_staminaBar.UpdateProgress();
             }
@@ -696,6 +698,13 @@ public class PlayerMovement : MonoBehaviour
                     float velY = rb.velocity.y;
                     rb.velocity = dir * _Hurricane.m_moveSpeed;
                     rb.velocity = new Vector3(rb.velocity.x, velY, rb.velocity.z);
+
+                    if (rb.velocity.y > 0) rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+
+                    // Movement that sets position instead of velocity, breaks static collisions
+                    //float yPos = transform.position.y;
+                    //transform.position += dir * _Hurricane.m_moveSpeed * Time.fixedDeltaTime;
+                    //transform.position = new Vector3(transform.position.x, yPos, transform.position.z);
 
                     m_cam.transform.position += rb.velocity * Time.fixedDeltaTime;
 
