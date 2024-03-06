@@ -134,6 +134,7 @@ public class PlayerMovement : MonoBehaviour
         [SerializeField] internal float m_staminaCostPerSec;
         [SerializeField] internal float m_camFOV, m_tweenSpeedFOV;
     }
+    bool m_attemptingBoost;
     bool m_isBoosting;
     public bool isBoosting { get { return m_isBoosting; } }
 
@@ -253,6 +254,8 @@ public class PlayerMovement : MonoBehaviour
         m_isAccelerating = true;
 
         m_accelerationAmount = context.ReadValue<float>();
+
+        if (m_attemptingBoost) StartBoost();
     }
 
     void OnDecelerate(InputAction.CallbackContext context)
@@ -261,6 +264,8 @@ public class PlayerMovement : MonoBehaviour
         if (!m_isDrifting) m_isAccelerating = false;
 
         m_accelerationAmount = 0;
+
+        if (m_isBoosting) EndBoost();
     }
     #endregion
 
@@ -300,15 +305,28 @@ public class PlayerMovement : MonoBehaviour
 
     void OnBoostPerformed(InputAction.CallbackContext context)
     {
+        m_attemptingBoost = true;
+        if (m_isAccelerating) StartBoost();
+    }
+
+    void OnBoostCanceled(InputAction.CallbackContext context)
+    {
+        m_attemptingBoost = false;
+        if (m_isBoosting) EndBoost();
+    }
+
+    void StartBoost()
+    {
         onBoost?.Invoke();
 
         m_cam.TweenFOV(_Boost.m_camFOV, _Boost.m_tweenSpeedFOV);
 
         m_isBoosting = true;
+
         if (m_turnInput != 0) SetTurnDrag();
     }
 
-    void OnBoostCanceled(InputAction.CallbackContext context)
+    void EndBoost()
     {
         onBoostCanceled?.Invoke();
 
