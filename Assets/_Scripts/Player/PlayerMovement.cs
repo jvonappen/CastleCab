@@ -701,11 +701,6 @@ public class PlayerMovement : MonoBehaviour
 
                     if (rb.velocity.y > 0) rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
 
-                    // Movement that sets position instead of velocity, breaks static collisions
-                    //float yPos = transform.position.y;
-                    //transform.position += dir * _Hurricane.m_moveSpeed * Time.fixedDeltaTime;
-                    //transform.position = new Vector3(transform.position.x, yPos, transform.position.z);
-
                     m_cam.transform.position += rb.velocity * Time.fixedDeltaTime;
 
                     if (m_endingHurricane) EndHurricane();
