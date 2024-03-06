@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using URNTS;
 
 public class InputManager : MonoBehaviour
 {
-    public void OnPlayerJoined()
+    [SerializeField] TrafficManager m_trafficManager;
+
+    public void OnPlayerJoined(PlayerInput _player)
     {
-        
+        m_trafficManager.AddPlayer(_player.GetComponent<PlayerMovement>().horse);
     }
 }

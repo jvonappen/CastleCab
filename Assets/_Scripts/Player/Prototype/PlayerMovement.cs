@@ -16,7 +16,8 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] Rigidbody rb;
     [SerializeField] Rigidbody wagon;
-    
+    public Transform horse { get { return rb.transform; } }
+
     [SerializeField] ProgressBar m_staminaBar;
     #endregion
 

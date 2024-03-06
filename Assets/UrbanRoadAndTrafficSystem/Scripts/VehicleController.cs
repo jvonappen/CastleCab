@@ -74,14 +74,26 @@ namespace URNTS
         {
             if (mode == Mode.AI_freeroam)
             {
-                if ((TrafficManager.instance.player.position - transform.position).sqrMagnitude > TrafficManager.instance.spawnEndRadius * TrafficManager.instance.spawnEndRadius + 1000) //instance*
+                if (TrafficManager.instance.players.Count > 0)
                 {
-                    ObjectPooler.instance.StoreVehInPool("Vehicles", gameObject);
+                    // Calculate distance between vehicle and closest player
+                    float vehicleDist = float.MaxValue;// (TrafficManager.instance.players.position - transform.position).sqrMagnitude;
+                    foreach (Transform player in TrafficManager.instance.players)
+                    {
+                        float newDist = (player.position - transform.position).sqrMagnitude;
+                        if (newDist < vehicleDist) vehicleDist = newDist;
+                    }
+
+                    // If the vehicle is out of range from player, store it in pool
+                    if (vehicleDist > TrafficManager.instance.spawnEndRadius * TrafficManager.instance.spawnEndRadius + 1000) //instance*
+                    {
+                        ObjectPooler.instance.StoreVehInPool("Vehicles", gameObject);
+                    }
+                    UpdateTarget();
+                    currentVel = Vector3.Dot(rb.velocity, transform.forward);
+                    ApplyMotorForce(acceleration * rb.mass * (targetVel - currentVel));
+                    SteerTo(targetPos, !signal);
                 }
-                UpdateTarget();
-                currentVel = Vector3.Dot(rb.velocity, transform.forward);
-                ApplyMotorForce(acceleration * rb.mass * (targetVel - currentVel));
-                SteerTo(targetPos, !signal);
             }
             else if (mode == Mode.player)
             {
