@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -245,6 +246,16 @@ public class PlayerMovement : MonoBehaviour
     #endregion
 
     #region Events
+
+    #region PlayerJoined
+
+    public void OnPlayerJoined(PlayerInput _player, List<PlayerInput> _players)
+    {
+        // Sketchy solution for messed up resolution for 2 player split-screen UI
+        foreach (UIScale2P o in GetComponentsInChildren<UIScale2P>()) o.OnPlayerJoined(_player, _players);
+    }
+
+    #endregion
 
     #region Acceleration
     void OnAccelerate(InputAction.CallbackContext context)
