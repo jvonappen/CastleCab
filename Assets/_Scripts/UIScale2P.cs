@@ -5,9 +5,19 @@ using UnityEngine.InputSystem;
 
 public class UIScale2P : MonoBehaviour
 {
-    public void OnPlayerJoined(PlayerInput _player, List<PlayerInput> _players)
+    PlayerInputManager m_playerInputManager;
+
+    private void Awake()
     {
-        if (_players.Count == 2) transform.localScale = Vector3.one * 0.5f;
+        m_playerInputManager = FindObjectOfType<PlayerInputManager>();
+    }
+
+    private void OnEnable() => UpdateScale();
+    public void OnPlayerJoined(PlayerInput _player) => UpdateScale();
+
+    void UpdateScale()
+    {
+        if (m_playerInputManager.playerCount == 2) transform.localScale = Vector3.one * 0.5f;
         else transform.localScale = Vector3.one;
     }
 }

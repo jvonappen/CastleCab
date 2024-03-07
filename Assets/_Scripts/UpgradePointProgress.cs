@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class UpgradePointProgress : PointProgress
 {
-    [SerializeField] int m_TEMPGold = 500;
+    GameManager m_manager;
+
     [SerializeField] float m_costMulti = 1.3f;
 
     [SerializeField] int m_cost = 100;
@@ -13,9 +14,9 @@ public class UpgradePointProgress : PointProgress
 
     public override void AddProgress()
     {
-        if (m_cost <= m_TEMPGold)
+        if (m_cost <= m_manager.gold)
         {
-            m_TEMPGold -= m_cost;
+            m_manager.SetGold(m_manager.gold - m_cost);
             m_cost = (int)(m_cost * m_costMulti);
 
             UpdateCostText();
@@ -31,10 +32,38 @@ public class UpgradePointProgress : PointProgress
         UpdateCostText();
     }
 
-    private void Start() => UpdateCostText();
+    private void Start()
+    {
+        m_manager = GameManager.Instance;
+
+        UpdateCostText();
+
+        m_manager.onGoldChanged += OnGoldChanged;
+    }
+
+    void OnGoldChanged(int _oldVal, int _newVal) => UpdateCostText();
+
     void UpdateCostText()
     {
-        if (m_costText) m_costText.text = "Cost: " + m_cost;
+        if (m_costText) m_costText.text = "Cost: " + GetColour() + m_cost + EndColour();
         else Debug.LogWarning("No reference is set for cost display");
     }
+
+    #region Colour
+    string GetColour()
+    {
+        if (m_manager)
+        {
+            string colourHex;
+            if (m_cost <= m_manager.gold) colourHex = ColorUtility.ToHtmlStringRGBA(m_manager.m_affordColour);
+            else colourHex = ColorUtility.ToHtmlStringRGBA(m_manager.m_notAffordColour);
+
+            return "<color=#" + colourHex + ">";
+        }
+
+        return "";
+    }
+
+    string EndColour() => "</color>";
+    #endregion
 }

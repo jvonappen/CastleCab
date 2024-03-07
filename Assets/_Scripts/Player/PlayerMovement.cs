@@ -251,8 +251,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnPlayerJoined(PlayerInput _player, List<PlayerInput> _players)
     {
-        // Sketchy solution for messed up resolution for 2 player split-screen UI
-        foreach (UIScale2P o in GetComponentsInChildren<UIScale2P>()) o.OnPlayerJoined(_player, _players);
+        foreach (UIScale2P o in GetComponentsInChildren<UIScale2P>()) o.OnPlayerJoined(_player);
     }
 
     #endregion
@@ -284,8 +283,13 @@ public class PlayerMovement : MonoBehaviour
     #region Reverse
     void OnReversePerformed(InputAction.CallbackContext context)
     {
-        m_isReversing = true;
-        m_isBoosting = false;
+        float deadZone = 0.7f;
+        if (context.ReadValue<float>() > deadZone)
+        {
+            m_isReversing = true;
+            m_isBoosting = false;
+        }
+        else m_isReversing = false;
     }
     void OnReverseCanceled(InputAction.CallbackContext context) => m_isReversing = false;
 
