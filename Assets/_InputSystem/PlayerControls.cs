@@ -611,6 +611,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Submit"",
+                    ""type"": ""Button"",
+                    ""id"": ""c63bf9b8-2ed1-4678-9c99-928d6a633a9c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -622,6 +631,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3a0f3f05-9870-48c2-8080-559058a768d2"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Submit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""77b453a2-61ac-49fe-a5e3-4deb5fc911a7"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Submit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -648,6 +679,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         // Customisation
         m_Customisation = asset.FindActionMap("Customisation", throwIfNotFound: true);
         m_Customisation_Navigate = m_Customisation.FindAction("Navigate", throwIfNotFound: true);
+        m_Customisation_Submit = m_Customisation.FindAction("Submit", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -852,11 +884,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Customisation;
     private List<ICustomisationActions> m_CustomisationActionsCallbackInterfaces = new List<ICustomisationActions>();
     private readonly InputAction m_Customisation_Navigate;
+    private readonly InputAction m_Customisation_Submit;
     public struct CustomisationActions
     {
         private @PlayerControls m_Wrapper;
         public CustomisationActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Navigate => m_Wrapper.m_Customisation_Navigate;
+        public InputAction @Submit => m_Wrapper.m_Customisation_Submit;
         public InputActionMap Get() { return m_Wrapper.m_Customisation; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -869,6 +903,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Navigate.started += instance.OnNavigate;
             @Navigate.performed += instance.OnNavigate;
             @Navigate.canceled += instance.OnNavigate;
+            @Submit.started += instance.OnSubmit;
+            @Submit.performed += instance.OnSubmit;
+            @Submit.canceled += instance.OnSubmit;
         }
 
         private void UnregisterCallbacks(ICustomisationActions instance)
@@ -876,6 +913,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Navigate.started -= instance.OnNavigate;
             @Navigate.performed -= instance.OnNavigate;
             @Navigate.canceled -= instance.OnNavigate;
+            @Submit.started -= instance.OnSubmit;
+            @Submit.performed -= instance.OnSubmit;
+            @Submit.canceled -= instance.OnSubmit;
         }
 
         public void RemoveCallbacks(ICustomisationActions instance)
@@ -912,5 +952,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     public interface ICustomisationActions
     {
         void OnNavigate(InputAction.CallbackContext context);
+        void OnSubmit(InputAction.CallbackContext context);
     }
 }

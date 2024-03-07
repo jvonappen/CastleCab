@@ -10,6 +10,6 @@ public class InputManager : MonoBehaviour
 
     public void OnPlayerJoined(PlayerInput _player)
     {
-        m_trafficManager.AddPlayer(_player.GetComponent<PlayerMovement>().horse);
+        if (m_trafficManager) m_trafficManager.AddPlayer(_player.GetComponent<PlayerMovement>().horse);
     }
 }

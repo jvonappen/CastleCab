@@ -3,14 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using URNTS;
 
 public class PlayerInputHandler : MonoBehaviour
 {
     public PlayerControls m_playerControls { get; private set; }
     PlayerInput m_playerInput;
-
-
 
     private void Awake()
     {
@@ -19,7 +16,7 @@ public class PlayerInputHandler : MonoBehaviour
 
         m_playerInput.actions = m_playerControls.asset;
 
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
 
     }
     private void OnEnable() => m_playerControls.Enable();
