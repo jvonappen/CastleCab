@@ -15,12 +15,13 @@ public class PointProgress : MonoBehaviour
     List<Image> m_points = new();
     void SetPoints() => m_points = GetComponentsInChildren<Image>().ToList();
 
-    public void AddProgress()
+    public virtual void AddProgress()
     {
         if (m_progress < m_points.Count) m_progress++;
         UpdateProgress();
-        Debug.Log("Clicked");
     }
+
+    protected virtual void OnValidated() { }
 
     private void OnValidate()
     {
@@ -30,6 +31,8 @@ public class PointProgress : MonoBehaviour
         // Clamps progress
         if (m_progress < 0) m_progress = 0;
         else if (m_progress > m_points.Count) m_progress = m_points.Count;
+
+        OnValidated();
     }
     private void Awake() => SetPoints();
 
