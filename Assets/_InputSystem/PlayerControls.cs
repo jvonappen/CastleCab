@@ -143,6 +143,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""StatsMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""8eb9f294-a75a-44fb-9f99-43eb2aed19c2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -583,6 +592,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""AirControl"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8e1a0a59-c548-4a59-b7b2-1983fc0c228f"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StatsMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d8dbf2a9-8f84-4f73-abb4-0a842f813b21"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StatsMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1122,6 +1153,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Controls_Interact = m_Controls.FindAction("Interact", throwIfNotFound: true);
         m_Controls_Achievement = m_Controls.FindAction("Achievement", throwIfNotFound: true);
         m_Controls_Look = m_Controls.FindAction("Look", throwIfNotFound: true);
+        m_Controls_StatsMenu = m_Controls.FindAction("StatsMenu", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1208,6 +1240,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Controls_Interact;
     private readonly InputAction m_Controls_Achievement;
     private readonly InputAction m_Controls_Look;
+    private readonly InputAction m_Controls_StatsMenu;
     public struct ControlsActions
     {
         private @PlayerControls m_Wrapper;
@@ -1225,6 +1258,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Interact => m_Wrapper.m_Controls_Interact;
         public InputAction @Achievement => m_Wrapper.m_Controls_Achievement;
         public InputAction @Look => m_Wrapper.m_Controls_Look;
+        public InputAction @StatsMenu => m_Wrapper.m_Controls_StatsMenu;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1273,6 +1307,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
+            @StatsMenu.started += instance.OnStatsMenu;
+            @StatsMenu.performed += instance.OnStatsMenu;
+            @StatsMenu.canceled += instance.OnStatsMenu;
         }
 
         private void UnregisterCallbacks(IControlsActions instance)
@@ -1316,6 +1353,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
+            @StatsMenu.started -= instance.OnStatsMenu;
+            @StatsMenu.performed -= instance.OnStatsMenu;
+            @StatsMenu.canceled -= instance.OnStatsMenu;
         }
 
         public void RemoveCallbacks(IControlsActions instance)
@@ -1466,6 +1506,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnAchievement(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+        void OnStatsMenu(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
