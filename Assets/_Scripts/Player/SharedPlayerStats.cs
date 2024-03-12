@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class CartStats
+public class SharedPlayerStats
 {
     const int m_totalPoints = 10;
     static public int totalPoints { get { return m_totalPoints; } }

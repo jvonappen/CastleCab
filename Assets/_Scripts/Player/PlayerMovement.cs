@@ -622,7 +622,7 @@ public class PlayerMovement : MonoBehaviour
                         
                         if (m_staminaBar)
                         {
-                            float staminaCostPerSec = _Boost.m_staminaCostPerSec - (CartStats.staminaPoints * (_Boost.m_staminaCostPerSec * (_Stamina.m_decreasePercentPerStatPoint / 100)));
+                            float staminaCostPerSec = _Boost.m_staminaCostPerSec - (SharedPlayerStats.staminaPoints * (_Boost.m_staminaCostPerSec * (_Stamina.m_decreasePercentPerStatPoint / 100)));
 
                             m_staminaBar.progress -= Time.fixedDeltaTime * staminaCostPerSec;
                             m_staminaBar.UpdateProgress();
@@ -662,9 +662,9 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Alters speed based on stat upgrades
-        if (CartStats.speedPoints > 0)
+        if (SharedPlayerStats.speedPoints > 0)
         {
-            statMulti = (CartStats.speedPoints * _Speed.m_multiPerStatPoint) + 1;
+            statMulti = (SharedPlayerStats.speedPoints * _Speed.m_multiPerStatPoint) + 1;
         }
         #endregion
 
@@ -711,7 +711,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (m_staminaBar)
             {
-                float staminaCostPerSec = _Hurricane.m_staminaCostPerSec - (CartStats.staminaPoints * (_Hurricane.m_staminaCostPerSec * (_Stamina.m_decreasePercentPerStatPoint / 100)));
+                float staminaCostPerSec = _Hurricane.m_staminaCostPerSec - (SharedPlayerStats.staminaPoints * (_Hurricane.m_staminaCostPerSec * (_Stamina.m_decreasePercentPerStatPoint / 100)));
 
                 float staminaCostThisFrame = staminaCostPerSec * Time.fixedDeltaTime;
                 if (m_staminaBar.progress >= staminaCostThisFrame)

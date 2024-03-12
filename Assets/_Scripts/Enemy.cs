@@ -41,7 +41,7 @@ public class Enemy : MonoBehaviour
     void OnDamaged(float _damageAmount)
     {
         // Display damage popup text
-        PopupDisplay.Spawn(m_popupLocation.position, m_popupRandomRange, _damageAmount.ToString(), m_fontSize, Color.white, Vector3.up * 3, null, m_previousPlayer.transform);
+        PopupDisplay.Spawn(m_popupLocation.position, m_popupRandomRange, _damageAmount.ToString(), m_fontSize, Color.white, Vector3.up * 3, null, m_previousPlayer.transform.GetChild(0));
     }
 
     void OnDeath()
