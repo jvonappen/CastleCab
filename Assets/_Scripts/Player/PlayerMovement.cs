@@ -46,6 +46,9 @@ public class PlayerMovement : MonoBehaviour
 
         [SerializeField] internal float m_inAirMultiplier;
         [SerializeField] internal float m_maxVelY;
+
+        [Space(5)]
+        [SerializeField] internal float m_speedMultiPerStatPoint;
     }
     float m_currentSpeed;
     public float currentSpeed { get { return m_currentSpeed; } }
@@ -566,6 +569,8 @@ public class PlayerMovement : MonoBehaviour
     {
         #region CalculateSpeed
 
+        float statMulti = 1;
+
         if (m_staminaBar && m_isBoosting)
         {
             // If stamina runs out, cancel boost
@@ -650,9 +655,15 @@ public class PlayerMovement : MonoBehaviour
                 if (m_currentSpeed > 0) m_currentSpeed = 0;
             }
         }
+
+        // Alters speed based on stat upgrades
+        if (CartStats.speedPoints > 0)
+        {
+            statMulti = (CartStats.speedPoints * _Speed.m_speedMultiPerStatPoint) + 1;
+        }
         #endregion
 
-        float newSpeed = m_currentSpeed;
+        float newSpeed = m_currentSpeed * statMulti;
         if (!m_isGrounded) newSpeed *= _Speed.m_inAirMultiplier;
 
         m_animator.SetFloat("Speed", newSpeed / _Speed.m_maxSpeed);
