@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CartStats
 {
+    const int m_totalPoints = 10;
+    static public int totalPoints { get { return m_totalPoints; } }
+
     static int m_healthPoints = 0, m_staminaPoints = 0, m_speedPoints = 0, m_attackPoints = 0;
     
     public static int healthPoints { get { return m_healthPoints; } }
