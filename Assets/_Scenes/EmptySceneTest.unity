@@ -3210,6 +3210,7 @@ GameObject:
   - component: {fileID: 1335710926}
   - component: {fileID: 1335710925}
   - component: {fileID: 1335710924}
+  - component: {fileID: 1335710930}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -3229,8 +3230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab44e349f0140d344b910d55c0cd415f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_health:
-    m_health: 100
+  m_health: {fileID: 1335710930}
   m_popupLocation: {fileID: 1335710929}
   m_popupRandomRange: 2
   m_fontSize: 5
@@ -3347,6 +3347,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1526971494}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1335710930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1335710923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b2412d7b607ce54290fe5b66608b7d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_health: 100
 --- !u!1 &1362619488
 GameObject:
   m_ObjectHideFlags: 0

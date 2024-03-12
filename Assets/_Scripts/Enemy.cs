@@ -5,6 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] Health m_health;
+
     [SerializeField] Transform m_popupLocation;
     [SerializeField] float m_popupRandomRange = 5, m_fontSize = 20;
 
