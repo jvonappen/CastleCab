@@ -1,9 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System;
 
-public class CartStats
+public class SharedPlayerStats
 {
+    const int m_totalPoints = 10;
+    static public int totalPoints { get { return m_totalPoints; } }
+
+    static public Action onAddHealth, onAddStamina, onAddSpeed, onAddAttack;
+
     static int m_healthPoints = 0, m_staminaPoints = 0, m_speedPoints = 0, m_attackPoints = 0;
     
     public static int healthPoints { get { return m_healthPoints; } }
@@ -11,10 +14,26 @@ public class CartStats
     public static int speedPoints { get { return m_speedPoints; } }
     public static int attackPoints { get { return m_attackPoints; } }
 
-    public static void AddHealth() => m_healthPoints++;
-    public static void AddStamina() => m_staminaPoints++;
-    public static void AddSpeed() => m_speedPoints++;
-    public static void AddAttack() => m_attackPoints++;
+    public static void AddHealth()
+    {
+        m_healthPoints++;
+        onAddHealth?.Invoke();
+    }
+    public static void AddStamina()
+    {
+        m_staminaPoints++;
+        onAddStamina?.Invoke();
+    }
+    public static void AddSpeed()
+    {
+        m_speedPoints++;
+        onAddSpeed?.Invoke();
+    }
+    public static void AddAttack()
+    {
+        m_attackPoints++;
+        onAddAttack?.Invoke();
+    }
 
     public static void ResetPoints()
     {

@@ -2,12 +2,19 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class Health
+public class Health : MonoBehaviour
 {
-    [SerializeField] float m_health = 100;
+    protected float m_maxHealth = 100;
+    [SerializeField] protected float m_health = 100;
 
     public Action onDeath;
     public Action<float> onDamaged;
+
+    private void Awake() => Init();
+    protected virtual void Init()
+    {
+        m_maxHealth = m_health;
+    }
 
     public void DealDamage(float _damageAmount)
     {
