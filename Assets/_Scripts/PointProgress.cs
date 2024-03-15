@@ -6,13 +6,13 @@ using UnityEngine.UI;
 
 public class PointProgress : MonoBehaviour
 {
-    [SerializeField] int m_progress;
+    [SerializeField] protected int m_progress;
     public int progress { get { return m_progress; } }
     
 
     [SerializeField] Color m_progressColour, m_defaultColour;
 
-    List<Image> m_points = new();
+    protected List<Image> m_points = new();
     void SetPoints() => m_points = GetComponentsInChildren<Image>().ToList();
 
     public virtual void AddProgress()
@@ -36,7 +36,7 @@ public class PointProgress : MonoBehaviour
     }
     private void Awake() => SetPoints();
 
-    void UpdateProgress()
+    protected void UpdateProgress()
     {
         for (int i = 0; i < m_points.Count; i++)
         {

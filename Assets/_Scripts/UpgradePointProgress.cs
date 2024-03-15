@@ -9,21 +9,28 @@ public class UpgradePointProgress : PointProgress
 
     [SerializeField] float m_costMulti = 1.3f;
 
-    [SerializeField] int m_cost = 100;
+    [SerializeField] protected int m_cost = 100;
     [SerializeField] TextMeshProUGUI m_costText;
 
     public override void AddProgress()
     {
         if (m_cost <= m_manager.gold)
         {
-            m_manager.SetGold(m_manager.gold - m_cost);
-            m_cost = (int)(m_cost * m_costMulti);
+            if (m_progress < m_points.Count)
+            {
+                m_manager.SetGold(m_manager.gold - m_cost);
+                m_cost = (int)(m_cost * m_costMulti);
 
-            UpdateCostText();
+                UpdateCostText();
 
-            base.AddProgress();
+                base.AddProgress();
+
+                OnProgressAdd();
+            }
         }
     }
+
+    protected virtual void OnProgressAdd() { }
 
     protected override void OnValidated()
     {
@@ -43,7 +50,7 @@ public class UpgradePointProgress : PointProgress
 
     void OnGoldChanged(int _oldVal, int _newVal) => UpdateCostText();
 
-    void UpdateCostText()
+    protected void UpdateCostText()
     {
         if (m_costText) m_costText.text = "Cost: " + GetColour() + m_cost + EndColour();
         else Debug.LogWarning("No reference is set for cost display");

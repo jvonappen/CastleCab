@@ -46,6 +46,9 @@ public class PlayerMovement : MonoBehaviour
 
         [SerializeField] internal float m_inAirMultiplier;
         [SerializeField] internal float m_maxVelY;
+
+        [Space(5)]
+        [SerializeField] internal float m_multiPerStatPoint;
     }
     float m_currentSpeed;
     public float currentSpeed { get { return m_currentSpeed; } }
@@ -121,6 +124,9 @@ public class PlayerMovement : MonoBehaviour
     public struct Stamina
     {
         [SerializeField] internal float m_regenPerSec, m_regenCooldown;
+
+        [Space(5)]
+        [SerializeField] internal float m_decreasePercentPerStatPoint;
     }
     float m_staminaRegenTimer;
 
@@ -148,7 +154,7 @@ public class PlayerMovement : MonoBehaviour
     [System.Serializable]
     public struct Hurricane
     {
-        [SerializeField] internal float m_spinSpeed, m_moveSpeed, m_StaminaCostPerSec;
+        [SerializeField] internal float m_spinSpeed, m_moveSpeed, m_staminaCostPerSec;
     }
     bool m_isHurricane;
     bool m_endingHurricane;
@@ -566,6 +572,8 @@ public class PlayerMovement : MonoBehaviour
     {
         #region CalculateSpeed
 
+        float statMulti = 1;
+
         if (m_staminaBar && m_isBoosting)
         {
             // If stamina runs out, cancel boost
@@ -614,7 +622,9 @@ public class PlayerMovement : MonoBehaviour
                         
                         if (m_staminaBar)
                         {
-                            m_staminaBar.progress -= Time.fixedDeltaTime * _Boost.m_staminaCostPerSec;
+                            float staminaCostPerSec = _Boost.m_staminaCostPerSec - (SharedPlayerStats.staminaPoints * (_Boost.m_staminaCostPerSec * (_Stamina.m_decreasePercentPerStatPoint / 100)));
+
+                            m_staminaBar.progress -= Time.fixedDeltaTime * staminaCostPerSec;
                             m_staminaBar.UpdateProgress();
                         }
                     }
@@ -650,9 +660,15 @@ public class PlayerMovement : MonoBehaviour
                 if (m_currentSpeed > 0) m_currentSpeed = 0;
             }
         }
+
+        // Alters speed based on stat upgrades
+        if (SharedPlayerStats.speedPoints > 0)
+        {
+            statMulti = (SharedPlayerStats.speedPoints * _Speed.m_multiPerStatPoint) + 1;
+        }
         #endregion
 
-        float newSpeed = m_currentSpeed;
+        float newSpeed = m_currentSpeed * statMulti;
         if (!m_isGrounded) newSpeed *= _Speed.m_inAirMultiplier;
 
         m_animator.SetFloat("Speed", newSpeed / _Speed.m_maxSpeed);
@@ -691,11 +707,13 @@ public class PlayerMovement : MonoBehaviour
                 rb.velocity = new Vector3(rb.velocity.x, velY, rb.velocity.z);
             }
         }
-        else
+        else // If hurricane
         {
             if (m_staminaBar)
             {
-                float staminaCostThisFrame = _Hurricane.m_StaminaCostPerSec * Time.fixedDeltaTime;
+                float staminaCostPerSec = _Hurricane.m_staminaCostPerSec - (SharedPlayerStats.staminaPoints * (_Hurricane.m_staminaCostPerSec * (_Stamina.m_decreasePercentPerStatPoint / 100)));
+
+                float staminaCostThisFrame = staminaCostPerSec * Time.fixedDeltaTime;
                 if (m_staminaBar.progress >= staminaCostThisFrame)
                 {
                     m_staminaBar.progress -= staminaCostThisFrame;

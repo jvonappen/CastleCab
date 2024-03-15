@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class ExplosionForce : MonoBehaviour
 {
@@ -22,7 +21,6 @@ public class ExplosionForce : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             float playerForce = other.attachedRigidbody.velocity.magnitude;
-            Debug.Log("player force = " + playerForce);
 
             // TODO <- if playerforce > breakforce
             if (playerForce > breakForce)

@@ -6,6 +6,11 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] Health m_health;
 
+    [SerializeField] Transform m_popupLocation;
+    [SerializeField] float m_popupRandomRange = 5, m_fontSize = 20;
+
+    PlayerAttack m_previousPlayer;
+
     private void Awake()
     {
         m_health.onDamaged += OnDamaged;
@@ -23,10 +28,10 @@ public class Enemy : MonoBehaviour
             if (player)
             {
                 float playerForce = _collider.attachedRigidbody.velocity.magnitude;
-                Debug.Log("player force = " + playerForce);
 
                 if (playerForce > player.GetDamageForce())
                 {
+                    m_previousPlayer = player;
                     m_health.DealDamage(player.GetDamage());
                 }
             }
@@ -37,6 +42,7 @@ public class Enemy : MonoBehaviour
     void OnDamaged(float _damageAmount)
     {
         // Display damage popup text
+        PopupDisplay.Spawn(m_popupLocation.position, m_popupRandomRange, _damageAmount.ToString(), m_fontSize, Color.white, Vector3.up * 3, null, m_previousPlayer.transform.GetChild(0));
     }
 
     void OnDeath()

@@ -9,8 +9,10 @@ public class PlayerAttack : MonoBehaviour
 
     [SerializeField] float m_baseDamage = 2, m_driftDamageMulti = 2, m_boostDamageMulti = 2.5f, m_hurricaneDamageMulti = 4f;
 
+    [SerializeField] float m_damageMultiPerStat = 0.075f;
+
     [Space(10)]
-    [SerializeField] float m_damageForce = 18;
+    [SerializeField] [Tooltip("Minimum force required to damage entity")] float m_damageForce = 18;
     [SerializeField] float m_abilityDamageForce = 9;
 
     private void Awake() => m_playerMovement = GetComponent<PlayerMovement>();
@@ -24,7 +26,9 @@ public class PlayerAttack : MonoBehaviour
         if (m_playerMovement.isBoosting) currentDamage += (m_baseDamage * m_boostDamageMulti) - m_baseDamage;
         else if (m_playerMovement.isHurricane) currentDamage += (m_baseDamage * m_hurricaneDamageMulti) - m_baseDamage;
 
-        return currentDamage;
+        float multi = SharedPlayerStats.attackPoints * m_damageMultiPerStat + 1;
+
+        return currentDamage * multi;
     }
 
     public float GetDamageForce()
