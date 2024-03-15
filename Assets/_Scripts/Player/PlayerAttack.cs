@@ -57,7 +57,7 @@ public class PlayerAttack : MonoBehaviour
 
                     if (playerForce > GetDamageForce())
                     {
-                        health.DealDamage(GetDamage());
+                        health.DealDamage(GetDamage(), this);
                     }
                 }
             }

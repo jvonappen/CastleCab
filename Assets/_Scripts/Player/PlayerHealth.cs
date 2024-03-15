@@ -6,6 +6,9 @@ public class PlayerHealth : Health
 {
     [SerializeField] ProgressBar m_healthBar;
 
+    [SerializeField] Transform m_popupLocation;
+    [SerializeField] float m_popupRandomRange = 2, m_fontSize = 5;
+
     [Space(5)]
     [SerializeField] float m_addHealthPerStat = 10;
 
@@ -23,6 +26,7 @@ public class PlayerHealth : Health
 
         SharedPlayerStats.onAddHealth += OnAddHealth;
         onHealthChanged += OnHealthChanged;
+        onDamaged += OnDamaged;
     }
 
     void OnAddHealth()
@@ -50,5 +54,11 @@ public class PlayerHealth : Health
         base.Die();
 
         gameObject.SetActive(false);
+    }
+
+    void OnDamaged(float _damageAmount, PlayerAttack _player)
+    {
+        // Display damage popup text
+        PopupDisplay.Spawn(m_popupLocation.position, m_popupRandomRange, _damageAmount.ToString(), m_fontSize, Color.white, Vector3.up * 3, null, _player.transform.GetChild(0));
     }
 }
