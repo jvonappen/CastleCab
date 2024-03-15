@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
 
     CustomGravity m_customGravity;
 
-    [SerializeField] Rigidbody rb;
+    public Rigidbody rb;
     [SerializeField] Rigidbody wagon;
     public Transform horse { get { return rb.transform; } }
 

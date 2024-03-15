@@ -40,4 +40,27 @@ public class PlayerAttack : MonoBehaviour
         else
             return m_damageForce;
     }
+
+    public void AttemptAttack(Collider _collider)
+    {
+        Rigidbody colliderRB = _collider.attachedRigidbody;
+        if (!colliderRB) return;
+
+        if (_collider.attachedRigidbody.tag == "Wagon")
+        {
+            if (!_collider.isTrigger)
+            {
+                Health health = colliderRB.GetComponent<Health>();
+                if (health)
+                {
+                    float playerForce = m_playerMovement.rb.velocity.magnitude;
+
+                    if (playerForce > GetDamageForce())
+                    {
+                        health.DealDamage(GetDamage());
+                    }
+                }
+            }
+        }
+    }
 }
