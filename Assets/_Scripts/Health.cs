@@ -1,14 +1,15 @@
 using System;
 using UnityEngine;
 
-[Serializable]
 public class Health : MonoBehaviour
 {
     protected float m_maxHealth = 100;
     [SerializeField] protected float m_health = 100;
 
+    protected bool m_isInvulnerable;
+
     public Action onDeath;
-    public Action<float> onDamaged;
+    public Action<float, PlayerAttack> onDamaged;
 
     public Action<float, float> onHealthChanged;
 
@@ -18,15 +19,18 @@ public class Health : MonoBehaviour
         m_maxHealth = m_health;
     }
 
-    public void DealDamage(float _damageAmount)
+    public void DealDamage(float _damageAmount, PlayerAttack _player)
     {
-        float previousHealth = m_health;
-        m_health -= _damageAmount;
-        onHealthChanged?.Invoke(previousHealth, m_health);
+        if (!m_isInvulnerable)
+        {
+            float previousHealth = m_health;
+            m_health -= _damageAmount;
+            onHealthChanged?.Invoke(previousHealth, m_health);
 
-        onDamaged?.Invoke(_damageAmount);
+            onDamaged?.Invoke(_damageAmount, _player);
 
-        CheckAlive();
+            CheckAlive();
+        }
     }
 
     void CheckAlive()

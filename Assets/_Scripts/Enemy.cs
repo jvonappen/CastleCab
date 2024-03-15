@@ -9,8 +9,6 @@ public class Enemy : MonoBehaviour
     [SerializeField] Transform m_popupLocation;
     [SerializeField] float m_popupRandomRange = 5, m_fontSize = 20;
 
-    PlayerAttack m_previousPlayer;
-
     private void Awake()
     {
         m_health.onDamaged += OnDamaged;
@@ -31,18 +29,17 @@ public class Enemy : MonoBehaviour
 
                 if (playerForce > player.GetDamageForce())
                 {
-                    m_previousPlayer = player;
-                    m_health.DealDamage(player.GetDamage());
+                    m_health.DealDamage(player.GetDamage(), player);
                 }
             }
             
         }
     }
 
-    void OnDamaged(float _damageAmount)
+    void OnDamaged(float _damageAmount, PlayerAttack _player)
     {
         // Display damage popup text
-        PopupDisplay.Spawn(m_popupLocation.position, m_popupRandomRange, _damageAmount.ToString(), m_fontSize, Color.white, Vector3.up * 3, null, m_previousPlayer.transform.GetChild(0));
+        PopupDisplay.Spawn(m_popupLocation.position, m_popupRandomRange, _damageAmount.ToString(), m_fontSize, Color.white, Vector3.up * 3, null, _player.transform.GetChild(0));
     }
 
     void OnDeath()
