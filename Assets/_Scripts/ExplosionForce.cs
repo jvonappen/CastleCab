@@ -11,6 +11,7 @@ public class ExplosionForce : MonoBehaviour
     // Start is called before the first frame update
 
     // TODO <- float Break force
+    public float breakForce = 30f;
 
     private void OnTriggerEnter(Collider other) => CheckCollision(other);
     private void OnCollisionEnter(Collision collision) => CheckCollision(collision.collider);
@@ -22,11 +23,11 @@ public class ExplosionForce : MonoBehaviour
             float playerForce = other.attachedRigidbody.velocity.magnitude;
 
             // TODO <- if playerforce > breakforce
-
-            Explode();
-            Destroy(gameObject);
-
-            // end
+            if (playerForce > breakForce)
+            {
+                Explode();
+                Destroy(gameObject,1.5f);
+            }
         }
     }
 
