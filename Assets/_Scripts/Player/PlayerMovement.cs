@@ -7,6 +7,13 @@ public class PlayerMovement : MonoBehaviour
 {
     #region Variables
 
+    #region CanMove
+    bool m_canMove = true;
+    bool m_isSmackStunned;
+    public bool isSmackStunned { get { return m_isSmackStunned; } set { m_isSmackStunned = value; } }
+
+    #endregion
+
     #region References
     PlayerInputHandler m_playerInput;
     CameraFollow m_cam;
@@ -51,6 +58,7 @@ public class PlayerMovement : MonoBehaviour
         [SerializeField] internal float m_multiPerStatPoint;
     }
     float m_currentSpeed;
+    public void SetCurrentSpeed(float _speed) => m_currentSpeed = _speed;
     public float currentSpeed { get { return m_currentSpeed; } }
     bool m_attemptingAccelerate;
 
@@ -366,6 +374,12 @@ public class PlayerMovement : MonoBehaviour
     {
         onGrounded?.Invoke();
 
+        if (m_isSmackStunned)
+        {
+            m_isSmackStunned = false;
+            m_currentSpeed /= 2;
+        }
+
         if (m_isAirControl) CancelAirControl();
 
         if (m_turnInput != 0) SetTurnDrag();
@@ -393,6 +407,7 @@ public class PlayerMovement : MonoBehaviour
         m_isDrifting = false;
         //if (m_isDrifting) m_cam.SetOffsetWorldSpace(); // Locks camera rotation to world space while air control
     }
+
     #endregion
 
     #region Drift
@@ -570,6 +585,9 @@ public class PlayerMovement : MonoBehaviour
     #region Move
     void MoveVelocity()
     {
+        if (!m_canMove) return;
+        if (m_isSmackStunned) return;
+
         #region CalculateSpeed
 
         float statMulti = 1;

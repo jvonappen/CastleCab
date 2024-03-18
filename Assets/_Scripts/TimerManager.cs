@@ -6,26 +6,26 @@ public class TimerManager : MonoBehaviour
 {
     #region Singleton
 
-    public static TimerManager Instance { get; private set; }
+    private static TimerManager m_instance;
 
-    void CreateSingleton()
+    public static TimerManager Instance
     {
-        if (Instance != null && Instance != this)
+        get
         {
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            if (m_instance == null)
+            {
+                m_instance = new GameObject("TimerManager").AddComponent<TimerManager>();
+
+                DontDestroyOnLoad(m_instance.gameObject);
+            }
+
+            return m_instance;
         }
     }
 
     #endregion
 
     [SerializeField] List<Timer> m_timers = new();
-
-    private void Awake() => CreateSingleton();
 
     public static void RunAfterTime(Action function, float time)
     {
