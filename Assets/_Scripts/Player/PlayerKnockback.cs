@@ -11,6 +11,8 @@ public class PlayerKnockback : Knockback
 
     public override void KnockBack(Vector3 _dir)
     {
+        if (m_player.isHurricane) return;
+        
         base.KnockBack(_dir);
 
         m_player.isSmackStunned = true;
