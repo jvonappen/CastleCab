@@ -54,7 +54,7 @@ public class ExplosionForce : MonoBehaviour
                 Debug.Log("Exploded: " + rb.transform);
                 if (rb.TryGetComponent(out Knockback knockback))
                 {
-                    knockback.KnockBack(explosionDir);
+                    knockback.KnockBack(explosionDir, Vector3.up);
                 }
                 else
                 {
