@@ -76,7 +76,7 @@ public class PigSplode : MonoBehaviour
                 if (!_freezer._isFrozen) _jiggles.enabled = true;
 
                 // Police Dishonor Level Increase
-                Dishonour.dishonourLevel = Dishonour.dishonourLevel + 40;
+                DishonourOld.dishonourLevel = DishonourOld.dishonourLevel + 40;
 
                 GetComponent<PoliceAI>().enabled = false;
                 Destroy(this.gameObject, _destroyTime);
@@ -95,12 +95,12 @@ public class PigSplode : MonoBehaviour
                 ParticleSystem impact = Instantiate(_playerImpact, other.transform);
                 other.rigidbody.AddForce((other.transform.position - this.transform.position) * _playerForce, ForceMode.Impulse);
 
-                if(Dishonour.dishonourLevel > 0) //Only takes gold if there is a wanted level
+                if(DishonourOld.dishonourLevel > 0) //Only takes gold if there is a wanted level
                 {
                     //Remove Gold from Player
                     DollarDisplay.dollarValue = DollarDisplay.dollarValue - _goldRemoved;
                     //Remove Dishonour Level p/Hit
-                    Dishonour.dishonourLevel = Dishonour.dishonourLevel - _goldRemoved;
+                    DishonourOld.dishonourLevel = DishonourOld.dishonourLevel - _goldRemoved;
                 }
 
                 ParticleSystem wham = Instantiate(_wham, _whamPos);
