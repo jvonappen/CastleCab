@@ -5,6 +5,7 @@ public class PlayerKnockback : Knockback
     [SerializeField] GameObject m_particle;
 
     PlayerMovement m_player;
+    public PlayerMovement playerMovement { get { return m_player; } }
     protected override void Init()
     {
         base.Init();

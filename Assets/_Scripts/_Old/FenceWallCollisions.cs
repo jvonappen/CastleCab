@@ -22,7 +22,7 @@ public class FenceWallCollisions : MonoBehaviour
 
     private static Transform _particlePos;
 
-    ExplosionForce explosionForce;
+    Explosive explosionForce;
 
     [Header("Debug")]
     [SerializeField] private float _objectRespawnDelay = 30;
@@ -123,7 +123,7 @@ public class FenceWallCollisions : MonoBehaviour
             if (AchievementManager.unlockBaaBoom == false) { AchievementManager.Instance.BaaBoom(); }
             _particlePos = collision.transform;
             PlayParticle(_explosiveImpact);
-            collision.gameObject.GetComponent<ExplosionForce>().Explode();
+            collision.gameObject.GetComponent<Explosive>().Explode();
             Destroy(collision.gameObject);
         }
         if (collision.gameObject.tag == "Grave")

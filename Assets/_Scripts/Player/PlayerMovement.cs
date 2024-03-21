@@ -491,12 +491,13 @@ public class PlayerMovement : MonoBehaviour
         m_cam.SetOffsetWorldSpace();
     }
 
-    void OnHurricaneCanceled(InputAction.CallbackContext context)
+    void OnHurricaneCanceled(InputAction.CallbackContext context) => CancelHurricane();
+    public void CancelHurricane()
     {
         if (m_isHurricane) m_endingHurricane = true;
     }
 
-    void EndHurricane()
+    public void EndHurricane()
     {
         if (rb.transform.forward.x > prevDir.x - 2 && rb.transform.forward.x < prevDir.x + 2)
         {
