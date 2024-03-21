@@ -12,6 +12,7 @@ namespace URNTS
         public static Action<bool> SignalAction;
         public List<Transform> players;
         List<Transform> playersToAddEndOfFrame = new();
+        List<Transform> playersToRemoveEndOfFrame = new();
         public bool spawnVehicles = true;
         [Range(20, 80), Tooltip("Min distance to the player above which vehicles will be spawned")]
         public int spawnStartRadius = 40;
@@ -55,6 +56,7 @@ namespace URNTS
         }
 
         public void AddPlayer(Transform _player) => playersToAddEndOfFrame.Add(_player);
+        public void RemovePlayer(Transform _player) => playersToRemoveEndOfFrame.Add(_player);
 
         void InitializeVehiclePool()
         {
@@ -146,6 +148,12 @@ namespace URNTS
             {
                 foreach (Transform player in playersToAddEndOfFrame) players.Add(player);
                 playersToAddEndOfFrame.Clear();
+            }
+
+            if (playersToRemoveEndOfFrame.Count > 0)
+            {
+                foreach (Transform player in playersToRemoveEndOfFrame) players.Remove(player);
+                playersToRemoveEndOfFrame.Clear();
             }
         }
     }

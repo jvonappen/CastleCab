@@ -13,11 +13,19 @@ public class PointProgress : MonoBehaviour
     [SerializeField] Color m_progressColour, m_defaultColour;
 
     protected List<Image> m_points = new();
+    public int totalPoints { get { return m_points.Count; } }
     void SetPoints() => m_points = GetComponentsInChildren<Image>().ToList();
 
     public virtual void AddProgress()
     {
         if (m_progress < m_points.Count) m_progress++;
+        UpdateProgress();
+    }
+
+    public virtual void SetProgress(int _progress)
+    {
+        if (m_progress <= m_points.Count) m_progress = _progress;
+        else m_progress = m_points.Count;
         UpdateProgress();
     }
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dishonour : MonoBehaviour
+public class DishonourOld : MonoBehaviour
 {
     public static float dishonourLevel;
     

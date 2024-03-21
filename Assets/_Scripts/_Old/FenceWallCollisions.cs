@@ -22,7 +22,7 @@ public class FenceWallCollisions : MonoBehaviour
 
     private static Transform _particlePos;
 
-    ExplosionForce explosionForce;
+    Explosive explosionForce;
 
     [Header("Debug")]
     [SerializeField] private float _objectRespawnDelay = 30;
@@ -36,7 +36,7 @@ public class FenceWallCollisions : MonoBehaviour
             AchievementManager.fenceTracker = AchievementManager.fenceTracker + 1;
             AchievementManager.Instance.PloughHorse();
 
-            Dishonour.dishonourLevel = Dishonour.dishonourLevel + 1;
+            DishonourOld.dishonourLevel = DishonourOld.dishonourLevel + 1;
 
             AudioManager.Instance.PlayGroupAudio("FenceCollisions");
             _particlePos = collision.transform;
@@ -46,7 +46,7 @@ public class FenceWallCollisions : MonoBehaviour
         }
         if (collision.gameObject.tag == "NotFence")
         {
-            Dishonour.dishonourLevel = Dishonour.dishonourLevel + 1;
+            DishonourOld.dishonourLevel = DishonourOld.dishonourLevel + 1;
             AudioManager.Instance.PlayGroupAudio("FenceCollisions");
             _particlePos = collision.transform;
             PlayParticle(_fenceImpact);
@@ -55,7 +55,7 @@ public class FenceWallCollisions : MonoBehaviour
         }
         if (collision.gameObject.tag == "Sheep")
         {
-            Dishonour.dishonourLevel = Dishonour.dishonourLevel + 3;
+            DishonourOld.dishonourLevel = DishonourOld.dishonourLevel + 3;
             //AudioManager.Instance.StopSFX();
             AudioManager.Instance.PlaySFX("Sheep");
             _particlePos = collision.transform;
@@ -64,7 +64,7 @@ public class FenceWallCollisions : MonoBehaviour
         }
         if (collision.gameObject.tag == "Chicken")
         {
-            Dishonour.dishonourLevel = Dishonour.dishonourLevel + 2;
+            DishonourOld.dishonourLevel = DishonourOld.dishonourLevel + 2;
             AchievementManager.cluckTracker = AchievementManager.cluckTracker + 1;
             AchievementManager.Instance.CluckMe();
 
@@ -76,7 +76,7 @@ public class FenceWallCollisions : MonoBehaviour
         }
         if (collision.gameObject.tag == "Pig")
         {
-            Dishonour.dishonourLevel = Dishonour.dishonourLevel + 3;
+            DishonourOld.dishonourLevel = DishonourOld.dishonourLevel + 3;
             AchievementManager.pigTracker = AchievementManager.pigTracker + 1;
             AchievementManager.Instance.MakinBacon();
 
@@ -88,7 +88,7 @@ public class FenceWallCollisions : MonoBehaviour
         }
         if (collision.gameObject.tag == "Horse")
         {
-            Dishonour.dishonourLevel = Dishonour.dishonourLevel + 4;
+            DishonourOld.dishonourLevel = DishonourOld.dishonourLevel + 4;
             AchievementManager.glueTracker = AchievementManager.glueTracker + 1;
             AchievementManager.Instance.GlueFactory();
 
@@ -104,7 +104,7 @@ public class FenceWallCollisions : MonoBehaviour
         }
         if (collision.gameObject.tag == "NPC")
         {
-            Dishonour.dishonourLevel = Dishonour.dishonourLevel + 8;
+            DishonourOld.dishonourLevel = DishonourOld.dishonourLevel + 8;
             AchievementManager.menaceTracker = AchievementManager.menaceTracker + 1;
             AchievementManager.Instance.PublicMenace();
 
@@ -123,12 +123,12 @@ public class FenceWallCollisions : MonoBehaviour
             if (AchievementManager.unlockBaaBoom == false) { AchievementManager.Instance.BaaBoom(); }
             _particlePos = collision.transform;
             PlayParticle(_explosiveImpact);
-            collision.gameObject.GetComponent<ExplosionForce>().Explode();
+            collision.gameObject.GetComponent<Explosive>().Explode();
             Destroy(collision.gameObject);
         }
         if (collision.gameObject.tag == "Grave")
         {
-            Dishonour.dishonourLevel = Dishonour.dishonourLevel + 2;
+            DishonourOld.dishonourLevel = DishonourOld.dishonourLevel + 2;
             AchievementManager.graveTracker = AchievementManager.graveTracker + 1;
             AchievementManager.Instance.GraveDigger();
 
@@ -141,7 +141,7 @@ public class FenceWallCollisions : MonoBehaviour
         }
         if (collision.gameObject.tag == "MarketStall")
         {
-            Dishonour.dishonourLevel = Dishonour.dishonourLevel + 3;
+            DishonourOld.dishonourLevel = DishonourOld.dishonourLevel + 3;
             AchievementManager.stallTracker = AchievementManager.stallTracker + 1;
             AchievementManager.Instance.Collidesdale();
 
@@ -154,7 +154,7 @@ public class FenceWallCollisions : MonoBehaviour
         }
         if (collision.gameObject.tag == "Vat")
         {
-            Dishonour.dishonourLevel = Dishonour.dishonourLevel + 2;
+            DishonourOld.dishonourLevel = DishonourOld.dishonourLevel + 2;
             //AudioManager.Instance.StopSFX();
             //AudioManager.Instance.PlaySFX("");
             _particlePos = collision.transform;
@@ -164,7 +164,7 @@ public class FenceWallCollisions : MonoBehaviour
         }
         if (collision.gameObject.tag == "Box")
         {
-            Dishonour.dishonourLevel = Dishonour.dishonourLevel + 2;
+            DishonourOld.dishonourLevel = DishonourOld.dishonourLevel + 2;
             //AudioManager.Instance.StopSFX();
             //AudioManager.Instance.PlaySFX("");
             _particlePos = collision.transform;

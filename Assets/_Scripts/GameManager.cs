@@ -25,6 +25,14 @@ public class GameManager : MonoBehaviour
         onGoldChanged?.Invoke(oldVal, _goldAmount);
     }
 
+    public void AddGold(int _goldToAdd)
+    {
+        int oldVal = m_gold;
+        m_gold += _goldToAdd;
+
+        onGoldChanged?.Invoke(oldVal, m_gold);
+    }
+
     private void OnValidate() => onGoldChanged?.Invoke(m_gold, m_gold);
 
     public Action<int, int> onGoldChanged;

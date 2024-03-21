@@ -78,19 +78,19 @@ public class PoliceAI : MonoBehaviour
     private void DishonourEvaluate()
     {
         InRange();
-        if (Dishonour.dishonourLevel < Dishonour._oneStar)
+        if (DishonourOld.dishonourLevel < DishonourOld._oneStar)
         {
             DishonourZero();
         }
-        if (Dishonour.dishonourLevel >= Dishonour._oneStar)
+        if (DishonourOld.dishonourLevel >= DishonourOld._oneStar)
         {
             DishonourOne();
         }
-        if (Dishonour.dishonourLevel >= Dishonour._twoStar)
+        if (DishonourOld.dishonourLevel >= DishonourOld._twoStar)
         {
             DishonourTwo();
         }
-        if (Dishonour.dishonourLevel >= Dishonour._threeStar)
+        if (DishonourOld.dishonourLevel >= DishonourOld._threeStar)
         {
             DishonourThree();
         }
@@ -168,7 +168,7 @@ public class PoliceAI : MonoBehaviour
 
     private void DishonourIncrease()
     {
-     Dishonour.dishonourLevel += Time.deltaTime * Dishonour._dishonourDepletionRef + 1;
+     DishonourOld.dishonourLevel += Time.deltaTime * DishonourOld._dishonourDepletionRef + 1;
     }
 
     private void VignetteHitEffect()

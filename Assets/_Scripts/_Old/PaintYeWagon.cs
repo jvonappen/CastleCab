@@ -60,23 +60,23 @@ public class PaintYeWagon : MonoBehaviour
             DollarDisplay.dollarValue = DollarDisplay.dollarValue - _paintJobCost;
             _bigSpray.Play();
         }
-        if (Dishonour.dishonourLevel >= Dishonour._fiveStar && DollarDisplay.dollarValue >= _removeDishonourCost)
+        if (DishonourOld.dishonourLevel >= DishonourOld._fiveStar && DollarDisplay.dollarValue >= _removeDishonourCost)
         {
             PlayParticle();
             AudioManager.Instance.PlaySFX("PaintYeWagon");
-            Dishonour.dishonourLevel = 0;
+            DishonourOld.dishonourLevel = 0;
             DollarDisplay.dollarValue = DollarDisplay.dollarValue - _removeDishonourCost;
             AchievementManager.Instance.SmoothCriminal();
         }
-        if (Dishonour.dishonourLevel >= Dishonour._oneStar && DollarDisplay.dollarValue >= _removeDishonourCost)
+        if (DishonourOld.dishonourLevel >= DishonourOld._oneStar && DollarDisplay.dollarValue >= _removeDishonourCost)
         {
             //wagon.GetComponent<Renderer>().material = _paintData.material[Random.Range(minValue, maxValue)];
             PlayParticle();
             AudioManager.Instance.PlaySFX("PaintYeWagon");
-            Dishonour.dishonourLevel = 0;
+            DishonourOld.dishonourLevel = 0;
             DollarDisplay.dollarValue = DollarDisplay.dollarValue - _removeDishonourCost;
         }
-        if (Dishonour.dishonourLevel >= Dishonour._oneStar && DollarDisplay.dollarValue < _removeDishonourCost)
+        if (DishonourOld.dishonourLevel >= DishonourOld._oneStar && DollarDisplay.dollarValue < _removeDishonourCost)
         {
             paintYeWagonCanvas.enabled = true;
         }

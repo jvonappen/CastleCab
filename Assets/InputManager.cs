@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,9 @@ using URNTS;
 
 public class InputManager : MonoBehaviour
 {
+    public static Action<PlayerInput, List<PlayerInput>> onPlayerJoined;
+    public static Action<PlayerInput, List<PlayerInput>> onPlayerLeft;
+
     [SerializeField] TrafficManager m_trafficManager;
     List<PlayerInput> m_players = new();
 
@@ -13,8 +17,19 @@ public class InputManager : MonoBehaviour
     {
         m_players.Add(_player);
 
-        foreach (PlayerInput player in m_players) player.GetComponent<PlayerMovement>().OnPlayerJoined(_player, m_players);
+        onPlayerJoined?.Invoke(_player, m_players);
+        //foreach (PlayerJoinedNotifier o in FindObjectsOfType<PlayerJoinedNotifier>()) o.OnPlayerJoined(_player);
 
         if (m_trafficManager) m_trafficManager.AddPlayer(_player.GetComponent<PlayerMovement>().horse);
+    }
+
+    public void OnPlayerLeft(PlayerInput _player)
+    {
+        m_players.Remove(_player);
+    
+        onPlayerLeft?.Invoke(_player, m_players);
+        //foreach (PlayerJoinedNotifier o in FindObjectsOfType<PlayerJoinedNotifier>()) o.OnPlayerJoined(_player);
+    
+        if (m_trafficManager) m_trafficManager.RemovePlayer(_player.GetComponent<PlayerMovement>().horse);
     }
 }
