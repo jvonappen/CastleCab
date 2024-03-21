@@ -123,7 +123,7 @@ public class FenceWallCollisions : MonoBehaviour
             if (AchievementManager.unlockBaaBoom == false) { AchievementManager.Instance.BaaBoom(); }
             _particlePos = collision.transform;
             PlayParticle(_explosiveImpact);
-            collision.gameObject.GetComponent<Explosive>().Explode();
+            //collision.gameObject.GetComponent<Explosive>().Explode();
             Destroy(collision.gameObject);
         }
         if (collision.gameObject.tag == "Grave")
