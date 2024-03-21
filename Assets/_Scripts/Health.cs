@@ -55,6 +55,7 @@ public class Health : MonoBehaviour
     protected virtual void Die(PlayerAttack _player)
     {
         m_manager.AddGold(m_goldReward);
+        if (_player.TryGetComponent(out Dishonour dishonour)) dishonour.AddDishonour(m_dishonourPunishment);
 
         onDeath?.Invoke();
         Destroy();
