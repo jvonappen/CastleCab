@@ -6,6 +6,8 @@ using UnityEngine;
 [RequireComponent(typeof(TextMeshProUGUI))]
 public class GoldDisplay : MonoBehaviour
 {
+    [SerializeField] string m_displayTextPrefix = "Gold: ";
+
     GameManager m_manager;
     TextMeshProUGUI m_display;
 
