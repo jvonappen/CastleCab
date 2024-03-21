@@ -270,6 +270,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health: 10
+  m_dishonourPunishment: 15
+  m_goldReward: 20
   m_showPopup: 1
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2
@@ -421,6 +423,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health: 10
+  m_dishonourPunishment: 15
+  m_goldReward: 20
   m_showPopup: 1
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2
@@ -572,6 +576,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health: 10
+  m_dishonourPunishment: 15
+  m_goldReward: 20
   m_showPopup: 1
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2
@@ -723,6 +729,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health: 10
+  m_dishonourPunishment: 15
+  m_goldReward: 20
   m_showPopup: 1
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2
@@ -1189,6 +1197,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health: 10
+  m_dishonourPunishment: 15
+  m_goldReward: 20
   m_showPopup: 1
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2
@@ -1340,6 +1350,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health: 10
+  m_dishonourPunishment: 15
+  m_goldReward: 20
   m_showPopup: 1
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2
@@ -1851,6 +1863,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health: 5
+  m_dishonourPunishment: 15
+  m_goldReward: 20
   m_showPopup: 1
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2
@@ -2127,6 +2141,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health: 10
+  m_dishonourPunishment: 15
+  m_goldReward: 20
   m_showPopup: 1
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2
@@ -2253,7 +2269,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &658339835
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2466,6 +2482,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health: 5
+  m_dishonourPunishment: 15
+  m_goldReward: 20
   m_showPopup: 1
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2
@@ -2727,6 +2745,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health: 10
+  m_dishonourPunishment: 15
+  m_goldReward: 20
   m_showPopup: 1
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2
@@ -2741,7 +2761,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1006181164}
   - component: {fileID: 1006181163}
-  - component: {fileID: 1006181165}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2779,22 +2798,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1006181165
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1006181162}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77aaa732dc0bdbe45a4ca3d88db7901e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_progress: {fileID: 658339837}
-  m_dishonourPointsPerLevel: 100
-  m_currentDishonourPoints: 0
-  m_currentDishonourLevel: 0
 --- !u!1 &1052105714
 GameObject:
   m_ObjectHideFlags: 0
@@ -2932,10 +2935,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 658339835}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 222.12, y: -25}
+  m_SizeDelta: {x: 49.36, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1156494768
 MonoBehaviour:
@@ -3122,6 +3125,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health: 1
+  m_dishonourPunishment: 15
+  m_goldReward: 20
   m_showPopup: 1
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2
@@ -3273,6 +3278,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health: 5
+  m_dishonourPunishment: 15
+  m_goldReward: 20
   m_showPopup: 1
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2
@@ -3549,6 +3556,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health: 10
+  m_dishonourPunishment: 15
+  m_goldReward: 20
   m_showPopup: 1
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2
@@ -3828,6 +3837,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health: 10
+  m_dishonourPunishment: 15
+  m_goldReward: 20
   m_showPopup: 1
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2
@@ -3993,6 +4004,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health: 100
+  m_dishonourPunishment: 15
+  m_goldReward: 20
   m_showPopup: 1
   m_popupLocation: {fileID: 1335710929}
   m_popupRandomRange: 5
@@ -4249,6 +4262,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health: 10
+  m_dishonourPunishment: 15
+  m_goldReward: 20
   m_showPopup: 1
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2
@@ -4400,6 +4415,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health: 10
+  m_dishonourPunishment: 15
+  m_goldReward: 20
   m_showPopup: 1
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2
@@ -4482,10 +4499,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 658339835}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 24.68, y: -25}
+  m_SizeDelta: {x: 49.36, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1546479122
 MonoBehaviour:
@@ -5000,6 +5017,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health: 5
+  m_dishonourPunishment: 15
+  m_goldReward: 20
   m_showPopup: 1
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2
@@ -5158,6 +5177,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health: 10
+  m_dishonourPunishment: 15
+  m_goldReward: 20
   m_showPopup: 1
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2
@@ -5309,6 +5330,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health: 10
+  m_dishonourPunishment: 15
+  m_goldReward: 20
   m_showPopup: 1
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2
@@ -5565,6 +5588,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health: 10
+  m_dishonourPunishment: 15
+  m_goldReward: 20
   m_showPopup: 1
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2
@@ -5601,10 +5626,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 658339835}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 172.76001, y: -25}
+  m_SizeDelta: {x: 49.36, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1734574368
 MonoBehaviour:
@@ -5799,6 +5824,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health: 100
+  m_dishonourPunishment: 15
+  m_goldReward: 20
   m_showPopup: 1
   m_popupLocation: {fileID: 1802933918}
   m_popupRandomRange: 5
@@ -6051,10 +6078,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 658339835}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 74.04, y: -25}
+  m_SizeDelta: {x: 49.36, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1835003346
 MonoBehaviour:
@@ -6336,10 +6363,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 658339835}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 123.4, y: -25}
+  m_SizeDelta: {x: 49.36, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1935610140
 MonoBehaviour:
@@ -6526,6 +6553,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health: 5
+  m_dishonourPunishment: 15
+  m_goldReward: 20
   m_showPopup: 1
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2
@@ -6684,6 +6713,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health: 10
+  m_dishonourPunishment: 15
+  m_goldReward: 20
   m_showPopup: 1
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2
@@ -6924,6 +6955,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health: 10
+  m_dishonourPunishment: 15
+  m_goldReward: 20
   m_showPopup: 1
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2

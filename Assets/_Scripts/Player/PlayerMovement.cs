@@ -261,15 +261,6 @@ public class PlayerMovement : MonoBehaviour
 
     #region Events
 
-    #region PlayerJoined
-
-    public void OnPlayerJoined(PlayerInput _player, List<PlayerInput> _players)
-    {
-        foreach (UIScale2P o in GetComponentsInChildren<UIScale2P>()) o.OnPlayerJoined(_player);
-    }
-
-    #endregion
-
     #region Acceleration
     void OnAccelerate(InputAction.CallbackContext context)
     {

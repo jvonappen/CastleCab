@@ -37,11 +37,11 @@ public class Explosive : Health
     //    }
     //}
 
-    protected override void Die()
+    protected override void Die(PlayerAttack _player)
     {
         Explode();
 
-        base.Die();
+        base.Die(_player);
     }
 
     public void Explode()
@@ -58,7 +58,7 @@ public class Explosive : Health
             {
 
                 // Calculate direction from the explosion center to the rigidbody.
-                Vector3 explosionDir = rb.transform.position - transform.position;
+                Vector3 explosionDir = (rb.transform.position - transform.position).normalized;
 
                 if (rb.TryGetComponent(out Knockback knockback))
                 {

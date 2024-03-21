@@ -3,8 +3,11 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
+    GameManager m_manager;
+
     protected float m_maxHealth = 100;
     [SerializeField] protected float m_health = 100;
+    [SerializeField] protected int m_dishonourPunishment = 15, m_goldReward = 20;
 
     protected bool m_isInvulnerable;
 
@@ -21,6 +24,8 @@ public class Health : MonoBehaviour
     private void Awake() => Init();
     protected virtual void Init()
     {
+        m_manager = FindObjectOfType<GameManager>();
+
         if (!m_popupLocation) m_popupLocation = transform;
         m_maxHealth = m_health;
     }
@@ -38,18 +43,22 @@ public class Health : MonoBehaviour
 
             onDamaged?.Invoke(_damageAmount, _player);
 
-            CheckAlive();
+            CheckAlive(_player);
         }
     }
 
-    void CheckAlive()
+    void CheckAlive(PlayerAttack _player)
     {
-        if ((int)m_health <= 0) Die();
+        if ((int)m_health <= 0) Die(_player);
     }
 
-    protected virtual void Die()
+    protected virtual void Die(PlayerAttack _player)
     {
+        m_manager.AddGold(m_goldReward);
+
         onDeath?.Invoke();
-        Destroy(gameObject);
+        Destroy();
     }
+
+    protected virtual void Destroy() => Destroy(gameObject);
 }
