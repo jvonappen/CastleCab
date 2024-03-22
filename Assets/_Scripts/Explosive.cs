@@ -5,7 +5,6 @@ using UnityEngine;
 public class Explosive : Health
 {
     [Header("Explosive")]
-    [SerializeField] GameObject m_particlePrefab;
     public LayerMask m_explodeLayer;
     public float explosionRadius = 30f;
     public float explosionForce = 200f;
@@ -13,16 +12,6 @@ public class Explosive : Health
     public float rotationForce = 500f; // Adjust the rotation force as needed.
 
     [SerializeField] int m_explosionDamage = 3;
-
-    ParticleSystem m_particle;
-
-    protected override void Init()
-    {
-        base.Init();
-
-        m_particle = Instantiate(m_particlePrefab, transform).GetComponent<ParticleSystem>();
-        m_particle.transform.localPosition = Vector3.zero;
-    }
 
     protected override void Die(PlayerAttack _player)
     {
@@ -33,11 +22,6 @@ public class Explosive : Health
 
     public void Explode(PlayerAttack _player)
     {
-        m_particle.transform.SetParent(null);
-        m_particle.Play();
-
-        m_particle.GetComponent<CFX_AutoDestructShuriken>().enabled = true;
-
         // Find all colliders within the explosion radius.
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
 
