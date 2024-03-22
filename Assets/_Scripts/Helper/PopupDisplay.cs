@@ -65,8 +65,7 @@ public class PopupDisplay
         go.transform.SetParent(_parent, true);
         go.transform.position = GetPointInRange(_position, _randomRangePos, true);
 
-        if (!_lookAt) go.transform.LookAt(Camera.main.transform);
-        else go.transform.LookAt(_lookAt);
+        if (_lookAt) go.transform.LookAt(_lookAt);
 
         go.transform.forward = -go.transform.forward;
 

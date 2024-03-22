@@ -859,6 +859,7 @@ Transform:
   - {fileID: 6217983520403974060}
   - {fileID: 7988857347104336244}
   - {fileID: 7203041070701899685}
+  - {fileID: 11395987935670407}
   m_Father: {fileID: 1543951453321797045}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &8900101929206847183
@@ -1415,6 +1416,77 @@ Transform:
   - {fileID: 4033146267504328563}
   m_Father: {fileID: 7988857347104336244}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5194020439484752200
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 11395987935670407}
+  - component: {fileID: 6507591800601323363}
+  - component: {fileID: 5879798351779950286}
+  m_Layer: 3
+  m_Name: KnockbackCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &11395987935670407
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5194020439484752200}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.8430001, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3270650548073352373}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &6507591800601323363
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5194020439484752200}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2.3247302
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: -0.0074806223}
+--- !u!114 &5879798351779950286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5194020439484752200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69229ecce01be984daf85cdafca3247e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_collisionLayer:
+    serializedVersion: 2
+    m_Bits: 4096
 --- !u!1 &5516771478468493570
 GameObject:
   m_ObjectHideFlags: 0
@@ -2640,7 +2712,8 @@ GameObject:
   - component: {fileID: 8138011188468573900}
   - component: {fileID: 8058180255241015037}
   - component: {fileID: 5737913782911398674}
-  m_Layer: 3
+  - component: {fileID: 8386848288842668814}
+  m_Layer: 12
   m_Name: pfb_Traffic Cow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2723,6 +2796,21 @@ MonoBehaviour:
   targetPos: {x: 0, y: 0, z: 0}
   invConn: 0
   lane: 1
+--- !u!114 &8386848288842668814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9171037607184688062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 411eabd5774f55043a113216c8540269, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_force: 15
+  m_velY: 10
+  m_particle: {fileID: 5880797563127281583, guid: 7bb345d0881810c4ba63d550819f8ba6, type: 3}
 --- !u!1 &9178467965754023433
 GameObject:
   m_ObjectHideFlags: 0

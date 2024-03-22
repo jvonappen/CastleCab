@@ -1,51 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Explosive : Health
 {
     [Header("Explosive")]
+    [SerializeField] GameObject m_particlePrefab;
     public LayerMask m_explodeLayer;
     public float explosionRadius = 30f;
     public float explosionForce = 200f;
     public float verticalLaunchForce = 100f; // Adjust the vertical launch force as needed.
     public float rotationForce = 500f; // Adjust the rotation force as needed.
-    //PlayerMovement movement;
 
-    // TODO <- float Break force
-    //public float breakForce = 30f;
+    [SerializeField] int m_explosionDamage = 3;
 
-    //private void OnTriggerEnter(Collider other) => CheckCollision(other);
-    //private void OnCollisionEnter(Collision collision) => CheckCollision(collision.collider);
-    //
-    //void CheckCollision(Collider other)
-    //{
-    //    if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
-    //    {
-    //        float playerForce = other.attachedRigidbody.velocity.magnitude;
-    //
-    //        // TODO <- if playerforce > breakforce
-    //        if (playerForce > breakForce)
-    //        {
-    //            other.attachedRigidbody.velocity = Vector3.zero;
-    //
-    //            Explode();
-    //
-    //            Destroy(gameObject);
-    //        }
-    //    }
-    //}
+    ParticleSystem m_particle;
+
+    protected override void Init()
+    {
+        base.Init();
+
+        m_particle = Instantiate(m_particlePrefab, transform).GetComponent<ParticleSystem>();
+        m_particle.transform.localPosition = Vector3.zero;
+    }
 
     protected override void Die(PlayerAttack _player)
     {
-        Explode();
+        Explode(_player);
 
         base.Die(_player);
     }
 
-    public void Explode()
+    public void Explode(PlayerAttack _player)
     {
+        m_particle.transform.SetParent(null);
+        m_particle.Play();
+
+        m_particle.GetComponent<CFX_AutoDestructShuriken>().enabled = true;
+
         // Find all colliders within the explosion radius.
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
 
@@ -72,6 +64,15 @@ public class Explosive : Health
                 {
                     if (m_explodeLayer == (m_explodeLayer | (1 << rb.gameObject.layer)))
                     {
+                        if (rb.TryGetComponent(out Health health))
+                        {
+                            TimerManager.RunAfterTime(() =>
+                            {
+                                m_isInvulnerable = true;
+                                health.DealDamage(m_explosionDamage, _player);
+                            }, 0.6f);
+                        }
+
                         rb.AddExplosionForce(explosionForce * 1000, transform.position, explosionRadius);
 
                         //Apply vertical launch force.
@@ -83,8 +84,6 @@ public class Explosive : Health
                 }
 
             }
-
-
         }
     }
 }

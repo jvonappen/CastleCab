@@ -39,7 +39,9 @@ public class Health : MonoBehaviour
             onHealthChanged?.Invoke(previousHealth, m_health);
 
             // Display damage popup text
-            PopupDisplay.Spawn(m_popupLocation.position, m_popupRandomRange, _damageAmount.ToString(), m_fontSize, Color.white, Vector3.up * 3, null, _player.transform.GetChild(0));
+            Transform lookAt = null;
+            if (_player) lookAt = _player.transform.GetChild(0);
+            PopupDisplay.Spawn(m_popupLocation.position, m_popupRandomRange, _damageAmount.ToString(), m_fontSize, Color.white, Vector3.up * 3, null, lookAt);
 
             onDamaged?.Invoke(_damageAmount, _player);
 
@@ -55,8 +57,11 @@ public class Health : MonoBehaviour
     protected virtual void Die(PlayerAttack _player)
     {
         m_manager.AddGold(m_goldReward);
-        if (_player.TryGetComponent(out Dishonour dishonour)) dishonour.AddDishonour(m_dishonourPunishment);
-
+        if (_player)
+        {
+            if (_player.TryGetComponent(out Dishonour dishonour)) dishonour.AddDishonour(m_dishonourPunishment);
+        }
+        
         onDeath?.Invoke();
         Destroy();
     }
