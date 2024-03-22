@@ -474,6 +474,15 @@ public class PlayerMovement : MonoBehaviour
 
     void OnHurricanePerformed(InputAction.CallbackContext context)
     {
+        if (m_staminaBar)
+        {
+            if (m_staminaBar.progress > 0) OnHurricanePerformed();
+        }
+        else OnHurricanePerformed();
+        
+    }
+    void OnHurricanePerformed()
+    {
         onHurricane?.Invoke();
 
         m_isHurricane = true;
@@ -490,20 +499,21 @@ public class PlayerMovement : MonoBehaviour
 
     public void EndHurricane()
     {
-        if (rb.transform.forward.x > prevDir.x - 2 && rb.transform.forward.x < prevDir.x + 2)
+        float leeway = 0.1f;
+        if (rb.transform.forward.x > prevDir.x - leeway && rb.transform.forward.x < prevDir.x + leeway)
         {
-            if (rb.transform.forward.z > prevDir.z - 2 && rb.transform.forward.z < prevDir.z + 2)
+            if (rb.transform.forward.z > prevDir.z - leeway && rb.transform.forward.z < prevDir.z + leeway)
             {
                 onHurricaneCanceled?.Invoke();
-
+        
                 m_isHurricane = false;
                 m_endingHurricane = false;
-
+        
                 // Bug - makes player jump sometimes, maybe make player temporarily kinematic or kill velocity?
                 rb.transform.forward = prevDir;
-
+        
                 m_cam.camSpeed = m_cam.m_originalCamSpeed;
-
+        
                 m_cam.m_useOffsetOverride = false;
             }
         }
@@ -724,7 +734,7 @@ public class PlayerMovement : MonoBehaviour
                 float staminaCostPerSec = _Hurricane.m_staminaCostPerSec - (SharedPlayerStats.staminaPoints * (_Hurricane.m_staminaCostPerSec * (_Stamina.m_decreasePercentPerStatPoint / 100)));
 
                 float staminaCostThisFrame = staminaCostPerSec * Time.fixedDeltaTime;
-                if (m_staminaBar.progress >= staminaCostThisFrame)
+                if (m_staminaBar.progress >= staminaCostThisFrame || m_endingHurricane)
                 {
                     m_staminaBar.progress -= staminaCostThisFrame;
                     m_staminaBar.UpdateProgress();
@@ -748,7 +758,7 @@ public class PlayerMovement : MonoBehaviour
 
                     if (m_endingHurricane) EndHurricane();
                 }
-                else if (m_isHurricane) EndHurricane();
+                else if (m_isHurricane) m_endingHurricane = true;/*EndHurricane();*/
             }
         }
 

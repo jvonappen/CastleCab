@@ -11,6 +11,7 @@ public class ProgressBar : MonoBehaviour
     private void OnValidate() => UpdateProgress();
     public void UpdateProgress()
     {
+        if (m_progress < 0) m_progress = 0;
         m_fill.localScale = new Vector3(m_progress, m_fill.localScale.y, m_fill.localScale.z);
     }
 }
