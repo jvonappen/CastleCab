@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 public class Health : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class Health : MonoBehaviour
 
     public Action<float, float> onHealthChanged;
 
+    [SerializeField] protected GameObject m_damagedParticlePrefab, m_destroyedParticlePrefab;
+    protected ParticleSystem m_damagedParticle, m_destroyedParticle;
+
     [Header("Popup")]
     [SerializeField] protected bool m_showPopup = true;
     [ConditionalHide("m_showPopup")] [SerializeField] protected Transform m_popupLocation;
@@ -28,6 +32,18 @@ public class Health : MonoBehaviour
 
         if (!m_popupLocation) m_popupLocation = transform;
         m_maxHealth = m_health;
+
+        if (m_damagedParticlePrefab)
+        {
+            m_damagedParticle = Instantiate(m_damagedParticlePrefab, transform).GetComponent<ParticleSystem>();
+            m_damagedParticle.transform.localPosition = Vector3.zero;
+        }
+        
+        if (m_destroyedParticlePrefab)
+        {
+            m_destroyedParticle = Instantiate(m_destroyedParticlePrefab, transform).GetComponent<ParticleSystem>();
+            m_destroyedParticle.transform.localPosition = Vector3.zero;
+        }
     }
 
     public virtual void DealDamage(float _damageAmount, PlayerAttack _player)
@@ -56,6 +72,14 @@ public class Health : MonoBehaviour
 
     protected virtual void Die(PlayerAttack _player)
     {
+        if (m_destroyedParticle)
+        {
+            m_destroyedParticle.transform.SetParent(null);
+            m_destroyedParticle.Play();
+
+            m_destroyedParticle.GetComponent<CFX_AutoDestructShuriken>().enabled = true;
+        }
+        
         m_manager.AddGold(m_goldReward);
         if (_player)
         {

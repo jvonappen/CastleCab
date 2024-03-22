@@ -51,7 +51,7 @@ public class KnockbackObject : MonoBehaviour
 
                 kb.KnockBack((otherRB.transform.position - transform.position).normalized, contactPoint);
 
-                if (!m_knockback.CompareTag("Player") || kb.gameObject.CompareTag("Player")) // Prevents player x non-player knockback for player
+                if ((m_knockback && !m_knockback.CompareTag("Player")) || kb.gameObject.CompareTag("Player")) // Prevents player x non-player knockback for player
                 {
                     if (m_knockback) m_knockback.KnockBack((transform.position - otherRB.transform.position).normalized, contactPoint);
                 }
