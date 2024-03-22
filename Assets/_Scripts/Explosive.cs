@@ -69,7 +69,6 @@ public class Explosive : Health
                             TimerManager.RunAfterTime(() =>
                             {
                                 m_isInvulnerable = true;
-
                                 health.DealDamage(m_explosionDamage, _player);
                             }, 0.6f);
                         }

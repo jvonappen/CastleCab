@@ -27,10 +27,9 @@ public class TimerManager : MonoBehaviour
 
     [SerializeField] List<Timer> m_timers = new();
 
-    public static void RunAfterTime(Action function, float time)
-    {
-        Instance.m_timers.Add(new Timer(function, time));
-    }
+    public static void RunAfterTime(Action function, float time) => Instance.m_timers.Add(new Timer(function, time));
+
+    public static void RunUntilTime(Action function, float time) => Instance.m_timers.Add(new Timer(function, time, true));
 
     public static void DestroyTimer(Timer timer)
     {
@@ -54,23 +53,35 @@ public class Timer
 
     Action m_functionToCall;
 
-    public Timer(Action function, float time)
+    bool m_functionOnUpdate;
+
+    public Timer(Action function, float time, bool functionOnUpdate = false)
     {
         m_functionToCall = function;
         m_timeUntilEnd = time;
+        m_functionOnUpdate = functionOnUpdate;
     }
 
     public void UpdateTimer()
     {
         if (m_counter >= m_timeUntilEnd)
         {
-            try
-            {
-                m_functionToCall();
-            }
-            catch { Debug.LogWarning("TimerManager failed to invoke action. Script may no longer exist."); }
+            RunFunction();
             TimerManager.DestroyTimer(this);
         }
-        else m_counter += Time.deltaTime;
+        else
+        {
+            m_counter += Time.deltaTime;
+            if (m_functionOnUpdate) RunFunction();
+        }
+    }
+
+    void RunFunction()
+    {
+        try
+        {
+            m_functionToCall();
+        }
+        catch { Debug.LogWarning("TimerManager failed to invoke action. Script may no longer exist."); }
     }
 }

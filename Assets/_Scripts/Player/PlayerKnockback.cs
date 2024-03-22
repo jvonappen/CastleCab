@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class PlayerKnockback : Knockback
 {
-    [SerializeField] GameObject m_particle;
-
     PlayerMovement m_player;
     public PlayerMovement playerMovement { get { return m_player; } }
     protected override void Init()
@@ -17,12 +15,6 @@ public class PlayerKnockback : Knockback
         if (m_player.isHurricane) return;
         
         base.KnockBack(_dir, _origin);
-
-        if (_origin != Vector3.zero)
-        {
-            ParticleSystem particle = Instantiate(m_particle, _origin, Quaternion.identity).GetComponent<ParticleSystem>();
-            particle.Play();
-        }
 
         m_player.isSmackStunned = true;
 
