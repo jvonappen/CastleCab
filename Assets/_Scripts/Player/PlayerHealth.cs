@@ -16,7 +16,7 @@ public class PlayerHealth : Health
     {
         base.Init();
 
-        m_playerMovement = GetComponent<PlayerMovement>();
+        m_playerMovement = GetComponentInParent<PlayerMovement>();
 
         m_originalMaxHealth = m_maxHealth;
         m_maxHealth = m_originalMaxHealth + (m_addHealthPerStat * SharedPlayerStats.healthPoints);
