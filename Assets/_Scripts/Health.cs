@@ -30,7 +30,7 @@ public class Health : MonoBehaviour
         m_maxHealth = m_health;
     }
 
-    public void DealDamage(float _damageAmount, PlayerAttack _player)
+    public virtual void DealDamage(float _damageAmount, PlayerAttack _player)
     {
         if (!m_isInvulnerable)
         {

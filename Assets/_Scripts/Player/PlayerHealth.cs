@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerHealth : Health
 {
     [SerializeField] ProgressBar m_healthBar;
+    PlayerMovement m_playerMovement;
 
     [Space(5)]
     [SerializeField] float m_addHealthPerStat = 10;
@@ -15,6 +16,8 @@ public class PlayerHealth : Health
     {
         base.Init();
 
+        m_playerMovement = GetComponent<PlayerMovement>();
+
         m_originalMaxHealth = m_maxHealth;
         m_maxHealth = m_originalMaxHealth + (m_addHealthPerStat * SharedPlayerStats.healthPoints);
 
@@ -23,7 +26,6 @@ public class PlayerHealth : Health
 
         SharedPlayerStats.onAddHealth += OnAddHealth;
         onHealthChanged += OnHealthChanged;
-        onDamaged += OnDamaged;
     }
 
     void OnAddHealth()
@@ -48,9 +50,11 @@ public class PlayerHealth : Health
 
     protected override void Destroy() => gameObject.SetActive(false);
 
-    void OnDamaged(float _damageAmount, PlayerAttack _player)
+    public override void DealDamage(float _damageAmount, PlayerAttack _player)
     {
-        // Display damage popup text
-        //PopupDisplay.Spawn(m_popupLocation.position, m_popupRandomRange, _damageAmount.ToString(), m_fontSize, Color.white, Vector3.up * 3, null, _player.transform.GetChild(0));
+        if (!m_playerMovement.isHurricane)
+        {
+            base.DealDamage(_damageAmount, _player);
+        }
     }
 }

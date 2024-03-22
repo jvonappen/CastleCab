@@ -39,21 +39,21 @@ public class KnockbackObject : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Rigidbody rb = other.attachedRigidbody;
-        if (!rb) return;
+        Rigidbody otherRB = other.attachedRigidbody;
+        if (!otherRB) return;
 
-        if (CheckLayer(rb.gameObject.layer))
+        if (CheckLayer(otherRB.gameObject.layer))
         {
-            Knockback kb = rb.GetComponent<Knockback>();
+            Knockback kb = otherRB.GetComponent<Knockback>();
             if (kb)
             {
                 Vector3 contactPoint = m_collider.ClosestPoint(transform.position);
 
-                kb.KnockBack((rb.transform.position - transform.position).normalized, contactPoint);
+                kb.KnockBack((otherRB.transform.position - transform.position).normalized, contactPoint);
 
                 if (!m_knockback.CompareTag("Player") || kb.gameObject.CompareTag("Player")) // Prevents player x non-player knockback for player
                 {
-                    if (m_knockback) m_knockback.KnockBack((transform.position - rb.transform.position).normalized, contactPoint);
+                    if (m_knockback) m_knockback.KnockBack((transform.position - otherRB.transform.position).normalized, contactPoint);
                 }
                 else
                 {
@@ -61,7 +61,7 @@ public class KnockbackObject : MonoBehaviour
                     {
                         TimerManager.RunUntilTime(() => 
                         {
-                            rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+                            if (rb.velocity.y > 0) rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
                         }, 0.4f);
                     }
                 }
