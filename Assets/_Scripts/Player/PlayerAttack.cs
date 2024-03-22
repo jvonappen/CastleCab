@@ -44,11 +44,18 @@ public class PlayerAttack : MonoBehaviour
     public void AttemptAttack(Collider _collider)
     {
         Rigidbody colliderRB = _collider.attachedRigidbody;
-        if (!colliderRB) return;
+
+        Health health = null;
+        if (!colliderRB)
+        {
+            health = _collider.GetComponent<Health>();
+            if (!health) return;
+        }
 
         if (!_collider.isTrigger)
         {
-            Health health = colliderRB.GetComponent<Health>();
+            if (!health) health = colliderRB.GetComponent<Health>();
+
             if (health)
             {
                 float playerForce = m_playerMovement.rb.velocity.magnitude;
