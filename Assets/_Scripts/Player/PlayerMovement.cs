@@ -120,7 +120,7 @@ public class PlayerMovement : MonoBehaviour
     [System.Serializable]
     public struct AirControl
     {
-        [SerializeField] internal float m_flipSpeed, m_rollSpeed;
+        [SerializeField] internal float m_flipSpeed, m_rollSpeed, m_boostMultiplier;
     }
 
     bool m_isAirControl;
@@ -327,7 +327,7 @@ public class PlayerMovement : MonoBehaviour
     void OnBoostPerformed(InputAction.CallbackContext context)
     {
         m_attemptingBoost = true;
-        if (m_isAccelerating || m_isDrifting) StartBoost();
+        if (m_isAccelerating || m_isDrifting || m_isAirControl) StartBoost();
     }
 
     void OnBoostCanceled(InputAction.CallbackContext context)
@@ -792,18 +792,6 @@ public class PlayerMovement : MonoBehaviour
 
                 turnSpeed = m_currentDriftTurnSpeed * turnStrength * _Drifting.m_strengthMultiplier;
             }
-            else // Handle air control
-            {
-                //turnInput = 0;
-                //
-                //// Calculates rotation amount this physics update based on input and rotation speed
-                //float rotZ = m_directionMoveInput.x * _AirControl.m_rollSpeed * Time.fixedDeltaTime;
-                //float rotX = m_directionMoveInput.y * _AirControl.m_flipSpeed * Time.fixedDeltaTime;
-                //
-                //// Applies desired rotation
-                //Vector3 rotateVector = new(rotX, 0, rotZ);
-                //rb.transform.Rotate(rotateVector);// .rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + rotateVector);
-            }
         }
         else if (m_isAirControl)
         {
@@ -813,6 +801,12 @@ public class PlayerMovement : MonoBehaviour
             float rotZ = m_directionMoveInput.x * _AirControl.m_rollSpeed * Time.fixedDeltaTime;
             float rotX = m_directionMoveInput.y * _AirControl.m_flipSpeed * Time.fixedDeltaTime;
             
+            if (m_isBoosting)
+            {
+                rotZ *= _AirControl.m_boostMultiplier;
+                rotX *= _AirControl.m_boostMultiplier;
+            }
+
             // Applies desired rotation
             Vector3 rotateVector = new(rotX, 0, rotZ);
             rb.transform.Rotate(rotateVector);// .rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + rotateVector);
