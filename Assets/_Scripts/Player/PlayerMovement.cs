@@ -601,7 +601,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 onBoostCanceled?.Invoke();
 
-                m_isBoosting = false;
+                if (m_isBoosting) EndBoost();
                 m_attemptingBoost = false;
                 m_staminaBar.progress = 0;
                 m_staminaBar.UpdateProgress();
