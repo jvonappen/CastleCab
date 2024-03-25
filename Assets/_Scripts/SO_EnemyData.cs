@@ -5,9 +5,11 @@ using UnityEngine;
 [System.Serializable]
 public struct EnemySpawning
 {
+    [SerializeField] int m_starAmount;
+
+    [Space(10)]
     [SerializeField] GameObject m_enemyPrefab;
     [SerializeField] int m_enemiesPerPlayer;
-    [SerializeField] int m_starAmount;
     [SerializeField] bool m_onlySpawnIfDishonoured;
     
     public int starAmount { get { return m_starAmount; } }

@@ -137,6 +137,7 @@ namespace URNTS
 
         public GameObject SpawnVehFromPool(string tag, Vector3 position, Quaternion rotation)
         {
+            Debug.Log("Vehicle spawned");
             if (!vehPoolDictionary.ContainsKey(tag))
             {
                 Debug.LogError("Tag: " + tag + " not found in pool dictionary");
