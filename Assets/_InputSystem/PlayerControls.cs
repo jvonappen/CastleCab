@@ -1149,8 +1149,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     ],
     ""controlSchemes"": [
         {
-            ""name"": ""KBM"",
-            ""bindingGroup"": ""KBM"",
+            ""name"": ""Keyboard"",
+            ""bindingGroup"": ""Keyboard"",
             ""devices"": [
                 {
                     ""devicePath"": ""<Keyboard>"",
@@ -1525,13 +1525,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
-    private int m_KBMSchemeIndex = -1;
-    public InputControlScheme KBMScheme
+    private int m_KeyboardSchemeIndex = -1;
+    public InputControlScheme KeyboardScheme
     {
         get
         {
-            if (m_KBMSchemeIndex == -1) m_KBMSchemeIndex = asset.FindControlSchemeIndex("KBM");
-            return asset.controlSchemes[m_KBMSchemeIndex];
+            if (m_KeyboardSchemeIndex == -1) m_KeyboardSchemeIndex = asset.FindControlSchemeIndex("Keyboard");
+            return asset.controlSchemes[m_KeyboardSchemeIndex];
         }
     }
     private int m_GamepadSchemeIndex = -1;
