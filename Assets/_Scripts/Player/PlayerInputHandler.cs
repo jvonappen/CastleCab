@@ -18,10 +18,6 @@ public class PlayerInputHandler : MonoBehaviour
         m_playerInput = GetComponent<PlayerInput>();
 
         m_playerInput.actions = m_playerControls.asset;
-
-        //Cursor.lockState = CursorLockMode.Locked;
-
-        
     }
     private void OnEnable() => m_playerControls.Enable();
 
