@@ -67,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
 
     float m_accelerationAmount;
 
-    Vector3 prevDir;
+    float prevRotY;
 
     [SerializeField] Speed _Speed;
     #endregion
@@ -499,23 +499,20 @@ public class PlayerMovement : MonoBehaviour
 
     public void EndHurricane()
     {
-        float leeway = 0.1f;
-        if (rb.transform.forward.x > prevDir.x - leeway && rb.transform.forward.x < prevDir.x + leeway)
+        float leeway = 15f;
+        if (rb.transform.eulerAngles.y > prevRotY - leeway && rb.transform.eulerAngles.y < prevRotY + leeway)
         {
-            if (rb.transform.forward.z > prevDir.z - leeway && rb.transform.forward.z < prevDir.z + leeway)
-            {
-                onHurricaneCanceled?.Invoke();
-        
-                m_isHurricane = false;
-                m_endingHurricane = false;
-        
-                // Bug - makes player jump sometimes, maybe make player temporarily kinematic or kill velocity?
-                rb.transform.forward = prevDir;
-        
-                m_cam.camSpeed = m_cam.m_originalCamSpeed;
-        
-                m_cam.m_useOffsetOverride = false;
-            }
+            onHurricaneCanceled?.Invoke();
+
+            m_isHurricane = false;
+            m_endingHurricane = false;
+
+            // Bug - makes player jump sometimes, maybe make player temporarily kinematic or kill velocity?
+            rb.transform.eulerAngles = new Vector3(rb.transform.eulerAngles.x, prevRotY, rb.transform.eulerAngles.z);
+
+            m_cam.camSpeed = m_cam.m_originalCamSpeed;
+
+            m_cam.m_useOffsetOverride = false;
         }
     }
 
@@ -695,7 +692,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (!m_isHurricane && !m_endingHurricane)
         {
-            prevDir = rb.transform.forward;
+            prevRotY = rb.transform.eulerAngles.y;
 
             Vector3 dir = rb.transform.forward;
             if (m_isDrifting)
@@ -734,6 +731,7 @@ public class PlayerMovement : MonoBehaviour
                 float staminaCostPerSec = _Hurricane.m_staminaCostPerSec - (SharedPlayerStats.staminaPoints * (_Hurricane.m_staminaCostPerSec * (_Stamina.m_decreasePercentPerStatPoint / 100)));
 
                 float staminaCostThisFrame = staminaCostPerSec * Time.fixedDeltaTime;
+
                 if (m_staminaBar.progress >= staminaCostThisFrame || m_endingHurricane)
                 {
                     m_staminaBar.progress -= staminaCostThisFrame;
@@ -758,7 +756,7 @@ public class PlayerMovement : MonoBehaviour
 
                     if (m_endingHurricane) EndHurricane();
                 }
-                else if (m_isHurricane) m_endingHurricane = true;/*EndHurricane();*/
+                else if (m_isHurricane) m_endingHurricane = true;
             }
         }
 
