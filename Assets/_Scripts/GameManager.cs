@@ -2,6 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 
 public class GameManager : MonoBehaviour
 {
@@ -44,5 +47,15 @@ public class GameManager : MonoBehaviour
         CreateSingleton();
 
         onGoldChanged?.Invoke(m_gold, m_gold);
+
+        InputUser.onUnpairedDeviceUsed += UnpairedDeviceUsed;
+    }
+
+    public void UnpairedDeviceUsed(InputControl _inputControl, InputEventPtr _inputEventPtr)
+    {
+       foreach (PlayerInputHandler playerInput in FindObjectsOfType<PlayerInputHandler>())
+        {
+            playerInput.UnpairedDeviceUsed(_inputControl, _inputEventPtr);
+        }
     }
 }

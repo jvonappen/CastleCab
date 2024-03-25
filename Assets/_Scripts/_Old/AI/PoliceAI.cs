@@ -1,16 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UI;
-using TMPro;
-using UnityEditor;
-using Cinemachine;
-using Cinemachine.PostFX;
-//using Cinemachine.PostFX.Editor;
-using Cinemachine.Utility;
-using UnityEngine.Rendering;
 
 public class PoliceAI : MonoBehaviour
 {
@@ -30,31 +19,18 @@ public class PoliceAI : MonoBehaviour
     private Transform thisTransform;
 
     /* Cinemachine Volume Settings are stinky poo holes*/
-    [Header("Arrest Behaviour Settings")]
-    [SerializeField] private float increaseRate_ArrestVignette;
-    [SerializeField] private float decreaseRate_ArrestVignette;
-    [SerializeField] private Cinemachine.VcamTargetPropertyAttribute _vignetteSettings; 
-    private float currentVignetteValue;
-    public static bool vignetteHit = false;
-
-    //[Header("Debug - Rotation")]
-    //[SerializeField] private Transform _target;
-    //[SerializeField] private float _rotateSpeed = 1f;
-    //private Quaternion rotationGoal;
-    //private Vector3 _rotateDirection;
-    //private Coroutine _lookCoroutine;
-
+    //[Header("Arrest Behaviour Settings")]
+    //[SerializeField] private float increaseRate_ArrestVignette;
+    //[SerializeField] private float decreaseRate_ArrestVignette;
+    //[SerializeField] private Cinemachine.VcamTargetPropertyAttribute _vignetteSettings; 
+    //public static bool vignetteHit = false;
 
     [Header("Debug")]
-    [SerializeField] private float chasingRange0; //how long for chase
-    [SerializeField] private float chaseSpeed0; // speed
-    [SerializeField] private float searchRange0; //aka wander
-    [SerializeField] private bool sirenToggle;
-    [SerializeField] private bool inPursuit = false;
+    [SerializeField] bool m_showDebug;
+    [ConditionalHide("m_showDebug")] [SerializeField] private float chasingRange0, chaseSpeed0, searchRange0;
+    [ConditionalHide("m_showDebug")] [SerializeField] private bool sirenToggle;
+    [ConditionalHide("m_showDebug")] [SerializeField] private bool inPursuit = false;
 
-    
-
-    private Transform playerTransform;
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -63,7 +39,7 @@ public class PoliceAI : MonoBehaviour
     }
     private void Start()
     {
-        _playerTransform = PlayerData.player.transform;
+        //_playerTransform = PlayerData.player.transform;
     }
 
     private void Update()

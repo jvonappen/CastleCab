@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 
 public class PlayerInputHandler : MonoBehaviour
 {
     public PlayerControls m_playerControls { get; private set; }
     PlayerInput m_playerInput;
+
+    bool m_paired;
 
     private void Awake()
     {
@@ -18,8 +21,16 @@ public class PlayerInputHandler : MonoBehaviour
 
         //Cursor.lockState = CursorLockMode.Locked;
 
+        
     }
     private void OnEnable() => m_playerControls.Enable();
 
+    public void UnpairedDeviceUsed(InputControl _inputControl, InputEventPtr _inputEventPtr)
+    {
+        if (m_paired) return;
+
+        m_paired = true;
+        m_playerInput.SwitchCurrentControlScheme(_inputControl.device);
+    }
 
 }

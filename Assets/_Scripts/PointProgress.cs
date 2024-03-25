@@ -31,7 +31,7 @@ public class PointProgress : MonoBehaviour
 
     protected virtual void OnValidated() { }
 
-    private void OnValidate()
+    public void OnValidate()
     {
         SetPoints();
         UpdateProgress();
