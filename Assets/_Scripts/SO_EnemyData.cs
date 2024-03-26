@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public struct EnemySpawning
+public struct EnemyInfo
 {
     [SerializeField] int m_starAmount;
 
@@ -13,11 +13,13 @@ public struct EnemySpawning
     [SerializeField] bool m_onlySpawnIfDishonoured;
     
     public int starAmount { get { return m_starAmount; } }
+    public int enemiesPerPlayer { get { return m_enemiesPerPlayer; } }
     public bool onlySpawnIfDishonoured { get { return m_onlySpawnIfDishonoured; } }
 }
 
 [CreateAssetMenu(fileName = "EnemyData", menuName = "EnemyData")]
 public class SO_EnemyData : ScriptableObject
 {
-    public List<EnemySpawning> m_enemySpawning;
+    public List<EnemyInfo> m_enemies;
+    //public List<GameObject> m_enemies;
 }

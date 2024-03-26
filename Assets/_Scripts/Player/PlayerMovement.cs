@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using URNTS;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -404,6 +405,8 @@ public class PlayerMovement : MonoBehaviour
     #region Drift
     void OnDriftPerformed(InputAction.CallbackContext context)
     {
+        //FindObjectOfType<EnemySpawner>().UpdateEnemies(); // TEMP
+
         if (m_isGrounded)
         {
             if (!m_isHurricane)

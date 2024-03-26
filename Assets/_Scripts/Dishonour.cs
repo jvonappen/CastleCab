@@ -14,6 +14,7 @@ public class Dishonour : MonoBehaviour
 
     [Tooltip("Max value based off PointProgress max, update the progress value if the max value isn't updating")] 
     [SerializeField] int m_currentDishonourLevel = 0;
+    public int currentDishonour { get { return m_currentDishonourLevel; } }
 
     private void Start()
     {

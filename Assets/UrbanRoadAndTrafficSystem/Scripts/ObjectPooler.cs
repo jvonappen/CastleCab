@@ -135,9 +135,16 @@ namespace URNTS
             return spawnObj;
         }
 
+        /// <summary>
+        /// Runs on update
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <param name="position"></param>
+        /// <param name="rotation"></param>
+        /// <returns></returns>
         public GameObject SpawnVehFromPool(string tag, Vector3 position, Quaternion rotation)
         {
-            Debug.Log("Vehicle spawned");
+            
             if (!vehPoolDictionary.ContainsKey(tag))
             {
                 Debug.LogError("Tag: " + tag + " not found in pool dictionary");
@@ -146,11 +153,17 @@ namespace URNTS
             if (vehPoolDictionary[tag].Count == 0)
             {
                 //Debug.LogError("vehicle prefab pool is empty");
+                //Debug.Log("No vehicles left in pool");
                 return null;
             }
-            int c = Random.Range(0, vehPoolDictionary[tag].Count);
-            GameObject veh = vehPoolDictionary[tag][c];
+
+            // Finds and sets random vehicle index from object pool (Objects that are pending respawn, usually 1)
+            int c = Random.Range(0, vehPoolDictionary[tag].Count); 
+
+            GameObject veh = vehPoolDictionary[tag][c]; // Gets random vehicle from random index in 'pending respawn' object list
             vehPoolDictionary[tag].Remove(veh);
+
+            //Debug.Log("Vehicle spawned: " + veh);
 
             veh.SetActive(true);
             veh.transform.position = position;

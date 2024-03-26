@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class GameManager : MonoBehaviour
         else Instance = this;
     }
     #endregion
+
+    [SerializeField] List<GameObject> m_players;
+    public List<GameObject> players { get { return m_players; } }
+    public void AddPlayer(GameObject _player) => m_players.Add(_player);
 
     [SerializeField] int m_gold;
     public int gold { get { return m_gold; } }
