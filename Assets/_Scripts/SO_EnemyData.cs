@@ -8,7 +8,7 @@ public struct EnemyInfo
     [SerializeField] int m_starAmount;
 
     [Space(10)]
-    [SerializeField] GameObject m_enemyPrefab;
+    public GameObject m_enemyPrefab;
     [SerializeField] int m_enemiesPerPlayer;
     [SerializeField] bool m_onlySpawnIfDishonoured;
     
