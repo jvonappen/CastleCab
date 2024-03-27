@@ -15,17 +15,10 @@ public class PoliceAI : MonoBehaviour
 
     [SerializeField] private GuardChaseData data;
 
-    private NavMeshAgent agent;
+    [HideInInspector] public NavMeshAgent agent;
     Transform thisTransform;
 
     GameManager m_manager;
-
-    /* Cinemachine Volume Settings are stinky poo holes*/
-    //[Header("Arrest Behaviour Settings")]
-    //[SerializeField] private float increaseRate_ArrestVignette;
-    //[SerializeField] private float decreaseRate_ArrestVignette;
-    //[SerializeField] private Cinemachine.VcamTargetPropertyAttribute _vignetteSettings; 
-    //public static bool vignetteHit = false;
 
     [Header("Debug")]
     [SerializeField] bool m_showDebug;
@@ -50,7 +43,7 @@ public class PoliceAI : MonoBehaviour
         float closestDist = float.MaxValue;
         foreach (GameObject player in m_manager.players)
         {
-            Transform horseTransform = player.transform.GetChild(0);
+            Transform horseTransform = player.transform.GetChild(1);
             float playerDist = Vector3.Distance(thisTransform.position, horseTransform.position);
             if (playerDist < closestDist)
             {
@@ -67,7 +60,7 @@ public class PoliceAI : MonoBehaviour
         if (agent.enabled)
         {
             DishonourEvaluate();
-            SetPlayerTarget();
+            SetPlayerTarget(); // TODO - optimize
         }
     }
 
@@ -79,32 +72,21 @@ public class PoliceAI : MonoBehaviour
         chasingRange0 = data.chasingRange1;
 
         InRange();
-        //if (DishonourOld.dishonourLevel < DishonourOld._oneStar)
-        //{
-        //    DishonourZero();
-        //}
-        //if (DishonourOld.dishonourLevel >= DishonourOld._oneStar)
-        //{
-        //    DishonourOne();
-        //}
-        //if (DishonourOld.dishonourLevel >= DishonourOld._twoStar)
-        //{
-        //    DishonourTwo();
-        //}
-        //if (DishonourOld.dishonourLevel >= DishonourOld._threeStar)
-        //{
-        //    DishonourThree();
-        //}
-
-        
 
         agent.speed = chaseSpeed0;
     }
 
-    //private void DishonourZero()   { chasingRange0 = 0;             chaseSpeed0 = movementSpeed; searchRange0 = wanderRange; }
-    //private void DishonourOne()    { chasingRange0 = data.chasingRange1; chaseSpeed0 = data.chaseSpeed1; searchRange0 = data.searchRange1; }
-    //private void DishonourTwo()    { chasingRange0 = data.chasingRange2; chaseSpeed0 = data.chaseSpeed2; searchRange0 = data.searchRange2; }
-    //private void DishonourThree()  { chasingRange0 = data.chasingRange3; chaseSpeed0 = data.chaseSpeed3; searchRange0 = data.searchRange3; }
+    private void OnEnable()
+    {
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(thisTransform.position, out hit, 2, 1))
+        {
+            agent.Warp(hit.position);
+            agent.enabled = true;
+        }
+    }
+
+    private void OnDisable() => agent.enabled = false;
 
     private void WanderAllOver()
     {
@@ -127,7 +109,7 @@ public class PoliceAI : MonoBehaviour
 
     bool FindRandomPoint(Vector3 center, float range, out Vector3 result)
     {
-        Vector3 randomPoint = center + UnityEngine.Random.insideUnitSphere * range; //random point in a sphere 
+        Vector3 randomPoint = center + Random.insideUnitSphere * range; //random point in a sphere 
         NavMeshHit hit;
         if (NavMesh.SamplePosition(randomPoint, out hit, 10.0f, NavMesh.AllAreas))
         {
@@ -149,9 +131,6 @@ public class PoliceAI : MonoBehaviour
                 agent.SetDestination(_playerTransform.position);
 
                 thisTransform.LookAt(lookAtDonkey);
-
-                // DishonourIncrease();
-                //Debug.Log("WeeWoo");
             }
         }
     }
@@ -162,7 +141,6 @@ public class PoliceAI : MonoBehaviour
             float distance = Vector3.Distance(_playerTransform.position, transform.position);
             if (distance < chasingRange0)
             {
-                //Debug.Log("Player in-range");
                 Chase();
                 inPursuit = true;
             }
@@ -174,42 +152,5 @@ public class PoliceAI : MonoBehaviour
         }
     }
 
-    private void DishonourIncrease()
-    {
-     DishonourOld.dishonourLevel += Time.deltaTime * DishonourOld._dishonourDepletionRef + 1;
-    }
-
-    private void VignetteHitEffect()
-    {
-        
-    }
-
-    //private void SmoothRotate()
-    //{
-    //    _rotateDirection = (_target.position - thisTransform.position).normalized;
-    //    rotationGoal = Quaternion.LookRotation(_rotateDirection);
-    //    thisTransform.rotation = Quaternion.Slerp(thisTransform.rotation, rotationGoal, _rotateSpeed);
-    //}
-
-    //private void SmoothRotate()
-    //{
-    //    if(_lookCoroutine != null)
-    //    {
-    //        StopCoroutine( _lookCoroutine );
-    //    }
-    //    _lookCoroutine = StartCoroutine(SmoothLookAt());
-    //}
-
-    //private IEnumerator SmoothLookAt()
-    //{ 
-    //    Quaternion lookRotation = Quaternion.LookRotation(_target.position - thisTransform.position);
-    //    float time = 0;
-    //    while(time < 1)
-    //    {
-    //        transform.rotation = Quaternion.Slerp(thisTransform.rotation, lookRotation, time);
-    //        time += Time.deltaTime * _rotateSpeed;
-    //        yield return null;
-    //    }
-    //}
 
 }

@@ -77,7 +77,8 @@ public class Health : MonoBehaviour
             m_destroyedParticle.transform.SetParent(null);
             m_destroyedParticle.Play();
 
-            m_destroyedParticle.GetComponent<CFX_AutoDestructShuriken>().enabled = true;
+            CFX_AutoDestructShuriken t = m_destroyedParticle.GetComponent<CFX_AutoDestructShuriken>();
+            if (t) t.enabled = true;
         }
         
         m_manager.AddGold(m_goldReward);

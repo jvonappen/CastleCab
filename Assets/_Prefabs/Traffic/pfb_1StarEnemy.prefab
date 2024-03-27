@@ -6909,9 +6909,9 @@ GameObject:
   - component: {fileID: 8138011188468573900}
   - component: {fileID: 8058180255241015037}
   - component: {fileID: 5737913782911398674}
-  - component: {fileID: 1560678669201670909}
   - component: {fileID: 4220055089205402004}
   - component: {fileID: 6064759048989043177}
+  - component: {fileID: -4531569347507186290}
   m_Layer: 12
   m_Name: pfb_1StarEnemy
   m_TagString: Untagged
@@ -6995,21 +6995,6 @@ MonoBehaviour:
   targetPos: {x: 0, y: 0, z: 0}
   invConn: 0
   lane: 1
---- !u!114 &1560678669201670909
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9171037607184688062}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 411eabd5774f55043a113216c8540269, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_force: 15
-  m_velY: 10
-  m_particle: {fileID: 5880797563127281583, guid: 7bb345d0881810c4ba63d550819f8ba6, type: 3}
 --- !u!114 &4220055089205402004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7040,7 +7025,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9171037607184688062}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
@@ -7055,6 +7040,27 @@ NavMeshAgent:
   m_BaseOffset: 1.1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &-4531569347507186290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9171037607184688062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b2412d7b607ce54290fe5b66608b7d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_health: 10
+  m_dishonourPunishment: 15
+  m_goldReward: 20
+  m_damagedParticlePrefab: {fileID: 0}
+  m_destroyedParticlePrefab: {fileID: 2040044314665895850, guid: b7c721497d8739843a7ca2240e1453d4, type: 3}
+  m_showPopup: 1
+  m_popupLocation: {fileID: 0}
+  m_popupRandomRange: 2
+  m_fontSize: 5
 --- !u!1 &9174503304632740346
 GameObject:
   m_ObjectHideFlags: 0

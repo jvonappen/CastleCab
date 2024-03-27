@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace URNTS
 {
@@ -163,11 +164,11 @@ namespace URNTS
             GameObject veh = vehPoolDictionary[tag][c]; // Gets random vehicle from random index in 'pending respawn' object list
             vehPoolDictionary[tag].Remove(veh);
 
-            //Debug.Log("Vehicle spawned: " + veh);
-
             veh.SetActive(true);
             veh.transform.position = position;
             veh.transform.rotation = rotation;
+
+            if (veh.TryGetComponent(out PoliceAI enemy)) enemy.enabled = true;
 
             IPoolObject poolObj = veh.GetComponent<IPoolObject>();
             if (poolObj != null)
@@ -185,6 +186,9 @@ namespace URNTS
                 Debug.LogError("Tag: " + tag + " not found in pool dictionary");
                 return;
             }
+
+            if (ob.TryGetComponent(out PoliceAI enemy)) enemy.enabled = false;
+
             ob.SetActive(false);
             vehPoolDictionary[tag].Add(ob);
         }

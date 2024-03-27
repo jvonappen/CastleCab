@@ -45,19 +45,24 @@ public class EnemySpawner : MonoBehaviour
 
             for (int i = 0; i < amountToSpawn; i++)
             {
-                NavMeshTriangulation triangulation = NavMesh.CalculateTriangulation();
-                int vertexIndex = Random.Range(0, triangulation.vertices.Length);
-                //Debug.Log(triangulation.vertices[vertexIndex]);
+                GameObject enemyToSpawn = Instantiate(_enemyInfo.m_enemyPrefab);
+                enemyToSpawn.SetActive(false);
+                enemyList.Add(enemyToSpawn);
+
+                ObjectPooler.instance.StoreVehInPool("Vehicles", enemyToSpawn);
+
+                //NavMeshTriangulation triangulation = NavMesh.CalculateTriangulation();
+                //int vertexIndex = Random.Range(0, triangulation.vertices.Length);
                 //NavMeshHit hit;
-                //if (NavMesh.SamplePosition(triangulation.vertices[vertexIndex], out hit, 2f, 0))
+                //Debug.Log(triangulation.vertices[vertexIndex]);
+                //if (NavMesh.SamplePosition(triangulation.vertices[vertexIndex], out hit, 5f, 0))
                 //{
-                //    GameObject enemyToSpawn = Instantiate(_enemyInfo.m_enemyPrefab);
-                //    enemyList.Add(enemyToSpawn);
+                //    enemyToSpawn.agent.Warp(hit.position);
+                //    //ObjectPooler.instance.StoreVehInPool("Vehicles", enemyToSpawn.gameObject);
                 //}
                 //else { Debug.Log("Huh?"); }
 
-                GameObject enemyToSpawn = Instantiate(_enemyInfo.m_enemyPrefab, triangulation.vertices[vertexIndex], Quaternion.identity);
-                enemyList.Add(enemyToSpawn);
+                
             }
         }
         else if (enemyList.Count > spawnAmount) // Remove enemy

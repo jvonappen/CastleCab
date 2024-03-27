@@ -34350,9 +34350,9 @@ GameObject:
   - component: {fileID: 8058180255241015037}
   - component: {fileID: 5737913782911398674}
   - component: {fileID: 278465401278029373}
-  - component: {fileID: 3272345862727834462}
   - component: {fileID: 5271010637055219301}
   - component: {fileID: 7172914616259508887}
+  - component: {fileID: -5148231130931471687}
   m_Layer: 12
   m_Name: pfb_2StarEnemy
   m_TagString: Untagged
@@ -34470,21 +34470,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: bc19fb0dfc6f49b44b1f1f3075cede6e, type: 2}
   _wheelColourOptions:
   - {fileID: 2100000, guid: 8668bb421cbfe2e408b96134d7eb5ea5, type: 2}
---- !u!114 &3272345862727834462
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9171037607184688062}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 411eabd5774f55043a113216c8540269, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_force: 15
-  m_velY: 10
-  m_particle: {fileID: 5880797563127281583, guid: 7bb345d0881810c4ba63d550819f8ba6, type: 3}
 --- !u!114 &5271010637055219301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34502,6 +34487,7 @@ MonoBehaviour:
   wanderRange: 25
   movementSpeed: 3.5
   data: {fileID: 11400000, guid: b0a6c6bad74cab740bc31f4a534668ce, type: 2}
+  agent: {fileID: 0}
   m_showDebug: 0
   chasingRange0: 0
   chaseSpeed0: 0
@@ -34515,7 +34501,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9171037607184688062}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
@@ -34530,6 +34516,27 @@ NavMeshAgent:
   m_BaseOffset: 1.1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &-5148231130931471687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9171037607184688062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b2412d7b607ce54290fe5b66608b7d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_health: 10
+  m_dishonourPunishment: 15
+  m_goldReward: 20
+  m_damagedParticlePrefab: {fileID: 0}
+  m_destroyedParticlePrefab: {fileID: 2040044314665895850, guid: b7c721497d8739843a7ca2240e1453d4, type: 3}
+  m_showPopup: 1
+  m_popupLocation: {fileID: 0}
+  m_popupRandomRange: 2
+  m_fontSize: 5
 --- !u!1 &9181140279379040010
 GameObject:
   m_ObjectHideFlags: 0
