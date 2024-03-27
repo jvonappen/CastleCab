@@ -144,12 +144,15 @@ namespace URNTS
                     }
                     else
                     {
-                        if (targetNodeInd < currentConnection.trafficNodes.Count - 1 && currentConnection.trafficNodes.Count > 0)
-                            targetNodeInd += 1;
-                        else
+                        if (currentConnection)
                         {
-                            // choose new target connection from node2 ,check orientation and set invConn
-                            SetRandomRoute(invConn);
+                            if (targetNodeInd < currentConnection.trafficNodes.Count - 1 && currentConnection.trafficNodes.Count > 0)
+                                targetNodeInd += 1;
+                            else
+                            {
+                                // choose new target connection from node2 ,check orientation and set invConn
+                                SetRandomRoute(invConn);
+                            }
                         }
                     }
                 }

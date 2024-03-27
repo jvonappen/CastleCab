@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,10 +15,16 @@ public class Dishonour : MonoBehaviour
 
     [Tooltip("Max value based off PointProgress max, update the progress value if the max value isn't updating")] 
     [SerializeField] int m_currentDishonourLevel = 0;
-    public int currentDishonour { get { return m_currentDishonourLevel; } }
+    public int currentDishonour { get { return m_currentDishonourLevel; } internal set { m_currentDishonourLevel = value; OnDishonourChanged(); } }
+
+    public Action onDishonourChanged;
+
+    EnemySpawner m_enemySpawner;
 
     private void Start()
     {
+        m_enemySpawner = FindObjectOfType<EnemySpawner>();
+
         m_maxDishonourLevel = m_progress.totalPoints;
     }
 
@@ -27,6 +34,13 @@ public class Dishonour : MonoBehaviour
         UpdateDishonourProgress();
     }
 
+    void OnDishonourChanged()
+    {
+        if (m_enemySpawner) m_enemySpawner.UpdateEnemies();
+
+        onDishonourChanged?.Invoke();
+    }
+
     private void OnValidate()
     {
         if (m_progress)
@@ -34,8 +48,8 @@ public class Dishonour : MonoBehaviour
             m_progress.OnValidate();
             m_maxDishonourLevel = m_progress.totalPoints;
 
-            if (m_currentDishonourLevel < 0) m_currentDishonourLevel = 0;
-            else if (m_currentDishonourLevel > m_maxDishonourLevel) m_currentDishonourLevel = m_maxDishonourLevel;
+            if (m_currentDishonourLevel < 0) currentDishonour = 0;
+            else if (m_currentDishonourLevel > m_maxDishonourLevel) currentDishonour = m_maxDishonourLevel;
 
             UpdateDishonourProgress();
         }
@@ -49,7 +63,7 @@ public class Dishonour : MonoBehaviour
             if (m_currentDishonourLevel < m_maxDishonourLevel)
             {
                 m_currentDishonourPoints -= m_dishonourPointsPerLevel;
-                m_currentDishonourLevel++;
+                currentDishonour++;
 
                 UpdateDishonourProgress();
                 return;
@@ -60,7 +74,7 @@ public class Dishonour : MonoBehaviour
             if (m_currentDishonourLevel > 0)
             {
                 m_currentDishonourPoints += m_dishonourPointsPerLevel;
-                m_currentDishonourLevel--;
+                currentDishonour--;
 
                 UpdateDishonourProgress();
                 return;

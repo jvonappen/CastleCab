@@ -19,6 +19,7 @@ public class EnemySpawner : MonoBehaviour
         m_manager = GameManager.Instance;
 
         m_enemies = new Dictionary<int, List<GameObject>>();
+        UpdateEnemies();
     }
 
     public void UpdateEnemies()
@@ -36,17 +37,21 @@ public class EnemySpawner : MonoBehaviour
 
         List<GameObject> enemyList = m_enemies[_enemyInfo.starAmount];
 
-        if (enemyList.Count < spawnAmount)
+        if (enemyList.Count < spawnAmount) // Add enemy
         {
             int amountToSpawn = spawnAmount - enemyList.Count;
-            Debug.Log("Enemy type '" + _enemyInfo.starAmount + "' needs to spawn '" + amountToSpawn + "' enemies");
+            //Debug.Log("Enemy type '" + _enemyInfo.starAmount + "' needs to spawn '" + amountToSpawn + "' enemies");
 
-            for (int i = 0; i < amountToSpawn; i++) enemyList.Add(new(_enemyInfo.starAmount.ToString()));
+            for (int i = 0; i < amountToSpawn; i++)
+            {
+                GameObject enemyToSpawn = Instantiate(_enemyInfo.m_enemyPrefab);
+                enemyList.Add(enemyToSpawn);
+            }
         }
-        else if (enemyList.Count > spawnAmount)
+        else if (enemyList.Count > spawnAmount) // Remove enemy
         {
             int amountToDespawn = enemyList.Count - spawnAmount;
-            Debug.Log("Enemy type '" + _enemyInfo.starAmount + "' needs to despawn '" + amountToDespawn + "' enemies");
+            //Debug.Log("Enemy type '" + _enemyInfo.starAmount + "' needs to despawn '" + amountToDespawn + "' enemies");
 
             for (int i = 0; i < amountToDespawn; i++)
             {
