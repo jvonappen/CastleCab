@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using URNTS;
 
 [RequireComponent(typeof(TrafficManager))]
@@ -44,7 +45,18 @@ public class EnemySpawner : MonoBehaviour
 
             for (int i = 0; i < amountToSpawn; i++)
             {
-                GameObject enemyToSpawn = Instantiate(_enemyInfo.m_enemyPrefab);
+                NavMeshTriangulation triangulation = NavMesh.CalculateTriangulation();
+                int vertexIndex = Random.Range(0, triangulation.vertices.Length);
+                //Debug.Log(triangulation.vertices[vertexIndex]);
+                //NavMeshHit hit;
+                //if (NavMesh.SamplePosition(triangulation.vertices[vertexIndex], out hit, 2f, 0))
+                //{
+                //    GameObject enemyToSpawn = Instantiate(_enemyInfo.m_enemyPrefab);
+                //    enemyList.Add(enemyToSpawn);
+                //}
+                //else { Debug.Log("Huh?"); }
+
+                GameObject enemyToSpawn = Instantiate(_enemyInfo.m_enemyPrefab, triangulation.vertices[vertexIndex], Quaternion.identity);
                 enemyList.Add(enemyToSpawn);
             }
         }

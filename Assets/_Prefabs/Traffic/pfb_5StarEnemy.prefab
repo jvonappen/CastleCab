@@ -6910,6 +6910,8 @@ GameObject:
   - component: {fileID: 8058180255241015037}
   - component: {fileID: 5737913782911398674}
   - component: {fileID: 1560678669201670909}
+  - component: {fileID: -235168595217784813}
+  - component: {fileID: -4830705175022773785}
   m_Layer: 12
   m_Name: pfb_5StarEnemy
   m_TagString: Untagged
@@ -7008,6 +7010,51 @@ MonoBehaviour:
   m_force: 15
   m_velY: 10
   m_particle: {fileID: 5880797563127281583, guid: 7bb345d0881810c4ba63d550819f8ba6, type: 3}
+--- !u!114 &-235168595217784813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9171037607184688062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1992f3886f1d6984382bb470c8cd1b74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerTransform: {fileID: 0}
+  wanderTransform: {fileID: 8138011188468573900}
+  wanderRange: 25
+  movementSpeed: 3.5
+  data: {fileID: 11400000, guid: b0a6c6bad74cab740bc31f4a534668ce, type: 2}
+  m_showDebug: 0
+  chasingRange0: 0
+  chaseSpeed0: 0
+  searchRange0: 0
+  sirenToggle: 0
+  inPursuit: 0
+--- !u!195 &-4830705175022773785
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9171037607184688062}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1.1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &9174503304632740346
 GameObject:
   m_ObjectHideFlags: 0
