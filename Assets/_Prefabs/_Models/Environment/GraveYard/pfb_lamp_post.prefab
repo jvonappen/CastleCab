@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5270893206747051135}
   - component: {fileID: 3603547574723815440}
   - component: {fileID: 423109898061019027}
+  - component: {fileID: -1798412731435634692}
   m_Layer: 0
   m_Name: pfb_lamp_post
   m_TagString: Untagged
@@ -150,6 +151,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.55958986, y: 1.4179647, z: 0.4511795}
   m_Center: {x: 1.1312532, y: 1.7347776, z: 0}
+--- !u!114 &-1798412731435634692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7950080860479053654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b2412d7b607ce54290fe5b66608b7d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_health: 50
+  m_dishonourPunishment: 15
+  m_goldReward: 20
+  m_damagedParticlePrefab: {fileID: 0}
+  m_destroyedParticlePrefab: {fileID: 7511328176439486736, guid: b2f9691986e2d7048b48dcf702b763f8, type: 3}
+  m_showPopup: 1
+  m_popupLocation: {fileID: 0}
+  m_popupRandomRange: 2
+  m_fontSize: 5
 --- !u!1 &8885156874005725762
 GameObject:
   m_ObjectHideFlags: 0

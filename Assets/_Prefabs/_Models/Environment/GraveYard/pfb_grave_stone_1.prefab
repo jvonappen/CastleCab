@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2055433158223214977}
   - component: {fileID: 4279170444359421259}
   - component: {fileID: 6144233475666486757}
+  - component: {fileID: 3913128490912659726}
   m_Layer: 0
   m_Name: pfb_grave_stone_1
   m_TagString: Grave
@@ -105,3 +106,24 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.0694757, y: 1.4674886, z: 0.43673438}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3913128490912659726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2333522840441810078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b2412d7b607ce54290fe5b66608b7d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_health: 50
+  m_dishonourPunishment: 15
+  m_goldReward: 0
+  m_damagedParticlePrefab: {fileID: 1040608886635896, guid: a97415c6b57076f41a6621a7b51d63a3, type: 3}
+  m_destroyedParticlePrefab: {fileID: 1040608886635896, guid: a97415c6b57076f41a6621a7b51d63a3, type: 3}
+  m_showPopup: 1
+  m_popupLocation: {fileID: 0}
+  m_popupRandomRange: 2
+  m_fontSize: 5
