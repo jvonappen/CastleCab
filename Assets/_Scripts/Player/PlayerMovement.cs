@@ -341,7 +341,7 @@ public class PlayerMovement : MonoBehaviour
     {
         onBoost?.Invoke();
 
-        m_cam.TweenFOV(_Boost.m_camFOV, _Boost.m_tweenSpeedFOV);
+        if (m_cam) m_cam.TweenFOV(_Boost.m_camFOV, _Boost.m_tweenSpeedFOV);
 
         m_isBoosting = true;
 
@@ -352,7 +352,7 @@ public class PlayerMovement : MonoBehaviour
     {
         onBoostCanceled?.Invoke();
 
-        m_cam.TweenFOV(m_cam.originalFOV, _Boost.m_tweenSpeedFOV);
+        if (m_cam) m_cam.TweenFOV(m_cam.originalFOV, _Boost.m_tweenSpeedFOV);
 
         m_isBoosting = false;
         if (m_turnInput != 0) SetTurnDrag();
@@ -411,11 +411,14 @@ public class PlayerMovement : MonoBehaviour
         {
             if (!m_isHurricane)
             {
-                if (m_turnInput < 0) m_cam.camOffset = RotatePointAroundPivot(m_cam.m_originalCameraOffset, Vector3.zero, Vector3.up * 45);
-                else if (m_turnInput > 0) m_cam.camOffset = RotatePointAroundPivot(m_cam.m_originalCameraOffset, Vector3.zero, -Vector3.up * 45);
+                if (m_cam)
+                {
+                    if (m_turnInput < 0) m_cam.camOffset = RotatePointAroundPivot(m_cam.m_originalCameraOffset, Vector3.zero, Vector3.up * 45);
+                    else if (m_turnInput > 0) m_cam.camOffset = RotatePointAroundPivot(m_cam.m_originalCameraOffset, Vector3.zero, -Vector3.up * 45);
 
-                m_cam.TweenToOriginalCamPosition(1);
-
+                    m_cam.TweenToOriginalCamPosition(1);
+                }
+                
                 m_attemptingDrift = true;
 
                 if (!m_isDrifting)
@@ -489,9 +492,12 @@ public class PlayerMovement : MonoBehaviour
         onHurricane?.Invoke();
 
         m_isHurricane = true;
-        m_cam.camSpeed = 2;
+        if (m_cam)
+        {
+            m_cam.camSpeed = 2;
 
-        m_cam.SetOffsetWorldSpace();
+            m_cam.SetOffsetWorldSpace();
+        }
     }
 
     void OnHurricaneCanceled(InputAction.CallbackContext context) => CancelHurricane();
@@ -513,9 +519,12 @@ public class PlayerMovement : MonoBehaviour
             // Bug - makes player jump sometimes, maybe make player temporarily kinematic or kill velocity?
             rb.transform.eulerAngles = new Vector3(rb.transform.eulerAngles.x, prevRotY, rb.transform.eulerAngles.z);
 
-            m_cam.camSpeed = m_cam.m_originalCamSpeed;
+            if (m_cam)
+            {
+                m_cam.camSpeed = m_cam.m_originalCamSpeed;
 
-            m_cam.m_useOffsetOverride = false;
+                m_cam.m_useOffsetOverride = false;
+            }
         }
     }
 
@@ -715,7 +724,10 @@ public class PlayerMovement : MonoBehaviour
                     //dir = m_cam.transform.forward;
                 }
             }
-            else if (m_isAirControl) dir = m_cam.transform.forward;
+            else if (m_isAirControl)
+            {
+                if (m_cam) dir = m_cam.transform.forward;
+            }
 
             // Apply velocity based on calculated speed, Without affecting y velocity
             if (newSpeed != 0)
@@ -723,8 +735,11 @@ public class PlayerMovement : MonoBehaviour
                 float velY = rb.velocity.y;
                 if (!m_isGrounded && velY > _Speed.m_maxVelY) velY = _Speed.m_maxVelY;
                 
-                rb.velocity = dir * newSpeed;
-                rb.velocity = new Vector3(rb.velocity.x, velY, rb.velocity.z);
+                if (!rb.isKinematic)
+                {
+                    rb.velocity = dir * newSpeed;
+                    rb.velocity = new Vector3(rb.velocity.x, velY, rb.velocity.z);
+                }
             }
         }
         else // If hurricane
@@ -745,18 +760,21 @@ public class PlayerMovement : MonoBehaviour
                     rb.transform.rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + new Vector3(0f, _Hurricane.m_spinSpeed * Time.fixedDeltaTime, 0f));
 
                     // Handle movement
-                    Vector3 dir = new Vector3(m_directionMoveInput.x, 0, m_directionMoveInput.y); // Gets local movement direction vector
-                    dir = m_cam.transform.TransformDirection(dir); // Converts movement direction to world space
+                    if (m_cam)
+                    {
+                        Vector3 dir = new Vector3(m_directionMoveInput.x, 0, m_directionMoveInput.y); // Gets local movement direction vector
+                        dir = m_cam.transform.TransformDirection(dir); // Converts movement direction to world space
 
-                    // Converts movement direction to velocity and applies it to rigidbody
-                    float velY = rb.velocity.y;
-                    rb.velocity = dir * _Hurricane.m_moveSpeed;
-                    rb.velocity = new Vector3(rb.velocity.x, velY, rb.velocity.z);
+                        // Converts movement direction to velocity and applies it to rigidbody
+                        float velY = rb.velocity.y;
+                        rb.velocity = dir * _Hurricane.m_moveSpeed;
+                        rb.velocity = new Vector3(rb.velocity.x, velY, rb.velocity.z);
 
-                    if (rb.velocity.y > 0) rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+                        if (rb.velocity.y > 0) rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
 
-                    m_cam.transform.position += rb.velocity * Time.fixedDeltaTime;
-
+                        m_cam.transform.position += rb.velocity * Time.fixedDeltaTime;
+                    }
+                    
                     if (m_endingHurricane) EndHurricane();
                 }
                 else if (m_isHurricane) m_endingHurricane = true;

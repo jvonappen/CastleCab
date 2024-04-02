@@ -152,6 +152,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""JoinGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""cf82833c-123e-4edc-b95c-70917892a3c3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -614,6 +623,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""StatsMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cef995ab-c170-4ce3-91df-fd078193048d"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""JoinGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""42e8caa9-deb5-4729-aab8-5f1f85b3be0d"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""JoinGame"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1188,6 +1219,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Controls_Achievement = m_Controls.FindAction("Achievement", throwIfNotFound: true);
         m_Controls_Look = m_Controls.FindAction("Look", throwIfNotFound: true);
         m_Controls_StatsMenu = m_Controls.FindAction("StatsMenu", throwIfNotFound: true);
+        m_Controls_JoinGame = m_Controls.FindAction("JoinGame", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1275,6 +1307,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Controls_Achievement;
     private readonly InputAction m_Controls_Look;
     private readonly InputAction m_Controls_StatsMenu;
+    private readonly InputAction m_Controls_JoinGame;
     public struct ControlsActions
     {
         private @PlayerControls m_Wrapper;
@@ -1293,6 +1326,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Achievement => m_Wrapper.m_Controls_Achievement;
         public InputAction @Look => m_Wrapper.m_Controls_Look;
         public InputAction @StatsMenu => m_Wrapper.m_Controls_StatsMenu;
+        public InputAction @JoinGame => m_Wrapper.m_Controls_JoinGame;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1344,6 +1378,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @StatsMenu.started += instance.OnStatsMenu;
             @StatsMenu.performed += instance.OnStatsMenu;
             @StatsMenu.canceled += instance.OnStatsMenu;
+            @JoinGame.started += instance.OnJoinGame;
+            @JoinGame.performed += instance.OnJoinGame;
+            @JoinGame.canceled += instance.OnJoinGame;
         }
 
         private void UnregisterCallbacks(IControlsActions instance)
@@ -1390,6 +1427,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @StatsMenu.started -= instance.OnStatsMenu;
             @StatsMenu.performed -= instance.OnStatsMenu;
             @StatsMenu.canceled -= instance.OnStatsMenu;
+            @JoinGame.started -= instance.OnJoinGame;
+            @JoinGame.performed -= instance.OnJoinGame;
+            @JoinGame.canceled -= instance.OnJoinGame;
         }
 
         public void RemoveCallbacks(IControlsActions instance)
@@ -1559,6 +1599,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnAchievement(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnStatsMenu(InputAction.CallbackContext context);
+        void OnJoinGame(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
