@@ -28,7 +28,7 @@ public class PlayerInputHandler : MonoBehaviour
         m_paired = true;
         m_playerInput.SwitchCurrentControlScheme(_inputControl.device);
 
-        GameManager.Instance.AddPlayer(gameObject);
+        if (GameManager.Instance) GameManager.Instance.AddPlayer(gameObject);
     }
 
 }
