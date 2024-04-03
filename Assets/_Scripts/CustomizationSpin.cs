@@ -17,7 +17,7 @@ public class CustomizationSpin : MonoBehaviour
 
     private void Start()
     {
-        m_cam.transform.SetParent(null);
+        //m_cam.transform.SetParent(null);
     }
 
     private void Update()

@@ -18,34 +18,20 @@ public class SetPositionFromScreen : MonoBehaviour
         SetPositionAtScreenPoint();
     }
 
-    void SetPositionAtScreenPoint(PlayerInput _player, List<PlayerInput> _players) // TODO
-    {
-        Camera playerCamera = _player.camera;
-
-        Vector3 screenPos = Vector3.zero;
-        //if (m_screenPoint.x != 0) screenPos += Vector3.right * (Screen.width * m_screenPoint.x);
-        //if (m_screenPoint.y != 0) screenPos += Vector3.up * (Screen.height * m_screenPoint.y);
-        //
-        //screenPos += Vector3.forward * m_screenPoint.z;
-
-        screenPos *= playerCamera.pixelWidth;
-
-        //if (_players.Count > 1) screenPos /= 2;
-        //if (_players.Count > 2) screenPos /= 2;
-        //
-        //Debug.Log(screenPos);
-
-        transform.position = m_cam.ScreenToWorldPoint(screenPos);
-    }
+    void SetPositionAtScreenPoint(PlayerInput _player, List<PlayerInput> _players) => SetPositionAtScreenPoint();
     void SetPositionAtScreenPoint()
     {
-        Vector3 screenPos = Vector3.zero;
-        if (m_screenPoint.x != 0) screenPos += Vector3.right * (Screen.width * m_screenPoint.x);
-        if (m_screenPoint.y != 0) screenPos += Vector3.up * (Screen.height * m_screenPoint.y);
+        float camWidth = Screen.width * m_cam.rect.width;
+        float camHeight = Screen.height * m_cam.rect.height;
 
-        screenPos += Vector3.forward * m_screenPoint.z;
+        float camPosX = 0;
+        if (m_cam.rect.x != 0) camPosX = m_cam.rect.x * Screen.width;
+        float camPosY = 0;
+        if (m_cam.rect.y != 0) camPosY = m_cam.rect.y * Screen.height;
 
-        Debug.Log(screenPos);
+        Vector3 screenPos = new Vector3(camPosX, camPosY, m_screenPoint.z);
+        if (m_screenPoint.x != 0) screenPos += Vector3.right * (camWidth * m_screenPoint.x);
+        if (m_screenPoint.y != 0) screenPos += Vector3.up * (camHeight * m_screenPoint.y);
 
         transform.position = m_cam.ScreenToWorldPoint(screenPos);
     }
