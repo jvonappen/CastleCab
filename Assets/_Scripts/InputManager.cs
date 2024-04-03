@@ -15,6 +15,8 @@ public class InputManager : MonoBehaviour
     public static Action<PlayerInput, List<PlayerInput>> onPlayerJoined;
     public static Action<PlayerInput, List<PlayerInput>> onPlayerLeft;
 
+    [SerializeField] List<Transform> m_remainingSpawnPoints;
+
     [SerializeField] TrafficManager m_trafficManager;
     List<PlayerInput> m_players = new();
 
@@ -44,7 +46,16 @@ public class InputManager : MonoBehaviour
     public void UnpairedDeviceUsed(InputControl _inputControl, InputEventPtr _inputEventPtr)
     {
         if (!m_firstPlayerSpawned) m_firstPlayerSpawned = true;
-        else Instantiate(m_playerPrefab);
+        else
+        {
+            GameObject player = Instantiate(m_playerPrefab);
+
+            int randomIndex = UnityEngine.Random.Range(0, m_remainingSpawnPoints.Count - 1);
+            Vector3 spawnPos = m_remainingSpawnPoints[randomIndex].position;
+            m_remainingSpawnPoints.RemoveAt(randomIndex);
+
+            player.transform.position = spawnPos;
+        }
 
         foreach (PlayerInputHandler playerInput in FindObjectsOfType<PlayerInputHandler>())
         {

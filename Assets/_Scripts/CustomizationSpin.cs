@@ -15,11 +15,6 @@ public class CustomizationSpin : MonoBehaviour
 
     [SerializeField] float m_maxAngleLimitY = 60;
 
-    private void Start()
-    {
-        //m_cam.transform.SetParent(null);
-    }
-
     private void Update()
     {
         Vector3 currentPos = transform.position;
@@ -38,10 +33,5 @@ public class CustomizationSpin : MonoBehaviour
 
         // Horizontal rotation
         transform.RotateAround(m_rotationPoint.position, Vector3.up, rotInput.x * m_rotSpeedX * Time.deltaTime);
-    }
-
-    private void OnDestroy()
-    {
-        Destroy(m_cam.gameObject);
     }
 }
