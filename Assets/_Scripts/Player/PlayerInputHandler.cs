@@ -9,6 +9,7 @@ public class PlayerInputHandler : MonoBehaviour
 {
     public PlayerControls m_playerControls { get; private set; }
     PlayerInput m_playerInput;
+    public PlayerInput playerInput { get { return m_playerInput; } }
 
     bool m_paired;
 
