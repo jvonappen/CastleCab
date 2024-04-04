@@ -2,24 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.ProBuilder.MeshOperations;
+
+public enum Currency
+{
+    Gold,
+    AttributePoints
+}
 
 public class UpgradePointProgress : PointProgress
 {
     GameManager m_manager;
 
-    [SerializeField] float m_costMulti = 1.3f;
+    [SerializeField] Currency m_currency;
+
+    [SerializeField] bool m_isExponential;
+    [ConditionalHide("m_isExponential")] [SerializeField] float m_costMulti = 1.3f;
+    [ConditionalHide("m_isExponential", Inverse = true)] [SerializeField] int m_costIncrease = 1;
 
     [SerializeField] protected int m_cost = 100;
     [SerializeField] TextMeshProUGUI m_costText;
 
     public override void AddProgress()
     {
-        if (m_cost <= m_manager.gold)
+        if (m_cost <= GetCurrencyAmount())
         {
             if (m_progress < m_points.Count)
             {
-                m_manager.SetGold(m_manager.gold - m_cost);
-                m_cost = (int)(m_cost * m_costMulti);
+                if (m_currency == Currency.Gold) m_manager.SetGold(m_manager.gold - m_cost);
+                else if (m_currency == Currency.AttributePoints) m_manager.SetAttributePoints(m_manager.attributePoints - m_cost);
+                else Debug.LogWarning("Currency not found");
+
+                if (m_isExponential) m_cost = (int)(m_cost * m_costMulti);
+                else m_cost += m_costIncrease;
 
                 UpdateCostText();
 
@@ -28,6 +43,16 @@ public class UpgradePointProgress : PointProgress
                 OnProgressAdd();
             }
         }
+
+    }
+
+    int GetCurrencyAmount()
+    {
+        if (m_currency == Currency.Gold) return m_manager.gold;
+        else if (m_currency == Currency.AttributePoints) return m_manager.attributePoints;
+
+        Debug.LogWarning("Currency amount not found");
+        return 0;
     }
 
     protected virtual void OnProgressAdd() { }
@@ -45,10 +70,11 @@ public class UpgradePointProgress : PointProgress
 
         UpdateCostText();
 
-        m_manager.onGoldChanged += OnGoldChanged;
+        m_manager.onGoldChanged += OnCurrencyChanged;
+        m_manager.onAttributePointsChanged += OnCurrencyChanged;
     }
 
-    void OnGoldChanged(int _oldVal, int _newVal) => UpdateCostText();
+    void OnCurrencyChanged(int _oldVal, int _newVal) => UpdateCostText();
 
     protected void UpdateCostText()
     {
@@ -62,7 +88,7 @@ public class UpgradePointProgress : PointProgress
         if (m_manager)
         {
             string colourHex;
-            if (m_cost <= m_manager.gold) colourHex = ColorUtility.ToHtmlStringRGBA(m_manager.m_affordColour);
+            if (m_cost <= GetCurrencyAmount()) colourHex = ColorUtility.ToHtmlStringRGBA(m_manager.m_affordColour);
             else colourHex = ColorUtility.ToHtmlStringRGBA(m_manager.m_notAffordColour);
 
             return "<color=#" + colourHex + ">";
