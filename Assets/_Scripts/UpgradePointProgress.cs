@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.ProBuilder.MeshOperations;
 
 public enum Currency
 {
@@ -23,6 +22,8 @@ public class UpgradePointProgress : PointProgress
     [SerializeField] protected int m_cost = 100;
     [SerializeField] TextMeshProUGUI m_costText;
 
+    [ConditionalEnumHide("m_currency", 1)] [SerializeField] protected PlayerUpgrades m_playerUpgrades;
+
     public override void AddProgress()
     {
         if (m_cost <= GetCurrencyAmount())
@@ -30,7 +31,7 @@ public class UpgradePointProgress : PointProgress
             if (m_progress < m_points.Count)
             {
                 if (m_currency == Currency.Gold) m_manager.SetGold(m_manager.gold - m_cost);
-                else if (m_currency == Currency.AttributePoints) m_manager.SetAttributePoints(m_manager.attributePoints - m_cost);
+                else if (m_currency == Currency.AttributePoints) m_playerUpgrades.SetAttributePoints(m_playerUpgrades.attributePoints - m_cost);
                 else Debug.LogWarning("Currency not found");
 
                 if (m_isExponential) m_cost = (int)(m_cost * m_costMulti);
@@ -49,7 +50,7 @@ public class UpgradePointProgress : PointProgress
     int GetCurrencyAmount()
     {
         if (m_currency == Currency.Gold) return m_manager.gold;
-        else if (m_currency == Currency.AttributePoints) return m_manager.attributePoints;
+        else if (m_currency == Currency.AttributePoints) return m_playerUpgrades.attributePoints;
 
         Debug.LogWarning("Currency amount not found");
         return 0;
@@ -71,7 +72,7 @@ public class UpgradePointProgress : PointProgress
         UpdateCostText();
 
         m_manager.onGoldChanged += OnCurrencyChanged;
-        m_manager.onAttributePointsChanged += OnCurrencyChanged;
+        if (m_playerUpgrades) m_playerUpgrades.onAttributePointsChanged += OnCurrencyChanged;
     }
 
     void OnCurrencyChanged(int _oldVal, int _newVal) => UpdateCostText();

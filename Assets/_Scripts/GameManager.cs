@@ -42,36 +42,11 @@ public class GameManager : MonoBehaviour
     public Action<int, int> onGoldChanged;
     #endregion
 
-    #region AttributePoints
-
-    [SerializeField] int m_attributePoints;
-    public int attributePoints { get { return m_attributePoints; } }
-    public void SetAttributePoints(int _attributePoints)
-    {
-        int oldVal = m_attributePoints;
-        m_attributePoints = _attributePoints;
-
-        onAttributePointsChanged?.Invoke(oldVal, _attributePoints);
-    }
-
-    public void AddAttributePoints(int _attributePointsToAdd)
-    {
-        int oldVal = m_attributePoints;
-        m_attributePoints += _attributePointsToAdd;
-
-        onAttributePointsChanged?.Invoke(oldVal, m_attributePoints);
-    }
-
-    public Action<int, int> onAttributePointsChanged;
-
-    #endregion
-
     public Color m_affordColour, m_notAffordColour;
 
     private void OnValidate()
     {
         onGoldChanged?.Invoke(m_gold, m_gold);
-        onAttributePointsChanged?.Invoke(m_attributePoints, m_attributePoints);
     }
 
     private void Awake()
@@ -79,6 +54,5 @@ public class GameManager : MonoBehaviour
         CreateSingleton();
 
         onGoldChanged?.Invoke(m_gold, m_gold);
-        onAttributePointsChanged?.Invoke(m_attributePoints, m_attributePoints);
     }
 }

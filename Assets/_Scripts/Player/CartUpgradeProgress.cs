@@ -23,61 +23,61 @@ public class CartUpgradeProgress : UpgradePointProgress
         // Updates static global stat
         if (m_statUpgrade == StatUpgrade.Health)
         {
-            SharedPlayerStats.AddHealth();
-            SharedPlayerStats.healthCost = m_cost;
+            m_playerUpgrades.AddHealth();
+            m_playerUpgrades.healthCost = m_cost;
         }
         else if (m_statUpgrade == StatUpgrade.Stamina)
         {
-            SharedPlayerStats.AddStamina();
-            SharedPlayerStats.staminaCost = m_cost;
+            m_playerUpgrades.AddStamina();
+            m_playerUpgrades.staminaCost = m_cost;
         }
         else if (m_statUpgrade == StatUpgrade.Speed)
         {
-            SharedPlayerStats.AddSpeed();
-            SharedPlayerStats.speedCost = m_cost;
+            m_playerUpgrades.AddSpeed();
+            m_playerUpgrades.speedCost = m_cost;
         }
         else if (m_statUpgrade == StatUpgrade.Attack)
         {
-            SharedPlayerStats.AddAttack();
-            SharedPlayerStats.attackCost = m_cost;
+            m_playerUpgrades.AddAttack();
+            m_playerUpgrades.attackCost = m_cost;
         }
 
-        CartUpgradeProgress[] cartUpgradeProgresses = FindObjectsOfType<CartUpgradeProgress>();
-        foreach (CartUpgradeProgress c in cartUpgradeProgresses) c.UpdateStatToGlobal();
+        //CartUpgradeProgress[] cartUpgradeProgresses = FindObjectsOfType<CartUpgradeProgress>();
+        //foreach (CartUpgradeProgress c in cartUpgradeProgresses) c.UpdateStatToGlobal();
     }
     
     /// <summary>
     /// Syncs upgrades to other players
     /// </summary>
-    internal void UpdateStatToGlobal()
-    {
-        if (m_statUpgrade == StatUpgrade.Health)
-        {
-            m_progress = SharedPlayerStats.healthPoints;
-            if (SharedPlayerStats.healthCost > 0) m_cost = SharedPlayerStats.healthCost;
-        }
-        else if (m_statUpgrade == StatUpgrade.Stamina)
-        {
-            m_progress = SharedPlayerStats.staminaPoints;
-            if (SharedPlayerStats.staminaCost > 0) m_cost = SharedPlayerStats.staminaCost;
-        }
-        else if (m_statUpgrade == StatUpgrade.Speed)
-        {
-            m_progress = SharedPlayerStats.speedPoints;
-            if (SharedPlayerStats.speedCost > 0) m_cost = SharedPlayerStats.speedCost;
-        }
-        else if (m_statUpgrade == StatUpgrade.Attack)
-        {
-            m_progress = SharedPlayerStats.attackPoints;
-            if (SharedPlayerStats.attackCost > 0) m_cost = SharedPlayerStats.attackCost;
-        }
-        
-        UpdateCostText();
-        UpdateProgress();
-    }
+    //internal void UpdateStatToGlobal()
+    //{
+    //    if (m_statUpgrade == StatUpgrade.Health)
+    //    {
+    //        m_progress = m_playerUpgrades.healthPoints;
+    //        if (m_playerUpgrades.healthCost > 0) m_cost = m_playerUpgrades.healthCost;
+    //    }
+    //    else if (m_statUpgrade == StatUpgrade.Stamina)
+    //    {
+    //        m_progress = m_playerUpgrades.staminaPoints;
+    //        if (m_playerUpgrades.staminaCost > 0) m_cost = m_playerUpgrades.staminaCost;
+    //    }
+    //    else if (m_statUpgrade == StatUpgrade.Speed)
+    //    {
+    //        m_progress = m_playerUpgrades.speedPoints;
+    //        if (m_playerUpgrades.speedCost > 0) m_cost = m_playerUpgrades.speedCost;
+    //    }
+    //    else if (m_statUpgrade == StatUpgrade.Attack)
+    //    {
+    //        m_progress = m_playerUpgrades.attackPoints;
+    //        if (m_playerUpgrades.attackCost > 0) m_cost = m_playerUpgrades.attackCost;
+    //    }
+    //    
+    //    UpdateCostText();
+    //    UpdateProgress();
+    //}
 
     private void OnEnable()
     {
-        UpdateStatToGlobal();
+        //UpdateStatToGlobal();
     }
 }
