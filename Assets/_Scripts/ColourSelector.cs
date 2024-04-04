@@ -5,34 +5,20 @@ using UnityEngine;
 public class ColourSelector : MonoBehaviour
 {
     ModelSelector m_modelSelector;
+    private void Awake() => m_modelSelector = GetComponent<ModelSelector>();
 
-    private void Awake()
+    public void SetMainDye(SO_Dye _dye) => SetDye("Main", _dye);
+
+    public void SetSecondaryDye(SO_Dye _dye) => SetDye("Secondary", _dye);
+
+    public void SetTertiaryDye(SO_Dye _dye) => SetDye("Tertiary", _dye);
+
+    void SetDye(string _colourSegment, SO_Dye _dye)
     {
-        m_modelSelector = GetComponent<ModelSelector>();
+        Material mat = m_modelSelector.GetMat();
+
+        mat.SetColor("_" + _colourSegment + "_Colour", _dye.m_colour);
+        mat.SetFloat("_" + _colourSegment + "_Metal", _dye.m_metal);
+        mat.SetFloat("_" + _colourSegment + "_Rough", _dye.m_roughness);
     }
-
-    Material GetMat() => m_modelSelector.selectedObject.GetComponent<Renderer>().sharedMaterial;
-
-    public void SetMainDye(SO_Dye _dye)
-    {
-        Material mat = GetMat();
-
-        Debug.Log(mat);
-        Debug.Log("Setting colour to " + _dye);
-
-        
-        mat.SetColor("_Main_Colour", _dye.m_colour);
-        mat.SetFloat("_Main_Metal", _dye.m_metal);
-        mat.SetFloat("_Main_Rough", _dye.m_roughness);
-    }
-
-    //public void SetSecondaryDye(Color _colour)
-    //{
-    //    GetMat().SetColor("Secondary_Colour", _colour);
-    //}
-    //
-    //public void SetTertiaryDye(Color _colour)
-    //{
-    //    GetMat().SetColor("Tertiary_Colour", _colour);
-    //}
 }
