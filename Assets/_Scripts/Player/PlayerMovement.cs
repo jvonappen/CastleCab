@@ -23,6 +23,8 @@ public class PlayerMovement : MonoBehaviour
 
     CustomGravity m_customGravity;
 
+    [SerializeField] PlayerUpgrades m_playerUpgrades;
+
     public Rigidbody rb;
     [SerializeField] Rigidbody wagon;
     public Transform horse { get { return rb.transform; } }
@@ -651,7 +653,7 @@ public class PlayerMovement : MonoBehaviour
                         
                         if (m_staminaBar)
                         {
-                            float staminaCostPerSec = _Boost.m_staminaCostPerSec - (SharedPlayerStats.staminaPoints * (_Boost.m_staminaCostPerSec * (_Stamina.m_decreasePercentPerStatPoint / 100)));
+                            float staminaCostPerSec = _Boost.m_staminaCostPerSec - (m_playerUpgrades.staminaPoints * (_Boost.m_staminaCostPerSec * (_Stamina.m_decreasePercentPerStatPoint / 100)));
 
                             m_staminaBar.progress -= Time.fixedDeltaTime * staminaCostPerSec;
                             m_staminaBar.UpdateProgress();
@@ -691,9 +693,9 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Alters speed based on stat upgrades
-        if (SharedPlayerStats.speedPoints > 0)
+        if (m_playerUpgrades.speedPoints > 0)
         {
-            statMulti = (SharedPlayerStats.speedPoints * _Speed.m_multiPerStatPoint) + 1;
+            statMulti = (m_playerUpgrades.speedPoints * _Speed.m_multiPerStatPoint) + 1;
         }
         #endregion
 
@@ -746,7 +748,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (m_staminaBar)
             {
-                float staminaCostPerSec = _Hurricane.m_staminaCostPerSec - (SharedPlayerStats.staminaPoints * (_Hurricane.m_staminaCostPerSec * (_Stamina.m_decreasePercentPerStatPoint / 100)));
+                float staminaCostPerSec = _Hurricane.m_staminaCostPerSec - (m_playerUpgrades.staminaPoints * (_Hurricane.m_staminaCostPerSec * (_Stamina.m_decreasePercentPerStatPoint / 100)));
 
                 float staminaCostThisFrame = staminaCostPerSec * Time.fixedDeltaTime;
 

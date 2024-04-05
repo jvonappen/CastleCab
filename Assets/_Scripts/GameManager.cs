@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public List<GameObject> players { get { return m_players; } }
     public void AddPlayer(GameObject _player) => m_players.Add(_player);
 
+    #region Gold
     [SerializeField] int m_gold;
     public int gold { get { return m_gold; } }
     public void SetGold(int _goldAmount)
@@ -36,11 +37,17 @@ public class GameManager : MonoBehaviour
         onGoldChanged?.Invoke(oldVal, m_gold);
     }
 
-    private void OnValidate() => onGoldChanged?.Invoke(m_gold, m_gold);
+    
 
     public Action<int, int> onGoldChanged;
+    #endregion
 
     public Color m_affordColour, m_notAffordColour;
+
+    private void OnValidate()
+    {
+        onGoldChanged?.Invoke(m_gold, m_gold);
+    }
 
     private void Awake()
     {

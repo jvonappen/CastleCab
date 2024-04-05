@@ -14,12 +14,26 @@ public class ModelSelector : MonoBehaviour
         foreach (Transform child in transform) m_selectionlist.Add(child.gameObject);
     }
 
+    public Material GetMat() => selectedObject.GetComponent<Renderer>().sharedMaterial;
+    public Material InstanceMat() => new(GetMat());
+    public void SetMat(Material _mat) => selectedObject.GetComponent<Renderer>().sharedMaterial = _mat;
+
     public void SelectObject(GameObject _obj)
     {
         DeselectAll();
         _obj.SetActive(true);
 
         m_selectedObject = _obj;
+
+        ModelSettings settings = _obj.GetComponent<ModelSettings>();
+        if (settings)
+        {
+            Material mat = InstanceMat();
+            SetMat(mat);
+
+            mat.SetTexture("_Base_Colour", settings.baseColour);
+            mat.SetTexture("_Mask_Map", settings.maskMap);
+        }
     }
 
     public void DeselectAll()

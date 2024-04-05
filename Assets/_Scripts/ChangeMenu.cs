@@ -28,8 +28,11 @@ public class ChangeMenu : MonoBehaviour
 
     private void OnEnable()
     {
-        m_playerInput.m_playerControls.UI.Next.performed += Next;
-        m_playerInput.m_playerControls.UI.Previous.performed += Previous;
+        if (m_playerInput.m_playerControls != null)
+        {
+            m_playerInput.m_playerControls.UI.Next.performed += Next;
+            m_playerInput.m_playerControls.UI.Previous.performed += Previous;
+        }
     }
 
     private void OnDisable()

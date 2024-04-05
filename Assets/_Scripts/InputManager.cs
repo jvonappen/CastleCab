@@ -50,13 +50,17 @@ public class InputManager : MonoBehaviour
         {
             GameObject player = Instantiate(m_playerPrefab);
 
-            int randomIndex = UnityEngine.Random.Range(0, m_remainingSpawnPoints.Count - 1);
-            Vector3 spawnPos = m_remainingSpawnPoints[randomIndex].position;
-            m_remainingSpawnPoints.RemoveAt(randomIndex);
-
+            Vector3 spawnPos = transform.position;
+            if (m_remainingSpawnPoints.Count > 0)
+            {
+                int randomIndex = UnityEngine.Random.Range(0, m_remainingSpawnPoints.Count - 1);
+                spawnPos = m_remainingSpawnPoints[randomIndex].position;
+                m_remainingSpawnPoints.RemoveAt(randomIndex);
+            }
+            
             player.transform.position = spawnPos;
         }
-
+        
         foreach (PlayerInputHandler playerInput in FindObjectsOfType<PlayerInputHandler>())
         {
             playerInput.UnpairedDeviceUsed(_inputControl, _inputEventPtr);

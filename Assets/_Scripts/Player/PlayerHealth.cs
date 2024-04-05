@@ -12,6 +12,8 @@ public class PlayerHealth : Health
 
     float m_originalMaxHealth;
 
+    [SerializeField] PlayerUpgrades m_playerUpgrades;
+
     protected override void Init()
     {
         base.Init();
@@ -19,18 +21,18 @@ public class PlayerHealth : Health
         m_playerMovement = GetComponentInParent<PlayerMovement>();
 
         m_originalMaxHealth = m_maxHealth;
-        m_maxHealth = m_originalMaxHealth + (m_addHealthPerStat * SharedPlayerStats.healthPoints);
+        m_maxHealth = m_originalMaxHealth + (m_addHealthPerStat * m_playerUpgrades.healthPoints);
 
         m_health = m_maxHealth;
         UpdateHealthBar();
 
-        SharedPlayerStats.onAddHealth += OnAddHealth;
+        m_playerUpgrades.onAddHealth += OnAddHealth;
         onHealthChanged += OnHealthChanged;
     }
 
     void OnAddHealth()
     {
-        m_maxHealth = m_originalMaxHealth + (m_addHealthPerStat * SharedPlayerStats.healthPoints);
+        m_maxHealth = m_originalMaxHealth + (m_addHealthPerStat * m_playerUpgrades.healthPoints);
         m_health = m_maxHealth;
     }
 

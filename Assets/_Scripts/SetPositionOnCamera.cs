@@ -8,6 +8,7 @@ public class SetPositionOnCamera : MonoBehaviour
     [SerializeField] Camera m_cam;
     [Tooltip("Value between (0,0) and (1,1). Min represents bottom left and max represents top right")] [SerializeField] Vector3 m_positionOnCamera;
 
+    #region Delegates
     private void Awake()
     {
         ScreenSize.onWindowResize += SetPositionAtScreenPoint;
@@ -17,6 +18,15 @@ public class SetPositionOnCamera : MonoBehaviour
 
         SetPositionAtScreenPoint();
     }
+
+    private void OnDisable()
+    {
+        ScreenSize.onWindowResize -= SetPositionAtScreenPoint;
+
+        InputManager.onPlayerJoined -= SetPositionAtScreenPoint;
+        InputManager.onPlayerLeft -= SetPositionAtScreenPoint;
+    }
+    #endregion
 
     void SetPositionAtScreenPoint(PlayerInput _player, List<PlayerInput> _players) => SetPositionAtScreenPoint();
     void SetPositionAtScreenPoint()
