@@ -27,9 +27,26 @@ public class TimerManager : MonoBehaviour
 
     [SerializeField] List<Timer> m_timers = new();
 
-    public static void RunAfterTime(Action function, float time) => Instance.m_timers.Add(new Timer(function, time));
+    public static Timer RunAfterTime(Action function, float time)
+    {
+        Timer timer = new(time, function);
+        Instance.m_timers.Add(timer);
+        return timer;
+    }
 
-    public static void RunUntilTime(Action function, float time) => Instance.m_timers.Add(new Timer(function, time, true));
+    public static UpdateTimer RunUntilTime(Action<float, float> function, float time)
+    {
+        UpdateTimer timer = new(time, function);
+        Instance.m_timers.Add(timer);
+        return timer;
+    }
+
+    public static UpdateTimer RunUntilTime(Action function, float time)
+    {
+        UpdateTimer timer = new(time, function);
+        Instance.m_timers.Add(timer);
+        return timer;
+    }
 
     public static void DestroyTimer(Timer timer)
     {
@@ -48,40 +65,76 @@ public class TimerManager : MonoBehaviour
 [Serializable]
 public class Timer
 {
-    [SerializeField] float m_timeUntilEnd;
-    [SerializeField] float m_counter = 0;
+    [SerializeField] protected float m_timeUntilEnd;
+    [SerializeField] protected float m_counter = 0;
 
     Action m_functionToCall;
 
-    bool m_functionOnUpdate;
-
-    public Timer(Action function, float time, bool functionOnUpdate = false)
+    public Timer(float time, Action function = null)
     {
         m_functionToCall = function;
         m_timeUntilEnd = time;
-        m_functionOnUpdate = functionOnUpdate;
     }
 
     public void UpdateTimer()
     {
         if (m_counter >= m_timeUntilEnd)
         {
-            RunFunction();
+            if (m_functionToCall != null) RunFunction();
             TimerManager.DestroyTimer(this);
         }
         else
         {
             m_counter += Time.deltaTime;
-            if (m_functionOnUpdate) RunFunction();
+            OnTimerUpdated();
         }
     }
 
-    void RunFunction()
+    protected virtual void OnTimerUpdated() { }
+
+    protected virtual void RunFunction()
     {
         try
         {
             m_functionToCall();
         }
         catch { Debug.LogWarning("TimerManager failed to invoke action. Script may no longer exist."); }
+    }
+}
+
+[Serializable]
+public class UpdateTimer : Timer
+{
+    Action<float, float> m_functionToCall;
+
+    public UpdateTimer(float time, Action<float, float> function) : base(time)
+    {
+        m_functionToCall = function;
+    }
+
+    public UpdateTimer(float time, Action function) : base(time, function)
+    {
+        m_functionToCall = null;
+    }
+
+    protected override void OnTimerUpdated()
+    {
+        base.OnTimerUpdated();
+
+        RunFunction();
+    }
+
+    protected override void RunFunction()
+    {
+        if (m_functionToCall == null) base.RunFunction();
+        else
+        {
+            try
+            {
+                m_functionToCall(m_counter, m_timeUntilEnd);
+            }
+            catch { Debug.LogWarning("TimerManager failed to invoke action. Script may no longer exist."); }
+        }
+        
     }
 }
