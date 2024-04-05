@@ -13,12 +13,25 @@ public class ColourSelector : MonoBehaviour
 
     public void SetTertiaryDye(SO_Dye _dye) => SetDye("Tertiary", _dye);
 
-    void SetDye(string _colourSegment, SO_Dye _dye)
+    public void ResetMainDye() => ResetDye("Main");
+    public void ResetSecondaryDye() => ResetDye("Secondary");
+    public void ResetTertiaryDye() => ResetDye("Tertiary");
+
+    void ResetDye(string _colourSegment)
+    {
+        ModelSettings settings = m_modelSelector.selectedObject.GetComponent<ModelSettings>();
+        if (settings)
+            SetDye(_colourSegment, settings.defaultMat.GetColor("_" + _colourSegment + "_Colour"), settings.defaultMat.GetFloat("_" + _colourSegment + "_Metal"), settings.defaultMat.GetFloat("_" + _colourSegment + "_Rough"));
+    }
+
+    void SetDye(string _colourSegment, SO_Dye _dye) => SetDye(_colourSegment, _dye.m_colour, _dye.m_metal, _dye.m_roughness);
+
+    void SetDye(string _colourSegment, Color _colour, float _metal, float _roughness)
     {
         Material mat = m_modelSelector.GetMat();
 
-        mat.SetColor("_" + _colourSegment + "_Colour", _dye.m_colour);
-        mat.SetFloat("_" + _colourSegment + "_Metal", _dye.m_metal);
-        mat.SetFloat("_" + _colourSegment + "_Rough", _dye.m_roughness);
+        mat.SetColor("_" + _colourSegment + "_Colour", _colour);
+        mat.SetFloat("_" + _colourSegment + "_Metal", _metal);
+        mat.SetFloat("_" + _colourSegment + "_Rough", _roughness);
     }
 }
