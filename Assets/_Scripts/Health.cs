@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.ParticleSystem;
 
@@ -17,8 +18,8 @@ public class Health : MonoBehaviour
 
     public Action<float, float> onHealthChanged;
 
-    [SerializeField] protected GameObject m_damagedParticlePrefab, m_destroyedParticlePrefab;
-    protected ParticleSystem m_damagedParticle, m_destroyedParticle;
+    [SerializeField] protected List<GameObject> m_damagedParticlePrefabs, m_destroyedParticlePrefabs;
+    protected List<ParticleSystem> m_damagedParticles = new(), m_destroyedParticles = new();
 
     [Header("Popup")]
     [SerializeField] protected bool m_showPopup = true;
@@ -33,16 +34,22 @@ public class Health : MonoBehaviour
         if (!m_popupLocation) m_popupLocation = transform;
         m_maxHealth = m_health;
 
-        if (m_damagedParticlePrefab)
+        for (int i = 0; i < m_damagedParticlePrefabs.Count; i++)
         {
-            m_damagedParticle = Instantiate(m_damagedParticlePrefab, transform).GetComponent<ParticleSystem>();
-            m_damagedParticle.transform.localPosition = Vector3.zero;
+            ParticleSystem damagedParticle;
+            damagedParticle = Instantiate(m_damagedParticlePrefabs[i], transform).GetComponent<ParticleSystem>();
+            damagedParticle.transform.localPosition = Vector3.zero;
+
+            m_damagedParticles.Add(damagedParticle);
         }
-        
-        if (m_destroyedParticlePrefab)
+
+        for (int i = 0; i < m_destroyedParticlePrefabs.Count; i++)
         {
-            m_destroyedParticle = Instantiate(m_destroyedParticlePrefab, transform).GetComponent<ParticleSystem>();
-            m_destroyedParticle.transform.localPosition = Vector3.zero;
+            ParticleSystem destroyedParticle;
+            destroyedParticle = Instantiate(m_destroyedParticlePrefabs[i], transform).GetComponent<ParticleSystem>();
+            destroyedParticle.transform.localPosition = Vector3.zero;
+
+            m_destroyedParticles.Add(destroyedParticle);
         }
     }
 
@@ -50,6 +57,17 @@ public class Health : MonoBehaviour
     {
         if (!m_isInvulnerable)
         {
+            if (m_damagedParticles.Count > 0)
+            {
+                int randIndex = UnityEngine.Random.Range(0, m_damagedParticlePrefabs.Count);
+
+                m_damagedParticles[randIndex].transform.SetParent(null);
+                m_damagedParticles[randIndex].Play();
+
+                CFX_AutoDestructShuriken t = m_damagedParticles[randIndex].GetComponent<CFX_AutoDestructShuriken>();
+                if (t) t.enabled = true;
+            }
+
             float previousHealth = m_health;
             m_health -= _damageAmount;
             onHealthChanged?.Invoke(previousHealth, m_health);
@@ -72,12 +90,14 @@ public class Health : MonoBehaviour
 
     protected virtual void Die(PlayerAttack _player)
     {
-        if (m_destroyedParticle)
+        if (m_destroyedParticles.Count > 0)
         {
-            m_destroyedParticle.transform.SetParent(null);
-            m_destroyedParticle.Play();
+            int randIndex = UnityEngine.Random.Range(0, m_destroyedParticlePrefabs.Count);
 
-            CFX_AutoDestructShuriken t = m_destroyedParticle.GetComponent<CFX_AutoDestructShuriken>();
+            m_destroyedParticles[randIndex].transform.SetParent(null);
+            m_destroyedParticles[randIndex].Play();
+
+            CFX_AutoDestructShuriken t = m_destroyedParticles[randIndex].GetComponent<CFX_AutoDestructShuriken>();
             if (t) t.enabled = true;
         }
         
