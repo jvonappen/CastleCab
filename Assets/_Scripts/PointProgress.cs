@@ -22,6 +22,12 @@ public class PointProgress : MonoBehaviour
         UpdateProgress();
     }
 
+    public virtual void RemoveProgress()
+    {
+        if (m_progress > 0) m_progress--;
+        UpdateProgress();
+    }
+
     public virtual void SetProgress(int _progress)
     {
         if (m_progress <= m_points.Count) m_progress = _progress;

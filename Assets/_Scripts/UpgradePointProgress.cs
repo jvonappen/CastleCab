@@ -47,6 +47,27 @@ public class UpgradePointProgress : PointProgress
 
     }
 
+    public override void RemoveProgress()
+    {
+        if (m_progress > 0)
+        {
+            int currencyToRecieve = 0;
+            if (m_isExponential) currencyToRecieve = (int)(m_cost / m_costMulti);
+            else currencyToRecieve = m_cost - m_costIncrease;
+
+            if (m_currency == Currency.Gold) m_manager.AddGold(currencyToRecieve);
+            else if (m_currency == Currency.AttributePoints) m_playerUpgrades.AddAttributePoints(currencyToRecieve);
+
+            m_cost = currencyToRecieve;
+
+            UpdateCostText();
+
+            base.RemoveProgress();
+
+            OnProgressRemove();
+        }
+    }
+
     int GetCurrencyAmount()
     {
         if (m_currency == Currency.Gold) return m_manager.gold;
@@ -57,6 +78,7 @@ public class UpgradePointProgress : PointProgress
     }
 
     protected virtual void OnProgressAdd() { }
+    protected virtual void OnProgressRemove() { }
 
     protected override void OnValidated()
     {

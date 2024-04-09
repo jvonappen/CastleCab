@@ -32,6 +32,7 @@ public class PlayerUpgrades : MonoBehaviour
 
 
     public Action onAddHealth, onAddStamina, onAddSpeed, onAddAttack;
+    public Action onRemoveHealth, onRemoveStamina, onRemoveSpeed, onRemoveAttack;
 
     int m_healthPoints = 0, m_staminaPoints = 0, m_speedPoints = 0, m_attackPoints = 0;
 
@@ -45,20 +46,43 @@ public class PlayerUpgrades : MonoBehaviour
         m_healthPoints++;
         onAddHealth?.Invoke();
     }
+    public void RemoveHealth()
+    {
+        m_healthPoints--;
+        onRemoveHealth?.Invoke();
+    }
+
     public void AddStamina()
     {
         m_staminaPoints++;
         onAddStamina?.Invoke();
     }
+    public void RemoveStamina()
+    {
+        m_staminaPoints--;
+        onRemoveStamina?.Invoke();
+    }
+
     public void AddSpeed()
     {
         m_speedPoints++;
         onAddSpeed?.Invoke();
     }
+    public void RemoveSpeed()
+    {
+        m_speedPoints--;
+        onRemoveSpeed?.Invoke();
+    }
+
     public void AddAttack()
     {
         m_attackPoints++;
         onAddAttack?.Invoke();
+    }
+    public void RemoveAttack()
+    {
+        m_attackPoints--;
+        onRemoveAttack?.Invoke();
     }
 
     public void ResetPoints()

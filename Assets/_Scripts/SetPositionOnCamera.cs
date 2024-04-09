@@ -16,7 +16,7 @@ public class SetPositionOnCamera : MonoBehaviour
         InputManager.onPlayerJoined += SetPositionAtScreenPoint;
         InputManager.onPlayerLeft += SetPositionAtScreenPoint;
 
-        SetPositionAtScreenPoint();
+        TimerManager.RunAfterTime(SetPositionAtScreenPoint, 0.1f);
     }
 
     private void OnDisable()
@@ -28,7 +28,10 @@ public class SetPositionOnCamera : MonoBehaviour
     }
     #endregion
 
-    void SetPositionAtScreenPoint(PlayerInput _player, List<PlayerInput> _players) => SetPositionAtScreenPoint();
+    void SetPositionAtScreenPoint(PlayerInput _player, List<PlayerInput> _players)
+    {
+        TimerManager.RunAfterTime(SetPositionAtScreenPoint, 0.1f);
+    }
     void SetPositionAtScreenPoint()
     {
         float camWidth = Screen.width * m_cam.rect.width;

@@ -41,43 +41,32 @@ public class CartUpgradeProgress : UpgradePointProgress
             m_playerUpgrades.AddAttack();
             m_playerUpgrades.attackCost = m_cost;
         }
-
-        //CartUpgradeProgress[] cartUpgradeProgresses = FindObjectsOfType<CartUpgradeProgress>();
-        //foreach (CartUpgradeProgress c in cartUpgradeProgresses) c.UpdateStatToGlobal();
     }
-    
-    /// <summary>
-    /// Syncs upgrades to other players
-    /// </summary>
-    //internal void UpdateStatToGlobal()
-    //{
-    //    if (m_statUpgrade == StatUpgrade.Health)
-    //    {
-    //        m_progress = m_playerUpgrades.healthPoints;
-    //        if (m_playerUpgrades.healthCost > 0) m_cost = m_playerUpgrades.healthCost;
-    //    }
-    //    else if (m_statUpgrade == StatUpgrade.Stamina)
-    //    {
-    //        m_progress = m_playerUpgrades.staminaPoints;
-    //        if (m_playerUpgrades.staminaCost > 0) m_cost = m_playerUpgrades.staminaCost;
-    //    }
-    //    else if (m_statUpgrade == StatUpgrade.Speed)
-    //    {
-    //        m_progress = m_playerUpgrades.speedPoints;
-    //        if (m_playerUpgrades.speedCost > 0) m_cost = m_playerUpgrades.speedCost;
-    //    }
-    //    else if (m_statUpgrade == StatUpgrade.Attack)
-    //    {
-    //        m_progress = m_playerUpgrades.attackPoints;
-    //        if (m_playerUpgrades.attackCost > 0) m_cost = m_playerUpgrades.attackCost;
-    //    }
-    //    
-    //    UpdateCostText();
-    //    UpdateProgress();
-    //}
 
-    private void OnEnable()
+    protected override void OnProgressRemove()
     {
-        //UpdateStatToGlobal();
+        base.OnProgressRemove();
+
+        // Updates static global stat
+        if (m_statUpgrade == StatUpgrade.Health)
+        {
+            m_playerUpgrades.RemoveHealth();
+            m_playerUpgrades.healthCost = m_cost;
+        }
+        else if (m_statUpgrade == StatUpgrade.Stamina)
+        {
+            m_playerUpgrades.RemoveStamina();
+            m_playerUpgrades.staminaCost = m_cost;
+        }
+        else if (m_statUpgrade == StatUpgrade.Speed)
+        {
+            m_playerUpgrades.RemoveSpeed();
+            m_playerUpgrades.speedCost = m_cost;
+        }
+        else if (m_statUpgrade == StatUpgrade.Attack)
+        {
+            m_playerUpgrades.RemoveAttack();
+            m_playerUpgrades.attackCost = m_cost;
+        }
     }
 }

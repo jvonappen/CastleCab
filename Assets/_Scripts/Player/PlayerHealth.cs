@@ -26,11 +26,13 @@ public class PlayerHealth : Health
         m_health = m_maxHealth;
         UpdateHealthBar();
 
-        m_playerUpgrades.onAddHealth += OnAddHealth;
+        m_playerUpgrades.onAddHealth += OnHealthUpgrade;
+        m_playerUpgrades.onRemoveHealth += OnHealthUpgrade;
+
         onHealthChanged += OnHealthChanged;
     }
 
-    void OnAddHealth()
+    void OnHealthUpgrade()
     {
         m_maxHealth = m_originalMaxHealth + (m_addHealthPerStat * m_playerUpgrades.healthPoints);
         m_health = m_maxHealth;
