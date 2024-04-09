@@ -9,7 +9,7 @@ public class SetPositionOnCamera : MonoBehaviour
     [Tooltip("Value between (0,0) and (1,1). Min represents bottom left and max represents top right")] [SerializeField] Vector3 m_positionOnCamera;
 
     #region Delegates
-    private void Awake()
+    private void OnEnable()
     {
         ScreenSize.onWindowResize += SetPositionAtScreenPoint;
 
