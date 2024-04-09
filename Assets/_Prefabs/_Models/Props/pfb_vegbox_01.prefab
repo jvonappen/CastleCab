@@ -31,8 +31,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -146,8 +146,11 @@ MonoBehaviour:
   m_health: 25
   m_dishonourPunishment: 0
   m_goldReward: 0
-  m_damagedParticlePrefab: {fileID: 0}
-  m_destroyedParticlePrefab: {fileID: 7511328176439486736, guid: b2f9691986e2d7048b48dcf702b763f8, type: 3}
+  m_damagedParticlePrefabs: []
+  m_destroyedParticlePrefabs:
+  - {fileID: 9157105887711914197, guid: 4396cf93639c8a2408440a829f8624e5, type: 3}
+  - {fileID: 9157105887711914197, guid: e472d13df94ac3c4aa17bf1306b91b39, type: 3}
+  - {fileID: 9157105887711914197, guid: 8299ad6b6ba2655459b2eba64da1aab5, type: 3}
   m_showPopup: 1
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2
