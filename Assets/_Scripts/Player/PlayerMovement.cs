@@ -73,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 finalDir = new(moveDir.x, dirY, moveDir.z);
         rb.velocity += finalDir * _speedToAdd;
 
-        if (m_isDrifting) rb.velocity = moveDir * rb.velocity.magnitude;
+        if (m_isDrifting) /*if (m_isGrounded)*/ rb.velocity = new(finalDir.x * rb.velocity.magnitude, rb.velocity.y, finalDir.z * rb.velocity.magnitude);
     }
     public void SetCurrentSpeed(float _speed)
     {
