@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using URNTS;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -54,21 +53,44 @@ public class PlayerMovement : MonoBehaviour
 
         [SerializeField] internal float m_maxReverseSpeed, m_reverseAccelerationRate, m_reverseDecelerationRate;
 
-        [SerializeField] internal float m_inAirMultiplier;
+        //[SerializeField] internal float m_inAirMultiplier;
+        [SerializeField] internal float m_airDrag;
+        [SerializeField] internal float m_universalDrag;
+
         [SerializeField] internal float m_maxVelY;
 
         [Space(5)]
         [SerializeField] internal float m_multiPerStatPoint;
     }
-    float m_currentSpeed;
-    public void SetCurrentSpeed(float _speed) => m_currentSpeed = _speed;
-    public float currentSpeed { get { return m_currentSpeed; } }
+    public void AddSpeed(float _speedToAdd)
+    {
+        Vector3 moveDir = GetMoveDirection();
+        //Vector3 moveDir = rb.transform.forward;
+
+        float dirY = moveDir.y;
+        if (!m_isGrounded) dirY = 0;
+
+        Vector3 finalDir = new(moveDir.x, dirY, moveDir.z);
+        rb.velocity += finalDir * _speedToAdd;
+
+        if (m_isDrifting) rb.velocity = moveDir * rb.velocity.magnitude;
+    }
+    public void SetCurrentSpeed(float _speed)
+    {
+        Vector3 moveDir = GetMoveDirection();
+        //Vector3 moveDir = rb.transform.forward;
+
+        float velY = rb.velocity.y;
+
+        rb.velocity = new(moveDir.x * _speed, velY, moveDir.z * _speed);
+    }
+    public float currentSpeed { get { return rb.velocity.magnitude; } }
     bool m_attemptingAccelerate;
 
     bool m_isAccelerating;
     bool m_isReversing;
 
-    float m_accelerationAmount;
+    float m_accelerationInput;
 
     float prevRotY;
 
@@ -153,6 +175,8 @@ public class PlayerMovement : MonoBehaviour
         [SerializeField] internal float m_staminaCostPerSec;
         [SerializeField] internal float m_camFOV, m_tweenSpeedFOV;
     }
+    float m_baseMaxBoostSpeed;
+
     bool m_attemptingBoost;
     bool m_isBoosting;
     public bool isBoosting { get { return m_isBoosting; } }
@@ -272,7 +296,7 @@ public class PlayerMovement : MonoBehaviour
         m_attemptingAccelerate = true;
         m_isAccelerating = true;
 
-        m_accelerationAmount = context.ReadValue<float>();
+        m_accelerationInput = context.ReadValue<float>();
 
         if (m_attemptingBoost && !m_isBoosting) StartBoost();
     }
@@ -282,7 +306,7 @@ public class PlayerMovement : MonoBehaviour
         m_attemptingAccelerate = false;
         if (!m_isDrifting) m_isAccelerating = false;
 
-        m_accelerationAmount = 0;
+        m_accelerationInput = 0;
 
         if (m_isBoosting && !m_isDrifting) EndBoost();
     }
@@ -371,8 +395,10 @@ public class PlayerMovement : MonoBehaviour
         if (m_isSmackStunned)
         {
             m_isSmackStunned = false;
-            m_currentSpeed /= 2;
+            //SetCurrentSpeed(currentSpeed / 2);
         }
+
+        //_Boost.m_maxSpeed = m_baseMaxBoostSpeed;
 
         if (m_isAirControl) CancelAirControl();
 
@@ -383,8 +409,6 @@ public class PlayerMovement : MonoBehaviour
             m_turnInput = m_driftTurnInput;
             OnTurnDrift();
         }
-
-        //if (m_isDrifting) m_cam.m_useOffsetOverride = false; // Unlocks camera to follow player after air control
     }
 
     void OnExitGrounded()
@@ -398,8 +422,10 @@ public class PlayerMovement : MonoBehaviour
             m_wagonDrag.dragZ = m_defaultWagonDrag;
         }
 
+        //_Boost.m_maxSpeed = m_baseMaxBoostSpeed * _Speed.m_inAirMultiplier;
+        //SetCurrentSpeed(currentSpeed * _Speed.m_inAirMultiplier);
+
         m_isDrifting = false;
-        //if (m_isDrifting) m_cam.SetOffsetWorldSpace(); // Locks camera rotation to world space while air control
     }
 
     #endregion
@@ -407,16 +433,17 @@ public class PlayerMovement : MonoBehaviour
     #region Drift
     void OnDriftPerformed(InputAction.CallbackContext context)
     {
-        //FindObjectOfType<EnemySpawner>().UpdateEnemies(); // TEMP
-
         if (m_isGrounded)
         {
             if (!m_isHurricane)
             {
                 if (m_cam)
                 {
+                    //m_cam.SetOffsetWorldSpace();
+
                     if (m_turnInput < 0) m_cam.camOffset = RotatePointAroundPivot(m_cam.m_originalCameraOffset, Vector3.zero, Vector3.up * 45);
                     else if (m_turnInput > 0) m_cam.camOffset = RotatePointAroundPivot(m_cam.m_originalCameraOffset, Vector3.zero, -Vector3.up * 45);
+                    //m_cam.ResetLocation();
 
                     m_cam.TweenToOriginalCamPosition(1);
                 }
@@ -428,19 +455,18 @@ public class PlayerMovement : MonoBehaviour
                     if (m_turnInput != 0)
                     {
                         OnTurnDrift();
+                        //m_cam.SetOffsetToCurrentPosition();
+                        //m_cam.m_useOffsetOverride = false;
                     }
                 }
             }
-        }
-        else
-        {
-            //m_cam.SetOffsetWorldSpace(); // Locks camera for air control
-            //m_isDrifting = true;
         }
     }
     void OnDriftCanceled(InputAction.CallbackContext context)
     {
         onDriftCanceled?.Invoke();
+
+        //m_cam.TweenToOriginalCamPosition(0.2f);
 
         m_isDrifting = false;
         m_attemptingDrift = false;
@@ -464,10 +490,10 @@ public class PlayerMovement : MonoBehaviour
 
         SetDriftTurnInput();
 
-        Vector3 rbRot = rb.transform.eulerAngles;
-        Vector3 rotateAmount = new Vector3(0, 45, 0);
-        if (m_turnInput > 0) rb.rotation = Quaternion.Euler(rbRot.x + rotateAmount.x, rbRot.y + rotateAmount.y, rbRot.z + rotateAmount.z);
-        else if (m_turnInput < 0) rb.rotation = Quaternion.Euler(rbRot.x - rotateAmount.x, rbRot.y - rotateAmount.y, rbRot.z - rotateAmount.z);
+        Vector3 playerRot = rb.transform.eulerAngles;
+        Vector3 rotateAmount = new(0, 45, 0);
+        if (m_turnInput > 0) rb.rotation = Quaternion.Euler(playerRot.x + rotateAmount.x, playerRot.y + rotateAmount.y, playerRot.z + rotateAmount.z);
+        else if (m_turnInput < 0) rb.rotation = Quaternion.Euler(playerRot.x - rotateAmount.x, playerRot.y - rotateAmount.y, playerRot.z - rotateAmount.z);
     }
 
     void SetDriftTurnInput()
@@ -629,26 +655,27 @@ public class PlayerMovement : MonoBehaviour
                 if (!m_isBoosting)
                 {
                     // Accelerate if player is accelerating and isn't at max speed
-                    if (m_currentSpeed < _Speed.m_maxSpeed)
+                    if (currentSpeed < _Speed.m_maxSpeed)
                     {
-                        m_currentSpeed += Time.fixedDeltaTime * _Speed.m_accelerationRate * m_accelerationAmount;
-                        if (m_currentSpeed > _Speed.m_maxSpeed) m_currentSpeed = _Speed.m_maxSpeed; // Caps speed at max
+                        float accelInput = m_isDrifting ? 1 : m_accelerationInput;
+                        AddSpeed(Time.fixedDeltaTime * _Speed.m_accelerationRate * accelInput);
+                        if (currentSpeed > _Speed.m_maxSpeed) SetCurrentSpeed(_Speed.m_maxSpeed); // Caps speed at max
                     }
-                    else if (m_currentSpeed > _Speed.m_maxSpeed)
+                    else if (currentSpeed > _Speed.m_maxSpeed) // Decelerates rather than sets due to boost
                     {
-                        m_currentSpeed -= Time.fixedDeltaTime * _Boost.m_decelerationRate;
-                        if (m_currentSpeed < _Speed.m_maxSpeed) m_currentSpeed = _Speed.m_maxSpeed;
+                        AddSpeed(Time.fixedDeltaTime * -_Boost.m_decelerationRate);
+                        if (currentSpeed < _Speed.m_maxSpeed) SetCurrentSpeed(_Speed.m_maxSpeed);
                     }
                 }
                 else
                 {
                     // Accelerate if player is boosting and isn't at max boost speed
-                    if (m_currentSpeed <= _Boost.m_maxSpeed)
+                    if (currentSpeed <= _Boost.m_maxSpeed)
                     {
-                        if (m_currentSpeed < _Boost.m_maxSpeed)
+                        if (currentSpeed < _Boost.m_maxSpeed)
                         {
-                            m_currentSpeed += Time.fixedDeltaTime * _Boost.m_accelerationRate * m_accelerationAmount;
-                            if (m_currentSpeed > _Boost.m_maxSpeed) m_currentSpeed = _Boost.m_maxSpeed; // Caps speed at max
+                            AddSpeed(Time.fixedDeltaTime * _Boost.m_accelerationRate);
+                            if (currentSpeed > _Boost.m_maxSpeed) SetCurrentSpeed(_Boost.m_maxSpeed); // Caps speed at max
                         }
                         
                         if (m_staminaBar)
@@ -666,29 +693,31 @@ public class PlayerMovement : MonoBehaviour
         {
             // Decelerates if player is reversing and isn't at max reverse speed.
             // Uses deceleration rate instead of reverse acceleration if it is still going forward to prevent sliding 
-            if (m_currentSpeed > 0) m_currentSpeed -= Time.fixedDeltaTime * _Speed.m_decelerationRate;
-            else if (m_currentSpeed > -_Speed.m_maxReverseSpeed) // Accelerates in reverse with different rate once player starts moving backwards
+            if (Vector3.Dot(rb.transform.forward, rb.velocity.normalized) > 0.2f) AddSpeed(Time.fixedDeltaTime * -_Speed.m_decelerationRate);
+            else if (currentSpeed < _Speed.m_maxReverseSpeed) // Accelerates in reverse with different rate once player starts moving backwards
             {
-                m_currentSpeed -= Time.fixedDeltaTime * _Speed.m_reverseAccelerationRate;
-                if (m_currentSpeed < -_Speed.m_maxReverseSpeed) m_currentSpeed = -_Speed.m_maxReverseSpeed; // Caps speed (in negative because it is moving backwards)
+                AddSpeed(Time.fixedDeltaTime * -_Speed.m_reverseAccelerationRate);
+                if (currentSpeed > _Speed.m_maxReverseSpeed) SetCurrentSpeed(-_Speed.m_maxReverseSpeed); // Caps speed (in negative because it is moving backwards)
             }
         }
         else
         {
+            float leeway = 0.2f;
+
             // If neither moving forward or backward, decelerate to 0, rate based on if player is reversing or moving forward
-            if (m_currentSpeed > 0) // Lower speed (player was moving forward)
+            if (Vector3.Dot(rb.transform.forward, rb.velocity.normalized) > 0) // Lower speed (player was moving forward)
             {
-                m_currentSpeed -= Time.fixedDeltaTime * _Speed.m_decelerationRate;
-                if (m_currentSpeed < 0)
+                if (currentSpeed > 0 + leeway) AddSpeed(Time.fixedDeltaTime * -_Speed.m_decelerationRate);
+                if (currentSpeed < 0 + leeway)
                 {
                     onStoppedMovement?.Invoke();
-                    m_currentSpeed = 0;
+                    SetCurrentSpeed(0);
                 }
             }
-            else if (m_currentSpeed < 0) // Increase speed (player was reversing)
+            else if (Vector3.Dot(rb.transform.forward, rb.velocity.normalized) < 0) // Increase speed (player was reversing)
             {
-                m_currentSpeed += Time.fixedDeltaTime * _Speed.m_reverseDecelerationRate;
-                if (m_currentSpeed > 0) m_currentSpeed = 0;
+                if (currentSpeed > 0 + leeway) AddSpeed(Time.fixedDeltaTime * _Speed.m_reverseDecelerationRate);
+                if (currentSpeed < 0 + leeway) SetCurrentSpeed(0);
             }
         }
 
@@ -699,51 +728,29 @@ public class PlayerMovement : MonoBehaviour
         }
         #endregion
 
-        float newSpeed = m_currentSpeed * statMulti;
-        if (!m_isGrounded) newSpeed *= _Speed.m_inAirMultiplier;
+        float newSpeed = currentSpeed * statMulti;
+        //if (!m_isGrounded) newSpeed *= _Speed.m_inAirMultiplier;
 
         m_animator.SetFloat("Speed", newSpeed / _Speed.m_maxSpeed);
 
-        if (!m_isHurricane && !m_endingHurricane)
+        if (!m_isGrounded && _Speed.m_airDrag != 0)
         {
-            prevRotY = rb.transform.eulerAngles.y;
+            Vector3 vel = rb.velocity;
+            if (vel.x != 0) vel.x *= _Speed.m_airDrag;
+            if (vel.z != 0) vel.z *= _Speed.m_airDrag;
 
-            Vector3 dir = rb.transform.forward;
-            if (m_isDrifting)
-            {
-                if (m_isGrounded)
-                {
-                    if (m_driftTurnInput != 0)
-                    {
-                        if (m_driftTurnInput > 0) dir -= rb.transform.right;
-                        else if (m_driftTurnInput < 0) dir += rb.transform.right;
-
-                        dir *= _Drifting.m_moveMultiplier;
-                    }
-                }
-                else // Air control
-                {
-                    //dir = m_cam.transform.forward;
-                }
-            }
-            else if (m_isAirControl)
-            {
-                if (m_cam) dir = m_cam.transform.forward;
-            }
-
-            // Apply velocity based on calculated speed, Without affecting y velocity
-            if (newSpeed != 0)
-            {
-                float velY = rb.velocity.y;
-                if (!m_isGrounded && velY > _Speed.m_maxVelY) velY = _Speed.m_maxVelY;
-                
-                if (!rb.isKinematic)
-                {
-                    rb.velocity = dir * newSpeed;
-                    rb.velocity = new Vector3(rb.velocity.x, velY, rb.velocity.z);
-                }
-            }
+            rb.velocity = vel;
         }
+        else if (!m_isAccelerating && !m_isReversing)
+        {
+            Vector3 vel = rb.velocity;
+            if (vel.x != 0) vel.x *= _Speed.m_universalDrag;
+            if (vel.z != 0) vel.z *= _Speed.m_universalDrag;
+        
+            rb.velocity = vel;
+        }
+
+        if (!m_isHurricane && !m_endingHurricane) prevRotY = rb.transform.eulerAngles.y;
         else // If hurricane
         {
             if (m_staminaBar)
@@ -782,7 +789,40 @@ public class PlayerMovement : MonoBehaviour
                 else if (m_isHurricane) m_endingHurricane = true;
             }
         }
+    }
 
+    Vector3 GetMoveDirection()
+    {
+        Vector3 dir = rb.transform.forward;
+        if (m_isDrifting)
+        {
+            if (m_isGrounded)
+            {
+                if (m_driftTurnInput != 0)
+                {
+                    //dir = m_cam.transform.forward;
+
+                    //Debug.Log("Working: " + m_driftTurnInput);
+
+                    if (m_driftTurnInput > 0) dir = Quaternion.AngleAxis(-45, Vector3.up) * rb.transform.forward;
+                    else if (m_driftTurnInput < 0) dir = Quaternion.AngleAxis(45, Vector3.up) * rb.transform.forward;
+
+                    //if (m_driftTurnInput > 0) dir -= rb.transform.right;
+                    //else if (m_driftTurnInput < 0) dir += rb.transform.right;
+
+                    dir *= _Drifting.m_moveMultiplier;
+                }
+            }
+        }
+        else if (m_isAirControl)
+        {
+            if (m_cam) dir = m_cam.transform.forward;
+        }
+
+        // Cap y velocity - re-enable if functional
+        //if (!m_isGrounded && dir.y > _Speed.m_maxVelY) dir.y = _Speed.m_maxVelY;
+
+        return dir;
     }
     #endregion
 

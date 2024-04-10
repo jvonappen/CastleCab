@@ -56,7 +56,7 @@ public class PlayerHealth : Health
 
     public override void DealDamage(float _damageAmount, PlayerAttack _player)
     {
-        if (!m_playerMovement.isHurricane)
+        if (!m_playerMovement.isHurricane || (_player && _player.playerMovement.isHurricane))
         {
             base.DealDamage(_damageAmount, _player);
         }

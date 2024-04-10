@@ -1421,26 +1421,27 @@ MonoBehaviour:
     m_thirdPoint: {fileID: 4138167954780452142}
     m_groundDist: 1
   _Speed:
-    m_maxSpeed: 15
-    m_accelerationRate: 10
+    m_maxSpeed: 20
+    m_accelerationRate: 100
     m_decelerationRate: 40
     m_maxReverseSpeed: 6
-    m_reverseAccelerationRate: 6
+    m_reverseAccelerationRate: 60
     m_reverseDecelerationRate: 40
-    m_inAirMultiplier: 0.6
+    m_airDrag: 0.97
+    m_universalDrag: 0.98
     m_maxVelY: 15
     m_multiPerStatPoint: 0.1
   _Turning:
-    m_defaultSpeed: 130
+    m_defaultSpeed: 100
     m_onSpotSpeed: 150
     m_inAirSpeed: 400
   _Drifting:
-    m_moveMultiplier: 0.8
-    m_minTurnSpeed: 0
+    m_moveMultiplier: 1
+    m_minTurnSpeed: 10
     m_maxTurnSpeed: 100
-    m_turnAcceleration: 90
-    m_strengthMultiplier: 2
-    m_startCooldown: 0.15
+    m_turnAcceleration: 100
+    m_strengthMultiplier: 2.2
+    m_startCooldown: 0.25
   _CartControl:
     m_turningDrag: 0.8
     m_boostTurnDrag: 0.9
@@ -1454,7 +1455,7 @@ MonoBehaviour:
     m_decreasePercentPerStatPoint: 3
   _Boost:
     m_maxSpeed: 75
-    m_accelerationRate: 30
+    m_accelerationRate: 60
     m_decelerationRate: 40
     m_staminaCostPerSec: 0.1
     m_camFOV: 75
@@ -7999,8 +8000,8 @@ MonoBehaviour:
   m_health: 100
   m_dishonourPunishment: 15
   m_goldReward: 20
-  m_damagedParticlePrefab: {fileID: 0}
-  m_destroyedParticlePrefab: {fileID: 0}
+  m_damagedParticlePrefabs: []
+  m_destroyedParticlePrefabs: []
   m_showPopup: 1
   m_popupLocation: {fileID: 5354545354823200387}
   m_popupRandomRange: 2

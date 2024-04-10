@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     PlayerMovement m_playerMovement;
+    public PlayerMovement playerMovement { get { return m_playerMovement; } }
 
     [SerializeField] float m_baseDamage = 2, m_driftDamageMulti = 2, m_boostDamageMulti = 2.5f, m_hurricaneDamageMulti = 4f;
 
