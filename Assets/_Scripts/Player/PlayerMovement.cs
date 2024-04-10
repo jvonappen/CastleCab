@@ -64,11 +64,8 @@ public class PlayerMovement : MonoBehaviour
     }
     public void AddSpeed(float _speedToAdd)
     {
-        //Vector3 moveDir = rb.transform.forward;
-        //if (m_isDrifting && !m_isBoosting) moveDir = GetMoveDirection();
         Vector3 moveDir = GetMoveDirection();
-
-        //if (_speedToAdd < 0) moveDir = rb.velocity.normalized;
+        //Vector3 moveDir = rb.transform.forward;
 
         float dirY = moveDir.y;
         if (!m_isGrounded) dirY = 0;
@@ -77,13 +74,11 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity += finalDir * _speedToAdd;
 
         if (m_isDrifting) rb.velocity = moveDir * rb.velocity.magnitude;
-        //rb.velocity = rb.transform.forward * rb.velocity.magnitude;
     }
     public void SetCurrentSpeed(float _speed)
     {
         Vector3 moveDir = GetMoveDirection();
         //Vector3 moveDir = rb.transform.forward;
-        //if (m_isDrifting && !m_isBoosting) moveDir = GetMoveDirection();
 
         float velY = rb.velocity.y;
 
@@ -795,7 +790,6 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-    #endregion
 
     Vector3 GetMoveDirection()
     {
@@ -810,8 +804,8 @@ public class PlayerMovement : MonoBehaviour
 
                     //Debug.Log("Working: " + m_driftTurnInput);
 
-                    if (m_driftTurnInput > 0) dir = Quaternion.AngleAxis(-45, Vector3.up) * rb.transform.forward;//-= rb.transform.right;
-                    else if (m_driftTurnInput < 0) dir = Quaternion.AngleAxis(45, Vector3.up) * rb.transform.forward;//+= rb.transform.right;
+                    if (m_driftTurnInput > 0) dir = Quaternion.AngleAxis(-45, Vector3.up) * rb.transform.forward;
+                    else if (m_driftTurnInput < 0) dir = Quaternion.AngleAxis(45, Vector3.up) * rb.transform.forward;
 
                     //if (m_driftTurnInput > 0) dir -= rb.transform.right;
                     //else if (m_driftTurnInput < 0) dir += rb.transform.right;
@@ -830,6 +824,7 @@ public class PlayerMovement : MonoBehaviour
 
         return dir;
     }
+    #endregion
 
     #region Turn
     void Turn()
