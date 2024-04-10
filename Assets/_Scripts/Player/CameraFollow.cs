@@ -54,10 +54,21 @@ public class CameraFollow : MonoBehaviour
         else m_lookAt.gameObject.BroadcastMessage("OnCameraSetTarget", this, SendMessageOptions.DontRequireReceiver);
     }
 
+    public void SetOffsetToCurrentPosition()
+    {
+        m_cameraOffset = transform.position - m_lookAt.position;
+    }
+
     private void OnValidate()
     {
         transform.position = m_lookAt.position + m_cameraOffset;
         transform.LookAt(m_lookAt.position + m_lookAtOffset);
+    }
+
+    public void ResetLocation()
+    {
+        transform.position = m_lookAt.position + m_cameraOffset;
+        //transform.LookAt(m_lookAt.position + m_lookAtOffset);
     }
 
     private void Update()
