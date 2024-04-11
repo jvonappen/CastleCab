@@ -31,7 +31,9 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        PlayMusic("Exalted");
+        //PlayMusic("Exalted");
+        PlayMusic("TROUBADOUR");
+        //PlayMusic("Ye");
         MusicVolume(musicSlider.value);
         SFXVolume(sfxSlider.value);
     }
@@ -41,13 +43,12 @@ public class AudioManager : MonoBehaviour
         AudioDetails audio = Array.Find(musicAudio, x => x.audioName == name);
         if (audio == null) { Debug.Log("Audio not found"); }
 
-        if (musicSource.isPlaying) {
-            Debug.Log("Wollolololol"); } 
+        //if (musicSource.isPlaying) return;
         else
         {
             musicSource.clip = audio.clip;
             musicSource.Play();
-            
+
         }
 
     }
@@ -69,7 +70,7 @@ public class AudioManager : MonoBehaviour
     {
         AudioGroupDetails audio = Array.Find(audioGroups, x => x.audioGroupName == name);
         if (audio == null) { Debug.Log("Audio not found"); }
-        if (sfxSource.isPlaying) return;
+        //if (sfxSource.isPlaying) return;
         else
         {
             int randomVal = UnityEngine.Random.Range(0, audio.audioClips.Length);
