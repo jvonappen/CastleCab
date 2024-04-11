@@ -31,7 +31,7 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        PlayMusic("Ye");
+        PlayMusic("Exalted");
         MusicVolume(musicSlider.value);
         SFXVolume(sfxSlider.value);
     }
@@ -40,12 +40,14 @@ public class AudioManager : MonoBehaviour
     {
         AudioDetails audio = Array.Find(musicAudio, x => x.audioName == name);
         if (audio == null) { Debug.Log("Audio not found"); }
-        
-        if (musicSource.isPlaying) return;
+
+        if (musicSource.isPlaying) {
+            Debug.Log("Wollolololol"); } 
         else
         {
             musicSource.clip = audio.clip;
             musicSource.Play();
+            
         }
 
     }
