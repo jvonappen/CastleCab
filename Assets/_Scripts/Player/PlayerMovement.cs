@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     #region References
     PlayerInputHandler m_playerInput;
     CameraFollowOld m_cam;
-    [SerializeField] CameraFollow m_camNew;
+    CameraFollow m_camNew;
 
     Animator m_animator;
 
@@ -214,7 +214,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (!m_staminaBar) Debug.LogWarning("Boost bar reference not found");
 
-        //m_camNew = GetComponentInChildren<CameraFollow>();
+        m_camNew = GetComponentInChildren<CameraFollow>();
 
         #region Delegates
         m_playerInput.m_playerControls.Controls.Acceleration.performed += OnAccelerate;
@@ -513,13 +513,6 @@ public class PlayerMovement : MonoBehaviour
             m_isHurricane = true;
         }, 0.01f);
         
-        //if (m_cam)
-        //{
-        //    m_cam.camSpeed = 2;
-        //
-        //    m_cam.SetOffsetWorldSpace();
-        //}
-
         m_camNew.StartWhirlwind();
     }
 
@@ -539,24 +532,12 @@ public class PlayerMovement : MonoBehaviour
             m_isHurricane = false;
             m_endingHurricane = false;
 
-            // Bug - makes player jump sometimes, maybe make player temporarily kinematic or kill velocity?
             rb.transform.eulerAngles = new Vector3(rb.transform.eulerAngles.x, prevRotY, rb.transform.eulerAngles.z);
-
-            //if (m_cam)
-            //{
-            //    m_cam.camSpeed = m_cam.m_originalCamSpeed;
-            //
-            //    m_cam.m_useOffsetOverride = false;
-            //}
 
             m_camNew.StopWhirlwind();
         }
     }
 
-    #endregion
-
-    #region CameraOLD
-    //public void OnCameraSetTarget(CameraFollowOld _camFollow) => m_cam = _camFollow;
     #endregion
 
     #region DirectionMove
@@ -757,7 +738,6 @@ public class PlayerMovement : MonoBehaviour
         #endregion
 
         float newSpeed = currentSpeed * statMulti;
-        //if (!m_isGrounded) newSpeed *= _Speed.m_inAirMultiplier;
 
         m_animator.SetFloat("Speed", newSpeed / _Speed.m_maxSpeed);
 
@@ -770,14 +750,6 @@ public class PlayerMovement : MonoBehaviour
 
             rb.velocity = vel;
         }
-        //else if (!m_isAccelerating && !m_isReversing)
-        //{
-        //    Vector3 vel = rb.velocity;
-        //    if (vel.x != 0) vel.x *= _Speed.m_universalDrag;
-        //    if (vel.z != 0) vel.z *= _Speed.m_universalDrag;
-        //
-        //    rb.velocity = vel;
-        //}
 
         if (!m_isHurricane && !m_endingHurricane) prevRotY = rb.transform.eulerAngles.y;
         else // If hurricane
@@ -796,22 +768,6 @@ public class PlayerMovement : MonoBehaviour
                     m_staminaRegenTimer = 0;
 
                     rb.transform.rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + new Vector3(0f, _Hurricane.m_spinSpeed * Time.fixedDeltaTime, 0f));
-
-                    // Handle movement
-                    //if (m_cam)
-                    //{
-                    //    Vector3 dir = new Vector3(m_directionMoveInput.x, 0, m_directionMoveInput.y); // Gets local movement direction vector
-                    //    dir = m_cam.transform.TransformDirection(dir); // Converts movement direction to world space
-                    //
-                    //    // Converts movement direction to velocity and applies it to rigidbody
-                    //    float velY = rb.velocity.y;
-                    //    rb.velocity = dir * _Hurricane.m_moveSpeed;
-                    //    rb.velocity = new Vector3(rb.velocity.x, velY, rb.velocity.z);
-                    //
-                    //    if (rb.velocity.y > 0) rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-                    //
-                    //    m_cam.transform.position += rb.velocity * Time.fixedDeltaTime;
-                    //}
 
                     // Handle movement
                     if (m_camNew.whirlwindCam)
@@ -848,9 +804,6 @@ public class PlayerMovement : MonoBehaviour
                 {
                     if (m_driftTurnInput > 0) dir = Quaternion.AngleAxis(-45, Vector3.up) * rb.transform.forward;
                     else if (m_driftTurnInput < 0) dir = Quaternion.AngleAxis(45, Vector3.up) * rb.transform.forward;
-
-                    //if (m_driftTurnInput > 0) dir -= rb.transform.right;
-                    //else if (m_driftTurnInput < 0) dir += rb.transform.right;
 
                     dir *= _Drifting.m_moveMultiplier;
                 }

@@ -118,10 +118,10 @@ public class Health : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (sfxAudio != null)
+        if (AudioManager.Instance)
         {
-            AudioManager.Instance.PlayGroupAudio(sfxAudio.audioGroupName);
+            if (sfxAudio != null) AudioManager.Instance.PlayGroupAudio(sfxAudio.audioGroupName);
         }
-        
+        else Debug.LogWarning("There is no audio manager in scene!");
     }
 }
