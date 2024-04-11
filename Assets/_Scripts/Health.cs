@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using static UnityEngine.ParticleSystem;
 
@@ -20,6 +21,8 @@ public class Health : MonoBehaviour
 
     [SerializeField] protected List<GameObject> m_damagedParticlePrefabs, m_destroyedParticlePrefabs;
     protected List<ParticleSystem> m_damagedParticles = new(), m_destroyedParticles = new();
+    
+    [SerializeField] protected AudioGroupDetails sfxAudio;
 
     [Header("Popup")]
     [SerializeField] protected bool m_showPopup = true;
@@ -112,4 +115,13 @@ public class Health : MonoBehaviour
     }
 
     protected virtual void Destroy() => Destroy(gameObject);
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (sfxAudio != null)
+        {
+            AudioManager.Instance.PlayGroupAudio(sfxAudio.audioGroupName);
+        }
+        
+    }
 }
