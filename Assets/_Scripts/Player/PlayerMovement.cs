@@ -16,8 +16,7 @@ public class PlayerMovement : MonoBehaviour
 
     #region References
     PlayerInputHandler m_playerInput;
-    CameraFollowOld m_cam;
-    CameraFollow m_camNew;
+    CameraFollow m_cam;
 
     Animator m_animator;
 
@@ -56,7 +55,6 @@ public class PlayerMovement : MonoBehaviour
 
         //[SerializeField] internal float m_inAirMultiplier;
         [SerializeField] internal float m_airDrag;
-        [SerializeField] internal float m_universalDrag;
 
         [SerializeField] internal float m_maxVelY;
 
@@ -95,13 +93,14 @@ public class PlayerMovement : MonoBehaviour
         [SerializeField] internal float m_moveMultiplier;
         [SerializeField] internal float m_minTurnSpeed, m_maxTurnSpeed, m_turnAcceleration;
         [SerializeField] internal float m_strengthMultiplier;
-        [SerializeField] internal float m_startCooldown;
+        [SerializeField] internal float m_startMoveCooldown;
+        [SerializeField] internal float m_nextDriftCooldown;
     }
     float m_currentDriftTurnSpeed = 50;
     bool m_isDrifting, m_attemptingDrift;
     float m_driftTurnInput;
 
-    float m_driftCooldownTimer;
+    float m_driftBeginMoveCooldownTimer, m_newDriftCooldownTimer;
 
     public bool isDrifting { get { return m_isDrifting; } }
     [SerializeField] Drifting _Drifting;
@@ -169,10 +168,13 @@ public class PlayerMovement : MonoBehaviour
     public struct Hurricane
     {
         [SerializeField] internal float m_spinSpeed, m_moveSpeed, m_staminaCostPerSec;
+        [SerializeField] internal float m_newHurricaneCooldown;
     }
     bool m_isHurricane;
     bool m_endingHurricane;
     Vector2 m_directionMoveInput;
+
+    float m_newHurricaneCooldownTimer;
 
     public bool isHurricane { get { return m_isHurricane; } }
     [SerializeField] Hurricane _Hurricane;
@@ -214,7 +216,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (!m_staminaBar) Debug.LogWarning("Boost bar reference not found");
 
-        m_camNew = GetComponentInChildren<CameraFollow>();
+        m_cam = GetComponentInChildren<CameraFollow>();
 
         #region Delegates
         m_playerInput.m_playerControls.Controls.Acceleration.performed += OnAccelerate;
@@ -252,7 +254,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (m_driftCooldownTimer < _Drifting.m_startCooldown) m_driftCooldownTimer += Time.deltaTime;
+        // - Cooldowns
+        // Delay before drift starts drifting
+        if (m_driftBeginMoveCooldownTimer < _Drifting.m_startMoveCooldown) m_driftBeginMoveCooldownTimer += Time.deltaTime;
+
+        // Cooldown to use ability again
+        if (m_newDriftCooldownTimer < _Drifting.m_nextDriftCooldown) m_newDriftCooldownTimer += Time.deltaTime;
+        if (m_newHurricaneCooldownTimer < _Hurricane.m_newHurricaneCooldown) m_newHurricaneCooldownTimer += Time.deltaTime;
+
 
         // Recharge stamina
         if (m_staminaBar & m_staminaBar.progress < 1)
@@ -349,7 +358,7 @@ public class PlayerMovement : MonoBehaviour
         onBoost?.Invoke();
 
         //if (m_cam) m_cam.TweenFOV(_Boost.m_camFOV, _Boost.m_tweenSpeedFOV);
-        m_camNew.TweenFOV(_Boost.m_camFOV, _Boost.m_tweenSpeedFOV);
+        m_cam.TweenFOV(_Boost.m_camFOV, _Boost.m_tweenSpeedFOV);
 
         m_isBoosting = true;
 
@@ -361,7 +370,7 @@ public class PlayerMovement : MonoBehaviour
         onBoostCanceled?.Invoke();
 
         //if (m_cam) m_cam.TweenFOV(m_cam.originalFOV, _Boost.m_tweenSpeedFOV);
-        m_camNew.TweenFOV(m_camNew.originalFOV, _Boost.m_tweenSpeedFOV);
+        m_cam.TweenFOV(m_cam.originalFOV, _Boost.m_tweenSpeedFOV);
 
         m_isBoosting = false;
         if (m_turnInput != 0) SetTurnDrag();
@@ -422,17 +431,6 @@ public class PlayerMovement : MonoBehaviour
         {
             if (!m_isHurricane)
             {
-                //if (m_cam)
-                //{
-                //    //m_cam.SetOffsetWorldSpace();
-                //
-                //    if (m_turnInput < 0) m_cam.camOffset = RotatePointAroundPivot(m_cam.m_originalCameraOffset, Vector3.zero, Vector3.up * 45);
-                //    else if (m_turnInput > 0) m_cam.camOffset = RotatePointAroundPivot(m_cam.m_originalCameraOffset, Vector3.zero, -Vector3.up * 45);
-                //    //m_cam.ResetLocation();
-                //
-                //    m_cam.TweenToOriginalCamPosition(1);
-                //}
-
                 m_attemptingDrift = true;
 
                 if (!m_isDrifting)
@@ -456,33 +454,38 @@ public class PlayerMovement : MonoBehaviour
 
     void OnTurnDrift()
     {
-        onDrift?.Invoke();
-
-        // Camera
-        if (!m_isDrifting)
+        if (m_newDriftCooldownTimer >= _Drifting.m_nextDriftCooldown)
         {
-            if (m_turnInput < 0) m_camNew.m_target.Rotate(Vector3.up * 45);
-            else if (m_turnInput > 0) m_camNew.m_target.Rotate(Vector3.up * -45);
-            m_camNew.TweenTargetRotation(Vector3.zero, 0.8f);
+            m_newDriftCooldownTimer = 0;
+
+            onDrift?.Invoke();
+
+            // Camera
+            if (!m_isDrifting)
+            {
+                if (m_turnInput < 0) m_cam.m_target.Rotate(Vector3.up * 45);
+                else if (m_turnInput > 0) m_cam.m_target.Rotate(Vector3.up * -45);
+                m_cam.TweenTargetRotation(Vector3.zero, _Drifting.m_nextDriftCooldown);
+            }
+
+            m_isAccelerating = true;
+
+            m_isDrifting = true;
+            m_currentDriftTurnSpeed = _Drifting.m_minTurnSpeed;
+
+            m_driftBeginMoveCooldownTimer = 0;
+
+            SetDriftTurnInput();
+
+            Vector3 playerRot = rb.transform.eulerAngles;
+            Vector3 rotateAmount = new(0, 45, 0);
+            // - Used for old camera with interpolated player/cart
+            //if (m_turnInput > 0) rb.rotation = Quaternion.Euler(playerRot.x + rotateAmount.x, playerRot.y + rotateAmount.y, playerRot.z + rotateAmount.z);
+            //else if (m_turnInput < 0) rb.rotation = Quaternion.Euler(playerRot.x - rotateAmount.x, playerRot.y - rotateAmount.y, playerRot.z - rotateAmount.z);
+
+            if (m_turnInput > 0) rb.transform.rotation = Quaternion.Euler(playerRot.x + rotateAmount.x, playerRot.y + rotateAmount.y, playerRot.z + rotateAmount.z);
+            else if (m_turnInput < 0) rb.transform.rotation = Quaternion.Euler(playerRot.x - rotateAmount.x, playerRot.y - rotateAmount.y, playerRot.z - rotateAmount.z);
         }
-        
-        m_isAccelerating = true;
-
-        m_isDrifting = true;
-        m_currentDriftTurnSpeed = _Drifting.m_minTurnSpeed;
-
-        m_driftCooldownTimer = 0;
-
-        SetDriftTurnInput();
-
-        Vector3 playerRot = rb.transform.eulerAngles;
-        Vector3 rotateAmount = new(0, 45, 0);
-        // - Used for old camera with interpolated player/cart
-        //if (m_turnInput > 0) rb.rotation = Quaternion.Euler(playerRot.x + rotateAmount.x, playerRot.y + rotateAmount.y, playerRot.z + rotateAmount.z);
-        //else if (m_turnInput < 0) rb.rotation = Quaternion.Euler(playerRot.x - rotateAmount.x, playerRot.y - rotateAmount.y, playerRot.z - rotateAmount.z);
-
-        if (m_turnInput > 0) rb.transform.rotation = Quaternion.Euler(playerRot.x + rotateAmount.x, playerRot.y + rotateAmount.y, playerRot.z + rotateAmount.z);
-        else if (m_turnInput < 0) rb.transform.rotation = Quaternion.Euler(playerRot.x - rotateAmount.x, playerRot.y - rotateAmount.y, playerRot.z - rotateAmount.z);
     }
 
     void SetDriftTurnInput()
@@ -506,14 +509,15 @@ public class PlayerMovement : MonoBehaviour
     }
     void OnHurricanePerformed()
     {
-        onHurricane?.Invoke();
-
-        TimerManager.RunAfterTime(() =>
+        if (m_newHurricaneCooldownTimer >= _Hurricane.m_newHurricaneCooldown)
         {
+            onHurricane?.Invoke();
+
+            m_lastPosHurricane = rb.transform.position;
             m_isHurricane = true;
-        }, 0.01f);
-        
-        m_camNew.StartWhirlwind();
+
+            m_cam.StartWhirlwind();
+        }
     }
 
     void OnHurricaneCanceled(InputAction.CallbackContext context) => CancelHurricane();
@@ -534,8 +538,43 @@ public class PlayerMovement : MonoBehaviour
 
             rb.transform.eulerAngles = new Vector3(rb.transform.eulerAngles.x, prevRotY, rb.transform.eulerAngles.z);
 
-            m_camNew.StopWhirlwind();
+            m_cam.StopWhirlwind(_Hurricane.m_newHurricaneCooldown - 0.1f);
         }
+    }
+
+    Vector3 m_lastPosHurricane = Vector3.zero;
+    void UpdateHurricane()
+    {
+        m_newHurricaneCooldownTimer = 0;
+
+        rb.transform.rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + new Vector3(0f, _Hurricane.m_spinSpeed * Time.fixedDeltaTime, 0f));
+
+        // Handle movement
+        if (m_cam.whirlwindCam)
+        {
+            Vector3 dir = new Vector3(m_directionMoveInput.x, 0, m_directionMoveInput.y); // Gets local movement direction vector
+            dir = m_cam.whirlwindCam.TransformDirection(dir); // Converts movement direction to world space
+
+            // Converts movement direction to velocity and applies it to rigidbody
+            float velY = rb.velocity.y;
+            rb.velocity = dir * _Hurricane.m_moveSpeed;
+            rb.velocity = new Vector3(rb.velocity.x, velY, rb.velocity.z);
+
+            if (rb.velocity.y > 0) rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+
+            if (m_lastPosHurricane != Vector3.zero)
+            {
+                Vector3 moveVelocity = rb.transform.position - m_lastPosHurricane;
+
+                Debug.Log("Dir input: " + m_directionMoveInput.magnitude + " - velocity magnitude: " + moveVelocity.magnitude);
+                m_cam.whirlwindCam.position += moveVelocity;
+            }
+            //m_cam.whirlwindCam.position += rb.velocity * Time.fixedDeltaTime;
+
+            m_lastPosHurricane = rb.transform.position;
+        }
+
+        if (m_endingHurricane) EndHurricane();
     }
 
     #endregion
@@ -553,7 +592,7 @@ public class PlayerMovement : MonoBehaviour
         {
             m_isAirControl = true;
             //m_cam.SetOffsetWorldSpace(); // Locks camera
-            m_camNew.SetAirControl();
+            m_cam.SetAirControl();
         }
     }
 
@@ -566,7 +605,7 @@ public class PlayerMovement : MonoBehaviour
     {
         m_isAirControl = false;
         //m_cam.m_useOffsetOverride = false; // Unlocks camera if air control is canceled
-        m_camNew.StopAirControl();
+        m_cam.StopAirControl();
     }
 
     #endregion
@@ -629,7 +668,6 @@ public class PlayerMovement : MonoBehaviour
     }
 
     #endregion
-
 
     void MoveVelocity()
     {
@@ -767,29 +805,11 @@ public class PlayerMovement : MonoBehaviour
 
                     m_staminaRegenTimer = 0;
 
-                    rb.transform.rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + new Vector3(0f, _Hurricane.m_spinSpeed * Time.fixedDeltaTime, 0f));
-
-                    // Handle movement
-                    if (m_camNew.whirlwindCam)
-                    {
-                        Vector3 dir = new Vector3(m_directionMoveInput.x, 0, m_directionMoveInput.y); // Gets local movement direction vector
-                        dir = m_camNew.whirlwindCam.TransformDirection(dir); // Converts movement direction to world space
-
-                        // Converts movement direction to velocity and applies it to rigidbody
-                        float velY = rb.velocity.y;
-                        rb.velocity = dir * _Hurricane.m_moveSpeed;
-                        rb.velocity = new Vector3(rb.velocity.x, velY, rb.velocity.z);
-
-                        if (rb.velocity.y > 0) rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-
-                        Debug.Log(rb.velocity);
-                        m_camNew.whirlwindCam.position += rb.velocity * Time.fixedDeltaTime;
-                    }
-
-                    if (m_endingHurricane) EndHurricane();
+                    UpdateHurricane();
                 }
                 else if (m_isHurricane) m_endingHurricane = true;
             }
+            else UpdateHurricane();
         }
     }
 
@@ -808,10 +828,6 @@ public class PlayerMovement : MonoBehaviour
                     dir *= _Drifting.m_moveMultiplier;
                 }
             }
-        }
-        else if (m_isAirControl)
-        {
-            if (m_cam) dir = m_cam.transform.forward;
         }
 
         // Cap y velocity - re-enable if functional - no longer neccessary (I think)
@@ -840,7 +856,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 turnInput = m_driftTurnInput;
 
-                if (m_driftCooldownTimer >= _Drifting.m_startCooldown)
+                if (m_driftBeginMoveCooldownTimer >= _Drifting.m_startMoveCooldown)
                 {
                     if (m_currentDriftTurnSpeed < _Drifting.m_maxTurnSpeed)
                     {
