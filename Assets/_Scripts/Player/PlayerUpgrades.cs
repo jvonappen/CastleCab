@@ -30,6 +30,10 @@ public class PlayerUpgrades : MonoBehaviour
     private void OnValidate() => onAttributePointsChanged?.Invoke(m_attributePoints, m_attributePoints);
     private void Awake() => onAttributePointsChanged?.Invoke(m_attributePoints, m_attributePoints);
 
+    private void Start() => m_isInitialised = true;
+
+    bool m_isInitialised;
+    public bool isInitialised { get { return m_isInitialised; } set { m_isInitialised = value; } }
 
     public Action onAddHealth, onAddStamina, onAddSpeed, onAddAttack;
     public Action onRemoveHealth, onRemoveStamina, onRemoveSpeed, onRemoveAttack;

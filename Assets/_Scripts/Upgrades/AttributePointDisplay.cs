@@ -21,6 +21,8 @@ public class AttributePointDisplay : MonoBehaviour
         UpdateDisplay();
     }
 
+    //private void OnEnable() => UpdateDisplay();
+
     void UpdateDisplay(int _oldVal, int _newVal) => UpdateDisplay();
     public void UpdateDisplay() => m_display.text = m_displayTextPrefix + GetAttributePointsDisplayString();
     string GetAttributePointsDisplayString()
