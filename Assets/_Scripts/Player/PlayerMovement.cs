@@ -565,7 +565,6 @@ public class PlayerMovement : MonoBehaviour
             if (m_lastPosHurricane != Vector3.zero)
             {
                 Vector3 moveVelocity = rb.transform.position - m_lastPosHurricane;
-                //Debug.Log(moveVelocity.magnitude);
 
                 Debug.Log("Dir input: " + m_directionMoveInput.magnitude + " - velocity magnitude: " + moveVelocity.magnitude);
                 m_cam.whirlwindCam.position += moveVelocity;
