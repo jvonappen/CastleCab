@@ -5,6 +5,8 @@ using UnityEngine;
 public class ShaderRandomizer : MonoBehaviour
 {
     [SerializeField] Material m_material;
+    public void SetMaterial(Material _mat) => m_material = _mat;
+
     [SerializeField] float m_timeUntilRandomize = 1;
     [SerializeField] float m_randomRangeX = 1, m_randomRangeY = 1;
 
