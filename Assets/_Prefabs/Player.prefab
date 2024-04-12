@@ -1616,7 +1616,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02699a934821ccf40a57b84852e87ce8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_camNew: {fileID: 4254389232247356245}
   m_playerUpgrades: {fileID: 6739308985170899223}
   rb: {fileID: 6675228846841819017}
   wagon: {fileID: 2993029738518890700}
@@ -1637,7 +1636,6 @@ MonoBehaviour:
     m_reverseAccelerationRate: 60
     m_reverseDecelerationRate: 40
     m_airDrag: 0.97
-    m_universalDrag: 0.98
     m_maxVelY: 15
     m_multiPerStatPoint: 0.1
   _Turning:
@@ -1650,7 +1648,7 @@ MonoBehaviour:
     m_maxTurnSpeed: 100
     m_turnAcceleration: 90
     m_strengthMultiplier: 2
-    m_startCooldown: 0.25
+    m_startDriftMoveCooldown: 0.25
   _CartControl:
     m_turningDrag: 0.8
     m_boostTurnDrag: 0.9
@@ -16267,7 +16265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd6043bde05a7fc4cba197d06915c1e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damping: {x: 0, y: 0, z: 0}
+  Damping: {x: 0, y: 1.5, z: 0}
   ShoulderOffset: {x: 0, y: 6.5, z: -10}
   VerticalArmLength: 0
   CameraSide: 0
@@ -16277,7 +16275,7 @@ MonoBehaviour:
     m_Bits: 32837
   IgnoreTag: 
   CameraRadius: 0.061
-  DampingIntoCollision: 0
+  DampingIntoCollision: 0.5
   DampingFromCollision: 0
 --- !u!1 &5695826348122882089
 GameObject:

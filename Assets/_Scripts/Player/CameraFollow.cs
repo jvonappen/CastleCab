@@ -76,9 +76,9 @@ public class CameraFollow : MonoBehaviour
         m_whirlwindCam.Priority = 12;
     }
 
-    public void StopWhirlwind()
+    public void StopWhirlwind(float _cooldownTime)
     {
-        TimerManager.RunAfterTime(() => { m_isWhirlwind = false; }, 0.6f);
+        TimerManager.RunAfterTime(() => { m_isWhirlwind = false; }, _cooldownTime);
         
         m_whirlwindCam.Priority = 10;
     }
