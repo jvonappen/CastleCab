@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         CreateSingleton();
+        //DontDestroyOnLoad(transform);
 
         onGoldChanged?.Invoke(m_gold, m_gold);
     }
