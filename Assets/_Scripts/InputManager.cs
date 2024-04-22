@@ -15,6 +15,7 @@ public class InputManager : MonoBehaviour
     public static Action<PlayerInput, List<PlayerInput>> onPlayerJoined;
     public static Action<PlayerInput, List<PlayerInput>> onPlayerLeft;
 
+    [SerializeField] bool m_randomiseSpawnpoint = true;
     [SerializeField] List<Transform> m_remainingSpawnPoints;
 
     [SerializeField] TrafficManager m_trafficManager;
@@ -26,7 +27,10 @@ public class InputManager : MonoBehaviour
 
         onPlayerJoined?.Invoke(_player, m_players);
 
-        if (m_trafficManager) m_trafficManager.AddPlayer(_player.GetComponent<PlayerMovement>().horse);
+        if (m_trafficManager)
+        {
+            if (_player.TryGetComponent(out PlayerMovement playerMovement)) m_trafficManager.AddPlayer(playerMovement.horse);
+        }
     }
 
     public void OnPlayerLeft(PlayerInput _player)
@@ -35,7 +39,10 @@ public class InputManager : MonoBehaviour
     
         onPlayerLeft?.Invoke(_player, m_players);
     
-        if (m_trafficManager) m_trafficManager.RemovePlayer(_player.GetComponent<PlayerMovement>().horse);
+        if (m_trafficManager)
+        {
+            if (_player.TryGetComponent(out PlayerMovement playerMovement)) m_trafficManager.RemovePlayer(playerMovement.horse);
+        }
     }
 
     private void Awake()
@@ -43,27 +50,58 @@ public class InputManager : MonoBehaviour
         InputUser.onUnpairedDeviceUsed += UnpairedDeviceUsed;
     }
 
+    Vector3 GetSpawnPoint()
+    {
+        int index = 0;
+        if (m_randomiseSpawnpoint) index = UnityEngine.Random.Range(0, m_remainingSpawnPoints.Count - 1);
+
+        Vector3 spawnPos = m_remainingSpawnPoints[index].position;
+        m_remainingSpawnPoints.RemoveAt(index);
+
+        return spawnPos;
+    }
+
     public void UnpairedDeviceUsed(InputControl _inputControl, InputEventPtr _inputEventPtr)
     {
-        if (!m_firstPlayerSpawned) m_firstPlayerSpawned = true;
-        else
+        PlayerInputHandler[] players = FindObjectsOfType<PlayerInputHandler>();
+
+        if (!PairDeviceToAvailablePlayer(players, _inputControl, _inputEventPtr))
         {
             GameObject player = Instantiate(m_playerPrefab);
 
             Vector3 spawnPos = transform.position;
-            if (m_remainingSpawnPoints.Count > 0)
-            {
-                int randomIndex = UnityEngine.Random.Range(0, m_remainingSpawnPoints.Count - 1);
-                spawnPos = m_remainingSpawnPoints[randomIndex].position;
-                m_remainingSpawnPoints.RemoveAt(randomIndex);
-            }
-            
+            if (m_remainingSpawnPoints.Count > 0) spawnPos = GetSpawnPoint();
+
             player.transform.position = spawnPos;
+
+            player.GetComponent<PlayerInputHandler>().PairDevice(_inputControl, _inputEventPtr);
+            //PairDeviceToAvailablePlayer(players, _inputControl, _inputEventPtr);
         }
-        
-        foreach (PlayerInputHandler playerInput in FindObjectsOfType<PlayerInputHandler>())
+
+        //if (!m_firstPlayerSpawned) m_firstPlayerSpawned = true;
+        //else
+        //{
+        //    GameObject player = Instantiate(m_playerPrefab);
+        //
+        //    Vector3 spawnPos = transform.position;
+        //    if (m_remainingSpawnPoints.Count > 0) spawnPos = GetSpawnPoint();
+        //
+        //    player.transform.position = spawnPos;
+        //}
+        //
+        //foreach (PlayerInputHandler playerInput in players)
+        //{
+        //    if (playerInput.PairDevice(_inputControl, _inputEventPtr)) return;
+        //}
+    }
+
+    bool PairDeviceToAvailablePlayer(PlayerInputHandler[] players, InputControl _inputControl, InputEventPtr _inputEventPtr)
+    {
+        foreach (PlayerInputHandler playerInput in players)
         {
-            playerInput.UnpairedDeviceUsed(_inputControl, _inputEventPtr);
+            if (playerInput.PairDevice(_inputControl, _inputEventPtr)) return true;
         }
+
+        return false;
     }
 }

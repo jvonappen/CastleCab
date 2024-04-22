@@ -22,14 +22,16 @@ public class PlayerInputHandler : MonoBehaviour
     }
     private void OnEnable() => m_playerControls.Enable();
 
-    public void UnpairedDeviceUsed(InputControl _inputControl, InputEventPtr _inputEventPtr)
+    public bool PairDevice(InputControl _inputControl, InputEventPtr _inputEventPtr)
     {
-        if (m_paired) return;
+        if (m_paired) return false;
 
         m_paired = true;
         m_playerInput.SwitchCurrentControlScheme(_inputControl.device);
 
         if (GameManager.Instance) GameManager.Instance.AddPlayer(gameObject);
+
+        return true;
     }
 
 }
