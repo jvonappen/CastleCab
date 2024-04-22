@@ -13,6 +13,35 @@ public class CartUpgradeProgress : UpgradePointProgress
     }
     [SerializeField] StatUpgrade m_statUpgrade;
 
+    private void OnEnable() => SyncUpgradesToPlayer();
+    void SyncUpgradesToPlayer()
+    {
+        if (m_statUpgrade == StatUpgrade.Health)
+        {
+            if (m_playerUpgrades.isInitialised) m_cost = m_playerUpgrades.healthCost;
+            else m_playerUpgrades.healthCost = m_cost;
+            SetProgress(m_playerUpgrades.healthPoints);
+        }
+        else if (m_statUpgrade == StatUpgrade.Stamina)
+        {
+            if (m_playerUpgrades.isInitialised) m_cost = m_playerUpgrades.staminaCost;
+            else m_playerUpgrades.staminaCost = m_cost;
+            SetProgress(m_playerUpgrades.staminaPoints);
+        }
+        else if (m_statUpgrade == StatUpgrade.Speed)
+        {
+            if (m_playerUpgrades.isInitialised) m_cost = m_playerUpgrades.speedCost;
+            else m_playerUpgrades.speedCost = m_cost;
+            SetProgress(m_playerUpgrades.speedPoints);
+        }
+        else if (m_statUpgrade == StatUpgrade.Attack)
+        {
+            if (m_playerUpgrades.isInitialised) m_cost = m_playerUpgrades.attackCost;
+            else m_playerUpgrades.attackCost = m_cost;
+            SetProgress(m_playerUpgrades.attackPoints);
+        }
+    }
+
     /// <summary>
     /// Updates global stat and runs a function on all instances of this script type to keep them in sync
     /// </summary>
