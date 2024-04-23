@@ -5,17 +5,13 @@ using UnityEngine.InputSystem.UI;
 public class SwitchUI2P : PlayerJoinedNotifier
 {
     [SerializeField] GameObject m_defaultUI, m_2pUI;
-    [SerializeField] Camera m_defaultCam, m_2pCam;
+    [SerializeField] float m_defaultCamSize, m_2pCamSize;
 
     [SerializeField] GameObject m_defaultSelectedButton, m_2pSelectedButton;
 
     [SerializeField] MultiplayerEventSystem m_multiplayerEventSystem;
 
     PlayerInput m_playerInput;
-
-    //[SerializeField] // Temp
-    //[Space(10)]
-    //GameObject m_currentSelectedButton;
 
     public override void Start()
     {
@@ -59,8 +55,7 @@ public class SwitchUI2P : PlayerJoinedNotifier
 
             m_defaultUI.SetActive(false);
 
-            m_2pCam.rect = m_playerInput.camera.rect;
-            m_playerInput.camera = m_2pCam;
+            m_playerInput.camera.orthographicSize = m_2pCamSize;
         }
     }
 
@@ -76,8 +71,7 @@ public class SwitchUI2P : PlayerJoinedNotifier
 
             m_2pUI.SetActive(false);
 
-            m_defaultCam.rect = m_playerInput.camera.rect;
-            m_playerInput.camera = m_defaultCam;
+            m_playerInput.camera.orthographicSize = m_defaultCamSize;
         }
     }
 

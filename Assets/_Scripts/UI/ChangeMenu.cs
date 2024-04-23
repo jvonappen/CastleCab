@@ -20,9 +20,6 @@ public class ChangeMenu : MonoBehaviour
 
     private void Start()
     {
-        m_playerInput.m_playerControls.UI.Next.performed += Next;
-        m_playerInput.m_playerControls.UI.Previous.performed += Previous;
-
         m_eventSystem = m_playerInput.playerInput.uiInputModule.GetComponent<MultiplayerEventSystem>();
     }
 
