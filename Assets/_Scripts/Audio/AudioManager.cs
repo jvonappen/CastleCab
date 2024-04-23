@@ -32,8 +32,10 @@ public class AudioManager : MonoBehaviour
     private void Start()
     {
         //PlayMusic("Exalted");
-        PlayMusic("TROUBADOUR");
+        //PlayMusic("TROUBADOUR");
+        PlayMusic("KnightRidersBlueBird");
         //PlayMusic("Ye");
+        
         MusicVolume(musicSlider.value);
         SFXVolume(sfxSlider.value);
     }
