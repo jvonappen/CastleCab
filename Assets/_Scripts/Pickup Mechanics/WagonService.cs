@@ -62,7 +62,7 @@ public class WagonService : MonoBehaviour
     }
     private void Start()
     {
-        _wagonSlot = WagonData.wagonSlot;
+        
         //_animator = this.gameObject.GetComponent<Animator>();
         //ChangeAnimation(NPC_ATTENTION);
 
@@ -85,6 +85,8 @@ public class WagonService : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        _wagonSlot = WagonData.wagonSlot;
+
         if (!WagonData.isOccupied && other.tag == "Wagon" && destination != null)
         {
             Debug.Log(destination);
