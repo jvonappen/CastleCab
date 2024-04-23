@@ -566,7 +566,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 Vector3 moveVelocity = rb.transform.position - m_lastPosHurricane;
 
-                Debug.Log("Dir input: " + m_directionMoveInput.magnitude + " - velocity magnitude: " + moveVelocity.magnitude);
                 m_cam.whirlwindCam.position += moveVelocity;
             }
             //m_cam.whirlwindCam.position += rb.velocity * Time.fixedDeltaTime;
@@ -655,7 +654,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 finalDir = new(moveDir.x, dirY, moveDir.z);
         rb.velocity += finalDir * _speedToAdd;
 
-        if (m_isGrounded) rb.velocity = new(finalDir.x * rb.velocity.magnitude, rb.velocity.y, finalDir.z * rb.velocity.magnitude);
+        if (m_isGrounded && !m_isReversing) rb.velocity = new(finalDir.x * rb.velocity.magnitude, rb.velocity.y, finalDir.z * rb.velocity.magnitude);
         //if (m_isDrifting) rb.velocity = new(finalDir.x * rb.velocity.magnitude, rb.velocity.y, finalDir.z * rb.velocity.magnitude); - Makes movement slidey
     }
     public void SetCurrentSpeed(float _speed)
