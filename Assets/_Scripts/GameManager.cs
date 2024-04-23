@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -56,4 +57,6 @@ public class GameManager : MonoBehaviour
 
         onGoldChanged?.Invoke(m_gold, m_gold);
     }
+
+    public void LoadScene(string _sceneName) => SceneManager.LoadScene(_sceneName);
 }
