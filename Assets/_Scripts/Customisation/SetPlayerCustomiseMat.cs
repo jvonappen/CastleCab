@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class SetPlayerCustomiseMat : MonoBehaviour
@@ -11,7 +12,7 @@ public class SetPlayerCustomiseMat : MonoBehaviour
     private void Start()
     {
         int index = 0;
-        if (GameManager.Instance.players.Count != 0) index = (GameManager.Instance.players.Count - 1) % m_playerCustomisationBGMats.Count;
+        if (GameManager.Instance.players.Count != 0) index = GetComponent<PlayerInput>().user.index % m_playerCustomisationBGMats.Count;
 
         Material mat = m_playerCustomisationBGMats[index];
 

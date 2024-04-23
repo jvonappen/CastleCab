@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -53,10 +54,15 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         CreateSingleton();
-        //DontDestroyOnLoad(transform);
 
         onGoldChanged?.Invoke(m_gold, m_gold);
     }
 
     public void LoadScene(string _sceneName) => SceneManager.LoadScene(_sceneName);
+
+    public void OpenCustomization()
+    {
+        foreach (GameObject player in players) player.GetComponent<CustomizationSpawner>().StartCustomization();
+        InputManager.EnableSplitscreen();
+    }
 }
