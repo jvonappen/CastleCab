@@ -44,11 +44,6 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    //private void OnEnable()
-    //{
-    //    InputUser.onUnpairedDeviceUsed += UnpairedDeviceUsed;
-    //}
-
     private void Awake()
     {
         InputUser.onUnpairedDeviceUsed += UnpairedDeviceUsed;
@@ -60,6 +55,7 @@ public class InputManager : MonoBehaviour
         if (m_randomiseSpawnpoint) index = UnityEngine.Random.Range(0, m_remainingSpawnPoints.Count - 1);
 
         Vector3 spawnPos = m_remainingSpawnPoints[index].position;
+        m_remainingSpawnPoints[index].gameObject.SetActive(false);
         m_remainingSpawnPoints.RemoveAt(index);
 
         return spawnPos;
