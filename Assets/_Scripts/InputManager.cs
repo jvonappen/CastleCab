@@ -9,7 +9,6 @@ using URNTS;
 public class InputManager : MonoBehaviour
 {
     [SerializeField] GameObject m_playerPrefab;
-    bool m_firstPlayerSpawned;
 
     public static Action<PlayerInput, List<PlayerInput>> onPlayerJoined;
     public static Action<PlayerInput, List<PlayerInput>> onPlayerLeft;
@@ -54,9 +53,14 @@ public class InputManager : MonoBehaviour
         int index = 0;
         if (m_randomiseSpawnpoint) index = UnityEngine.Random.Range(0, m_remainingSpawnPoints.Count - 1);
 
-        Vector3 spawnPos = m_remainingSpawnPoints[index].position;
-        m_remainingSpawnPoints[index].gameObject.SetActive(false);
-        m_remainingSpawnPoints.RemoveAt(index);
+        Vector3 spawnPos;
+        if (m_remainingSpawnPoints[index])
+        {
+            spawnPos = m_remainingSpawnPoints[index].position;
+            m_remainingSpawnPoints[index].gameObject.SetActive(false);
+            m_remainingSpawnPoints.RemoveAt(index);
+        }
+        else spawnPos = transform.position;
 
         return spawnPos;
     }

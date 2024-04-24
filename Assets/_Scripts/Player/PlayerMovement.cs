@@ -240,7 +240,7 @@ public class PlayerMovement : MonoBehaviour
         m_playerInput.m_playerControls.Controls.DirectionInput.performed += DirectionMovePerformed;
         m_playerInput.m_playerControls.Controls.DirectionInput.canceled += DirectionMoveCanceled;
 
-        m_playerInput.m_playerControls.Controls.AirControl.performed += OnAirControl;
+        m_playerInput.m_playerControls.Controls.AirControl.performed += OnAirControlPerformed;
         m_playerInput.m_playerControls.Controls.AirControl.canceled += OnAirControlCanceled;
         #endregion
     }
@@ -496,6 +496,32 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
 
+    #region AirControl
+
+    void OnAirControlPerformed(InputAction.CallbackContext context)
+    {
+        if (!m_isGrounded)
+        {
+            m_isAirControl = true;
+            //m_cam.SetOffsetWorldSpace(); // Locks camera
+            m_cam.SetAirControl();
+        }
+    }
+
+    void OnAirControlCanceled(InputAction.CallbackContext context)
+    {
+        if (m_isAirControl) CancelAirControl();
+    }
+
+    void CancelAirControl()
+    {
+        m_isAirControl = false;
+        //m_cam.m_useOffsetOverride = false; // Unlocks camera if air control is canceled
+        m_cam.StopAirControl();
+    }
+
+    #endregion
+
     #region Hurricane
 
     void OnHurricanePerformed(InputAction.CallbackContext context)
@@ -581,32 +607,6 @@ public class PlayerMovement : MonoBehaviour
     #region DirectionMove
     void DirectionMovePerformed(InputAction.CallbackContext context) => m_directionMoveInput = context.ReadValue<Vector2>();
     void DirectionMoveCanceled(InputAction.CallbackContext context) => m_directionMoveInput = Vector2.zero;
-    #endregion
-
-    #region AirControl
-
-    void OnAirControl(InputAction.CallbackContext context)
-    {
-        if (!m_isGrounded)
-        {
-            m_isAirControl = true;
-            //m_cam.SetOffsetWorldSpace(); // Locks camera
-            m_cam.SetAirControl();
-        }
-    }
-
-    void OnAirControlCanceled(InputAction.CallbackContext context)
-    {
-        if (m_isAirControl) CancelAirControl();
-    }
-
-    void CancelAirControl()
-    {
-        m_isAirControl = false;
-        //m_cam.m_useOffsetOverride = false; // Unlocks camera if air control is canceled
-        m_cam.StopAirControl();
-    }
-
     #endregion
 
     #endregion
