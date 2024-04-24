@@ -18,6 +18,8 @@ public class ModelSelector : MonoBehaviour
     public Material InstanceMat() => new(GetMat());
     public void SetMat(Material _mat) => selectedObject.GetComponent<Renderer>().sharedMaterial = _mat;
 
+    public void SelectObjectByIndex(int _index) => SelectObject(transform.GetChild(_index).gameObject);
+
     public void SelectObject(GameObject _obj)
     {
         DeselectAll();
