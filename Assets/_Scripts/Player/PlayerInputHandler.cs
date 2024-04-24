@@ -12,6 +12,7 @@ public class PlayerInputHandler : MonoBehaviour
     public PlayerInput playerInput { get { return m_playerInput; } }
 
     bool m_paired;
+    public void SetPaired(bool _isPaired) => m_paired = _isPaired;
 
     private void Awake()
     {

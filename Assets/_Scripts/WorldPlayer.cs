@@ -27,6 +27,8 @@ public class WorldPlayer : MonoBehaviour
 
     private void Exit(InputAction.CallbackContext context)
     {
+        GameManager.SetCustomizing(false);
+
         PlayerInputManager.instance.splitScreen = false;
         FindObjectOfType<MenuCanvasManager>()?.EnableMenu();
 

@@ -69,7 +69,8 @@ public class InputManager : MonoBehaviour
     {
         if (_inputControl.device.name == "Mouse") return;
 
-        PlayerInputHandler[] players = FindObjectsOfType<PlayerInputHandler>();
+        PlayerInputHandler[] players = new PlayerInputHandler[m_players.Count];
+        for (int i = 0; i < m_players.Count; i++) players[i] = m_players[i].GetComponent<PlayerInputHandler>();
 
         if (!PairDeviceToAvailablePlayer(players, _inputControl, _inputEventPtr))
         {

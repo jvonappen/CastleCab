@@ -12,11 +12,6 @@ public class CustomizationSpawner : MonoBehaviour
     PlayerInput m_playerInput;
     PlayerInput m_customizationInput;
 
-    //private void Awake()
-    //{
-    //    
-    //}
-
     private void Start()
     {
         m_playerInput = GetComponent<PlayerInput>();
@@ -28,7 +23,14 @@ public class CustomizationSpawner : MonoBehaviour
         m_customizationMenu.GetComponent<WorldPlayer>().SetOtherPlayerInput(m_playerInput);
         m_customizationMenu.SetActive(false);
 
+        m_customizationMenu.GetComponent<PlayerInputHandler>().SetPaired(true);
         m_customizationInput = m_customizationMenu.GetComponent<PlayerInput>();
+
+        if (GameManager.isCustomizing)
+        {
+            StartCustomization();
+            InputManager.EnableSplitscreen();
+        }
     }
 
     public void StartCustomization()

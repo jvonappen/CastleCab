@@ -30,7 +30,8 @@ public class SetPositionOnCamera : MonoBehaviour
 
     void SetPositionAtScreenPoint(PlayerInput _player, List<PlayerInput> _players)
     {
-        TimerManager.RunAfterTime(SetPositionAtScreenPoint, 0.1f);
+        SetPositionAtScreenPoint();
+        //TimerManager.RunAfterTime(SetPositionAtScreenPoint, 0.1f);
     }
     void SetPositionAtScreenPoint()
     {
