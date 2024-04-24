@@ -44,6 +44,11 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    //private void OnEnable()
+    //{
+    //    InputUser.onUnpairedDeviceUsed += UnpairedDeviceUsed;
+    //}
+
     private void Awake()
     {
         InputUser.onUnpairedDeviceUsed += UnpairedDeviceUsed;
@@ -62,11 +67,14 @@ public class InputManager : MonoBehaviour
 
     public void UnpairedDeviceUsed(InputControl _inputControl, InputEventPtr _inputEventPtr)
     {
+        if (_inputControl.device.name == "Mouse") return;
+
         PlayerInputHandler[] players = FindObjectsOfType<PlayerInputHandler>();
 
         if (!PairDeviceToAvailablePlayer(players, _inputControl, _inputEventPtr))
         {
             GameObject player = Instantiate(m_playerPrefab);
+            player.name = "Player " + (players.Length + 1).ToString();
 
             Vector3 spawnPos = transform.position;
             if (m_remainingSpawnPoints.Count > 0) spawnPos = GetSpawnPoint();
@@ -130,7 +138,7 @@ public class InputManager : MonoBehaviour
 
             cam.rect = new(pos.x, pos.y, size.x, size.y);
 
-            customizationMenu.GetComponent<SwitchUI2P>().OnPlayerUpdated();
+            customizationMenu.GetComponent<SwitchUI2P>().UpdateUI();
         }
     }
 }

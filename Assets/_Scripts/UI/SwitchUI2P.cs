@@ -16,7 +16,7 @@ public class SwitchUI2P : PlayerJoinedNotifier
     public override void Start()
     {
         base.Start();
-        UpdateUI(true);
+        UpdateUI();
     }
 
     public override void Awake()
@@ -25,18 +25,24 @@ public class SwitchUI2P : PlayerJoinedNotifier
         m_playerInput = GetComponent<PlayerInput>();
     }
 
+    //public override void OnEnable()
+    //{
+    //    base.OnEnable();
+    //    UpdateUI();
+    //}
+
     public override void OnPlayerUpdated()
     {
         base.OnPlayerUpdated();
-        UpdateUI();
+        UpdateUI(true);
     }
 
-    void UpdateUI(bool _isStart = false)
+    public void UpdateUI(bool _isPlayerBehind = false)
     {
         if (GameManager.Instance)
         {
             int num = 2;
-            if (!_isStart) num -= 1;
+            if (_isPlayerBehind) num -= 1;
 
             if (GameManager.Instance.players.Count == num) Set2Player();
             else SetDefault();

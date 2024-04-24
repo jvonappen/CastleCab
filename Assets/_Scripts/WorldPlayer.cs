@@ -36,7 +36,8 @@ public class WorldPlayer : MonoBehaviour
     public void SwitchInput()
     {
         InputManager.SwitchPlayerInput(m_input.playerInput, m_playerInput);
-        m_playerModelSelector.SelectObjectByIndex(m_customizeModelSelector.selectedObject.transform.GetSiblingIndex());
+        //m_playerModelSelector.SelectObjectByIndex(m_customizeModelSelector.selectedObject.transform.GetSiblingIndex());
+        m_customizeModelSelector.CopySelectionToSelector(m_playerModelSelector);
 
         gameObject.SetActive(false);
     }
