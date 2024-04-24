@@ -7,8 +7,16 @@ public class Knockback : MonoBehaviour
     [SerializeField] float m_force = 15, m_velY = 10;
     [SerializeField] GameObject m_particle;
 
+    Transform m_folder;
+
     private void Awake() => Init();
-    protected virtual void Init() => rb = GetComponent<Rigidbody>();
+    protected virtual void Init()
+    {
+        rb = GetComponent<Rigidbody>();
+
+        GameObject folderObj = GameObject.Find("----Particles");
+        if (folderObj) m_folder = folderObj.transform;
+    }
 
     public virtual void KnockBack(Vector3 _dir, Vector3 _origin)
     {
@@ -23,6 +31,7 @@ public class Knockback : MonoBehaviour
         if (_origin != Vector3.zero)
         {
             ParticleSystem particle = Instantiate(m_particle, _origin, Quaternion.identity).GetComponent<ParticleSystem>();
+            particle.transform.SetParent(m_folder);
             particle.Play();
         }
     }

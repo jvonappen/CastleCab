@@ -43,4 +43,14 @@ public class ModelSelector : MonoBehaviour
         foreach (GameObject obj in m_selectionlist) obj.SetActive(false);
         m_selectedObject = null;
     }
+
+    public void CopySelectionToSelector(ModelSelector _modelSelector)
+    {
+        if (selectedObject)
+        {
+            _modelSelector.SelectObjectByIndex(selectedObject.transform.GetSiblingIndex());
+            _modelSelector.SetMat(GetMat());
+        }
+        else _modelSelector.DeselectAll();
+    }
 }

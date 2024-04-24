@@ -12,11 +12,18 @@ public class CustomizationSpawner : MonoBehaviour
     PlayerInput m_playerInput;
     PlayerInput m_customizationInput;
 
-    private void Awake()
+    //private void Awake()
+    //{
+    //    
+    //}
+
+    private void Start()
     {
         m_playerInput = GetComponent<PlayerInput>();
 
         m_customizationMenu = Instantiate(m_customizePlayerPrefab);
+        m_customizationMenu.name = gameObject.name + " Customizer";
+
         m_customizationMenu.transform.position = transform.position - Vector3.up * 1000;
         m_customizationMenu.GetComponent<WorldPlayer>().SetOtherPlayerInput(m_playerInput);
         m_customizationMenu.SetActive(false);
