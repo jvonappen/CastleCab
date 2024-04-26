@@ -43,10 +43,8 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    private void Awake()
-    {
-        InputUser.onUnpairedDeviceUsed += UnpairedDeviceUsed;
-    }
+    private void OnEnable() => InputUser.onUnpairedDeviceUsed += UnpairedDeviceUsed;
+    private void OnDisable() => InputUser.onUnpairedDeviceUsed -= UnpairedDeviceUsed;
 
     Vector3 GetSpawnPoint()
     {
@@ -65,14 +63,15 @@ public class InputManager : MonoBehaviour
         return spawnPos;
     }
 
-    public void UnpairedDeviceUsed(InputControl _inputControl, InputEventPtr _inputEventPtr)
+    public void UnpairedDeviceUsed(InputControl _inputControl, InputEventPtr _inputEventPtr) => JoinUser(_inputControl.device);
+    public void JoinUser(InputDevice _device)
     {
-        if (_inputControl.device.name == "Mouse") return;
+        if (_device.name == "Mouse") return;
 
         PlayerInputHandler[] players = new PlayerInputHandler[m_players.Count];
         for (int i = 0; i < m_players.Count; i++) players[i] = m_players[i].GetComponent<PlayerInputHandler>();
 
-        if (!PairDeviceToAvailablePlayer(players, _inputControl, _inputEventPtr))
+        if (!PairDeviceToAvailablePlayer(players, _device))
         {
             GameObject player = Instantiate(m_playerPrefab);
             player.name = "Player " + (players.Length + 1).ToString();
@@ -82,15 +81,15 @@ public class InputManager : MonoBehaviour
 
             player.transform.position = spawnPos;
 
-            player.GetComponent<PlayerInputHandler>().PairDevice(_inputControl, _inputEventPtr);
+            player.GetComponent<PlayerInputHandler>().PairDevice(_device);
         }
     }
 
-    bool PairDeviceToAvailablePlayer(PlayerInputHandler[] players, InputControl _inputControl, InputEventPtr _inputEventPtr)
+    bool PairDeviceToAvailablePlayer(PlayerInputHandler[] players, InputDevice _device)
     {
         foreach (PlayerInputHandler playerInput in players)
         {
-            if (playerInput.PairDevice(_inputControl, _inputEventPtr)) return true;
+            if (playerInput.PairDevice(_device)) return true;
         }
 
         return false;

@@ -1,21 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CameraLayerSet : MonoBehaviour
 {
+    [SerializeField] PlayerInput m_input;
+
     private void Start()
     {
-        List<GameObject> players = GameManager.Instance.players;
-        int playerCount = players.Count;
-        if (playerCount == 0) playerCount++;
+        int playerNum = m_input.user.index + 1;
+
+        //List<GameObject> players = GameManager.Instance.players;
+        //int playerNum = players.Count;
+        //if (playerNum == 0) playerNum++;
 
         int layer = 0;
 
-        if (playerCount == 1) layer = LayerMask.NameToLayer("P1");
-        else if (playerCount == 2) layer = LayerMask.NameToLayer("P2");
-        else if (playerCount == 3) layer = LayerMask.NameToLayer("P3");
-        else if (playerCount == 4) layer = LayerMask.NameToLayer("P4");
+        if (playerNum == 1) layer = LayerMask.NameToLayer("P1");
+        else if (playerNum == 2) layer = LayerMask.NameToLayer("P2");
+        else if (playerNum == 3) layer = LayerMask.NameToLayer("P3");
+        else if (playerNum == 4) layer = LayerMask.NameToLayer("P4");
 
         foreach (Transform child in transform) child.gameObject.layer = layer;
 
