@@ -2793,9 +2793,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f9da84f83104ac44911ddd26ba98f15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_targetType: 0
   m_target: {fileID: 1214059436}
   m_useDirection: 1
   m_isInverse: 0
+  m_onUpdate: 0
 --- !u!114 &45033933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26493,9 +26495,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f9da84f83104ac44911ddd26ba98f15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_targetType: 0
   m_target: {fileID: 1214059436}
   m_useDirection: 1
   m_isInverse: 0
+  m_onUpdate: 0
 --- !u!114 &511611822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49595,9 +49599,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f9da84f83104ac44911ddd26ba98f15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_targetType: 0
   m_target: {fileID: 1214059436}
   m_useDirection: 1
   m_isInverse: 0
+  m_onUpdate: 0
 --- !u!114 &951068557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80655,6 +80661,46 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2050704964}
     m_Modifications:
+    - target: {fileID: 3196947711040522689, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3196947711040522689, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3196947711040522689, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5616020564661449485, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5616020564661449485, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6924842047874219622, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6924842047874219622, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7851517817503503065, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7851517817503503065, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7851517817503503065, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8991266044593003406, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
       propertyPath: m_Name
       value: AudioManager
@@ -108004,6 +108050,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6389936521737458124, guid: a7032b4d356586740bf317764df0be46, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7576891616438130179, guid: a7032b4d356586740bf317764df0be46, type: 3}
       propertyPath: m_UIInputModule
       value: 
@@ -108048,13 +108098,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9103968160996863975, guid: a7032b4d356586740bf317764df0be46, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 7904018899534638414, guid: a7032b4d356586740bf317764df0be46, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1968552085}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3035919601875769813, guid: a7032b4d356586740bf317764df0be46, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: a7032b4d356586740bf317764df0be46, type: 3}
 --- !u!1001 &6129345222023840773
 PrefabInstance:
