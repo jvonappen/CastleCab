@@ -5,14 +5,15 @@ using TMPro;
 
 public class ArriveAtTarget : MonoBehaviour
 {
-    [SerializeField] private GameObject cartTargetPoint;
+    
     [SerializeField] private GameObject exitLocation;
     //[SerializeField] public GameObject targetParticles;
 
-    private WagonService wagonContents;
+    private WagonService _wagonContents;
+    private WagonData _wagonData;
+    private GameObject _cartTargetPoint;
 
     //[SerializeField] private Score thisScore;
-    [SerializeField] private WagonData _wagonData;
 
     // [Header("Timer")]
     //[SerializeField] private GameObject timerObject;
@@ -21,29 +22,15 @@ public class ArriveAtTarget : MonoBehaviour
     {
         if (other.tag != "Wagon") return;
 
-        ////if (wagonContents != null) { Debug.Log("Contents check"); }
-        ////if (wagonContents.destination == this.gameObject) { Debug.Log("Destination check"); }
-        ////if (other.tag == "Wagon") { Debug.Log("Tag check"); }
-
         _wagonData = other.GetComponent<WagonData>();
+        _cartTargetPoint = _wagonData.wagonSlot;
+        _wagonContents = _cartTargetPoint.GetComponentInChildren<WagonService>();
 
-        cartTargetPoint = _wagonData.wagonSlot;
-
-        wagonContents = cartTargetPoint.GetComponentInChildren<WagonService>();
-
-        //wagonContents = _wagonData.wagonSlot.GetComponentInChildren<WagonService>();
-   
-      
-        
-   
-
-
-
-        if (wagonContents != null && wagonContents.destination == this.gameObject && other.tag == "Wagon")
+        if (_wagonContents != null && _wagonContents.destination == this.gameObject)
         {
             //AudioManager.Instance.StopSFX();
-            wagonContents.transform.parent = null;
-            wagonContents.transform.position = exitLocation.transform.position;
+            _wagonContents.transform.parent = null;
+            _wagonContents.transform.position = exitLocation.transform.position;
 
             _wagonData.isOccupied= false;
             _wagonData.destinationTarget = null;
@@ -51,7 +38,7 @@ public class ArriveAtTarget : MonoBehaviour
 
             //DollarDisplay.dollarValue = DollarDisplay.dollarValue + wagonContents.dollarsGiven;
 
-            _wagonData.score.scoreValue = _wagonData.score.scoreValue + wagonContents.scoreGiven;
+            _wagonData.score.scoreValue = _wagonData.score.scoreValue + _wagonContents.scoreGiven;
 
             
 
@@ -60,11 +47,11 @@ public class ArriveAtTarget : MonoBehaviour
             //AchievementManager.platniumTracker = AchievementManager.platniumTracker + 1;
             //AchievementManager.Instance.PlatniumDriver();
 
-            wagonContents.destination = null;
+            _wagonContents.destination = null;
 
            // timerObject.SetActive(false);
 
-            wagonContents.isAtTarget = true;
+            _wagonContents.isAtTarget = true;
 
             //wagonContents.SetActive(false);
 

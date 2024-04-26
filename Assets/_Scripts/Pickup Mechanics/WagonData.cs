@@ -10,20 +10,11 @@ public class WagonData : MonoBehaviour
     public  GameObject wagonSlot;
     public  GameObject destinationTarget;
     public Score score;
-    
-
-    [Header("Debug")]
-    public GameObject debugCartDestination;
 
     private void Awake()
     {
         isOccupied = false;
         wagonSlot = wagonSlotPoint;
-    }
-
-    private void Update()
-    {
-        debugCartDestination = destinationTarget;
     }
 
 }

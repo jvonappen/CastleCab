@@ -17,11 +17,12 @@ public class WagonService : MonoBehaviour
     [Space]
 
     private int listLength;
-
-  
     private float X;
     private float Y;
     private float Z;
+
+    private WagonData wagonData;
+    private GameObject _wagonSlot;
 
     //[Header("Timer")]
     //[SerializeField] private GameObject timerObject;
@@ -31,15 +32,12 @@ public class WagonService : MonoBehaviour
     ////private Transform _ogTrans;
     //[SerializeField] private float resetDelay = 5;
 
-    
+
 
 
     [Header("Debug")]
     [SerializeField] public GameObject destination;
 
-    [SerializeField] private WagonData wagonData;
-    [SerializeField] private GameObject _wagonSlot;
-    [SerializeField] private GameObject debugDestination;
 
    //[Header("Fare")]
    //[SerializeField] private TextMeshProUGUI fareText;
