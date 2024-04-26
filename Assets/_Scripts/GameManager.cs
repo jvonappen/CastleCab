@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -23,8 +24,15 @@ public class GameManager : MonoBehaviour
     #endregion
 
     [SerializeField] List<GameObject> m_players;
+    List<InputDevice> m_devices = new();
     public List<GameObject> players { get { return m_players; } }
-    public void AddPlayer(GameObject _player) => m_players.Add(_player);
+    public void AddPlayer(GameObject _player)
+    {
+        m_players.Add(_player);
+
+        InputDevice device = _player.GetComponent<PlayerInput>().devices[0];
+        if (!m_devices.Contains(device)) m_devices.Add(device);
+    }
 
     static bool m_isCustomizing;
     static public bool isCustomizing { get { return m_isCustomizing; } }
@@ -61,6 +69,9 @@ public class GameManager : MonoBehaviour
         onGoldChanged?.Invoke(m_gold, m_gold);
     }
 
+    private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
+    private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
+
     private void Awake()
     {
         CreateSingleton();
@@ -76,5 +87,16 @@ public class GameManager : MonoBehaviour
 
         foreach (GameObject player in players) player.GetComponent<CustomizationSpawner>().StartCustomization();
         InputManager.EnableSplitscreen();
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name != "StartMenu")
+        {
+            InputManager inputManager = FindObjectOfType<InputManager>();
+
+            foreach (InputDevice device in m_devices) inputManager.JoinUser(device);
+        }
+        
     }
 }
