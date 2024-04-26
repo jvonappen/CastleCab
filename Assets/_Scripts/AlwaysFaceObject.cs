@@ -2,12 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum TargetType
+{
+    MainCamera,
+    Other
+}
+
 public class AlwaysFaceObject : MonoBehaviour
 {
-    [SerializeField] Transform m_target;
+    [SerializeField] TargetType m_targetType;
+    [SerializeField] [ConditionalEnumHide("m_targetType", 1)] Transform m_target;
     [SerializeField] bool m_useDirection, m_isInverse, m_onUpdate;
 
-    private void Awake() => UpdateRotation();
+    private void Awake()
+    {
+        m_target = Camera.main.transform;
+
+        UpdateRotation();
+    }
     private void Update() { if (m_onUpdate) UpdateRotation(); }
 
     void UpdateRotation()

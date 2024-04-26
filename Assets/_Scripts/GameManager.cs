@@ -11,7 +11,14 @@ public class GameManager : MonoBehaviour
     void CreateSingleton()
     {
         if (Instance) Destroy(gameObject);
-        else Instance = this;
+        else
+        {
+            Instance = this;
+
+            // Set DontDestroyOnLoad
+            transform.parent = null;
+            DontDestroyOnLoad(gameObject);
+        }
     }
     #endregion
 
