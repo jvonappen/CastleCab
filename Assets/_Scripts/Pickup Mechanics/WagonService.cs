@@ -112,7 +112,7 @@ public class WagonService : MonoBehaviour
             //targetParticles.SetActive(true);
 
             wagonData.destinationTarget = destination;
-            wagonData.destinationTarget = debugDestination;
+         
             wagonData.isOccupied = true;
 
            // CompassBar.objectiveObjectTransform = destination.transform;
