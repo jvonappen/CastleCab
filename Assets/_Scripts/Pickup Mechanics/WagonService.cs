@@ -9,19 +9,20 @@ public class WagonService : MonoBehaviour
 {
     //[SerializeField] private GameObject customerSeat;  
     
-    //[SerializeField] public int dollarsGiven;
+    [SerializeField] public int scoreGiven;
     //[SerializeField] public GameObject targetParticles;
-    public static bool isInCart = false;
+    //public bool isInCart = false;
     [Space]
     [SerializeField] private GameObject[] destinationList;
     [Space]
 
     private int listLength;
-
-    private GameObject _wagonSlot;
     private float X;
     private float Y;
     private float Z;
+
+    private WagonData wagonData;
+    private GameObject _wagonSlot;
 
     //[Header("Timer")]
     //[SerializeField] private GameObject timerObject;
@@ -32,27 +33,30 @@ public class WagonService : MonoBehaviour
     //[SerializeField] private float resetDelay = 5;
 
 
+
+
     [Header("Debug")]
     [SerializeField] public GameObject destination;
 
-    //[Header("Fare")]
-    //[SerializeField] private TextMeshProUGUI fareText;
+
+   //[Header("Fare")]
+   //[SerializeField] private TextMeshProUGUI fareText;
 
 
 
-    ////Animations
-    //private Animator _animator;
-    //private string _currentAnimation;
+   ////Animations
+   //private Animator _animator;
+   //private string _currentAnimation;
 
-    //const string NPC_ATTENTION = "Attention";
-    //const string NPC_DANCE = "Dance";
-    //const string NPC_FLAP = "Flap";
-    //const string NPC_GRANNY = "Granny";
-    //const string NPC_IDLE = "Idle";
-    //const string NPC_SIREN = "Siren";
-    //const string NPC_WALK = "Walk";
+   //const string NPC_ATTENTION = "Attention";
+   //const string NPC_DANCE = "Dance";
+   //const string NPC_FLAP = "Flap";
+   //const string NPC_GRANNY = "Granny";
+   //const string NPC_IDLE = "Idle";
+   //const string NPC_SIREN = "Siren";
+   //const string NPC_WALK = "Walk";
 
-    public bool isAtTarget = false;
+   public bool isAtTarget = false;
 
     private void Awake()
     {
@@ -76,8 +80,8 @@ public class WagonService : MonoBehaviour
 
     void LateUpdate()
     {
-        transform.LookAt(_wagonSlot.transform);
-        transform.Rotate(X, Y, Z);
+        //transform.LookAt(_wagonSlot.transform);
+        //transform.Rotate(X, Y, Z);
        
         //fareText.text = dollarsGiven.ToString();
        // if(isAtTarget == true) { ChangeAnimation(NPC_DANCE); }
@@ -85,9 +89,13 @@ public class WagonService : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        _wagonSlot = WagonData.wagonSlot;
+        if (other.tag != "Wagon") return;
+        wagonData = other.GetComponent<WagonData>();
 
-        if (!WagonData.isOccupied && other.tag == "Wagon" && destination != null)
+        _wagonSlot = wagonData.wagonSlot;
+        Debug.Log(wagonData.wagonSlot);
+
+        if (!wagonData.isOccupied && destination != null)
         {
             Debug.Log(destination);
             //fareText.text = dollarsGiven.ToString();
@@ -98,13 +106,14 @@ public class WagonService : MonoBehaviour
             this.transform.parent = _wagonSlot.transform;
             this.transform.position = this._wagonSlot.transform.position;
 
-            
+
 
             //ChangeAnimation(NPC_FLAP);
             //targetParticles.SetActive(true);
 
-            WagonData.destinationTarget = destination;
-            WagonData.isOccupied = true;
+            wagonData.destinationTarget = destination;
+         
+            wagonData.isOccupied = true;
 
            // CompassBar.objectiveObjectTransform = destination.transform;
             //this.gameObject.GetComponent<CapsuleCollider>().enabled = false; 
@@ -112,7 +121,7 @@ public class WagonService : MonoBehaviour
             //this.gameObject.GetComponentInChildren<ParticleSystem>().Stop();
 
            // this.agent.enabled = false;
-            isInCart = true;
+            //isInCart = true;
 
             //SetTargetParticlesPosition();
             //timeValue.inService = true;

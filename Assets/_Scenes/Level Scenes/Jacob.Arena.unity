@@ -10550,6 +10550,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a4d795f6c17efb42bc3582d92002c8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreGiven: 420
   destinationList:
   - {fileID: 638386905}
   - {fileID: 638386905}
@@ -13219,7 +13220,6 @@ GameObject:
   - component: {fileID: 1090655607}
   - component: {fileID: 1090655606}
   - component: {fileID: 1090655605}
-  - component: {fileID: 1090655603}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -13227,25 +13227,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1090655603
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1090655602}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a4d795f6c17efb42bc3582d92002c8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  destinationList:
-  - {fileID: 2038804502}
-  - {fileID: 1383916879}
-  - {fileID: 486622459}
-  - {fileID: 269018897}
-  destination: {fileID: 0}
-  isAtTarget: 0
 --- !u!23 &1090655605
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -14545,11 +14526,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1963347032067720725, guid: f7ba25f0efbe4a14e9be606e528b3a34, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000016496799
+      value: 0.0000000164968
       objectReference: {fileID: 0}
     - target: {fileID: 1963347032067720725, guid: f7ba25f0efbe4a14e9be606e528b3a34, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000004890313
+      value: -0.0000000048903135
       objectReference: {fileID: 0}
     - target: {fileID: 2025315566033372716, guid: f7ba25f0efbe4a14e9be606e528b3a34, type: 3}
       propertyPath: m_AnchorMax.y
@@ -16746,6 +16727,46 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3196947711040522689, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3196947711040522689, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3196947711040522689, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5616020564661449485, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5616020564661449485, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6924842047874219622, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6924842047874219622, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7851517817503503065, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7851517817503503065, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7851517817503503065, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8991266044593003406, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
       propertyPath: m_Name
       value: AudioManager
@@ -18431,6 +18452,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a4d795f6c17efb42bc3582d92002c8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreGiven: 69
   destinationList:
   - {fileID: 638386905}
   - {fileID: 638386905}
@@ -19759,6 +19781,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a4d795f6c17efb42bc3582d92002c8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreGiven: 0
   destinationList:
   - {fileID: 2038804502}
   - {fileID: 1383916879}

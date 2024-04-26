@@ -6,24 +6,15 @@ public class WagonData : MonoBehaviour
 {
     [SerializeField] private GameObject wagonSlotPoint;
 
-    public static bool isOccupied;
-    public static GameObject wagonSlot;
-    public static GameObject destinationTarget;
-
-    
-
-    [Header("Debug")]
-    public GameObject debugCartDestination;
+    public bool isOccupied;
+    public  GameObject wagonSlot;
+    public  GameObject destinationTarget;
+    public Score score;
 
     private void Awake()
     {
         isOccupied = false;
         wagonSlot = wagonSlotPoint;
-    }
-
-    private void Update()
-    {
-        debugCartDestination = destinationTarget;
     }
 
 }
