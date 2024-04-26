@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
-using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,6 +18,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] List<GameObject> m_players;
     public List<GameObject> players { get { return m_players; } }
     public void AddPlayer(GameObject _player) => m_players.Add(_player);
+
+    static bool m_isCustomizing;
+    static public bool isCustomizing { get { return m_isCustomizing; } }
+    static public void SetCustomizing(bool _isCustomizing) => m_isCustomizing = _isCustomizing;
 
     #region Gold
     [SerializeField] int m_gold;
@@ -62,6 +65,8 @@ public class GameManager : MonoBehaviour
 
     public void OpenCustomization()
     {
+        m_isCustomizing = true;
+
         foreach (GameObject player in players) player.GetComponent<CustomizationSpawner>().StartCustomization();
         InputManager.EnableSplitscreen();
     }

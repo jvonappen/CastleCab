@@ -9,7 +9,6 @@ using URNTS;
 public class InputManager : MonoBehaviour
 {
     [SerializeField] GameObject m_playerPrefab;
-    bool m_firstPlayerSpawned;
 
     public static Action<PlayerInput, List<PlayerInput>> onPlayerJoined;
     public static Action<PlayerInput, List<PlayerInput>> onPlayerLeft;
@@ -54,19 +53,29 @@ public class InputManager : MonoBehaviour
         int index = 0;
         if (m_randomiseSpawnpoint) index = UnityEngine.Random.Range(0, m_remainingSpawnPoints.Count - 1);
 
-        Vector3 spawnPos = m_remainingSpawnPoints[index].position;
-        m_remainingSpawnPoints.RemoveAt(index);
+        Vector3 spawnPos;
+        if (m_remainingSpawnPoints[index])
+        {
+            spawnPos = m_remainingSpawnPoints[index].position;
+            m_remainingSpawnPoints[index].gameObject.SetActive(false);
+            m_remainingSpawnPoints.RemoveAt(index);
+        }
+        else spawnPos = transform.position;
 
         return spawnPos;
     }
 
     public void UnpairedDeviceUsed(InputControl _inputControl, InputEventPtr _inputEventPtr)
     {
-        PlayerInputHandler[] players = FindObjectsOfType<PlayerInputHandler>();
+        if (_inputControl.device.name == "Mouse") return;
+
+        PlayerInputHandler[] players = new PlayerInputHandler[m_players.Count];
+        for (int i = 0; i < m_players.Count; i++) players[i] = m_players[i].GetComponent<PlayerInputHandler>();
 
         if (!PairDeviceToAvailablePlayer(players, _inputControl, _inputEventPtr))
         {
             GameObject player = Instantiate(m_playerPrefab);
+            player.name = "Player " + (players.Length + 1).ToString();
 
             Vector3 spawnPos = transform.position;
             if (m_remainingSpawnPoints.Count > 0) spawnPos = GetSpawnPoint();
@@ -130,7 +139,7 @@ public class InputManager : MonoBehaviour
 
             cam.rect = new(pos.x, pos.y, size.x, size.y);
 
-            customizationMenu.GetComponent<SwitchUI2P>().OnPlayerUpdated();
+            customizationMenu.GetComponent<SwitchUI2P>().UpdateUI();
         }
     }
 }

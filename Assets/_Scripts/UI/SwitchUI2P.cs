@@ -16,7 +16,7 @@ public class SwitchUI2P : PlayerJoinedNotifier
     public override void Start()
     {
         base.Start();
-        UpdateUI(true);
+        UpdateUI();
     }
 
     public override void Awake()
@@ -25,18 +25,24 @@ public class SwitchUI2P : PlayerJoinedNotifier
         m_playerInput = GetComponent<PlayerInput>();
     }
 
+    //public override void OnEnable()
+    //{
+    //    base.OnEnable();
+    //    UpdateUI();
+    //}
+
     public override void OnPlayerUpdated()
     {
         base.OnPlayerUpdated();
-        UpdateUI();
+        UpdateUI(true);
     }
 
-    void UpdateUI(bool _isStart = false)
+    public void UpdateUI(bool _isPlayerBehind = false)
     {
         if (GameManager.Instance)
         {
             int num = 2;
-            if (!_isStart) num -= 1;
+            if (_isPlayerBehind) num -= 1;
 
             if (GameManager.Instance.players.Count == num) Set2Player();
             else SetDefault();
@@ -45,33 +51,39 @@ public class SwitchUI2P : PlayerJoinedNotifier
 
     void Set2Player()
     {
-        if (!m_2pUI.activeSelf)
+        if (m_2pUI)
         {
-            m_2pUI.SetActive(true);
+            if (!m_2pUI.activeSelf)
+            {
+                m_2pUI.SetActive(true);
 
-            // Translate menu state to other canvas
-            m_defaultUI.GetComponent<MaintainOpenMenu>().SwitchMenus();
-            if (!SelectButtonTwin()) m_multiplayerEventSystem.SetSelectedGameObject(m_2pSelectedButton);
+                // Translate menu state to other canvas
+                m_defaultUI.GetComponent<MaintainOpenMenu>().SwitchMenus();
+                if (!SelectButtonTwin()) m_multiplayerEventSystem.SetSelectedGameObject(m_2pSelectedButton);
 
-            m_defaultUI.SetActive(false);
+                m_defaultUI.SetActive(false);
 
-            m_playerInput.camera.orthographicSize = m_2pCamSize;
+                m_playerInput.camera.orthographicSize = m_2pCamSize;
+            }
         }
     }
 
     void SetDefault()
     {
-        if (!m_defaultUI.activeSelf)
+        if (m_defaultUI)
         {
-            m_defaultUI.SetActive(true);
+            if (!m_defaultUI.activeSelf)
+            {
+                m_defaultUI.SetActive(true);
 
-            // Translate menu state to other canvas
-            m_2pUI.GetComponent<MaintainOpenMenu>().SwitchMenus();
-            if (!SelectButtonTwin()) m_multiplayerEventSystem.SetSelectedGameObject(m_defaultSelectedButton);
+                // Translate menu state to other canvas
+                m_2pUI.GetComponent<MaintainOpenMenu>().SwitchMenus();
+                if (!SelectButtonTwin()) m_multiplayerEventSystem.SetSelectedGameObject(m_defaultSelectedButton);
 
-            m_2pUI.SetActive(false);
+                m_2pUI.SetActive(false);
 
-            m_playerInput.camera.orthographicSize = m_defaultCamSize;
+                m_playerInput.camera.orthographicSize = m_defaultCamSize;
+            }
         }
     }
 

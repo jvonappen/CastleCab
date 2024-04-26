@@ -17,14 +17,7 @@ public class ModelSettings : MonoBehaviour
     {
         m_defaultMat = GetComponent<Renderer>().sharedMaterial;
 
-        try
-        {
-            m_baseColour = m_defaultMat.GetTexture("_Base_Colour");
-            m_maskMap = m_defaultMat.GetTexture("_Mask_Map");
-        }
-        catch
-        {
-            Debug.LogWarning("Incorrect shader is being used on object: " + gameObject);
-        }
+        if (m_defaultMat.HasProperty("_Base_Colour")) m_baseColour = m_defaultMat.GetTexture("_Base_Colour");
+        if (m_defaultMat.HasProperty("_Mask_Map")) m_maskMap = m_defaultMat.GetTexture("_Mask_Map");
     }
 }

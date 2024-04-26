@@ -95,6 +95,7 @@ namespace URNTS
             for (int i = 0; i < vehicles.Length; i++)
             {
                 GameObject ob = Instantiate(vehicles[i]);
+                ob.transform.SetParent(TrafficManager.instance.transform);
                 ob.SetActive(false);
                 objectPool.Add(ob);
             }
