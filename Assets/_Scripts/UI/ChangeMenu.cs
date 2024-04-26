@@ -1,9 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
+
+[Serializable]
+public struct MenuEvent
+{
+    public UnityEvent onPreviousMenu;
+    public UnityEvent onNextMenu;
+}
 
 public class ChangeMenu : MonoBehaviour
 {
@@ -17,6 +23,12 @@ public class ChangeMenu : MonoBehaviour
     [Space(10)]
     [SerializeField] GameObject m_previousMenu;
     [SerializeField] GameObject m_buttonToSelectPrevious;
+
+    [Space(10)]
+    [SerializeField] MenuEvent m_events;
+
+    public UnityEvent onPreviousMenu { get { return m_events.onPreviousMenu; } }
+    public UnityEvent onNextMenu { get { return m_events.onNextMenu; } }
 
     private void Start()
     {
@@ -47,6 +59,8 @@ public class ChangeMenu : MonoBehaviour
             m_eventSystem.SetSelectedGameObject(m_buttonToSelectNext);
 
             gameObject.SetActive(false);
+
+            onNextMenu?.Invoke();
         }
     }
 
@@ -59,6 +73,8 @@ public class ChangeMenu : MonoBehaviour
             m_eventSystem.SetSelectedGameObject(m_buttonToSelectPrevious);
 
             gameObject.SetActive(false);
+
+            onPreviousMenu?.Invoke();
         }
     }
 }

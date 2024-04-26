@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
+using DG.Tweening;
 
 public class PointProgress : MonoBehaviour
 {
@@ -14,7 +17,19 @@ public class PointProgress : MonoBehaviour
 
     protected List<Image> m_points = new();
     public int totalPoints { get { return m_points.Count; } }
-    void SetPoints() => m_points = GetComponentsInChildren<Image>().ToList();
+    void SetPoints() //=> m_points = GetComponentsInChildren<Image>().ToList();
+    {
+        m_points.Clear();
+        foreach (Transform child in transform)
+        {
+            if (child.TryGetComponent(out Image image)) m_points.Add(image);
+        }
+    }
+
+    [SerializeField] bool m_expandLastSelected;
+    [SerializeField][ConditionalHide("m_expandLastSelected")] float m_defaultScale = 1, m_expandScaleMulti = 1.5f, m_tweenDuration = 0.2f;
+
+    TweenerCore<Vector3, Vector3, VectorOptions> m_scaleTween;
 
     public virtual void AddProgress()
     {
@@ -52,10 +67,36 @@ public class PointProgress : MonoBehaviour
 
     protected void UpdateProgress()
     {
+        m_scaleTween.Kill();
+
         for (int i = 0; i < m_points.Count; i++)
         {
-            if (i < m_progress) m_points[i].color = m_progressColour;
-            else m_points[i].color = m_defaultColour;
+            if (i < m_progress)
+            {
+                m_points[i].color = m_progressColour;
+
+                // Updates last selected point for custom functionality
+                if (i+1 == m_progress) UpdateLastSelectedPoint(m_points[i]);
+                else ResetScale(m_points[i]);
+            }
+            else
+            {
+                m_points[i].color = m_defaultColour;
+                ResetScale(m_points[i]);
+            }
         }
+    }
+
+    void ResetScale(Image _image)
+    {
+        Transform target = _image.transform;
+        if (target.localScale != Vector3.one * m_defaultScale) target.DOScale(Vector3.one * m_defaultScale, m_tweenDuration);
+        //_image.transform.localScale = Vector3.one * m_defaultScale;
+    }
+
+    protected void UpdateLastSelectedPoint(Image _image)
+    {
+        if (m_expandLastSelected) 
+            m_scaleTween = _image.transform.DOScale(Vector3.one * m_defaultScale * m_expandScaleMulti, m_tweenDuration);
     }
 }

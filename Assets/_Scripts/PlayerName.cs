@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(TextMeshPro))]
 public class PlayerName : MonoBehaviour
 {
-    PlayerInputHandler m_input;
+    PlayerInput m_input;
     TextMeshPro m_display;
 
     [SerializeField] List<Color> m_playerColours;
@@ -14,12 +15,12 @@ public class PlayerName : MonoBehaviour
     int m_playerNumber;
     string m_playerName;
 
-    private void Start()
+    private void Awake()
     {
-        m_input = GetComponentInParent<PlayerInputHandler>();
+        m_input = GetComponentInParent<PlayerInput>();
         m_display = GetComponent<TextMeshPro>();
 
-        m_playerNumber = m_input.playerInput.user.index + 1;
+        m_playerNumber = m_input.user.index + 1;
         m_playerName = "P" + m_playerNumber;
 
         m_display.color = m_playerColours[m_playerNumber - 1];
