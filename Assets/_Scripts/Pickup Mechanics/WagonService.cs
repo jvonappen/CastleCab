@@ -91,12 +91,13 @@ public class WagonService : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.tag != "Wagon") return;
         wagonData = other.GetComponent<WagonData>();
 
         _wagonSlot = wagonData.wagonSlot;
         Debug.Log(wagonData.wagonSlot);
 
-        if (!wagonData.isOccupied && other.tag == "Wagon" && destination != null)
+        if (!wagonData.isOccupied && destination != null)
         {
             Debug.Log(destination);
             //fareText.text = dollarsGiven.ToString();

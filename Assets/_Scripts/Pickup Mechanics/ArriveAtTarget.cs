@@ -19,7 +19,7 @@ public class ArriveAtTarget : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.tag != "Wagon") return;
 
         ////if (wagonContents != null) { Debug.Log("Contents check"); }
         ////if (wagonContents.destination == this.gameObject) { Debug.Log("Destination check"); }
