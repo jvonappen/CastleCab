@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class WorldPlayer : MonoBehaviour
+public class PlayerCustomization : MonoBehaviour
 {
     PlayerInput m_playerInput;
     public PlayerInput playerInput { get { return m_playerInput; } }
@@ -34,7 +33,7 @@ public class WorldPlayer : MonoBehaviour
         PlayerInputManager.instance.splitScreen = false;
         FindObjectOfType<MenuCanvasManager>()?.EnableMenu();
 
-        foreach (WorldPlayer player in FindObjectsOfType<WorldPlayer>()) player.SwitchInput();
+        foreach (PlayerCustomization player in FindObjectsOfType<PlayerCustomization>()) player.SwitchInput();
     }
 
     public void SwitchInput()
@@ -55,8 +54,7 @@ public class WorldPlayer : MonoBehaviour
         // Temp
         List<ModelCustomization> modelCustomizations = new() { new(m_customizeModelSelector) };
 
-        //int playerIndex = m_playerInput.user.index;
-        PlayerData data = GameManager.Instance.GetPlayerData(m_playerInput.devices[0]/*playerIndex*/);
-        GameManager.Instance.SetPlayerData(m_playerInput.devices[0]/*playerIndex*/, new(data.playerIndex, data.player, data.device, modelCustomizations));
+        PlayerData data = GameManager.Instance.GetPlayerData(m_playerInput.devices[0]);
+        GameManager.Instance.SetPlayerData(m_playerInput.devices[0], new(data.playerIndex, data.player, data.device, modelCustomizations));
     }
 }
