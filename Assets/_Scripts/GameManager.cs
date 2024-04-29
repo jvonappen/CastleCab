@@ -4,6 +4,47 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 
+public struct CustomizeModelData
+{
+    #region Constructor
+    public CustomizeModelData(int _typeIndex, int _index, Material _mat)
+    {
+        m_typeIndex = _typeIndex;
+        m_index = _index;
+        m_mat = _mat;
+    }
+    #endregion
+
+    #region Variables
+    int m_typeIndex;
+
+    int m_index;
+    Material m_mat;
+
+    public int typeIndex { get { return m_typeIndex; } }
+    public int index { get { return m_index; } }
+    public Material mat { get { return m_mat; } }
+    #endregion
+}
+
+public struct PlayerData
+{
+    #region Constructor
+    public PlayerData(GameObject _obj, InputDevice _device, CustomizeModelData _customizationData)
+    {
+        m_player = _obj;
+        m_device = _device;
+        m_customizationData = _customizationData;
+    }
+    #endregion
+
+    #region Variables
+    GameObject m_player;
+    InputDevice m_device;
+    CustomizeModelData m_customizationData;
+    #endregion
+}
+
 public class GameManager : MonoBehaviour
 {
     #region Singleton
@@ -23,6 +64,8 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    List<PlayerData> m_playerData = new();
+
     [SerializeField] List<GameObject> m_players;
     List<InputDevice> m_devices = new();
     public List<GameObject> players { get { return m_players; } }
@@ -32,11 +75,14 @@ public class GameManager : MonoBehaviour
 
         InputDevice device = _player.GetComponent<PlayerInput>().devices[0];
         if (!m_devices.Contains(device)) m_devices.Add(device);
+
+        m_playerData.Add(new(_player, device, new()) );
     }
 
     static bool m_isCustomizing;
     static public bool isCustomizing { get { return m_isCustomizing; } }
     static public void SetCustomizing(bool _isCustomizing) => m_isCustomizing = _isCustomizing;
+
 
     #region Gold
     [SerializeField] int m_gold;
