@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ModelSelector : MonoBehaviour
 {
+    [Tooltip("Index to differentiate different types e.g. hats, wheels, wagons")] public int m_typeIndex;
+    //string m_selectorType;
+
     List<GameObject> m_selectionlist = new();
 
     GameObject m_selectedObject;
