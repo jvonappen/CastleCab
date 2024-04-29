@@ -41,9 +41,10 @@ public class PoliceAI : MonoBehaviour
     {
         Transform closestPlayer = null;
         float closestDist = float.MaxValue;
-        foreach (GameObject player in m_manager.players)
+        //foreach (GameObject player in m_manager.players)
+        foreach (PlayerData data in m_manager.players)
         {
-            Transform horseTransform = player.transform.GetChild(1);
+            Transform horseTransform = data.player.transform.GetChild(1);
             float playerDist = Vector3.Distance(thisTransform.position, horseTransform.position);
             if (playerDist < closestDist)
             {
