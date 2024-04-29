@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class WorldPlayer : MonoBehaviour
+public class PlayerCustomization : MonoBehaviour
 {
     PlayerInput m_playerInput;
     public PlayerInput playerInput { get { return m_playerInput; } }
@@ -20,10 +20,11 @@ public class WorldPlayer : MonoBehaviour
     private void Awake()
     {
         m_customizeModelSelector = transform.GetComponentInChildren<ModelSelector>();
-
         m_input = GetComponent<PlayerInputHandler>();
-        m_input.m_playerControls.UI.Exit.performed += Exit;
     }
+
+    private void OnEnable() => m_input.m_playerControls.UI.Exit.performed += Exit;
+    private void OnDisable() => m_input.m_playerControls.UI.Exit.performed -= Exit;
 
     private void Exit(InputAction.CallbackContext context)
     {
@@ -32,15 +33,28 @@ public class WorldPlayer : MonoBehaviour
         PlayerInputManager.instance.splitScreen = false;
         FindObjectOfType<MenuCanvasManager>()?.EnableMenu();
 
-        foreach (WorldPlayer player in FindObjectsOfType<WorldPlayer>()) player.SwitchInput();
+        foreach (PlayerCustomization player in FindObjectsOfType<PlayerCustomization>()) player.SwitchInput();
     }
 
     public void SwitchInput()
     {
         InputManager.SwitchPlayerInput(m_input.playerInput, m_playerInput);
-        //m_playerModelSelector.SelectObjectByIndex(m_customizeModelSelector.selectedObject.transform.GetSiblingIndex());
         m_customizeModelSelector.CopySelectionToSelector(m_playerModelSelector);
 
+        StoreCustomizationsToPlayer();
+
         gameObject.SetActive(false);
+    }
+
+    void StoreCustomizationsToPlayer()
+    {
+        //List<ModelCustomization> modelCustomizations = new();
+        //foreach (ModelSelector in obj) // etc etc
+
+        // Temp
+        List<ModelCustomization> modelCustomizations = new() { new(m_customizeModelSelector) };
+
+        PlayerData data = GameManager.Instance.GetPlayerData(m_playerInput.devices[0]);
+        GameManager.Instance.SetPlayerData(m_playerInput.devices[0], new(data.player, data.device, modelCustomizations));
     }
 }

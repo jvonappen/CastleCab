@@ -20,7 +20,7 @@ public class CustomizationSpawner : MonoBehaviour
         m_customizationMenu.name = gameObject.name + " Customizer";
 
         m_customizationMenu.transform.position = transform.position - Vector3.up * 1000;
-        m_customizationMenu.GetComponent<WorldPlayer>().SetOtherPlayerInput(m_playerInput);
+        m_customizationMenu.GetComponent<PlayerCustomization>().SetOtherPlayerInput(m_playerInput);
         m_customizationMenu.SetActive(false);
 
         m_customizationMenu.GetComponent<PlayerInputHandler>().SetPaired(true);
