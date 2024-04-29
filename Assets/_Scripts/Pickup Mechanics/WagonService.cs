@@ -32,6 +32,8 @@ public class WagonService : MonoBehaviour
     ////private Transform _ogTrans;
     //[SerializeField] private float resetDelay = 5;
 
+    [Header("Capture Flag Toggle")]
+    [SerializeField] public bool captureFlagToggle;
 
 
 
@@ -69,9 +71,12 @@ public class WagonService : MonoBehaviour
         
         //_animator = this.gameObject.GetComponent<Animator>();
         //ChangeAnimation(NPC_ATTENTION);
+        if(!captureFlagToggle)
+        {
+            int randomDestination = UnityEngine.Random.Range(0, listLength);
+            destination = destinationList[randomDestination];
+        }
 
-        int randomDestination = UnityEngine.Random.Range(0, listLength);
-        destination = destinationList[randomDestination];
 
         //customerSeat = WagonData.wagonSlot;
 
