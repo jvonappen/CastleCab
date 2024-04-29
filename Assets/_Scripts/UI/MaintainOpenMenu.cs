@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class MaintainOpenMenu : MonoBehaviour
 {
+    [SerializeField] GameObject m_activeOnAwake;
     [SerializeField] List<ObjectTwin> m_menus;
 
     private void Awake()
     {
         foreach (Transform child in transform) child.gameObject.SetActive(false);
+        if (m_activeOnAwake) m_activeOnAwake.SetActive(true);
     }
 
     public void SwitchMenus()
