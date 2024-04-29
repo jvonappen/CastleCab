@@ -4,14 +4,31 @@ using UnityEngine;
 
 public class ColourSelector : MonoBehaviour
 {
+    SO_Dye m_mainDye, m_secondaryDye, m_tertiaryDye;
+    public SO_Dye mainDye { get { return m_mainDye; } }
+    public SO_Dye secondaryDye { get { return m_secondaryDye; } }
+    public SO_Dye tertiaryDye { get { return m_tertiaryDye; } }
+
     ModelSelector m_modelSelector;
     private void Awake() => m_modelSelector = GetComponent<ModelSelector>();
 
-    public void SetMainDye(SO_Dye _dye) => SetDye("Main", _dye);
+    public void SetMainDye(SO_Dye _dye)
+    {
+        SetDye("Main", _dye);
+        m_mainDye = _dye;
+    }
 
-    public void SetSecondaryDye(SO_Dye _dye) => SetDye("Secondary", _dye);
+    public void SetSecondaryDye(SO_Dye _dye)
+    {
+        SetDye("Secondary", _dye);
+        m_secondaryDye = _dye;
+    }
 
-    public void SetTertiaryDye(SO_Dye _dye) => SetDye("Tertiary", _dye);
+    public void SetTertiaryDye(SO_Dye _dye)
+    {
+        SetDye("Tertiary", _dye);
+        m_tertiaryDye = _dye;
+    }
 
     public void ResetMainDye() => ResetDye("Main");
     public void ResetSecondaryDye() => ResetDye("Secondary");

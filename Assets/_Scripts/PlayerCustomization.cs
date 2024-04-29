@@ -55,6 +55,6 @@ public class PlayerCustomization : MonoBehaviour
         List<ModelCustomization> modelCustomizations = new() { new(m_customizeModelSelector) };
 
         PlayerData data = GameManager.Instance.GetPlayerData(m_playerInput.devices[0]);
-        GameManager.Instance.SetPlayerData(m_playerInput.devices[0], new(data.playerIndex, data.player, data.device, modelCustomizations));
+        GameManager.Instance.SetPlayerData(m_playerInput.devices[0], new(data.player, data.device, modelCustomizations));
     }
 }
