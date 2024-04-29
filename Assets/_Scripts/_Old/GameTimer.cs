@@ -11,11 +11,9 @@ public class GameTimer : MonoBehaviour
 
     [Header("Passenger")]
     [SerializeField] private GameObject _seat;
-    //[SerializeField] private GameObject exitLocation;
     [SerializeField] ParticleSystem _explosiveImpact;
     private static Transform _particlePos;
-    private TaxiService _taxi;
-    //private GameObject _passenger;
+    //private TaxiService _taxi;
 
     [Header("Debug")]
     [SerializeField] private bool hasFailed = false;
@@ -35,7 +33,7 @@ public class GameTimer : MonoBehaviour
     {
         if(timerValue > 0 && inService == true)
         {
-            _taxi = _seat.GetComponentInChildren<TaxiService>();
+            //_taxi = _seat.GetComponentInChildren<TaxiService>();
             timerText.enabled = true;
             timerText.color = Color.white;
             timerValue = timerValue - 1 * Time.deltaTime;
@@ -68,19 +66,19 @@ public class GameTimer : MonoBehaviour
     private void FailedDelivery()
     {
         
-        if (_taxi != null)
+        if (/*_taxi != null*/true)
         {
             AudioManager.Instance.PlaySFX("Out");        
 
-            PlayerData.isOccupied = false;
-            PlayerData.cartDestinationTarget = null;
+            //PlayerData.isOccupied = false;
+            //PlayerData.cartDestinationTarget = null;
             CompassBar.objectiveObjectTransform = null;
 
-            _taxi.destination = null;    
+            //_taxi.destination = null;    
             
-            _taxi.targetParticles.SetActive(false);
+            //_taxi.targetParticles.SetActive(false);
             
-            Destroy(_taxi.gameObject);
+            //Destroy(_taxi.gameObject);
         }
     }
     private void PlayParticle(ParticleSystem particle)

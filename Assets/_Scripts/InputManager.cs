@@ -64,34 +64,42 @@ public class InputManager : MonoBehaviour
     }
 
     public void UnpairedDeviceUsed(InputControl _inputControl, InputEventPtr _inputEventPtr) => JoinUser(_inputControl.device);
-    public void JoinUser(InputDevice _device)
+    public GameObject JoinUser(InputDevice _device)
     {
-        if (_device.name == "Mouse") return;
+        if (_device.name == "Mouse") return null;
 
         PlayerInputHandler[] players = new PlayerInputHandler[m_players.Count];
         for (int i = 0; i < m_players.Count; i++) players[i] = m_players[i].GetComponent<PlayerInputHandler>();
 
-        if (!PairDeviceToAvailablePlayer(players, _device))
+        if (PairDeviceToAvailablePlayer(players, _device, out GameObject existingPlayer)) return existingPlayer;
+        else
         {
-            GameObject player = Instantiate(m_playerPrefab);
-            player.name = "Player " + (players.Length + 1).ToString();
+            GameObject newPlayer = Instantiate(m_playerPrefab);
+            newPlayer.name = "Player " + (players.Length + 1).ToString();
 
             Vector3 spawnPos = transform.position;
             if (m_remainingSpawnPoints.Count > 0) spawnPos = GetSpawnPoint();
 
-            player.transform.position = spawnPos;
+            newPlayer.transform.position = spawnPos;
 
-            player.GetComponent<PlayerInputHandler>().PairDevice(_device);
+            newPlayer.GetComponent<PlayerInputHandler>().PairDevice(_device);
+
+            return newPlayer;
         }
     }
 
-    bool PairDeviceToAvailablePlayer(PlayerInputHandler[] players, InputDevice _device)
+    bool PairDeviceToAvailablePlayer(PlayerInputHandler[] players, InputDevice _device, out GameObject _player)
     {
         foreach (PlayerInputHandler playerInput in players)
         {
-            if (playerInput.PairDevice(_device)) return true;
+            if (playerInput.PairDevice(_device))
+            {
+                _player = playerInput.gameObject;
+                return true;
+            }
         }
 
+        _player = null;
         return false;
     }
 
@@ -115,7 +123,7 @@ public class InputManager : MonoBehaviour
 
         for (int i = 0; i < GameManager.Instance.players.Count; i++)
         {
-            GameObject player = GameManager.Instance.players[i];
+            GameObject player = GameManager.Instance.players[i].player;
             GameObject customizationMenu = player.GetComponent<CustomizationSpawner>().customizationMenu;
             Camera cam = customizationMenu.GetComponentInChildren<Camera>();
 

@@ -86,9 +86,10 @@ public class EnemySpawner : MonoBehaviour
         int spawnAmount = 0;
 
         // Calculates spawn amount for enemy based off amount of players over minimum dishonour level
-        foreach (GameObject player in m_manager.players)
+        //foreach (GameObject player in m_manager.players)
+        foreach (PlayerData data in m_manager.players)
         {
-            Dishonour playerDishonour = player.GetComponent<Dishonour>();
+            Dishonour playerDishonour = data.player.GetComponent<Dishonour>();
             if (!playerDishonour) break;
 
             // Only increases spawn amount if player has enough dishonour
