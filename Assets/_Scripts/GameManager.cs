@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using System.Linq;
 
 public struct CustomizeModelData
 {
@@ -42,6 +43,10 @@ public struct PlayerData
     GameObject m_player;
     InputDevice m_device;
     CustomizeModelData m_customizationData;
+
+    public GameObject player { get { return m_player; } set { m_player = value; } }
+    public InputDevice device { get { return m_device; } }
+    public CustomizeModelData customizeModelData { get { return m_customizationData; } }
     #endregion
 }
 
@@ -64,19 +69,16 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    List<PlayerData> m_playerData = new();
+    List<PlayerData> m_players = new();
+    public List<PlayerData> players { get { return m_players; } }
 
-    [SerializeField] List<GameObject> m_players;
-    List<InputDevice> m_devices = new();
-    public List<GameObject> players { get { return m_players; } }
     public void AddPlayer(GameObject _player)
     {
-        m_players.Add(_player);
-
         InputDevice device = _player.GetComponent<PlayerInput>().devices[0];
-        if (!m_devices.Contains(device)) m_devices.Add(device);
+        PlayerData data = new(_player, device, new());
 
-        m_playerData.Add(new(_player, device, new()) );
+        // If no devices in playerData match the new device, it is added as a new player
+        if (!m_players.Any(existingData => existingData.device == device)) m_players.Add(data);
     }
 
     static bool m_isCustomizing;
@@ -131,7 +133,7 @@ public class GameManager : MonoBehaviour
     {
         m_isCustomizing = true;
 
-        foreach (GameObject player in players) player.GetComponent<CustomizationSpawner>().StartCustomization();
+        foreach (PlayerData data in players) data.player.GetComponent<CustomizationSpawner>().StartCustomization();
         InputManager.EnableSplitscreen();
     }
 
@@ -141,7 +143,12 @@ public class GameManager : MonoBehaviour
         {
             InputManager inputManager = FindObjectOfType<InputManager>();
 
-            foreach (InputDevice device in m_devices) inputManager.JoinUser(device);
+            // Pairs users to existing (or new if neccesary) 'PlayerInput's, and replaces player reference
+            for (int i = 0; i < m_players.Count; i++)
+            {
+                GameObject player = inputManager.JoinUser(m_players[i].device);
+                m_players[i] = new(player, m_players[i].device, m_players[i].customizeModelData);
+            }
         }
         
     }
