@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerMovement))]
@@ -17,6 +19,25 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] float m_abilityDamageForce = 9;
 
     [SerializeField] PlayerUpgrades m_playerUpgrades;
+
+    public float GetVelocityAverage() => m_magnitudeOverSeconds.Average();
+
+    List<float> m_magnitudeOverSeconds = new();
+    const int BUFFER_SIZE = 5;
+
+    float m_magnitudeUpdateFrequency = 0.2f, m_counter;
+
+    private void Update()
+    {
+        if (m_counter >= m_magnitudeUpdateFrequency)
+        {
+            m_counter = 0;
+
+            m_magnitudeOverSeconds.Add(m_playerMovement.rb.velocity.magnitude);
+            if (m_magnitudeOverSeconds.Count > BUFFER_SIZE) m_magnitudeOverSeconds.RemoveAt(0);
+        }
+        else m_counter += Time.deltaTime;
+    }
 
     private void Awake() => m_playerMovement = GetComponent<PlayerMovement>();
 
@@ -62,9 +83,12 @@ public class PlayerAttack : MonoBehaviour
             if (health)
             {
                 float playerForce = m_playerMovement.rb.velocity.magnitude;
+                float averagePlayerForce = GetVelocityAverage();
+                if (playerForce < averagePlayerForce) playerForce = averagePlayerForce;
 
                 if (playerForce > GetDamageForce())
                 {
+                    //health.gameObject.SetActive(false);
                     health.DealDamage(GetDamage(), this);
                 }
             }

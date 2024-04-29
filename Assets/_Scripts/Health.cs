@@ -111,7 +111,8 @@ public class Health : MonoBehaviour
         }
         
         onDeath?.Invoke();
-        Destroy();
+        //Destroy();
+        gameObject.SetActive(false);
     }
 
     protected virtual void Destroy() => Destroy(gameObject);
