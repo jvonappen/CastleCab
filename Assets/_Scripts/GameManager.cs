@@ -4,15 +4,23 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using System.Linq;
+using System.Reflection;
 
-public struct CustomizeModelData
+public struct ModelCustomization
 {
     #region Constructor
-    public CustomizeModelData(int _typeIndex, int _index, Material _mat)
+    public ModelCustomization(int _typeIndex, int _index, Material _mat)
     {
         m_typeIndex = _typeIndex;
         m_index = _index;
         m_mat = _mat;
+    }
+
+    public ModelCustomization(ModelSelector _selector)
+    {
+        m_typeIndex = _selector.m_typeIndex;
+        m_index = _selector.GetSelectedIndex();
+        m_mat = _selector.GetMat();
     }
     #endregion
 
@@ -31,22 +39,25 @@ public struct CustomizeModelData
 public struct PlayerData
 {
     #region Constructor
-    public PlayerData(GameObject _obj, InputDevice _device, CustomizeModelData _customizationData)
+    public PlayerData(int _playerIndex, GameObject _obj, InputDevice _device, List<ModelCustomization> _modelCustomizations)
     {
+        m_playerIndex = _playerIndex;
         m_player = _obj;
         m_device = _device;
-        m_customizationData = _customizationData;
+        m_modelCustomizations = _modelCustomizations;
     }
     #endregion
 
     #region Variables
+    int m_playerIndex;
     GameObject m_player;
     InputDevice m_device;
-    CustomizeModelData m_customizationData;
+    List<ModelCustomization> m_modelCustomizations;
 
+    public int playerIndex { get { return m_playerIndex; } }
     public GameObject player { get { return m_player; } set { m_player = value; } }
     public InputDevice device { get { return m_device; } }
-    public CustomizeModelData customizeModelData { get { return m_customizationData; } }
+    public List<ModelCustomization> modelCustomizations { get { return m_modelCustomizations; } }
     #endregion
 }
 
@@ -74,12 +85,18 @@ public class GameManager : MonoBehaviour
 
     public void AddPlayer(GameObject _player)
     {
-        InputDevice device = _player.GetComponent<PlayerInput>().devices[0];
-        PlayerData data = new(_player, device, new());
+        PlayerInput playerInput = _player.GetComponent<PlayerInput>();
+        InputDevice device = playerInput.devices[0];
+
+        PlayerData data = new(playerInput.user.index, _player, device, new());
 
         // If no devices in playerData match the new device, it is added as a new player
         if (!m_players.Any(existingData => existingData.device == device)) m_players.Add(data);
     }
+    public PlayerData GetPlayerData(InputDevice _device) => m_players.FirstOrDefault(item => item.device == _device);
+    //public PlayerData GetPlayerData(int _index) => m_players.FirstOrDefault(item => item.playerIndex == _index);
+    //public void SetPlayerData(int _index, PlayerData _data) => m_players[m_players.FindIndex(item => item.playerIndex == _index)] = _data;
+    public void SetPlayerData(InputDevice _device, PlayerData _data) => m_players[m_players.FindIndex(item => item.device == _device)] = _data;
 
     static bool m_isCustomizing;
     static public bool isCustomizing { get { return m_isCustomizing; } }
@@ -147,7 +164,16 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < m_players.Count; i++)
             {
                 GameObject player = inputManager.JoinUser(m_players[i].device);
-                m_players[i] = new(player, m_players[i].device, m_players[i].customizeModelData);
+                //int userIndex = player.GetComponent<PlayerInput>().user.index;
+
+                m_players[i] = new(m_players[i].playerIndex, player, m_players[i].device, m_players[i].modelCustomizations);
+
+                foreach (ModelSelector modelSelector in player.GetComponentsInChildren<ModelSelector>())
+                {
+                    ModelCustomization foundItem = m_players[i].modelCustomizations.FirstOrDefault(item => item.typeIndex == modelSelector.m_typeIndex);
+                    modelSelector.SelectObjectByIndex(foundItem.index);
+                    //modelSelector.SetMat(foundItem.mat);
+                }
             }
         }
         

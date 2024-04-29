@@ -17,11 +17,19 @@ public class ModelSelector : MonoBehaviour
         foreach (Transform child in transform) m_selectionlist.Add(child.gameObject);
     }
 
-    public Material GetMat() => selectedObject.GetComponent<Renderer>().sharedMaterial;
+    public Material GetMat()
+    {
+        if (selectedObject) return selectedObject.GetComponent<Renderer>().sharedMaterial;
+        else return null;
+    }
     public Material InstanceMat() => new(GetMat());
     public void SetMat(Material _mat) => selectedObject.GetComponent<Renderer>().sharedMaterial = _mat;
 
-    public void SelectObjectByIndex(int _index) => SelectObject(transform.GetChild(_index).gameObject);
+    public void SelectObjectByIndex(int _index)
+    {
+        if (_index == 0) DeselectAll();
+        else SelectObject(transform.GetChild(_index - 1).gameObject);
+    }
 
     public void SelectObject(GameObject _obj)
     {
@@ -51,9 +59,15 @@ public class ModelSelector : MonoBehaviour
     {
         if (selectedObject)
         {
-            _modelSelector.SelectObjectByIndex(selectedObject.transform.GetSiblingIndex());
+            _modelSelector.SelectObjectByIndex(GetSelectedIndex());
             _modelSelector.SetMat(GetMat());
         }
         else _modelSelector.DeselectAll();
+    }
+
+    public int GetSelectedIndex()
+    {
+        if (selectedObject) return selectedObject.transform.GetSiblingIndex() + 1;
+        else return 0;
     }
 }
