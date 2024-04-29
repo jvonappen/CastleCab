@@ -4,12 +4,27 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using System.Linq;
-using System.Reflection;
+
+public struct MaterialInformation
+{
+    public MaterialInformation(SO_Dye _main, SO_Dye _secondary, SO_Dye _tertiary)
+    {
+        m_mainDye = _main;
+        m_secondaryDye = _secondary;
+        m_tertiaryDye = _tertiary;
+    }
+
+    SO_Dye m_mainDye, m_secondaryDye, m_tertiaryDye;
+
+    public SO_Dye mainDye { get { return m_mainDye; } }
+    public SO_Dye secondaryDye { get { return m_secondaryDye; } }
+    public SO_Dye tertiaryDye { get { return m_tertiaryDye; } }
+}
 
 public struct ModelCustomization
 {
     #region Constructor
-    public ModelCustomization(int _typeIndex, int _index, Material _mat)
+    public ModelCustomization(int _typeIndex, int _index, MaterialInformation _mat)
     {
         m_typeIndex = _typeIndex;
         m_index = _index;
@@ -20,7 +35,17 @@ public struct ModelCustomization
     {
         m_typeIndex = _selector.m_typeIndex;
         m_index = _selector.GetSelectedIndex();
-        m_mat = _selector.GetMat();
+
+        Material material = _selector.GetMat();
+        if (material)
+        {
+            SO_Dye mainDye = _selector.colourSelector.mainDye;
+            SO_Dye secondaryDye = _selector.colourSelector.secondaryDye;
+            SO_Dye tertiaryDye = _selector.colourSelector.tertiaryDye;
+
+            m_mat = new(mainDye, secondaryDye, tertiaryDye);
+        }
+        else m_mat = new();
     }
     #endregion
 
@@ -28,20 +53,19 @@ public struct ModelCustomization
     int m_typeIndex;
 
     int m_index;
-    Material m_mat;
+    MaterialInformation m_mat;
 
     public int typeIndex { get { return m_typeIndex; } }
     public int index { get { return m_index; } }
-    public Material mat { get { return m_mat; } }
+    public MaterialInformation mat { get { return m_mat; } }
     #endregion
 }
 
 public struct PlayerData
 {
     #region Constructor
-    public PlayerData(int _playerIndex, GameObject _obj, InputDevice _device, List<ModelCustomization> _modelCustomizations)
+    public PlayerData(GameObject _obj, InputDevice _device, List<ModelCustomization> _modelCustomizations)
     {
-        m_playerIndex = _playerIndex;
         m_player = _obj;
         m_device = _device;
         m_modelCustomizations = _modelCustomizations;
@@ -49,12 +73,10 @@ public struct PlayerData
     #endregion
 
     #region Variables
-    int m_playerIndex;
     GameObject m_player;
     InputDevice m_device;
     List<ModelCustomization> m_modelCustomizations;
 
-    public int playerIndex { get { return m_playerIndex; } }
     public GameObject player { get { return m_player; } set { m_player = value; } }
     public InputDevice device { get { return m_device; } }
     public List<ModelCustomization> modelCustomizations { get { return m_modelCustomizations; } }
@@ -88,14 +110,12 @@ public class GameManager : MonoBehaviour
         PlayerInput playerInput = _player.GetComponent<PlayerInput>();
         InputDevice device = playerInput.devices[0];
 
-        PlayerData data = new(playerInput.user.index, _player, device, new());
+        PlayerData data = new(_player, device, new());
 
         // If no devices in playerData match the new device, it is added as a new player
         if (!m_players.Any(existingData => existingData.device == device)) m_players.Add(data);
     }
     public PlayerData GetPlayerData(InputDevice _device) => m_players.FirstOrDefault(item => item.device == _device);
-    //public PlayerData GetPlayerData(int _index) => m_players.FirstOrDefault(item => item.playerIndex == _index);
-    //public void SetPlayerData(int _index, PlayerData _data) => m_players[m_players.FindIndex(item => item.playerIndex == _index)] = _data;
     public void SetPlayerData(InputDevice _device, PlayerData _data) => m_players[m_players.FindIndex(item => item.device == _device)] = _data;
 
     static bool m_isCustomizing;
@@ -164,15 +184,17 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < m_players.Count; i++)
             {
                 GameObject player = inputManager.JoinUser(m_players[i].device);
-                //int userIndex = player.GetComponent<PlayerInput>().user.index;
 
-                m_players[i] = new(m_players[i].playerIndex, player, m_players[i].device, m_players[i].modelCustomizations);
+                m_players[i] = new(player, m_players[i].device, m_players[i].modelCustomizations);
 
                 foreach (ModelSelector modelSelector in player.GetComponentsInChildren<ModelSelector>())
                 {
                     ModelCustomization foundItem = m_players[i].modelCustomizations.FirstOrDefault(item => item.typeIndex == modelSelector.m_typeIndex);
                     modelSelector.SelectObjectByIndex(foundItem.index);
-                    //modelSelector.SetMat(foundItem.mat);
+
+                    modelSelector.colourSelector.SetMainDye(foundItem.mat.mainDye);
+                    modelSelector.colourSelector.SetSecondaryDye(foundItem.mat.secondaryDye);
+                    modelSelector.colourSelector.SetTertiaryDye(foundItem.mat.tertiaryDye);
                 }
             }
         }
