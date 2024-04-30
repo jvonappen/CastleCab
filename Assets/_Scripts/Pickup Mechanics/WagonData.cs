@@ -13,7 +13,6 @@ public class WagonData : MonoBehaviour
     public Score score;
 
     public int thisPlayerNumber;
-
     public static int playerNumber = 0;
     private void Awake()
     {

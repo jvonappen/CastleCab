@@ -15,11 +15,10 @@ public class WagonService : MonoBehaviour
     [Space]
     [SerializeField] private GameObject[] destinationList;
     [Space]
+    
 
     private int listLength;
-    private float X;
-    private float Y;
-    private float Z;
+ 
 
     private WagonData wagonData;
     private GameObject _wagonSlot;
@@ -34,36 +33,48 @@ public class WagonService : MonoBehaviour
 
     [Header("Capture Flag Toggle")]
     [SerializeField] public bool captureFlagToggle;
+    [SerializeField] private GameObject[] playerBaseList;
+    private int playerListNumberPos;
 
 
 
     [Header("Debug")]
     [SerializeField] public GameObject destination;
+    [SerializeField] private float X = 0;
+    [SerializeField] private float Y = 0;
+    [SerializeField] private float Z = 0;
 
 
-   //[Header("Fare")]
-   //[SerializeField] private TextMeshProUGUI fareText;
+    //[Header("Fare")]
+    //[SerializeField] private TextMeshProUGUI fareText;
 
 
 
-   ////Animations
-   //private Animator _animator;
-   //private string _currentAnimation;
+    ////Animations
+    //private Animator _animator;
+    //private string _currentAnimation;
 
-   //const string NPC_ATTENTION = "Attention";
-   //const string NPC_DANCE = "Dance";
-   //const string NPC_FLAP = "Flap";
-   //const string NPC_GRANNY = "Granny";
-   //const string NPC_IDLE = "Idle";
-   //const string NPC_SIREN = "Siren";
-   //const string NPC_WALK = "Walk";
+    //const string NPC_ATTENTION = "Attention";
+    //const string NPC_DANCE = "Dance";
+    //const string NPC_FLAP = "Flap";
+    //const string NPC_GRANNY = "Granny";
+    //const string NPC_IDLE = "Idle";
+    //const string NPC_SIREN = "Siren";
+    //const string NPC_WALK = "Walk";
 
-   public bool isAtTarget = false;
+    public bool isAtTarget = false;
 
     private void Awake()
     {
        // agent = this.gameObject.GetComponent<NavMeshAgent>();
         listLength = destinationList.Length;
+
+        ////////////////////////////////////////////////////////////////////////////TimerManager.RunAfterTime(() =>
+        ////////////////////////////////////////////////////////////////////////////{
+        ////////////////////////////////////////////////////////////////////////////    // Do stuff
+        ////////////////////////////////////////////////////////////////////////////}, 1);
+
+        ////////////////////////////////////////////////////////////////////////////TimerManager.RunAfterTime(Start, 1);
         
     }
     private void Start()
@@ -76,7 +87,6 @@ public class WagonService : MonoBehaviour
             int randomDestination = UnityEngine.Random.Range(0, listLength);
             destination = destinationList[randomDestination];
         }
-
 
         //customerSeat = WagonData.wagonSlot;
 
@@ -95,12 +105,26 @@ public class WagonService : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag != "Wagon") return;
+        if (isAtTarget) { Debug.Log(isAtTarget); return; }
         wagonData = other.GetComponent<WagonData>();
 
         _wagonSlot = wagonData.wagonSlot;
         Debug.Log(wagonData.wagonSlot);
 
-        if (!wagonData.isOccupied && destination != null)
+        if(captureFlagToggle == true && !wagonData.isOccupied)
+        {
+            destination = playerBaseList[wagonData.thisPlayerNumber - 1];
+            Debug.Log("Flag picked up by player: " + wagonData.thisPlayerNumber);
+            wagonData.destinationTarget = destination;
+            Debug.Log("The destination is: " + destination);
+            wagonData.isOccupied = true;
+            this.transform.parent = _wagonSlot.transform;
+            this.transform.position = this._wagonSlot.transform.position;            
+            transform.rotation = new Quaternion(X, Y, Z, 0);
+
+        }
+
+        if (!wagonData.isOccupied && destination != null && !captureFlagToggle)
         {
             Debug.Log(destination);
             //fareText.text = dollarsGiven.ToString();
@@ -110,7 +134,7 @@ public class WagonService : MonoBehaviour
 
             this.transform.parent = _wagonSlot.transform;
             this.transform.position = this._wagonSlot.transform.position;
-
+            transform.rotation = new Quaternion(X, Y, Z,0);
 
 
             //ChangeAnimation(NPC_FLAP);

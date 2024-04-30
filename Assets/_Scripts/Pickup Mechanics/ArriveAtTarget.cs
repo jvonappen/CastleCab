@@ -18,21 +18,45 @@ public class ArriveAtTarget : MonoBehaviour
     // [Header("Timer")]
     //[SerializeField] private GameObject timerObject;
 
+    private void Awake()
+    {
+        //if(exitLocation = null)
+        //{
+        //    exitLocation = this.gameObject;
+        //    Debug.Log("Auto set exit location");
+        //}
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag != "Wagon") return;
+        
 
         _wagonData = other.GetComponent<WagonData>();
         _cartTargetPoint = _wagonData.wagonSlot;
+        if(!_wagonData.isOccupied) return;
         _wagonContents = _cartTargetPoint.GetComponentInChildren<WagonService>();
+        
 
-        if (_wagonContents != null && _wagonContents.destination == this.gameObject)
+        if(_wagonContents.captureFlagToggle == true && _wagonContents != null && _wagonContents.destination == this.gameObject)
+        {
+            _wagonData.score.scoreValue = _wagonData.score.scoreValue + _wagonContents.scoreGiven;
+            _wagonContents.transform.parent = null;
+            _wagonContents.transform.position = exitLocation.transform.position;                 
+            _wagonData.isOccupied = false;
+            _wagonData.destinationTarget = null;
+            _wagonContents.destination = null;
+            _wagonContents.isAtTarget = true;
+            _wagonContents.gameObject.SetActive(false);
+        }
+
+        if (!_wagonContents.captureFlagToggle && _wagonContents != null && _wagonContents.destination == this.gameObject)
         {
             //AudioManager.Instance.StopSFX();
             _wagonContents.transform.parent = null;
             _wagonContents.transform.position = exitLocation.transform.position;
 
-            _wagonData.isOccupied= false;
+            _wagonData.isOccupied = false;
             _wagonData.destinationTarget = null;
 
 
@@ -40,24 +64,25 @@ public class ArriveAtTarget : MonoBehaviour
 
             _wagonData.score.scoreValue = _wagonData.score.scoreValue + _wagonContents.scoreGiven;
 
-            
 
-           // AudioManager.Instance.PlaySFX("Money");
+
+            // AudioManager.Instance.PlaySFX("Money");
 
             //AchievementManager.platniumTracker = AchievementManager.platniumTracker + 1;
             //AchievementManager.Instance.PlatniumDriver();
 
             _wagonContents.destination = null;
 
-           // timerObject.SetActive(false);
+            // timerObject.SetActive(false);
 
             _wagonContents.isAtTarget = true;
 
             //wagonContents.SetActive(false);
 
-           // wagonContents.ResetTaxiPickUp();
-            
+            // wagonContents.ResetTaxiPickUp();
+
 
         }
+
     }
 }
