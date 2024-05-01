@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2242141524905418070}
   - component: {fileID: 2932534139257934579}
   - component: {fileID: 1105214840831223353}
-  - component: {fileID: 2825394655306495834}
+  - component: {fileID: 2411628764968541415}
   m_Layer: 0
   m_Name: pfb_SM_tree_02
   m_TagString: Untagged
@@ -85,8 +85,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2825394655306495834
-MeshCollider:
+--- !u!136 &2411628764968541415
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -103,7 +103,8 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 3831025770987001591, guid: bd8970e2b52cada4084e8402409921da, type: 3}
+  serializedVersion: 2
+  m_Radius: 0.25184023
+  m_Height: 5.052512
+  m_Direction: 1
+  m_Center: {x: 0.027864814, y: 2.468542, z: -0.22112393}

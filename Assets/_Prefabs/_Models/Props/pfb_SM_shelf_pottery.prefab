@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1612292636357971844}
   - component: {fileID: 2436403456833437729}
   - component: {fileID: 444500943976248555}
-  - component: {fileID: 1291049719642270609}
+  - component: {fileID: 1540224999888634342}
   m_Layer: 0
   m_Name: pfb_SM_shelf_pottery
   m_TagString: Untagged
@@ -26,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2102005857744590142}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 33
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2436403456833437729
 MeshFilter:
@@ -86,17 +86,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1291049719642270609
-MeshCollider:
+--- !u!65 &1540224999888634342
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2102005857744590142}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 8083953538763254999, guid: aff44e3b5bc29614481a8f502d5e69ef, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 2.61789, y: 2.6147606, z: 0.9976412}
+  m_Center: {x: 0.0000005364418, y: 1.2832147, z: 0.11095302}

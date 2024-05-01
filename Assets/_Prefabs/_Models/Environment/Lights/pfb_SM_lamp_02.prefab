@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7530971847543962325}
   - component: {fileID: 6858060205488092528}
   - component: {fileID: 8703292188740338106}
-  - component: {fileID: 8001167572528422200}
+  - component: {fileID: 8451829603859900047}
   m_Layer: 0
   m_Name: pfb_SM_lamp_02
   m_TagString: Untagged
@@ -85,8 +85,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8001167572528422200
-MeshCollider:
+--- !u!136 &8451829603859900047
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -103,7 +103,8 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -7816157650164661064, guid: 974f10703e8b96040a399c91762e846a, type: 3}
+  serializedVersion: 2
+  m_Radius: 0.19778168
+  m_Height: 4.8098097
+  m_Direction: 1
+  m_Center: {x: -0.0008457899, y: 2.4108176, z: 0}

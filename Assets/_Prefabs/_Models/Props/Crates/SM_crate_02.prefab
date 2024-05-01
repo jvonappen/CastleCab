@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 8641906008480952024}
   - component: {fileID: 4630241579055784317}
   - component: {fileID: 7468405686088357303}
-  - component: {fileID: 8098755015930235189}
   - component: {fileID: 2264209899532466634}
+  - component: {fileID: 8406209185729155218}
   m_Layer: 0
   m_Name: SM_crate_02
   m_TagString: Untagged
@@ -86,28 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8098755015930235189
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8981839116813628514}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 5356751378564850226, guid: 5c532a567f4e6f94eb381757676b0a7a, type: 3}
 --- !u!114 &2264209899532466634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,7 +104,29 @@ MonoBehaviour:
   m_damagedParticlePrefabs: []
   m_destroyedParticlePrefabs:
   - {fileID: 7511328176439486736, guid: b2f9691986e2d7048b48dcf702b763f8, type: 3}
+  sfxAudio: {fileID: 0}
   m_showPopup: 1
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2
   m_fontSize: 5
+--- !u!65 &8406209185729155218
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8981839116813628514}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.6101643, y: 0.9263791, z: 0.8798002}
+  m_Center: {x: 0.0000007748604, y: 0.46442455, z: 0.000000029802322}
