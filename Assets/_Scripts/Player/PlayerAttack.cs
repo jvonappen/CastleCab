@@ -20,7 +20,7 @@ public class PlayerAttack : MonoBehaviour
 
     [SerializeField] PlayerUpgrades m_playerUpgrades;
 
-    public float GetVelocityAverage() => m_magnitudeOverSeconds.Average();
+    public float GetVelocityAverage() { return m_magnitudeOverSeconds.Count > 0 ? m_magnitudeOverSeconds.Average() : 0; }
 
     List<float> m_magnitudeOverSeconds = new();
     const int BUFFER_SIZE = 5;
