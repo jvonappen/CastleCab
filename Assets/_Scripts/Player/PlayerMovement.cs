@@ -382,8 +382,6 @@ public class PlayerMovement : MonoBehaviour
 
     void OnBeginGrounded()
     {
-        //SetCurrentSpeed(GetMagnitudeXY() / 2);
-
         onGrounded?.Invoke();
 
         if (m_isSmackStunned)
@@ -654,7 +652,9 @@ public class PlayerMovement : MonoBehaviour
         Vector3 finalDir = new(moveDir.x, dirY, moveDir.z);
         rb.velocity += finalDir * _speedToAdd;
 
-        if (m_isGrounded && !m_isReversing) rb.velocity = new(finalDir.x * rb.velocity.magnitude, rb.velocity.y, finalDir.z * rb.velocity.magnitude);
+        float magnitude = rb.velocity.magnitude;
+        if (!m_isAccelerating) magnitude = GetMagnitudeXY();
+        if (m_isGrounded && !m_isReversing) rb.velocity = new(finalDir.x * magnitude, rb.velocity.y, finalDir.z * magnitude);
         //if (m_isDrifting) rb.velocity = new(finalDir.x * rb.velocity.magnitude, rb.velocity.y, finalDir.z * rb.velocity.magnitude); - Makes movement slidey
     }
     public void SetCurrentSpeed(float _speed)
