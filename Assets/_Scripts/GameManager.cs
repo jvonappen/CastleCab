@@ -192,9 +192,9 @@ public class GameManager : MonoBehaviour
                     ModelCustomization foundItem = m_players[i].modelCustomizations.FirstOrDefault(item => item.typeIndex == modelSelector.m_typeIndex);
                     modelSelector.SelectObjectByIndex(foundItem.index);
 
-                    if (foundItem.mat.mainDye) modelSelector.colourSelector.SetMainDye(foundItem.mat.mainDye);
-                    if (foundItem.mat.secondaryDye) modelSelector.colourSelector.SetSecondaryDye(foundItem.mat.secondaryDye);
-                    if (foundItem.mat.tertiaryDye) modelSelector.colourSelector.SetTertiaryDye(foundItem.mat.tertiaryDye);
+                    if (foundItem.mat.mainDye) modelSelector.colourSelector.SetDye("Main", foundItem.mat.mainDye);
+                    if (foundItem.mat.secondaryDye) modelSelector.colourSelector.SetDye("Secondary", foundItem.mat.secondaryDye);
+                    if (foundItem.mat.tertiaryDye) modelSelector.colourSelector.SetDye("Tertiary", foundItem.mat.tertiaryDye);
                 }
             }
         }
