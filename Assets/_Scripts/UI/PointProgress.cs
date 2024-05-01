@@ -24,6 +24,8 @@ public class PointProgress : MonoBehaviour
         {
             if (child.TryGetComponent(out Image image)) m_points.Add(image);
         }
+
+        UpdateProgress();
     }
 
     [SerializeField] bool m_expandLastSelected;
@@ -55,7 +57,7 @@ public class PointProgress : MonoBehaviour
     public void OnValidate()
     {
         SetPoints();
-        UpdateProgress();
+        //UpdateProgress();
 
         // Clamps progress
         if (m_progress < 0) m_progress = 0;
