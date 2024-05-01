@@ -46,7 +46,7 @@ public class PlayerCustomization : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    void StoreCustomizationsToPlayer()
+    public void StoreCustomizationsToPlayer()
     {
         //List<ModelCustomization> modelCustomizations = new();
         //foreach (ModelSelector in obj) // etc etc
@@ -54,7 +54,11 @@ public class PlayerCustomization : MonoBehaviour
         // Temp
         List<ModelCustomization> modelCustomizations = new() { new(m_customizeModelSelector) };
 
-        PlayerData data = GameManager.Instance.GetPlayerData(m_playerInput.devices[0]);
-        GameManager.Instance.SetPlayerData(m_playerInput.devices[0], new(data.player, data.device, modelCustomizations));
+        InputDevice device;
+        if (m_playerInput.devices.Count > 0) device = m_playerInput.devices[0];
+        else device = GetComponent<PlayerInput>().devices[0];
+
+        PlayerData data = GameManager.Instance.GetPlayerData(device);
+        GameManager.Instance.SetPlayerData(device, new(data.player, data.device, modelCustomizations));
     }
 }
