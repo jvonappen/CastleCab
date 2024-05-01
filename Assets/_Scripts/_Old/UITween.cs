@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class UITween : MonoBehaviour
 {
+#pragma warning disable CS0414
     [SerializeField] private float _fadeTime = 1f;
     [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private RectTransform _rectTransform;

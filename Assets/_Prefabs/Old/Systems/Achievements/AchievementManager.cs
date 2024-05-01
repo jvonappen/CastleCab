@@ -2,15 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using static System.TimeZoneInfo;
-using UnityEngine.Animations.Rigging;
-using System;
-using UnityEngine.InputSystem;
 using DG.Tweening;
 
 
 public class AchievementManager : MonoBehaviour
 {
+#pragma warning disable CS0414
     /* 
 Achievements
      * Spa Day – Find the Pigs in mud baths 

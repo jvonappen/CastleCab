@@ -3,6 +3,7 @@ using UnityEngine.AI;
 
 public class PoliceAI : MonoBehaviour
 {
+#pragma warning disable CS0414
     [SerializeField] private Transform _playerTransform;
 
     [Header("Wander")]
