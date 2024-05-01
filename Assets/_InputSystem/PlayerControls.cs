@@ -100,24 +100,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Backflip"",
-                    ""type"": ""Button"",
-                    ""id"": ""e09e04a9-49ed-421f-a4f3-f0c17da74cd4"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""BarrelRoll"",
-                    ""type"": ""Button"",
-                    ""id"": ""1b0ac286-96d7-42ff-8753-60f84cbfb3fb"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Interact"",
                     ""type"": ""Button"",
                     ""id"": ""4f46e380-72d0-4e93-af5e-dadb7133a742"",
@@ -157,6 +139,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": ""JoinGame"",
                     ""type"": ""Button"",
                     ""id"": ""cf82833c-123e-4edc-b95c-70917892a3c3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ReturnMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""1e55bb8b-12f6-45bf-820e-0d025477dd6a"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -315,50 +306,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Boost"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""9327b074-0e51-4cfa-bac2-d968ce0c2666"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Backflip"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""0130c7a0-5b13-4f58-9641-cb700dd641db"",
-                    ""path"": ""<Keyboard>/c"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Backflip"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""465a9372-acdc-4b4e-a0d3-31aec1eecf71"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""BarrelRoll"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f21136f9-4083-48df-81f1-e1bc72431902"",
-                    ""path"": ""<Keyboard>/v"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""BarrelRoll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -645,6 +592,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""JoinGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6d6b1c59-77d1-4908-a2ab-a238fffde948"",
+                    ""path"": ""<Gamepad>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ReturnMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1372,13 +1330,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Controls_Hurricane = m_Controls.FindAction("Hurricane", throwIfNotFound: true);
         m_Controls_DirectionInput = m_Controls.FindAction("DirectionInput", throwIfNotFound: true);
         m_Controls_AirControl = m_Controls.FindAction("AirControl", throwIfNotFound: true);
-        m_Controls_Backflip = m_Controls.FindAction("Backflip", throwIfNotFound: true);
-        m_Controls_BarrelRoll = m_Controls.FindAction("BarrelRoll", throwIfNotFound: true);
         m_Controls_Interact = m_Controls.FindAction("Interact", throwIfNotFound: true);
         m_Controls_Achievement = m_Controls.FindAction("Achievement", throwIfNotFound: true);
         m_Controls_Look = m_Controls.FindAction("Look", throwIfNotFound: true);
         m_Controls_StatsMenu = m_Controls.FindAction("StatsMenu", throwIfNotFound: true);
         m_Controls_JoinGame = m_Controls.FindAction("JoinGame", throwIfNotFound: true);
+        m_Controls_ReturnMenu = m_Controls.FindAction("ReturnMenu", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1463,13 +1420,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Controls_Hurricane;
     private readonly InputAction m_Controls_DirectionInput;
     private readonly InputAction m_Controls_AirControl;
-    private readonly InputAction m_Controls_Backflip;
-    private readonly InputAction m_Controls_BarrelRoll;
     private readonly InputAction m_Controls_Interact;
     private readonly InputAction m_Controls_Achievement;
     private readonly InputAction m_Controls_Look;
     private readonly InputAction m_Controls_StatsMenu;
     private readonly InputAction m_Controls_JoinGame;
+    private readonly InputAction m_Controls_ReturnMenu;
     public struct ControlsActions
     {
         private @PlayerControls m_Wrapper;
@@ -1482,13 +1438,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Hurricane => m_Wrapper.m_Controls_Hurricane;
         public InputAction @DirectionInput => m_Wrapper.m_Controls_DirectionInput;
         public InputAction @AirControl => m_Wrapper.m_Controls_AirControl;
-        public InputAction @Backflip => m_Wrapper.m_Controls_Backflip;
-        public InputAction @BarrelRoll => m_Wrapper.m_Controls_BarrelRoll;
         public InputAction @Interact => m_Wrapper.m_Controls_Interact;
         public InputAction @Achievement => m_Wrapper.m_Controls_Achievement;
         public InputAction @Look => m_Wrapper.m_Controls_Look;
         public InputAction @StatsMenu => m_Wrapper.m_Controls_StatsMenu;
         public InputAction @JoinGame => m_Wrapper.m_Controls_JoinGame;
+        public InputAction @ReturnMenu => m_Wrapper.m_Controls_ReturnMenu;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1522,12 +1477,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @AirControl.started += instance.OnAirControl;
             @AirControl.performed += instance.OnAirControl;
             @AirControl.canceled += instance.OnAirControl;
-            @Backflip.started += instance.OnBackflip;
-            @Backflip.performed += instance.OnBackflip;
-            @Backflip.canceled += instance.OnBackflip;
-            @BarrelRoll.started += instance.OnBarrelRoll;
-            @BarrelRoll.performed += instance.OnBarrelRoll;
-            @BarrelRoll.canceled += instance.OnBarrelRoll;
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
@@ -1543,6 +1492,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @JoinGame.started += instance.OnJoinGame;
             @JoinGame.performed += instance.OnJoinGame;
             @JoinGame.canceled += instance.OnJoinGame;
+            @ReturnMenu.started += instance.OnReturnMenu;
+            @ReturnMenu.performed += instance.OnReturnMenu;
+            @ReturnMenu.canceled += instance.OnReturnMenu;
         }
 
         private void UnregisterCallbacks(IControlsActions instance)
@@ -1571,12 +1523,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @AirControl.started -= instance.OnAirControl;
             @AirControl.performed -= instance.OnAirControl;
             @AirControl.canceled -= instance.OnAirControl;
-            @Backflip.started -= instance.OnBackflip;
-            @Backflip.performed -= instance.OnBackflip;
-            @Backflip.canceled -= instance.OnBackflip;
-            @BarrelRoll.started -= instance.OnBarrelRoll;
-            @BarrelRoll.performed -= instance.OnBarrelRoll;
-            @BarrelRoll.canceled -= instance.OnBarrelRoll;
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
@@ -1592,6 +1538,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @JoinGame.started -= instance.OnJoinGame;
             @JoinGame.performed -= instance.OnJoinGame;
             @JoinGame.canceled -= instance.OnJoinGame;
+            @ReturnMenu.started -= instance.OnReturnMenu;
+            @ReturnMenu.performed -= instance.OnReturnMenu;
+            @ReturnMenu.canceled -= instance.OnReturnMenu;
         }
 
         public void RemoveCallbacks(IControlsActions instance)
@@ -1779,13 +1728,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnHurricane(InputAction.CallbackContext context);
         void OnDirectionInput(InputAction.CallbackContext context);
         void OnAirControl(InputAction.CallbackContext context);
-        void OnBackflip(InputAction.CallbackContext context);
-        void OnBarrelRoll(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnAchievement(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnStatsMenu(InputAction.CallbackContext context);
         void OnJoinGame(InputAction.CallbackContext context);
+        void OnReturnMenu(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

@@ -104,6 +104,7 @@ public class GameManager : MonoBehaviour
 
     List<PlayerData> m_players = new();
     public List<PlayerData> players { get { return m_players; } }
+    public void ClearPlayers() => m_players.Clear();
 
     public void AddPlayer(GameObject _player)
     {

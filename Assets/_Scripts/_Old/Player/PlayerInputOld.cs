@@ -35,10 +35,10 @@ public class PlayerInputOld : MonoBehaviour
         _playerControls.Controls.Drift.canceled += OnReleaseTailWhip;
         _playerControls.Controls.Boost.performed += OnBoost;
         _playerControls.Controls.Boost.canceled += OnReleaseBoost;
-        _playerControls.Controls.Backflip.performed += OnBackflip;
-        _playerControls.Controls.Backflip.canceled += OnReleaseBackflip;
-        _playerControls.Controls.BarrelRoll.performed += OnBarrelRoll;
-        _playerControls.Controls.BarrelRoll.canceled += OnReleaseBarrelRoll;
+        //_playerControls.Controls.Backflip.performed += OnBackflip;
+        //_playerControls.Controls.Backflip.canceled += OnReleaseBackflip;
+        //_playerControls.Controls.BarrelRoll.performed += OnBarrelRoll;
+        //_playerControls.Controls.BarrelRoll.canceled += OnReleaseBarrelRoll;
         _playerControls.Controls.Interact.started += OnInteract;
         _playerControls.Controls.Interact.canceled += OnReleaseInteract;
     }
