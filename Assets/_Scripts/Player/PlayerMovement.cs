@@ -20,8 +20,6 @@ public class PlayerMovement : MonoBehaviour
 
     Animator m_animator;
 
-    CustomGravity m_customGravity;
-
     [SerializeField] PlayerUpgrades m_playerUpgrades;
 
     public Rigidbody rb;
@@ -210,9 +208,6 @@ public class PlayerMovement : MonoBehaviour
         m_defaultWagonDrag = m_wagonDrag.dragX;
 
         m_animator = GetComponentInChildren<Animator>();
-
-        m_customGravity = GetComponentInChildren<CustomGravity>();
-        m_customGravity.enabled = false;
 
         if (!m_staminaBar) Debug.LogWarning("Boost bar reference not found");
 
@@ -655,7 +650,13 @@ public class PlayerMovement : MonoBehaviour
         float magnitude = rb.velocity.magnitude;
         if (!m_isAccelerating) magnitude = GetMagnitudeXY();
         if (m_isGrounded && !m_isReversing) rb.velocity = new(finalDir.x * magnitude, rb.velocity.y, finalDir.z * magnitude);
-        //if (m_isDrifting) rb.velocity = new(finalDir.x * rb.velocity.magnitude, rb.velocity.y, finalDir.z * rb.velocity.magnitude); - Makes movement slidey
+
+        // Caps local y velocity - May make player float, hence the grounded check
+        if (isGrounded)
+        {
+            Vector3 localVelocity = rb.transform.InverseTransformDirection(rb.velocity);
+            if (localVelocity.y > _Speed.m_maxVelY) rb.velocity = new Vector3(rb.velocity.x, rb.transform.TransformDirection(Vector3.up * _Speed.m_maxVelY).y, rb.velocity.z);
+        }
     }
     public void SetCurrentSpeed(float _speed)
     {

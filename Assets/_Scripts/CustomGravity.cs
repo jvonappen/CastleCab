@@ -4,8 +4,10 @@ public class CustomGravity : MonoBehaviour
 {
     [SerializeField] PlayerMovement m_movement;
 
-    [SerializeField] Rigidbody rb;
+    Rigidbody rb;
     [SerializeField] float m_downForce;
+
+    private void Start() => rb = m_movement.rb;
 
     private void FixedUpdate()
     {
