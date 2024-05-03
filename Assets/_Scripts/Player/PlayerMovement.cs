@@ -12,6 +12,8 @@ public class PlayerMovement : MonoBehaviour
     bool m_isSmackStunned;
     public bool isSmackStunned { get { return m_isSmackStunned; } set { m_isSmackStunned = value; } }
 
+    bool m_canRotateToGround = true;
+    public void SetCanRotateToGround(bool _canRotateToGround) => m_canRotateToGround = _canRotateToGround;
     #endregion
 
     #region References
@@ -399,9 +401,9 @@ public class PlayerMovement : MonoBehaviour
     void OnExitGrounded()
     {
         // Cap y velocity
-        float velY = rb.velocity.y;
-        if (velY > _Speed.m_maxVelY) velY = _Speed.m_maxVelY;
-        rb.velocity = new(rb.velocity.x, velY, rb.velocity.z);
+        //float velY = rb.velocity.y;
+        //if (velY > _Speed.m_maxVelY) velY = _Speed.m_maxVelY;
+        //rb.velocity = new(rb.velocity.x, velY, rb.velocity.z);
 
         onExitGrounded?.Invoke();
 
@@ -628,7 +630,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!m_isGrounded) OnBeginGrounded();
         m_isGrounded = true;
-        rb.transform.rotation = Quaternion.Slerp(rb.transform.rotation, Quaternion.FromToRotation(rb.transform.up, _hit.normal) * rb.transform.rotation, Time.fixedDeltaTime * 10.0f);
+
+        if (m_canRotateToGround)
+            rb.transform.rotation = Quaternion.Slerp(rb.transform.rotation, Quaternion.FromToRotation(rb.transform.up, _hit.normal) * rb.transform.rotation, Time.fixedDeltaTime * 10.0f);
     }
     #endregion
 
@@ -673,6 +677,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!m_canMove) return;
         if (m_isSmackStunned) return;
+
+        if (!m_isGrounded) return;
 
         #region CalculateSpeed
 
@@ -910,6 +916,7 @@ public class PlayerMovement : MonoBehaviour
             m_wagonDrag.dragZ = _CartControl.m_turningDrag;
         }
     }
+
     #endregion
 
     #region Helper
