@@ -59,5 +59,62 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 04f679adac7691f4daff739b513d6c56, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5972736765565863634}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 04f679adac7691f4daff739b513d6c56, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2122364779696670536}
   m_SourcePrefab: {fileID: 100100000, guid: 04f679adac7691f4daff739b513d6c56, type: 3}
+--- !u!1 &8612511357549232312 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 04f679adac7691f4daff739b513d6c56, type: 3}
+  m_PrefabInstance: {fileID: 8882400988073328105}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &5972736765565863634
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8612511357549232312}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 29.816246
+  m_Height: 650.2343
+  m_Direction: 1
+  m_Center: {x: 1.2765884, y: 319.3004, z: -3.1837463}
+--- !u!114 &2122364779696670536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8612511357549232312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b2412d7b607ce54290fe5b66608b7d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_health: 25
+  m_dishonourPunishment: 0
+  m_goldReward: 0
+  m_damagedParticlePrefabs: []
+  m_destroyedParticlePrefabs:
+  - {fileID: 7511328176439486736, guid: b2f9691986e2d7048b48dcf702b763f8, type: 3}
+  sfxAudio: {fileID: 0}
+  m_showPopup: 1
+  m_popupLocation: {fileID: 0}
+  m_popupRandomRange: 2
+  m_fontSize: 5

@@ -7,7 +7,7 @@ public class ButtonSelectColourChange : MonoBehaviour
 {
     TextMeshProUGUI m_display;
 
-    [SerializeField] Color m_selectedColour;
+    [SerializeField] Color m_selectedColour = Color.white;
     Color m_originalColour;
 
     private void Awake()

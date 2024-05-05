@@ -50,10 +50,67 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 7d5e6f0bfcb988947abf07feecf7c1d3, type: 3}
       propertyPath: m_Name
-      value: mesh_PineTree_Alternative
+      value: pfb_Pine_Tree_02
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7d5e6f0bfcb988947abf07feecf7c1d3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4407343372929649291}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7d5e6f0bfcb988947abf07feecf7c1d3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7179948676384325802}
   m_SourcePrefab: {fileID: 100100000, guid: 7d5e6f0bfcb988947abf07feecf7c1d3, type: 3}
+--- !u!1 &2426814778245718747 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7d5e6f0bfcb988947abf07feecf7c1d3, type: 3}
+  m_PrefabInstance: {fileID: 3273183440455606154}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &4407343372929649291
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2426814778245718747}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 27.368164
+  m_Height: 642.14325
+  m_Direction: 1
+  m_Center: {x: 9.689331, y: 322.10568, z: -2.986598}
+--- !u!114 &7179948676384325802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2426814778245718747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b2412d7b607ce54290fe5b66608b7d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_health: 25
+  m_dishonourPunishment: 0
+  m_goldReward: 0
+  m_damagedParticlePrefabs: []
+  m_destroyedParticlePrefabs:
+  - {fileID: 7511328176439486736, guid: b2f9691986e2d7048b48dcf702b763f8, type: 3}
+  sfxAudio: {fileID: 0}
+  m_showPopup: 1
+  m_popupLocation: {fileID: 0}
+  m_popupRandomRange: 2
+  m_fontSize: 5

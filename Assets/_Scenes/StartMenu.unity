@@ -24022,6 +24022,8 @@ GameObject:
   - component: {fileID: 468436043}
   - component: {fileID: 468436042}
   - component: {fileID: 468436041}
+  - component: {fileID: 468436044}
+  - component: {fileID: 468436045}
   m_Layer: 5
   m_Name: PLAY GAME
   m_TagString: Untagged
@@ -24117,6 +24119,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1497461896}
+        m_TargetAssemblyTypeName: SceneToLoad, Assembly-CSharp
+        m_MethodName: SetSceneToLoad
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: MasterScene
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &468436042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24130,15 +24144,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8117647, g: 0.654902, b: 0.43137255, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: fdee333c777590441943b0cbaf8679f1, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -24155,6 +24169,64 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 468436039}
   m_CullTransparentMesh: 1
+--- !u!114 &468436044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 468436039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa1931c35dcce334f93059eeba833fee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_selectedColour: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &468436045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 468436039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 468436044}
+          m_TargetAssemblyTypeName: ButtonSelectColourChange, Assembly-CSharp
+          m_MethodName: ChangeTextColour
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 468436044}
+          m_TargetAssemblyTypeName: ButtonSelectColourChange, Assembly-CSharp
+          m_MethodName: RevertTextColour
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &469540997
 GameObject:
   m_ObjectHideFlags: 0
@@ -28220,6 +28292,8 @@ GameObject:
   - component: {fileID: 542533647}
   - component: {fileID: 542533646}
   - component: {fileID: 542533645}
+  - component: {fileID: 542533648}
+  - component: {fileID: 542533649}
   m_Layer: 5
   m_Name: QUIT
   m_TagString: Untagged
@@ -28304,15 +28378,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8117647, g: 0.654902, b: 0.43137255, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 24565423ddf01454b8a70eaf8e0d2f19, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -28329,6 +28403,64 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 542533643}
   m_CullTransparentMesh: 1
+--- !u!114 &542533648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 542533643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa1931c35dcce334f93059eeba833fee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_selectedColour: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &542533649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 542533643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 542533648}
+          m_TargetAssemblyTypeName: ButtonSelectColourChange, Assembly-CSharp
+          m_MethodName: ChangeTextColour
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 542533648}
+          m_TargetAssemblyTypeName: ButtonSelectColourChange, Assembly-CSharp
+          m_MethodName: RevertTextColour
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &542655192
 GameObject:
   m_ObjectHideFlags: 0
@@ -36042,6 +36174,8 @@ GameObject:
   - component: {fileID: 671652697}
   - component: {fileID: 671652696}
   - component: {fileID: 671652695}
+  - component: {fileID: 671652698}
+  - component: {fileID: 671652699}
   m_Layer: 5
   m_Name: ARENA
   m_TagString: Untagged
@@ -36137,6 +36271,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1497461896}
+        m_TargetAssemblyTypeName: SceneToLoad, Assembly-CSharp
+        m_MethodName: SetSceneToLoad
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Jacob.Arena
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &671652696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36150,15 +36296,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8117647, g: 0.654902, b: 0.43137255, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 24565423ddf01454b8a70eaf8e0d2f19, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -36175,6 +36321,64 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 671652693}
   m_CullTransparentMesh: 1
+--- !u!114 &671652698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671652693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa1931c35dcce334f93059eeba833fee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_selectedColour: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &671652699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671652693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 671652698}
+          m_TargetAssemblyTypeName: ButtonSelectColourChange, Assembly-CSharp
+          m_MethodName: ChangeTextColour
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 671652698}
+          m_TargetAssemblyTypeName: ButtonSelectColourChange, Assembly-CSharp
+          m_MethodName: RevertTextColour
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &673220737
 GameObject:
   m_ObjectHideFlags: 0
@@ -49451,7 +49655,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &950764667
 MonoBehaviour:
@@ -49475,15 +49679,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: settings
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 61fd6cc5b62c60546993172c83f8c340, type: 2}
-  m_sharedMaterial: {fileID: 7883332964661291545, guid: 61fd6cc5b62c60546993172c83f8c340, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3863f18a1aae0d341971ae48d663fd70, type: 2}
+  m_sharedMaterial: {fileID: 4930943714882939677, guid: 3863f18a1aae0d341971ae48d663fd70, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4283064701
+  m_fontColor: {r: 0.49056602, g: 0.37969568, b: 0.28924882, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -49500,14 +49704,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 49.1
+  m_fontSize: 54.45
   m_fontSizeBase: 48
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 225.4
   m_fontStyle: 33
-  m_HorizontalAlignment: 4
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -49536,7 +49740,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 86.354065, w: 0}
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -51619,8 +51823,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 2}
+  m_SizeDelta: {x: 0, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &990755345
 MonoBehaviour:
@@ -51644,15 +51848,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: arena
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 61fd6cc5b62c60546993172c83f8c340, type: 2}
-  m_sharedMaterial: {fileID: 7883332964661291545, guid: 61fd6cc5b62c60546993172c83f8c340, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3863f18a1aae0d341971ae48d663fd70, type: 2}
+  m_sharedMaterial: {fileID: 4930943714882939677, guid: 3863f18a1aae0d341971ae48d663fd70, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4283064701
+  m_fontColor: {r: 0.49056602, g: 0.37969568, b: 0.28924882, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -51669,14 +51873,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 49.1
+  m_fontSize: 54.45
   m_fontSizeBase: 48
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 225.4
   m_fontStyle: 33
-  m_HorizontalAlignment: 4
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -51705,7 +51909,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 114.4113, w: 0}
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -54612,6 +54816,7 @@ GameObject:
   - component: {fileID: 1040039486}
   - component: {fileID: 1040039485}
   - component: {fileID: 1040039484}
+  - component: {fileID: 1040039487}
   m_Layer: 6
   m_Name: Terrain
   m_TagString: Untagged
@@ -54698,6 +54903,18 @@ Transform:
   - {fileID: 138625191}
   m_Father: {fileID: 2117616632}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1040039487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1040039483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f987aae95d1db1847a7ab530a5857926, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1040819287
 GameObject:
   m_ObjectHideFlags: 0
@@ -66366,6 +66583,8 @@ GameObject:
   - component: {fileID: 1281582969}
   - component: {fileID: 1281582968}
   - component: {fileID: 1281582967}
+  - component: {fileID: 1281582970}
+  - component: {fileID: 1281582971}
   m_Layer: 5
   m_Name: SETTINGS
   m_TagString: Untagged
@@ -66450,15 +66669,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8117647, g: 0.654902, b: 0.43137255, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: fdee333c777590441943b0cbaf8679f1, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -66475,6 +66694,64 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1281582965}
   m_CullTransparentMesh: 1
+--- !u!114 &1281582970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1281582965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa1931c35dcce334f93059eeba833fee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_selectedColour: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &1281582971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1281582965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1281582970}
+          m_TargetAssemblyTypeName: ButtonSelectColourChange, Assembly-CSharp
+          m_MethodName: ChangeTextColour
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1281582970}
+          m_TargetAssemblyTypeName: ButtonSelectColourChange, Assembly-CSharp
+          m_MethodName: RevertTextColour
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1282359613
 GameObject:
   m_ObjectHideFlags: 0
@@ -67064,7 +67341,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1290033763
 MonoBehaviour:
@@ -67088,15 +67365,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: play game
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 61fd6cc5b62c60546993172c83f8c340, type: 2}
-  m_sharedMaterial: {fileID: 7883332964661291545, guid: 61fd6cc5b62c60546993172c83f8c340, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3863f18a1aae0d341971ae48d663fd70, type: 2}
+  m_sharedMaterial: {fileID: 4930943714882939677, guid: 3863f18a1aae0d341971ae48d663fd70, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4283064701
+  m_fontColor: {r: 0.49056602, g: 0.37969568, b: 0.28924882, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -67113,14 +67390,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 49.1
+  m_fontSize: 54.45
   m_fontSizeBase: 48
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 225.4
   m_fontStyle: 33
-  m_HorizontalAlignment: 4
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -67149,7 +67426,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 137.06061, w: 0}
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -67382,7 +67659,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 2.706}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -583.16, y: -331}
+  m_AnchoredPosition: {x: -613, y: -251}
   m_SizeDelta: {x: 734.33, y: 451.8029}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1298192633
@@ -67402,10 +67679,10 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 2
+  m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 751, y: 61.08}
+  m_CellSize: {x: 393.13, y: 81}
   m_Spacing: {x: 0, y: 37}
   m_Constraint: 1
   m_ConstraintCount: 1
@@ -76839,6 +77116,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1497461895}
   - component: {fileID: 1497461894}
+  - component: {fileID: 1497461896}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -76876,6 +77154,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2050704964}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1497461896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1497461893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f987aae95d1db1847a7ab530a5857926, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1497578462
 GameObject:
   m_ObjectHideFlags: 0
@@ -100994,7 +101284,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2008028477
 MonoBehaviour:
@@ -101018,15 +101308,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: quit
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 61fd6cc5b62c60546993172c83f8c340, type: 2}
-  m_sharedMaterial: {fileID: 7883332964661291545, guid: 61fd6cc5b62c60546993172c83f8c340, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3863f18a1aae0d341971ae48d663fd70, type: 2}
+  m_sharedMaterial: {fileID: 4930943714882939677, guid: 3863f18a1aae0d341971ae48d663fd70, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4283064701
+  m_fontColor: {r: 0.49056602, g: 0.37969568, b: 0.28924882, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -101043,14 +101333,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 49.1
+  m_fontSize: 54.45
   m_fontSizeBase: 48
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 225.4
   m_fontStyle: 33
-  m_HorizontalAlignment: 4
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -101079,7 +101369,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 67.45441, w: 0}
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 850723728732565594}
   - component: {fileID: 4350964512989822975}
   - component: {fileID: 1983075211779918645}
-  - component: {fileID: 1352229949324792899}
+  - component: {fileID: 3045578345677579885}
+  - component: {fileID: 2483134202342295761}
   m_Layer: 0
   m_Name: pfb_SM_tree_02 (1)
   m_TagString: Untagged
@@ -85,8 +86,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1352229949324792899
-MeshCollider:
+--- !u!136 &3045578345677579885
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -103,7 +104,31 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 3831025770987001591, guid: bd8970e2b52cada4084e8402409921da, type: 3}
+  serializedVersion: 2
+  m_Radius: 0.24340287
+  m_Height: 5.2043867
+  m_Direction: 1
+  m_Center: {x: 0.061614692, y: 2.5444794, z: -0.060812026}
+--- !u!114 &2483134202342295761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 37629779627338464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b2412d7b607ce54290fe5b66608b7d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_health: 25
+  m_dishonourPunishment: 0
+  m_goldReward: 0
+  m_damagedParticlePrefabs: []
+  m_destroyedParticlePrefabs:
+  - {fileID: 7511328176439486736, guid: b2f9691986e2d7048b48dcf702b763f8, type: 3}
+  sfxAudio: {fileID: 0}
+  m_showPopup: 1
+  m_popupLocation: {fileID: 0}
+  m_popupRandomRange: 2
+  m_fontSize: 5

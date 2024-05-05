@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 725632380284733923}
   - component: {fileID: 4449043352606443078}
   - component: {fileID: 1899069965957034636}
-  - component: {fileID: 980464975558077966}
   - component: {fileID: 6053214651400954833}
+  - component: {fileID: 625175893836254186}
   m_Layer: 0
   m_Name: pfb_SM_fence_03
   m_TagString: Untagged
@@ -85,28 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &980464975558077966
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 97432547290829657}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -6506965274741519151, guid: 024485fc03b28a04c8ff1ad7d9808ef8, type: 3}
 --- !u!114 &6053214651400954833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,3 +109,24 @@ MonoBehaviour:
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2
   m_fontSize: 5
+--- !u!65 &625175893836254186
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 97432547290829657}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.2869976, y: 1.2088509, z: 0.20636901}
+  m_Center: {x: 0.0000021457672, y: 0.5624616, z: 0.029935066}

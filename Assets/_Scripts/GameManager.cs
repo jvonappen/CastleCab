@@ -104,6 +104,7 @@ public class GameManager : MonoBehaviour
 
     List<PlayerData> m_players = new();
     public List<PlayerData> players { get { return m_players; } }
+    public void ClearPlayers() => m_players.Clear();
 
     public void AddPlayer(GameObject _player)
     {
@@ -192,9 +193,9 @@ public class GameManager : MonoBehaviour
                     ModelCustomization foundItem = m_players[i].modelCustomizations.FirstOrDefault(item => item.typeIndex == modelSelector.m_typeIndex);
                     modelSelector.SelectObjectByIndex(foundItem.index);
 
-                    if (foundItem.mat.mainDye) modelSelector.colourSelector.SetMainDye(foundItem.mat.mainDye);
-                    if (foundItem.mat.secondaryDye) modelSelector.colourSelector.SetSecondaryDye(foundItem.mat.secondaryDye);
-                    if (foundItem.mat.tertiaryDye) modelSelector.colourSelector.SetTertiaryDye(foundItem.mat.tertiaryDye);
+                    if (foundItem.mat.mainDye) modelSelector.colourSelector.SetDye("Main", foundItem.mat.mainDye);
+                    if (foundItem.mat.secondaryDye) modelSelector.colourSelector.SetDye("Secondary", foundItem.mat.secondaryDye);
+                    if (foundItem.mat.tertiaryDye) modelSelector.colourSelector.SetDye("Tertiary", foundItem.mat.tertiaryDye);
                 }
             }
         }

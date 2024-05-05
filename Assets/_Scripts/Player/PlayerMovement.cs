@@ -12,6 +12,8 @@ public class PlayerMovement : MonoBehaviour
     bool m_isSmackStunned;
     public bool isSmackStunned { get { return m_isSmackStunned; } set { m_isSmackStunned = value; } }
 
+    bool m_canRotateToGround = true;
+    public void SetCanRotateToGround(bool _canRotateToGround) => m_canRotateToGround = _canRotateToGround;
     #endregion
 
     #region References
@@ -19,8 +21,6 @@ public class PlayerMovement : MonoBehaviour
     CameraFollow m_cam;
 
     Animator m_animator;
-
-    CustomGravity m_customGravity;
 
     [SerializeField] PlayerUpgrades m_playerUpgrades;
 
@@ -210,9 +210,6 @@ public class PlayerMovement : MonoBehaviour
         m_defaultWagonDrag = m_wagonDrag.dragX;
 
         m_animator = GetComponentInChildren<Animator>();
-
-        m_customGravity = GetComponentInChildren<CustomGravity>();
-        m_customGravity.enabled = false;
 
         if (!m_staminaBar) Debug.LogWarning("Boost bar reference not found");
 
@@ -404,9 +401,9 @@ public class PlayerMovement : MonoBehaviour
     void OnExitGrounded()
     {
         // Cap y velocity
-        float velY = rb.velocity.y;
-        if (velY > _Speed.m_maxVelY) velY = _Speed.m_maxVelY;
-        rb.velocity = new(rb.velocity.x, velY, rb.velocity.z);
+        //float velY = rb.velocity.y;
+        //if (velY > _Speed.m_maxVelY) velY = _Speed.m_maxVelY;
+        //rb.velocity = new(rb.velocity.x, velY, rb.velocity.z);
 
         onExitGrounded?.Invoke();
 
@@ -633,7 +630,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!m_isGrounded) OnBeginGrounded();
         m_isGrounded = true;
-        rb.transform.rotation = Quaternion.Slerp(rb.transform.rotation, Quaternion.FromToRotation(rb.transform.up, _hit.normal) * rb.transform.rotation, Time.fixedDeltaTime * 10.0f);
+
+        if (m_canRotateToGround)
+            rb.transform.rotation = Quaternion.Slerp(rb.transform.rotation, Quaternion.FromToRotation(rb.transform.up, _hit.normal) * rb.transform.rotation, Time.fixedDeltaTime * 10.0f);
     }
     #endregion
 
@@ -655,7 +654,13 @@ public class PlayerMovement : MonoBehaviour
         float magnitude = rb.velocity.magnitude;
         if (!m_isAccelerating) magnitude = GetMagnitudeXY();
         if (m_isGrounded && !m_isReversing) rb.velocity = new(finalDir.x * magnitude, rb.velocity.y, finalDir.z * magnitude);
-        //if (m_isDrifting) rb.velocity = new(finalDir.x * rb.velocity.magnitude, rb.velocity.y, finalDir.z * rb.velocity.magnitude); - Makes movement slidey
+
+        // Caps local y velocity - May make player float, hence the grounded check
+        if (isGrounded)
+        {
+            Vector3 localVelocity = rb.transform.InverseTransformDirection(rb.velocity);
+            if (localVelocity.y > _Speed.m_maxVelY) rb.velocity = new Vector3(rb.velocity.x, rb.transform.TransformDirection(Vector3.up * _Speed.m_maxVelY).y, rb.velocity.z);
+        }
     }
     public void SetCurrentSpeed(float _speed)
     {
@@ -672,6 +677,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!m_canMove) return;
         if (m_isSmackStunned) return;
+
+        if (!m_isGrounded) return;
 
         #region CalculateSpeed
 
@@ -909,6 +916,7 @@ public class PlayerMovement : MonoBehaviour
             m_wagonDrag.dragZ = _CartControl.m_turningDrag;
         }
     }
+
     #endregion
 
     #region Helper
