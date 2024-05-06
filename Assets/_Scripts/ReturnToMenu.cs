@@ -5,10 +5,18 @@ using UnityEngine.InputSystem;
 
 public class ReturnToMenu : MonoBehaviour
 {
-    PlayerControls m_playerControls;
-    private void Awake() => m_playerControls = GetComponent<PlayerInputHandler>().m_playerControls;
+    bool m_hasInitialized;
 
-    private void OnEnable() => m_playerControls.Controls.ReturnMenu.performed += OpenMenu;
+    PlayerControls m_playerControls;
+    private void Start()
+    {
+        m_playerControls = GetComponent<PlayerInputHandler>().m_playerControls;
+        m_hasInitialized = true;
+
+        m_playerControls.Controls.ReturnMenu.performed += OpenMenu;
+    }
+
+    private void OnEnable() { if (m_hasInitialized) m_playerControls.Controls.ReturnMenu.performed += OpenMenu; }
     private void OnDisable() => m_playerControls.Controls.ReturnMenu.performed -= OpenMenu;
 
     void OpenMenu(InputAction.CallbackContext context)

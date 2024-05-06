@@ -71,6 +71,8 @@ public class PlayerMovement : MonoBehaviour
 
     float prevRotY;
 
+    float m_defaultDrag;
+
     [SerializeField] Speed _Speed;
     #endregion
 
@@ -154,6 +156,8 @@ public class PlayerMovement : MonoBehaviour
     [System.Serializable]
     public struct Hurricane
     {
+        [SerializeField] internal Collider m_collider;
+        [SerializeField] internal List<Collider> m_collidersToDisable;
         [SerializeField] internal float m_spinSpeed, m_moveSpeed, m_staminaCostPerSec;
         [SerializeField] internal float m_newHurricaneCooldown;
     }
@@ -198,6 +202,8 @@ public class PlayerMovement : MonoBehaviour
         if (!m_staminaBar) Debug.LogWarning("Boost bar reference not found");
 
         m_cam = GetComponentInChildren<CameraFollow>();
+
+        m_defaultDrag = wagon.drag;
 
         #region Delegates
         m_playerInput.m_playerControls.Controls.Acceleration.performed += OnAccelerate;
@@ -350,6 +356,8 @@ public class PlayerMovement : MonoBehaviour
     {
         onGrounded?.Invoke();
 
+        wagon.drag = m_defaultDrag;
+
         if (m_isSmackStunned) m_isSmackStunned = false;
 
         if (m_isAirControl) CancelAirControl();
@@ -364,6 +372,8 @@ public class PlayerMovement : MonoBehaviour
     void OnExitGrounded()
     {
         onExitGrounded?.Invoke();
+
+        wagon.drag = 0;
         m_isDrifting = false;
     }
 
@@ -483,6 +493,9 @@ public class PlayerMovement : MonoBehaviour
         {
             onHurricane?.Invoke();
 
+            if (_Hurricane.m_collider) _Hurricane.m_collider.gameObject.SetActive(true);
+            foreach (Collider collider in _Hurricane.m_collidersToDisable) collider.gameObject.layer = LayerMask.NameToLayer("DontCollideStructure");
+
             m_lastPosHurricane = rb.transform.position;
             m_isHurricane = true;
 
@@ -491,10 +504,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void OnHurricaneCanceled(InputAction.CallbackContext context) => CancelHurricane();
-    public void CancelHurricane()
-    {
-        if (m_isHurricane) m_endingHurricane = true;
-    }
+    public void CancelHurricane() { if (m_isHurricane) m_endingHurricane = true; }
 
     public void EndHurricane()
     {
@@ -502,6 +512,9 @@ public class PlayerMovement : MonoBehaviour
         if (rb.transform.eulerAngles.y > prevRotY - leeway && rb.transform.eulerAngles.y < prevRotY + leeway)
         {
             onHurricaneCanceled?.Invoke();
+
+            if (_Hurricane.m_collider) _Hurricane.m_collider.gameObject.SetActive(false);
+            foreach (Collider collider in _Hurricane.m_collidersToDisable) collider.gameObject.layer = LayerMask.NameToLayer("Player");
 
             m_isHurricane = false;
             m_endingHurricane = false;
@@ -612,8 +625,6 @@ public class PlayerMovement : MonoBehaviour
 
         // Add desired speed
         rb.velocity += moveDir * _speedToAdd;
-
-        Debug.Log((int)rb.velocity.magnitude);
     }
     public void SetCurrentSpeed(float _speed)
     {
