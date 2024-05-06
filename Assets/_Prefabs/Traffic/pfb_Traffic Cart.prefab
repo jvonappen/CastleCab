@@ -707,8 +707,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1543951453321797045}
-  - component: {fileID: 4300520934968646897}
-  - component: {fileID: 7489976867042052114}
   - component: {fileID: 2741009637470762745}
   m_Layer: 3
   m_Name: Chasis
@@ -733,56 +731,6 @@ Transform:
   - {fileID: 5524065997785107815}
   m_Father: {fileID: 8138011188468573900}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &4300520934968646897
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 488627270285314465}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &7489976867042052114
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 488627270285314465}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &2741009637470762745
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -802,8 +750,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.9999998, y: 1, z: 2.0859666}
-  m_Center: {x: 0, y: 0, z: -0.36331117}
+  m_Size: {x: 0.9999998, y: 1, z: 2.4754272}
+  m_Center: {x: 0, y: 0, z: -0.4246361}
 --- !u!1 &496310801485449267
 GameObject:
   m_ObjectHideFlags: 0
@@ -19684,61 +19632,6 @@ Transform:
   - {fileID: 8925942693343161175}
   m_Father: {fileID: 3037785252724042696}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &7942184781293974651
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5423399243500939698}
-  - component: {fileID: 303994640754799871}
-  m_Layer: 3
-  m_Name: Collider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &5423399243500939698
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7942184781293974651}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.99, z: 0.15500057}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1811241512008427424}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!136 &303994640754799871
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7942184781293974651}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 0.47
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.21429774, z: 0.00000016488272}
 --- !u!1 &8022060994198076656
 GameObject:
   m_ObjectHideFlags: 0
@@ -19800,7 +19693,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 177436242348851127}
-  - {fileID: 5423399243500939698}
   m_Father: {fileID: 4951288435032841832}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8126299320861839902
@@ -20518,7 +20410,7 @@ GameObject:
   - component: {fileID: 113981649332477286}
   - component: {fileID: 7086727642347792691}
   m_Layer: 3
-  m_Name: KnockbackCollider
+  m_Name: KnockbackCollider(NPC hit NPC)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21078,6 +20970,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411eabd5774f55043a113216c8540269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_force: 10
+  m_force: 13
   m_velY: 5
   m_particle: {fileID: 5880797563127281583, guid: 7bb345d0881810c4ba63d550819f8ba6, type: 3}

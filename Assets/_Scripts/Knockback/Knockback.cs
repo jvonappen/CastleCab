@@ -20,10 +20,7 @@ public class Knockback : MonoBehaviour
 
     public virtual void KnockBack(Vector3 _dir, Vector3 _origin)
     {
-        if (rb.isKinematic)
-        {
-            rb.isKinematic = false;
-        }
+        if (rb.isKinematic) Debug.LogWarning("Cannot knock back kinematic object");
 
         rb.velocity = _dir * m_force;
         rb.velocity = new Vector3(rb.velocity.x, m_velY, rb.velocity.z);
