@@ -106,19 +106,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Drifting _Drifting;
     #endregion
 
-    #region CartControl
-    [System.Serializable]
-    public struct CartControl
-    {
-        [SerializeField] internal float m_turningDrag, m_boostTurnDrag;
-    }
-    float m_defaultWagonDrag;
-    CustomDrag m_wagonDrag;
-
-    [Header("Misc")]
-    [SerializeField] CartControl _CartControl;
-    #endregion
-
     #region AirControl
     [System.Serializable]
     public struct AirControl
@@ -205,9 +192,6 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         m_playerInput = GetComponent<PlayerInputHandler>();
-
-        m_wagonDrag = wagon.GetComponent<CustomDrag>();
-        m_defaultWagonDrag = m_wagonDrag.dragX;
 
         m_animator = GetComponentInChildren<Animator>();
 
@@ -323,16 +307,8 @@ public class PlayerMovement : MonoBehaviour
         {
             if (m_attemptingDrift && !m_isDrifting && isGrounded) OnTurnDrift();
         }
-        if (m_isGrounded) SetTurnDrag();
     }
-    void OnSteeringCanceled(InputAction.CallbackContext context)
-    {
-        m_turnInput = 0;
-
-        m_wagonDrag.dragX = m_defaultWagonDrag;
-        m_wagonDrag.dragY = m_defaultWagonDrag;
-        m_wagonDrag.dragZ = m_defaultWagonDrag;
-    }
+    void OnSteeringCanceled(InputAction.CallbackContext context) => m_turnInput = 0;
 
     #endregion
 
@@ -354,23 +330,16 @@ public class PlayerMovement : MonoBehaviour
     {
         onBoost?.Invoke();
 
-        //if (m_cam) m_cam.TweenFOV(_Boost.m_camFOV, _Boost.m_tweenSpeedFOV);
         m_cam.TweenFOV(_Boost.m_camFOV, _Boost.m_tweenSpeedFOV);
-
         m_isBoosting = true;
-
-        if (m_turnInput != 0) SetTurnDrag();
     }
 
     void EndBoost()
     {
         onBoostCanceled?.Invoke();
 
-        //if (m_cam) m_cam.TweenFOV(m_cam.originalFOV, _Boost.m_tweenSpeedFOV);
         m_cam.TweenFOV(m_cam.originalFOV, _Boost.m_tweenSpeedFOV);
-
         m_isBoosting = false;
-        if (m_turnInput != 0) SetTurnDrag();
     }
 
     #endregion
@@ -381,15 +350,9 @@ public class PlayerMovement : MonoBehaviour
     {
         onGrounded?.Invoke();
 
-        if (m_isSmackStunned)
-        {
-            m_isSmackStunned = false;
-            //SetCurrentSpeed(currentSpeed / 2);
-        }
+        if (m_isSmackStunned) m_isSmackStunned = false;
 
         if (m_isAirControl) CancelAirControl();
-
-        if (m_turnInput != 0) SetTurnDrag();
 
         if (m_attemptingDrift)
         {
@@ -400,20 +363,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnExitGrounded()
     {
-        // Cap y velocity
-        //float velY = rb.velocity.y;
-        //if (velY > _Speed.m_maxVelY) velY = _Speed.m_maxVelY;
-        //rb.velocity = new(rb.velocity.x, velY, rb.velocity.z);
-
         onExitGrounded?.Invoke();
-
-        if (m_turnInput != 0)
-        {
-            m_wagonDrag.dragX = m_defaultWagonDrag;
-            m_wagonDrag.dragY = m_defaultWagonDrag;
-            m_wagonDrag.dragZ = m_defaultWagonDrag;
-        }
-
         m_isDrifting = false;
     }
 
@@ -474,9 +424,6 @@ public class PlayerMovement : MonoBehaviour
 
             Vector3 playerRot = rb.transform.eulerAngles;
             Vector3 rotateAmount = new(0, 45, 0);
-            // - Used for old camera with interpolated player/cart
-            //if (m_turnInput > 0) rb.rotation = Quaternion.Euler(playerRot.x + rotateAmount.x, playerRot.y + rotateAmount.y, playerRot.z + rotateAmount.z);
-            //else if (m_turnInput < 0) rb.rotation = Quaternion.Euler(playerRot.x - rotateAmount.x, playerRot.y - rotateAmount.y, playerRot.z - rotateAmount.z);
 
             if (m_turnInput > 0) rb.transform.rotation = Quaternion.Euler(playerRot.x + rotateAmount.x, playerRot.y + rotateAmount.y, playerRot.z + rotateAmount.z);
             else if (m_turnInput < 0) rb.transform.rotation = Quaternion.Euler(playerRot.x - rotateAmount.x, playerRot.y - rotateAmount.y, playerRot.z - rotateAmount.z);
@@ -643,17 +590,16 @@ public class PlayerMovement : MonoBehaviour
 
     public void AddSpeed(float _speedToAdd)
     {
+        // Calculates new move direction (usually transform.forward)
         Vector3 moveDir = GetMoveDirection();
+        if (!m_isGrounded) moveDir.y = 0;
+        
+        // Sets previous speed to either the full magnitude, or the XY magnitude if the player isn't accelerating (to prevent falling moving the player on grounded)
+        float previousSpeed = rb.velocity.magnitude;
+        if (!m_isAccelerating) previousSpeed = GetMagnitudeXY();
 
-        float dirY = moveDir.y;
-        if (!m_isGrounded) dirY = 0;
-
-        Vector3 finalDir = new(moveDir.x, dirY, moveDir.z);
-        rb.velocity += finalDir * _speedToAdd;
-
-        float magnitude = rb.velocity.magnitude;
-        if (!m_isAccelerating) magnitude = GetMagnitudeXY();
-        if (m_isGrounded && !m_isReversing) rb.velocity = new(finalDir.x * magnitude, rb.velocity.y, finalDir.z * magnitude);
+        // Redirect velocity to new moveDir
+        if (m_isGrounded && !m_isReversing) rb.velocity = new(moveDir.x * previousSpeed, rb.velocity.y, moveDir.z * previousSpeed);
 
         // Caps local y velocity - May make player float, hence the grounded check
         if (isGrounded)
@@ -661,6 +607,9 @@ public class PlayerMovement : MonoBehaviour
             Vector3 localVelocity = rb.transform.InverseTransformDirection(rb.velocity);
             if (localVelocity.y > _Speed.m_maxVelY) rb.velocity = new Vector3(rb.velocity.x, rb.transform.TransformDirection(Vector3.up * _Speed.m_maxVelY).y, rb.velocity.z);
         }
+
+        // Add desired speed
+        rb.velocity += moveDir * _speedToAdd;
 
         Debug.Log((int)rb.velocity.magnitude);
     }
@@ -713,6 +662,7 @@ public class PlayerMovement : MonoBehaviour
                     if (currentSpeed < _Speed.m_maxSpeed)
                     {
                         float accelInput = m_isDrifting ? 1 : m_accelerationInput;
+                        if (accelInput > 0.7f) accelInput = 1;
                         AddSpeed(Time.fixedDeltaTime * _Speed.m_accelerationRate * accelInput);
                         if (currentSpeed > _Speed.m_maxSpeed) SetCurrentSpeed(_Speed.m_maxSpeed); // Caps speed at max
                     }
@@ -838,9 +788,6 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        // Cap y velocity - re-enable if functional - no longer neccessary (I think)
-        //if (!m_isGrounded && dir.y > _Speed.m_maxVelY) dir.y = _Speed.m_maxVelY;
-
         return dir;
     }
 
@@ -901,22 +848,6 @@ public class PlayerMovement : MonoBehaviour
         else if (!m_isAccelerating && !m_isReversing) turnSpeed = _Turning.m_onSpotSpeed;
 
         if (turnInput != 0) rb.transform.rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + new Vector3(0f, turnInput * turnSpeed * Time.deltaTime, 0f));
-    }
-
-    void SetTurnDrag()
-    {
-        if (m_isBoosting)
-        {
-            m_wagonDrag.dragX = _CartControl.m_boostTurnDrag;
-            m_wagonDrag.dragY = _CartControl.m_boostTurnDrag;
-            m_wagonDrag.dragZ = _CartControl.m_boostTurnDrag;
-        }
-        else
-        {
-            m_wagonDrag.dragX = _CartControl.m_turningDrag;
-            m_wagonDrag.dragY = _CartControl.m_turningDrag;
-            m_wagonDrag.dragZ = _CartControl.m_turningDrag;
-        }
     }
 
     #endregion
