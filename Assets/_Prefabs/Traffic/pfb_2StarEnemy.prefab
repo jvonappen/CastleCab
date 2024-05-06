@@ -829,7 +829,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a91a9b6fc1fbf4c4989135c34a1ef7cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_playerMovement: {fileID: 0}
+  m_rb: {fileID: 0}
   m_speedMultiplier: 0.5
 --- !u!1 &269177735388991307
 GameObject:
@@ -2479,7 +2479,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8219445953587592503}
   - component: {fileID: 3745429746530149987}
-  - component: {fileID: 6389460176873799983}
   - component: {fileID: 5662365564095581695}
   m_Layer: 3
   m_Name: Horse
@@ -2533,20 +2532,6 @@ MonoBehaviour:
     colliders: []
   wind: {x: 0, y: 0, z: 0}
   debugDraw: 0
---- !u!114 &6389460176873799983
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 879753436935802827}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0e7727b95e90674096cf0472658ab00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  m_downForce: 30
 --- !u!54 &5662365564095581695
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -17774,7 +17759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a91a9b6fc1fbf4c4989135c34a1ef7cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_playerMovement: {fileID: 0}
+  m_rb: {fileID: 0}
   m_speedMultiplier: 0.5
 --- !u!1 &5873030771019624341
 GameObject:
@@ -34534,6 +34519,7 @@ MonoBehaviour:
   m_damagedParticlePrefabs: []
   m_destroyedParticlePrefabs:
   - {fileID: 2040044314665895850, guid: b7c721497d8739843a7ca2240e1453d4, type: 3}
+  sfxAudio: {fileID: 0}
   m_showPopup: 1
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2
