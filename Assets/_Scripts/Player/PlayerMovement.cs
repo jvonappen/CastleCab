@@ -468,12 +468,14 @@ public class PlayerMovement : MonoBehaviour
 
     void OnHurricanePerformed(InputAction.CallbackContext context)
     {
-        if (m_staminaBar)
+        if (m_isGrounded)
         {
-            if (m_staminaBar.progress > 0) OnHurricanePerformed();
+            if (m_staminaBar)
+            {
+                if (m_staminaBar.progress > 0) OnHurricanePerformed();
+            }
+            else OnHurricanePerformed();
         }
-        else OnHurricanePerformed();
-        
     }
     void OnHurricanePerformed()
     {
