@@ -625,8 +625,6 @@ public class PlayerMovement : MonoBehaviour
 
         // Add desired speed
         rb.velocity += moveDir * _speedToAdd;
-
-        Debug.Log((int)rb.velocity.magnitude);
     }
     public void SetCurrentSpeed(float _speed)
     {
