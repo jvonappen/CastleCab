@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class WheelRotate : MonoBehaviour
 {
-    [SerializeField] PlayerMovement m_playerMovement;
+    [SerializeField] Rigidbody m_rb;
     [SerializeField] float m_speedMultiplier;
-    private void Update() => transform.Rotate(m_playerMovement.currentSpeed * m_speedMultiplier * 360 * Time.deltaTime, 0, 0);
+
+    private void Update() => transform.Rotate(m_rb.velocity.magnitude * m_speedMultiplier * 360 * Time.deltaTime, 0, 0);
 }
