@@ -25,12 +25,6 @@ public class SwitchUI2P : PlayerJoinedNotifier
         m_playerInput = GetComponent<PlayerInput>();
     }
 
-    //public override void OnEnable()
-    //{
-    //    base.OnEnable();
-    //    UpdateUI();
-    //}
-
     public override void OnPlayerUpdated()
     {
         base.OnPlayerUpdated();

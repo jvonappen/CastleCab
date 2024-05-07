@@ -726,6 +726,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""id"": ""441f78cd-9b49-48b8-922e-813fc47b152a"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
+                    ""interactions"": ""Hold"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleCustomiseMode"",
+                    ""type"": ""Button"",
+                    ""id"": ""50d6f2ff-969c-4c57-abca-54d0cf97397c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 }
@@ -1273,7 +1282,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""cba0bb3d-ac91-409a-81e7-7f6de3b7bd65"",
-                    ""path"": ""<Keyboard>/tab"",
+                    ""path"": ""<Keyboard>/backspace"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -1284,11 +1293,33 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""faebf919-cbaf-4988-aa76-8e8b77faee13"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ab64a642-2782-4a3c-9a29-6b885e8b282f"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleCustomiseMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4d75dc4b-7635-4f84-86dc-1616094f0bc8"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleCustomiseMode"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1351,6 +1382,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_UI_Next = m_UI.FindAction("Next", throwIfNotFound: true);
         m_UI_Previous = m_UI.FindAction("Previous", throwIfNotFound: true);
         m_UI_Exit = m_UI.FindAction("Exit", throwIfNotFound: true);
+        m_UI_ToggleCustomiseMode = m_UI.FindAction("ToggleCustomiseMode", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1575,6 +1607,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Next;
     private readonly InputAction m_UI_Previous;
     private readonly InputAction m_UI_Exit;
+    private readonly InputAction m_UI_ToggleCustomiseMode;
     public struct UIActions
     {
         private @PlayerControls m_Wrapper;
@@ -1592,6 +1625,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Next => m_Wrapper.m_UI_Next;
         public InputAction @Previous => m_Wrapper.m_UI_Previous;
         public InputAction @Exit => m_Wrapper.m_UI_Exit;
+        public InputAction @ToggleCustomiseMode => m_Wrapper.m_UI_ToggleCustomiseMode;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1640,6 +1674,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Exit.started += instance.OnExit;
             @Exit.performed += instance.OnExit;
             @Exit.canceled += instance.OnExit;
+            @ToggleCustomiseMode.started += instance.OnToggleCustomiseMode;
+            @ToggleCustomiseMode.performed += instance.OnToggleCustomiseMode;
+            @ToggleCustomiseMode.canceled += instance.OnToggleCustomiseMode;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -1683,6 +1720,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Exit.started -= instance.OnExit;
             @Exit.performed -= instance.OnExit;
             @Exit.canceled -= instance.OnExit;
+            @ToggleCustomiseMode.started -= instance.OnToggleCustomiseMode;
+            @ToggleCustomiseMode.performed -= instance.OnToggleCustomiseMode;
+            @ToggleCustomiseMode.canceled -= instance.OnToggleCustomiseMode;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -1750,5 +1790,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnNext(InputAction.CallbackContext context);
         void OnPrevious(InputAction.CallbackContext context);
         void OnExit(InputAction.CallbackContext context);
+        void OnToggleCustomiseMode(InputAction.CallbackContext context);
     }
 }
