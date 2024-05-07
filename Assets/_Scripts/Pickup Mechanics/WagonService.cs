@@ -15,7 +15,9 @@ public class WagonService : MonoBehaviour
     [Space]
     [SerializeField] private GameObject[] destinationList;
     [Space]
-    
+
+    [Header("Capture Flag Toggle")]
+    [SerializeField] public GameObject destinationMapIcon;
 
     private int listLength;
  
@@ -36,9 +38,19 @@ public class WagonService : MonoBehaviour
     [SerializeField] private GameObject[] playerBaseList;
     private int playerListNumberPos;
 
+    [Header("Zoned Deliveries Toggle")]
+    [SerializeField] public bool zonedDeliveriesToggle;
+    [SerializeField] private int thisZoneNumber;
+    [SerializeField] private GameObject[] zone1Destinations;
+    [SerializeField] private GameObject[] zone2Destinations;
+    [SerializeField] private GameObject[] zone3Destinations;
+    [SerializeField] private GameObject[] zone4Destinations;
+    [SerializeField] private GameObject[] zone5Destinations;
+    private int zoneSelect;
 
 
     [Header("Debug")]
+    [SerializeField] private float mapY = 300;
     [SerializeField] public GameObject destination;
     [SerializeField] private float X = 0;
     [SerializeField] private float Y = 0;
@@ -66,8 +78,11 @@ public class WagonService : MonoBehaviour
 
     private void Awake()
     {
+        destinationMapIcon.SetActive(false);
        // agent = this.gameObject.GetComponent<NavMeshAgent>();
         listLength = destinationList.Length;
+
+        zoneSelect = RandomIntExcept(1, 5, thisZoneNumber);
 
         ////////////////////////////////////////////////////////////////////////////TimerManager.RunAfterTime(() =>
         ////////////////////////////////////////////////////////////////////////////{
@@ -82,7 +97,7 @@ public class WagonService : MonoBehaviour
         
         //_animator = this.gameObject.GetComponent<Animator>();
         //ChangeAnimation(NPC_ATTENTION);
-        if(!captureFlagToggle)
+        if(!captureFlagToggle && !zonedDeliveriesToggle)
         {
             int randomDestination = UnityEngine.Random.Range(0, listLength);
             destination = destinationList[randomDestination];
@@ -111,7 +126,19 @@ public class WagonService : MonoBehaviour
         _wagonSlot = wagonData.wagonSlot;
         Debug.Log(wagonData.wagonSlot);
 
-        if(captureFlagToggle == true && !wagonData.isOccupied)
+        if (zonedDeliveriesToggle == true && !wagonData.isOccupied)
+        {
+            ZoneSelector(zoneSelect);
+            wagonData.destinationTarget = destination;
+            Debug.Log("The destination is: " + destination);
+            wagonData.isOccupied = true;
+            this.transform.parent = _wagonSlot.transform;
+            this.transform.position = this._wagonSlot.transform.position;
+            transform.rotation = new Quaternion(X, Y, Z, 0);
+        }
+
+
+            if (captureFlagToggle == true && !wagonData.isOccupied)
         {
             destination = playerBaseList[wagonData.thisPlayerNumber - 1];
             Debug.Log("Flag picked up by player: " + wagonData.thisPlayerNumber);
@@ -160,6 +187,12 @@ public class WagonService : MonoBehaviour
             //timerObject.SetActive(true);
 
         }
+
+        destinationMapIcon.transform.position = destination.transform.position;
+        destinationMapIcon.transform.position = new Vector3(destination.transform.position.x, mapY, destination.transform.position.z);
+
+
+        destinationMapIcon.SetActive(true);
     }
 
     public void SetTargetParticlesPosition()
@@ -175,6 +208,7 @@ public class WagonService : MonoBehaviour
         //_animator.Play(newAnimation);
         //_currentAnimation = newAnimation;
     }
+
 
     //public void ResetTaxiPickUp()
     //{
@@ -194,4 +228,32 @@ public class WagonService : MonoBehaviour
     //   // this.gameObject.GetComponentInChildren<ParticleSystem>().Play();
     //   // Debug.Log("Did a reset");
     //}
+
+    private int RandomIntExcept(int min, int max, int except)
+    {
+        int result = Random.Range(min, max - 1);
+        if (result >= except) result += 1;
+        if (result > max) result = 1;
+        return result;
+    }
+
+    private void ZoneSelector(int zn)
+    {
+        GameObject[] list;
+        if (zn == 1) { list = zone1Destinations; RandomZoneList(list); }
+        if (zn == 2) { list = zone2Destinations; RandomZoneList(list); }
+        if (zn == 3) { list = zone3Destinations; RandomZoneList(list); }
+        if (zn == 4) { list = zone4Destinations; RandomZoneList(list); }
+        if (zn == 5) { list = zone5Destinations; RandomZoneList(list); }
+    }
+
+    private void RandomZoneList(GameObject[] list)
+    {
+        listLength = list.Length;
+        int randomDestination = UnityEngine.Random.Range(0, listLength);
+        destination = list[randomDestination];
+    }
+
 }
+
+
