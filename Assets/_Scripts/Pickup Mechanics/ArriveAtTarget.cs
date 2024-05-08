@@ -33,7 +33,7 @@ public class ArriveAtTarget : MonoBehaviour
         _cartTargetPoint = _wagonData.wagonSlot;
         if(!_wagonData.isOccupied) return;
         _wagonContents = _cartTargetPoint.GetComponentInChildren<WagonService>();
-        _wagonContents.destinationMapIcon.SetActive(false);
+        _wagonContents.thisPlayerMarker.SetActive(false);
 
         if (_wagonContents.captureFlagToggle == true && _wagonContents != null && _wagonContents.destination == this.gameObject)
         {

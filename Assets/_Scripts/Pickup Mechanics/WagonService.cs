@@ -16,8 +16,7 @@ public class WagonService : MonoBehaviour
     [SerializeField] private GameObject[] destinationList;
     [Space]
 
-    [Header("Capture Flag Toggle")]
-    [SerializeField] public GameObject destinationMapIcon;
+
 
     private int listLength;
  
@@ -41,12 +40,20 @@ public class WagonService : MonoBehaviour
     [Header("Zoned Deliveries Toggle")]
     [SerializeField] public bool zonedDeliveriesToggle;
     [SerializeField] private int thisZoneNumber;
-    [SerializeField] private GameObject[] zone1Destinations;
-    [SerializeField] private GameObject[] zone2Destinations;
-    [SerializeField] private GameObject[] zone3Destinations;
-    [SerializeField] private GameObject[] zone4Destinations;
-    [SerializeField] private GameObject[] zone5Destinations;
+    private DestinationManager DM;
+     private GameObject[] z1;
+     private GameObject[] z2;
+     private GameObject[] z3;
+     private GameObject[] z4;
+     private GameObject[] z5;
     private int zoneSelect;
+
+    //[Header("MiniMap Icons")]
+    private GameObject tmP1;
+    private GameObject tmP2;
+    private GameObject tmP3;
+    private GameObject tmP4;
+    public GameObject thisPlayerMarker;
 
 
     [Header("Debug")]
@@ -78,11 +85,16 @@ public class WagonService : MonoBehaviour
 
     private void Awake()
     {
-        destinationMapIcon.SetActive(false);
-       // agent = this.gameObject.GetComponent<NavMeshAgent>();
+        DM = DestinationManager.Instance;
+        StartRefs();
+
+
+        // agent = this.gameObject.GetComponent<NavMeshAgent>();
         listLength = destinationList.Length;
 
         zoneSelect = RandomIntExcept(1, 5, thisZoneNumber);
+
+
 
         ////////////////////////////////////////////////////////////////////////////TimerManager.RunAfterTime(() =>
         ////////////////////////////////////////////////////////////////////////////{
@@ -188,11 +200,7 @@ public class WagonService : MonoBehaviour
 
         }
 
-        destinationMapIcon.transform.position = destination.transform.position;
-        destinationMapIcon.transform.position = new Vector3(destination.transform.position.x, mapY, destination.transform.position.z);
-
-
-        destinationMapIcon.SetActive(true);
+        PlayerMarkerSelect(wagonData.thisPlayerNumber);
     }
 
     public void SetTargetParticlesPosition()
@@ -240,11 +248,11 @@ public class WagonService : MonoBehaviour
     private void ZoneSelector(int zn)
     {
         GameObject[] list;
-        if (zn == 1) { list = zone1Destinations; RandomZoneList(list); }
-        if (zn == 2) { list = zone2Destinations; RandomZoneList(list); }
-        if (zn == 3) { list = zone3Destinations; RandomZoneList(list); }
-        if (zn == 4) { list = zone4Destinations; RandomZoneList(list); }
-        if (zn == 5) { list = zone5Destinations; RandomZoneList(list); }
+        if (zn == 1) { list = z1; RandomZoneList(list); }
+        if (zn == 2) { list = z2; RandomZoneList(list); }
+        if (zn == 3) { list = z3; RandomZoneList(list); }
+        if (zn == 4) { list = z4; RandomZoneList(list); }
+        if (zn == 5) { list = z5; RandomZoneList(list); }
     }
 
     private void RandomZoneList(GameObject[] list)
@@ -254,6 +262,35 @@ public class WagonService : MonoBehaviour
         destination = list[randomDestination];
     }
 
+    private void PlayerMarkerSelect(int pn)
+    {
+        if (pn == 1) { thisPlayerMarker = tmP1; MinimapMarkerPlacement(thisPlayerMarker); }
+        if (pn == 2) { thisPlayerMarker = tmP2; MinimapMarkerPlacement(thisPlayerMarker); }
+        if (pn == 3) { thisPlayerMarker = tmP3; MinimapMarkerPlacement(thisPlayerMarker); }
+        if (pn == 4) { thisPlayerMarker = tmP4; MinimapMarkerPlacement(thisPlayerMarker); }
+
+    }
+
+    private void MinimapMarkerPlacement(GameObject marker)
+    {
+        marker.transform.position = destination.transform.position;
+        marker.transform.position = new Vector3(destination.transform.position.x, mapY, destination.transform.position.z);
+        marker.SetActive(true);
+    }
+
+    private void StartRefs()
+    {
+        z1 = DM.zone1DestinationsValley;
+        z2 = DM.zone2DestinationsDock;
+        z3 = DM.zone3DestinationsGraveyard;
+        z4 = DM.zone4DestinationsTown;
+        z5 = DM.zone5DestinationsHilltop;
+
+        tmP1 = DM.targetMarkerP1;
+        tmP2 = DM.targetMarkerP2;
+        tmP3 = DM.targetMarkerP3;
+        tmP4 = DM.targetMarkerP4;
+    }
 }
 
 
