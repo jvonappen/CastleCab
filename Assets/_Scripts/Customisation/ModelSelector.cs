@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,8 +12,13 @@ public class ModelSelector : MonoBehaviour
 
     List<GameObject> m_selectionlist = new();
 
+    GameObject m_previewObject;
+    public GameObject previewObject { get { return m_previewObject; } }
+
     GameObject m_selectedObject;
     public GameObject selectedObject { get { return m_selectedObject; } }
+
+    public Action onModelSelect;
 
     private void Awake()
     {
@@ -27,24 +33,35 @@ public class ModelSelector : MonoBehaviour
 
     public Material GetMat()
     {
-        if (selectedObject) return selectedObject.GetComponent<Renderer>().sharedMaterial;
+        if (previewObject) return previewObject.GetComponent<Renderer>().sharedMaterial;
         else return null;
     }
     public Material InstanceMat() => new(GetMat());
-    public void SetMat(Material _mat) => selectedObject.GetComponent<Renderer>().sharedMaterial = _mat;
+    public void SetMat(Material _mat) => previewObject.GetComponent<Renderer>().sharedMaterial = _mat;
 
-    public void SelectObjectByIndex(int _index)
+    public void SelectObject() => m_selectedObject = m_previewObject;
+    public void SelectSelected()
     {
-        if (_index == 0) DeselectAll();
-        else SelectObject(transform.GetChild(_index - 1).gameObject);
+        if (m_selectedObject) PreviewObject(m_selectedObject);
+        else DeselectAll();
+
+        onModelSelect?.Invoke();
     }
 
-    public void SelectObject(GameObject _obj)
+    public void PreviewObjectByIndex(int _index)
+    {
+        if (_index == 0) DeselectAll();
+        else PreviewObject(transform.GetChild(_index - 1).gameObject);
+
+        onModelSelect?.Invoke();
+    }
+
+    public void PreviewObject(GameObject _obj)
     {
         DeselectAll();
         _obj.SetActive(true);
 
-        m_selectedObject = _obj;
+        m_previewObject = _obj;
 
         ModelSettings settings = _obj.GetComponent<ModelSettings>();
         if (settings)
@@ -60,14 +77,14 @@ public class ModelSelector : MonoBehaviour
     public void DeselectAll()
     {
         foreach (GameObject obj in m_selectionlist) obj.SetActive(false);
-        m_selectedObject = null;
+        m_previewObject = null;
     }
 
     public void CopySelectionToSelector(ModelSelector _modelSelector)
     {
-        if (selectedObject)
+        if (previewObject)
         {
-            _modelSelector.SelectObjectByIndex(GetSelectedIndex());
+            _modelSelector.PreviewObjectByIndex(GetSelectedIndex());
             _modelSelector.SetMat(GetMat());
         }
         else _modelSelector.DeselectAll();
@@ -75,7 +92,7 @@ public class ModelSelector : MonoBehaviour
 
     public int GetSelectedIndex()
     {
-        if (selectedObject) return selectedObject.transform.GetSiblingIndex() + 1;
+        if (previewObject) return previewObject.transform.GetSiblingIndex() + 1;
         else return 0;
     }
 }

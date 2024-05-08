@@ -7,18 +7,18 @@ using System.Linq;
 
 public struct MaterialInformation
 {
-    public MaterialInformation(SO_Dye _main, SO_Dye _secondary, SO_Dye _tertiary)
+    public MaterialInformation(DyeData _main, DyeData _secondary, DyeData _tertiary)
     {
         m_mainDye = _main;
         m_secondaryDye = _secondary;
         m_tertiaryDye = _tertiary;
     }
 
-    SO_Dye m_mainDye, m_secondaryDye, m_tertiaryDye;
+    DyeData m_mainDye, m_secondaryDye, m_tertiaryDye;
 
-    public SO_Dye mainDye { get { return m_mainDye; } }
-    public SO_Dye secondaryDye { get { return m_secondaryDye; } }
-    public SO_Dye tertiaryDye { get { return m_tertiaryDye; } }
+    public DyeData mainDye { get { return m_mainDye; } }
+    public DyeData secondaryDye { get { return m_secondaryDye; } }
+    public DyeData tertiaryDye { get { return m_tertiaryDye; } }
 }
 
 public struct ModelCustomization
@@ -39,9 +39,9 @@ public struct ModelCustomization
         Material material = _selector.GetMat();
         if (material)
         {
-            SO_Dye mainDye = _selector.colourSelector.mainDye;
-            SO_Dye secondaryDye = _selector.colourSelector.secondaryDye;
-            SO_Dye tertiaryDye = _selector.colourSelector.tertiaryDye;
+            DyeData mainDye = _selector.colourSelector.GetDye("Main");
+            DyeData secondaryDye = _selector.colourSelector.GetDye("Secondary");
+            DyeData tertiaryDye = _selector.colourSelector.GetDye("Tertiary");
 
             m_mat = new(mainDye, secondaryDye, tertiaryDye);
         }
@@ -191,11 +191,11 @@ public class GameManager : MonoBehaviour
                 foreach (ModelSelector modelSelector in player.GetComponentsInChildren<ModelSelector>())
                 {
                     ModelCustomization foundItem = m_players[i].modelCustomizations.FirstOrDefault(item => item.typeIndex == modelSelector.m_typeIndex);
-                    modelSelector.SelectObjectByIndex(foundItem.index);
+                    modelSelector.PreviewObjectByIndex(foundItem.index);
 
-                    if (foundItem.mat.mainDye) modelSelector.colourSelector.SetDye("Main", foundItem.mat.mainDye);
-                    if (foundItem.mat.secondaryDye) modelSelector.colourSelector.SetDye("Secondary", foundItem.mat.secondaryDye);
-                    if (foundItem.mat.tertiaryDye) modelSelector.colourSelector.SetDye("Tertiary", foundItem.mat.tertiaryDye);
+                    if (foundItem.mat.mainDye.colour != null) modelSelector.colourSelector.SetDye("Main", foundItem.mat.mainDye);
+                    if (foundItem.mat.secondaryDye.colour != null) modelSelector.colourSelector.SetDye("Secondary", foundItem.mat.secondaryDye);
+                    if (foundItem.mat.tertiaryDye.colour != null) modelSelector.colourSelector.SetDye("Tertiary", foundItem.mat.tertiaryDye);
                 }
             }
         }

@@ -8,10 +8,14 @@ using UnityEngine.UI;
 public class CategorySelector : MonoBehaviour
 {
     List<GameObject> m_selections = new();
+    public List<GameObject> selections { get { return m_selections; } }
 
     public GameObject m_selectedObject { get; protected set; }
 
     [SerializeField] float m_selectImageSizeMulti = 1.25f;
+
+    bool m_canInteractDyes;
+    public bool canInteractDyes { get { return m_canInteractDyes; } }
 
     private void Awake()
     {
@@ -22,6 +26,8 @@ public class CategorySelector : MonoBehaviour
     TweenerCore<Vector3, Vector3, DG.Tweening.Plugins.Options.VectorOptions> m_tween;
     public void SelectObject(GameObject _obj)
     {
+        if (_obj == m_selectedObject) return;
+        
         if (m_tween == null || !m_tween.IsPlaying())
         {
             float selectionDistanceFromPrevious = m_selectedObject.transform.localPosition.y - _obj.transform.localPosition.y;
@@ -37,7 +43,6 @@ public class CategorySelector : MonoBehaviour
         
     }
 
-    void DeselectAllObjects() { foreach (GameObject selection in m_selections) DeselectObject(selection); }
     void DeselectObject(GameObject _obj)
     {
         _obj.transform.GetChild(0).gameObject.SetActive(false);
@@ -47,5 +52,17 @@ public class CategorySelector : MonoBehaviour
     public void SetInteraction(bool _canInteract)
     {
         foreach (GameObject selection in m_selections) selection.GetComponent<Button>().interactable = _canInteract;
+    }
+
+    public void SetDyeInteraction(bool _canInteract)
+    {
+        m_canInteractDyes = _canInteract;
+        foreach (GameObject selection in m_selections)
+        {
+            foreach (Transform child in selection.transform)
+            {
+                if (child.TryGetComponent(out Button button)) button.interactable = _canInteract;
+            }
+        }
     }
 }
