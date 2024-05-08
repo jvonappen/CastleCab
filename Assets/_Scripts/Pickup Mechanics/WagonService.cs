@@ -41,11 +41,11 @@ public class WagonService : MonoBehaviour
     [SerializeField] public bool zonedDeliveriesToggle;
     [SerializeField] private int thisZoneNumber;
     private DestinationManager DM;
-     private GameObject[] z1;
-     private GameObject[] z2;
-     private GameObject[] z3;
-     private GameObject[] z4;
-     private GameObject[] z5;
+    private GameObject[] z1;
+    private GameObject[] z2;
+    private GameObject[] z3;
+    private GameObject[] z4;
+    private GameObject[] z5;
     private int zoneSelect;
 
     //[Header("MiniMap Icons")]
@@ -53,7 +53,7 @@ public class WagonService : MonoBehaviour
     private GameObject tmP2;
     private GameObject tmP3;
     private GameObject tmP4;
-    public GameObject thisPlayerMarker;
+    [SerializeField]public GameObject thisPlayerMarker;
 
 
     [Header("Debug")]
@@ -85,8 +85,11 @@ public class WagonService : MonoBehaviour
 
     private void Awake()
     {
-        DM = DestinationManager.Instance;
-        StartRefs();
+        if(DM == null)
+        {
+            DM = DestinationManager.Instance;
+        }
+
 
 
         // agent = this.gameObject.GetComponent<NavMeshAgent>();
@@ -106,10 +109,15 @@ public class WagonService : MonoBehaviour
     }
     private void Start()
     {
-        
+        if (DM == null)
+        {
+            DM = DestinationManager.Instance;
+            StartRefs();        
+        }
+
         //_animator = this.gameObject.GetComponent<Animator>();
         //ChangeAnimation(NPC_ATTENTION);
-        if(!captureFlagToggle && !zonedDeliveriesToggle)
+        if (!captureFlagToggle && !zonedDeliveriesToggle)
         {
             int randomDestination = UnityEngine.Random.Range(0, listLength);
             destination = destinationList[randomDestination];
