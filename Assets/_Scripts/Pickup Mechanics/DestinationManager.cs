@@ -12,6 +12,12 @@ public class DestinationManager : MonoBehaviour
     [SerializeField] public GameObject targetMarkerP3;
     [SerializeField] public GameObject targetMarkerP4;
 
+    [Header("Beams")]
+    [SerializeField] public GameObject beamP1;
+    [SerializeField] public GameObject beamP2;
+    [SerializeField] public GameObject beamP3;
+    [SerializeField] public GameObject beamP4;
+
     [Header("Delivery Zones")]
     [SerializeField] public GameObject[] zone1DestinationsValley;
     [SerializeField] public GameObject[] zone2DestinationsDock;

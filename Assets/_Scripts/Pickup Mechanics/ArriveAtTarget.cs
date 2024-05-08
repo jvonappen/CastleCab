@@ -34,10 +34,12 @@ public class ArriveAtTarget : MonoBehaviour
         if(!_wagonData.isOccupied) return;
         _wagonContents = _cartTargetPoint.GetComponentInChildren<WagonService>();
         _wagonContents.thisPlayerMarker.SetActive(false);
+        _wagonContents.thisPlayerBeam.SetActive(false);
 
         if (_wagonContents.captureFlagToggle == true && _wagonContents != null && _wagonContents.destination == this.gameObject)
         {
             _wagonData.score.scoreValue = _wagonData.score.scoreValue + _wagonContents.scoreGiven;
+            
             _wagonContents.transform.parent = null;
             _wagonContents.transform.position = exitLocation.transform.position;
             _wagonContents.isAtTarget = true;
@@ -50,6 +52,7 @@ public class ArriveAtTarget : MonoBehaviour
         if (_wagonContents.zonedDeliveriesToggle == true && _wagonContents != null && _wagonContents.destination == this.gameObject)
         {
             _wagonData.score.scoreValue = _wagonData.score.scoreValue + _wagonContents.scoreGiven;
+            RankingSystem.Instance.UpdateRank(_wagonData.score.scoreValue, _wagonData);
             _wagonContents.transform.parent = null;
             _wagonContents.transform.position = exitLocation.transform.position;
             _wagonContents.isAtTarget = true;

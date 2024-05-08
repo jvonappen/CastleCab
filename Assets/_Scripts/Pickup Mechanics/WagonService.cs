@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 using TMPro;
+using UnityEngine.Timeline;
 
 public class WagonService : MonoBehaviour
 {
@@ -48,12 +49,12 @@ public class WagonService : MonoBehaviour
     private GameObject[] z5;
     private int zoneSelect;
 
-    //[Header("MiniMap Icons")]
-    private GameObject tmP1;
-    private GameObject tmP2;
-    private GameObject tmP3;
-    private GameObject tmP4;
+    //Minimap Marker
+    private GameObject tmP1, tmP2, tmP3, tmP4;
     [SerializeField]public GameObject thisPlayerMarker;
+    //Beams
+    private GameObject bmP1, bmP2, bmP3, bmP4;
+    [SerializeField] public GameObject thisPlayerBeam;
 
 
     [Header("Debug")]
@@ -272,18 +273,21 @@ public class WagonService : MonoBehaviour
 
     private void PlayerMarkerSelect(int pn)
     {
-        if (pn == 1) { thisPlayerMarker = tmP1; MinimapMarkerPlacement(thisPlayerMarker); }
-        if (pn == 2) { thisPlayerMarker = tmP2; MinimapMarkerPlacement(thisPlayerMarker); }
-        if (pn == 3) { thisPlayerMarker = tmP3; MinimapMarkerPlacement(thisPlayerMarker); }
-        if (pn == 4) { thisPlayerMarker = tmP4; MinimapMarkerPlacement(thisPlayerMarker); }
+        if (pn == 1) { thisPlayerMarker = tmP1; thisPlayerBeam = bmP1; MarkerPlacement(thisPlayerMarker, thisPlayerBeam); }
+        if (pn == 2) { thisPlayerMarker = tmP2; thisPlayerBeam = bmP2; MarkerPlacement(thisPlayerMarker, thisPlayerBeam); }
+        if (pn == 3) { thisPlayerMarker = tmP3; thisPlayerBeam = bmP3; MarkerPlacement(thisPlayerMarker, thisPlayerBeam); }
+        if (pn == 4) { thisPlayerMarker = tmP4; thisPlayerBeam = bmP4; MarkerPlacement(thisPlayerMarker, thisPlayerBeam); }
 
     }
 
-    private void MinimapMarkerPlacement(GameObject marker)
+    private void MarkerPlacement(GameObject marker, GameObject beam)
     {
         marker.transform.position = destination.transform.position;
         marker.transform.position = new Vector3(destination.transform.position.x, mapY, destination.transform.position.z);
         marker.SetActive(true);
+
+        beam.transform.position = destination.transform.position;
+        beam.SetActive(true);
     }
 
     private void StartRefs()
@@ -298,6 +302,11 @@ public class WagonService : MonoBehaviour
         tmP2 = DM.targetMarkerP2;
         tmP3 = DM.targetMarkerP3;
         tmP4 = DM.targetMarkerP4;
+
+        bmP1 = DM.beamP1;
+        bmP2 = DM.beamP2;
+        bmP3 = DM.beamP3;
+        bmP4 = DM.beamP4;
     }
 }
 
