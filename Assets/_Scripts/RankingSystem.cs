@@ -32,10 +32,10 @@ public class RankingSystem : MonoBehaviour
     {
         PlayerRank(score, player);
 
-        if (P1 != null) DoTheRank(P1);
-        if (P2 != null) DoTheRank(P2);
-        if (P3 != null) DoTheRank(P3);
-        if (P4 != null) DoTheRank(P4);
+        if (P1 != null) { PlayerRank(scoreP1, P1); DoTheRank(P1); }
+        if (P2 != null) { PlayerRank(scoreP2, P2); DoTheRank(P2); }
+        if (P3 != null) { PlayerRank(scoreP3, P3); DoTheRank(P3); }
+        if (P4 != null) { PlayerRank(scoreP4, P4); DoTheRank(P4); }
 
     }
 
