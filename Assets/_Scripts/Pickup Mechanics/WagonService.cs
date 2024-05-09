@@ -41,7 +41,8 @@ public class WagonService : MonoBehaviour
     [Header("Zoned Deliveries Toggle")]
     [SerializeField] public bool zonedDeliveriesToggle;
     [SerializeField] private int thisZoneNumber;
-    private DestinationManager DM;
+    [Header("DM - Debug")]
+    [SerializeField] private DestinationManager DM;
     private GameObject[] z1;
     private GameObject[] z2;
     private GameObject[] z3;
@@ -86,10 +87,11 @@ public class WagonService : MonoBehaviour
 
     private void Awake()
     {
-        if(DM == null)
-        {
-            DM = DestinationManager.Instance;
-        }
+        //if(DM == null)
+        //{
+        //    DM = DestinationManager.Instance;
+        //    StartRefs();
+        //}
 
 
 
@@ -298,15 +300,15 @@ public class WagonService : MonoBehaviour
         z4 = DM.zone4DestinationsTown;
         z5 = DM.zone5DestinationsHilltop;
 
-        tmP1 = DM.targetMarkerP1;
-        tmP2 = DM.targetMarkerP2;
-        tmP3 = DM.targetMarkerP3;
-        tmP4 = DM.targetMarkerP4;
+        tmP1 = DM.targetMarkerP1; tmP1.SetActive(false);
+        tmP2 = DM.targetMarkerP2; tmP2.SetActive(false);
+        tmP3 = DM.targetMarkerP3; tmP3.SetActive(false);
+        tmP4 = DM.targetMarkerP4; tmP4.SetActive(false);
 
-        bmP1 = DM.beamP1;
-        bmP2 = DM.beamP2;
-        bmP3 = DM.beamP3;
-        bmP4 = DM.beamP4;
+        bmP1 = DM.beamP1; bmP1.SetActive(false);
+        bmP2 = DM.beamP2; bmP2.SetActive(false);
+        bmP3 = DM.beamP3; bmP3.SetActive(false);
+        bmP4 = DM.beamP4; bmP4.SetActive(false);
     }
 }
 

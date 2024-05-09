@@ -31,11 +31,11 @@ public class DestinationManager : MonoBehaviour
         {
             Instance = this;
             gameObject.transform.SetParent(null);
-            //DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject);
         }
-        //else
-        //{
-        //    Destroy(gameObject);
-        //}
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }
