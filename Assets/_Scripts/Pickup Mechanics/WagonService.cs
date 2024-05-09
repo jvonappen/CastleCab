@@ -90,7 +90,7 @@ public class WagonService : MonoBehaviour
         {
             DM = DestinationManager.Instance;
         }
-        StartRefs();
+
 
 
         // agent = this.gameObject.GetComponent<NavMeshAgent>();
