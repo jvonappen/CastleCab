@@ -20,11 +20,12 @@ public class WagonData : MonoBehaviour
     public GameObject r1st, r2nd, r3rd, r4th;
     private void Awake()
     {
+        if(playerNumber > 3) { playerNumber = 0; Debug.Log("Reset playerNumber"); }
         isOccupied = false;
         wagonSlot = wagonSlotPoint;
         playerNumber = playerNumber + 1;
         thisPlayerNumber = playerNumber;
-        AddToRankSystem();
+        //AddToRankSystem();
         r1st.SetActive(false); r2nd.SetActive(false); r3rd.SetActive(false); r4th.SetActive(false);
 
     }
