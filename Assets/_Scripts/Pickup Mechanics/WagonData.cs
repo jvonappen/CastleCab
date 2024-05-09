@@ -24,7 +24,7 @@ public class WagonData : MonoBehaviour
         wagonSlot = wagonSlotPoint;
         playerNumber = playerNumber + 1;
         thisPlayerNumber = playerNumber;
-        AddToRankSystem();
+        //AddToRankSystem();
         r1st.SetActive(false); r2nd.SetActive(false); r3rd.SetActive(false); r4th.SetActive(false);
 
     }

@@ -16,12 +16,25 @@ public class ReturnToMenu : MonoBehaviour
         m_playerControls.Controls.ReturnMenu.performed += OpenMenu;
     }
 
-    private void OnEnable() { if (m_hasInitialized) m_playerControls.Controls.ReturnMenu.performed += OpenMenu; }
+    private void OnEnable()
+    { 
+        if (m_hasInitialized)
+        {
+            
+            m_playerControls.Controls.ReturnMenu.performed += OpenMenu;
+
+          
+        }
+                     
+    }
     private void OnDisable() => m_playerControls.Controls.ReturnMenu.performed -= OpenMenu;
 
     void OpenMenu(InputAction.CallbackContext context)
     {
         GameManager manager = GameManager.Instance;
+
+        WagonData.playerNumber = 0;
+        Debug.Log("player number = " + WagonData.playerNumber);
 
         GameManager.SetCustomizing(false);
         manager.ClearPlayers();
