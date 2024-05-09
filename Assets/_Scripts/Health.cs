@@ -78,7 +78,7 @@ public class Health : MonoBehaviour
             // Display damage popup text
             Transform lookAt = null;
             if (_player) lookAt = _player.transform.GetChild(0);
-            PopupDisplay.Spawn(m_popupLocation.position, m_popupRandomRange, _damageAmount.ToString(), m_fontSize, Color.white, Vector3.up * 3, null, lookAt);
+            //PopupDisplay.Spawn(m_popupLocation.position, m_popupRandomRange, _damageAmount.ToString(), m_fontSize, Color.white, Vector3.up * 3, null, lookAt);
 
             onDamaged?.Invoke(_damageAmount, _player);
 

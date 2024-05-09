@@ -9,4 +9,10 @@ public class MainMenu : MonoBehaviour
 
         gameObject.SetActive(false);
     }
+
+    public void Quit()
+    {
+        Application.Quit();
+        Debug.Log("Quit");
+    }
 }

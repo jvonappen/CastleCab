@@ -22,65 +22,65 @@ public class PopupDisplay
         return go;
     }
 
-    static GameObject FindValidPopup(int _index, int _totalRecursions = 0)
-    {
-        // If looped through all possible popups and none are valid, add a new one to increase the pool
-        if (_totalRecursions >= m_popupList.Count && _totalRecursions < m_popupCap) return CreatePopup();
+    //static GameObject FindValidPopup(int _index, int _totalRecursions = 0)
+    //{
+    //    // If looped through all possible popups and none are valid, add a new one to increase the pool
+    //    if (_totalRecursions >= m_popupList.Count && _totalRecursions < m_popupCap) return CreatePopup();
 
-        // Find next possible popup
-        int newIndex = _index + 1;
-        if (newIndex >= m_popupList.Count) newIndex = 0;
+    //    // Find next possible popup
+    //    int newIndex = _index + 1;
+    //    if (newIndex >= m_popupList.Count) newIndex = 0;
 
-        GameObject nextPopup = m_popupList[newIndex];
-        if (nextPopup.activeSelf)
-        {
-            if (_totalRecursions >= m_popupList.Count) return nextPopup;
+    //    GameObject nextPopup = m_popupList[newIndex];
+    //    if (nextPopup.activeSelf)
+    //    {
+    //        if (_totalRecursions >= m_popupList.Count) return nextPopup;
 
-            if (m_popupList.Count < m_popupCap) return CreatePopup();
-            else return FindValidPopup(newIndex, _totalRecursions + 1);
-        }
-        else return nextPopup;
-    }
+    //        if (m_popupList.Count < m_popupCap) return CreatePopup();
+    //        else return FindValidPopup(newIndex, _totalRecursions + 1);
+    //    }
+    //    else return nextPopup;
+    //}
 
-    public static GameObject Spawn(Vector3 _position, float _randomRangePos/*, Vector3 _rotation, float _randomRangeRot*/, string _text, float _fontSize, Color _colour, Vector3 _moveVelocity, Transform _parent, Transform _lookAt = null)
-    {
-        int index = m_popupList.IndexOf(m_lastPopup);
-        GameObject go = FindValidPopup(index);
+    //public static GameObject Spawn(Vector3 _position, float _randomRangePos/*, Vector3 _rotation, float _randomRangeRot*/, string _text, float _fontSize, Color _colour, Vector3 _moveVelocity, Transform _parent, Transform _lookAt = null)
+    //{
+    //    int index = m_popupList.IndexOf(m_lastPopup);
+    //    //GameObject go = FindValidPopup(index);
 
-        go.SetActive(true);
-        m_lastPopup = go;
+    //    go.SetActive(true);
+    //    m_lastPopup = go;
 
-        SimpleFadeTMP.Begin(go, 1.5f, FadeEndAction.Inactive);
-        SimpleMove.Begin(go, _moveVelocity);
+    //    SimpleFadeTMP.Begin(go, 1.5f, FadeEndAction.Inactive);
+    //    SimpleMove.Begin(go, _moveVelocity);
 
-        //RectTransform rectTransform = go.GetComponent<RectTransform>();
-        //rectTransform.SetParent(_parent, true);
-        //rectTransform.position = GetPointInRange(Camera.main.WorldToScreenPoint(_position), _randomRangePos);
-        //rectTransform.localEulerAngles = GetRotationInRange(_rotation, _randomRangeRot);
+    //    //RectTransform rectTransform = go.GetComponent<RectTransform>();
+    //    //rectTransform.SetParent(_parent, true);
+    //    //rectTransform.position = GetPointInRange(Camera.main.WorldToScreenPoint(_position), _randomRangePos);
+    //    //rectTransform.localEulerAngles = GetRotationInRange(_rotation, _randomRangeRot);
 
-        //rectTransform.localScale = Vector3.one;
+    //    //rectTransform.localScale = Vector3.one;
 
-        // Not UI
+    //    // Not UI
 
-        go.transform.SetParent(_parent, true);
-        go.transform.position = GetPointInRange(_position, _randomRangePos, true);
+    //    go.transform.SetParent(_parent, true);
+    //    go.transform.position = GetPointInRange(_position, _randomRangePos, true);
 
-        if (_lookAt) go.transform.LookAt(_lookAt);
+    //    if (_lookAt) go.transform.LookAt(_lookAt);
 
-        go.transform.forward = -go.transform.forward;
+    //    go.transform.forward = -go.transform.forward;
 
-        // End
+    //    // End
 
-        TextMeshPro display = go.GetComponent<TextMeshPro>();
-        display.text = _text;
-        display.fontSize = _fontSize;
-        display.color = _colour;
+    //    TextMeshPro display = go.GetComponent<TextMeshPro>();
+    //    display.text = _text;
+    //    display.fontSize = _fontSize;
+    //    display.color = _colour;
 
-        display.horizontalAlignment = HorizontalAlignmentOptions.Center;
-        display.verticalAlignment = VerticalAlignmentOptions.Middle;
+    //    display.horizontalAlignment = HorizontalAlignmentOptions.Center;
+    //    display.verticalAlignment = VerticalAlignmentOptions.Middle;
 
-        return go;
-    }
+    //    return go;
+    //}
 
     static Vector3 GetPointInRange(Vector3 _position, float _randomRange, bool _enableZRange = false)
     {
