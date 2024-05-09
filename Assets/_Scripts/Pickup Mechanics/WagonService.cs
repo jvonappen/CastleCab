@@ -220,7 +220,7 @@ public class WagonService : MonoBehaviour
         //targetParticles.transform.position = destination.transform.position;
     }
 
-    private void ChangeAnimation(string newAnimation)
+    public void ChangeAnimation(string newAnimation)
     {
         //prevents interupting the animation
         if (_currentAnimation == newAnimation) return;
