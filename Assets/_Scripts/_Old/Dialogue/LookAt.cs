@@ -17,14 +17,21 @@ public class LookAt : MonoBehaviour
     {
         villager = this.gameObject;
     }
-    void Start()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if(other.tag == "Player"  || other.tag == "Wagon")
+        {
+            player = other.gameObject;
+        }
     }
 
     void LateUpdate()
     {
-        transform.LookAt(player.transform);
-        transform.Rotate(X,Y,Z);
+        if(player!= null) 
+        {
+            transform.LookAt(player.transform);
+            transform.Rotate(X, Y, Z);
+        }
+        
     }
 }

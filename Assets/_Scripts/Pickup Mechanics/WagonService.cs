@@ -71,17 +71,17 @@ public class WagonService : MonoBehaviour
 
 
 
-    ////Animations
-    //private Animator _animator;
-    //private string _currentAnimation;
+    //Animations
+    private Animator _animator;
+    private string _currentAnimation;
 
-    //const string NPC_ATTENTION = "Attention";
-    //const string NPC_DANCE = "Dance";
-    //const string NPC_FLAP = "Flap";
-    //const string NPC_GRANNY = "Granny";
-    //const string NPC_IDLE = "Idle";
-    //const string NPC_SIREN = "Siren";
-    //const string NPC_WALK = "Walk";
+    const string NPC_ATTENTION = "Attention";
+    const string NPC_DANCE = "Dance";
+    const string NPC_FLAP = "Flap";
+    const string NPC_GRANNY = "Granny";
+    const string NPC_IDLE = "Idle";
+    const string NPC_SIREN = "Siren";
+    const string NPC_WALK = "Walk";
 
     public bool isAtTarget = false;
 
@@ -118,8 +118,8 @@ public class WagonService : MonoBehaviour
             StartRefs();        
         }
 
-        //_animator = this.gameObject.GetComponent<Animator>();
-        //ChangeAnimation(NPC_ATTENTION);
+        _animator = this.gameObject.GetComponentInChildren<Animator>();
+        ChangeAnimation(NPC_ATTENTION);
         if (!captureFlagToggle && !zonedDeliveriesToggle)
         {
             int randomDestination = UnityEngine.Random.Range(0, listLength);
@@ -158,10 +158,11 @@ public class WagonService : MonoBehaviour
             this.transform.parent = _wagonSlot.transform;
             this.transform.position = this._wagonSlot.transform.position;
             transform.rotation = new Quaternion(X, Y, Z, 0);
+            ChangeAnimation(NPC_FLAP);
         }
 
 
-            if (captureFlagToggle == true && !wagonData.isOccupied)
+        if (captureFlagToggle == true && !wagonData.isOccupied)
         {
             destination = playerBaseList[wagonData.thisPlayerNumber - 1];
             Debug.Log("Flag picked up by player: " + wagonData.thisPlayerNumber);
@@ -221,11 +222,11 @@ public class WagonService : MonoBehaviour
 
     private void ChangeAnimation(string newAnimation)
     {
-        ////prevents interupting the animation
-        //if (_currentAnimation == newAnimation) return;
+        //prevents interupting the animation
+        if (_currentAnimation == newAnimation) return;
 
-        //_animator.Play(newAnimation);
-        //_currentAnimation = newAnimation;
+        _animator.Play(newAnimation);
+        _currentAnimation = newAnimation;
     }
 
 
