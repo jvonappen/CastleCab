@@ -8,8 +8,12 @@ public class ReturnToMenu : MonoBehaviour
     bool m_hasInitialized;
 
     PlayerControls m_playerControls;
+
+    [SerializeField] GameObject loadingScreenUI;
     private void Start()
     {
+        loadingScreenUI.SetActive(false);
+
         m_playerControls = GetComponent<PlayerInputHandler>().m_playerControls;
         m_hasInitialized = true;
 
@@ -33,6 +37,7 @@ public class ReturnToMenu : MonoBehaviour
     {
         GameManager manager = GameManager.Instance;
 
+        loadingScreenUI.SetActive(true);
         WagonData.playerNumber = 0;
         Debug.Log("player number = " + WagonData.playerNumber);
 

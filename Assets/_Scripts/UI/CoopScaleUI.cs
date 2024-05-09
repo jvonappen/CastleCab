@@ -3,33 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.InputSystem;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class CoopScaleUI : PlayerJoinedNotifier
 {
     [SerializeField] Vector3 m_newScale;
     Vector3 m_originalScale;
 
-    public static CoopScaleUI Instance;
+   // public static CoopScaleUI Instance;
 
     [SerializeField] int m_playersUntilActive = 3;
 
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            gameObject.transform.SetParent(null);
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+    //private void Awake()
+    //{
+    //    if (Instance == null)
+    //    {
+    //        Instance = this;
+    //        gameObject.transform.SetParent(null);
+    //        DontDestroyOnLoad(gameObject);
+    //    }
+    //    else
+    //    {
+    //        Destroy(gameObject);
+    //    }
 
-
-
-    }
+    //}
 
     public override void Start()
     {

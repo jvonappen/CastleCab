@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
@@ -8,6 +9,11 @@ public class MainMenu : MonoBehaviour
         GameManager.Instance.GetComponent<SceneToLoad>().SetSceneToLoad(_sceneName);
 
         gameObject.SetActive(false);
+    }
+
+    public void SkipCustomization(int scene)
+    {
+        SceneManager.LoadScene(scene);
     }
 
     public void Quit()
