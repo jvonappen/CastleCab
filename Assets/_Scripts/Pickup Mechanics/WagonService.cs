@@ -153,7 +153,6 @@ public class WagonService : MonoBehaviour
         {
             ZoneSelector(zoneSelect);
             wagonData.destinationTarget = destination;
-            Debug.Log("The destination is: " + destination);
             wagonData.isOccupied = true;
             this.transform.parent = _wagonSlot.transform;
             this.transform.position = this._wagonSlot.transform.position;
@@ -165,9 +164,7 @@ public class WagonService : MonoBehaviour
         if (captureFlagToggle == true && !wagonData.isOccupied)
         {
             destination = playerBaseList[wagonData.thisPlayerNumber - 1];
-            Debug.Log("Flag picked up by player: " + wagonData.thisPlayerNumber);
             wagonData.destinationTarget = destination;
-            Debug.Log("The destination is: " + destination);
             wagonData.isOccupied = true;
             this.transform.parent = _wagonSlot.transform;
             this.transform.position = this._wagonSlot.transform.position;            
