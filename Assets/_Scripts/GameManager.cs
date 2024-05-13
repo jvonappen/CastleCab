@@ -171,7 +171,7 @@ public class GameManager : MonoBehaviour
     {
         m_isCustomizing = true;
 
-       // foreach (PlayerData data in players) data.player.GetComponent<CustomizationSpawner>().StartCustomization();
+        foreach (PlayerData data in players) data.player.GetComponent<CustomisationSpawner>().StartCustomization();
         InputManager.EnableSplitscreen();
     }
 
