@@ -35,6 +35,8 @@ namespace URNTS
         [HideInInspector, SerializeField]
         public static float crossingWidth = 6f;
 
+        public Action onInitialised;
+
         private void Awake()
         {
             if (instance != null) Destroy(gameObject);
@@ -53,6 +55,8 @@ namespace URNTS
             InitializeVehiclePool();
 
             StartCoroutine(VehicleSpawner());
+
+            onInitialised?.Invoke();
         }
 
         public void AddPlayer(Transform _player) => playersToAddEndOfFrame.Add(_player);

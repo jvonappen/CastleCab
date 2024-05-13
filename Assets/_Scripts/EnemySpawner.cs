@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 using URNTS;
 
 [RequireComponent(typeof(TrafficManager))]
@@ -14,9 +13,13 @@ public class EnemySpawner : MonoBehaviour
     TrafficManager m_trafficManager;
     GameManager m_manager;
 
-    private void Start()
+    private void Awake() => m_trafficManager = GetComponent<TrafficManager>();
+
+    private void OnEnable() => m_trafficManager.onInitialised += Init;
+    private void OnDisable() => m_trafficManager.onInitialised -= Init;
+
+    private void Init()
     {
-        m_trafficManager = GetComponent<TrafficManager>();
         m_manager = GameManager.Instance;
 
         m_enemies = new Dictionary<int, List<GameObject>>();
