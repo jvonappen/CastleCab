@@ -39,13 +39,16 @@ public class MapScreenLocatioMoverPerPlayerJoined : MonoBehaviour
 
         boarderImage.transform.position = mapImage.transform.position;
     }
-    public void LookAtMiniMap()
+    public void LookAtMiniMap(GameObject playerIcon)
     {
         if(mapCam!=null)
         {
-            transform.LookAt(mapCam.transform);
-            transform.Rotate(X, Y, Z);
+            //playerIcon.transform.LookAt(mapCam.transform);
+           //playerIcon.transform.Rotate(X, Y, Z);
+
+            
         }
+        else { Debug.Log("It ain't doin' it"); }
         
     }
 

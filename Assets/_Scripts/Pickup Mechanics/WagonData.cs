@@ -37,9 +37,6 @@ public class WagonData : MonoBehaviour
         if (playerNumber == 4) { RankingSystem.Instance.P4 = this; }
     }
 
-    private void Update()
-    {
-        MapScreenLocatioMoverPerPlayerJoined.Instance.LookAtMiniMap();
-    }
+
 
 }

@@ -13,6 +13,11 @@ public class PlayerMapIcon : MonoBehaviour
         PlayerMapIcons[thisPlayerNumber].SetActive(true);
     }
 
+    private void Update()
+    {
+        MapScreenLocatioMoverPerPlayerJoined.Instance.LookAtMiniMap(PlayerMapIcons[thisPlayerNumber]);
+    }
+
 
 
 }
