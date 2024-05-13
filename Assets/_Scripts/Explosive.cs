@@ -40,7 +40,7 @@ public class Explosive : Health
                 {
                     if (knockback is PlayerKnockback)
                     {
-                        ((PlayerKnockback)knockback).playerMovement.EndHurricane();
+                        ((PlayerKnockback)knockback).playerMovement.TryEndHurricane();
                     }
                     knockback.KnockBack(explosionDir, Vector3.up);
                 }

@@ -375,6 +375,8 @@ public class PlayerMovement : MonoBehaviour
 
         wagon.drag = 0;
         m_isDrifting = false;
+
+        if (m_isHurricane) EndHurricane();
     }
 
     #endregion
@@ -506,23 +508,28 @@ public class PlayerMovement : MonoBehaviour
     void OnHurricaneCanceled(InputAction.CallbackContext context) => CancelHurricane();
     public void CancelHurricane() { if (m_isHurricane) m_endingHurricane = true; }
 
-    public void EndHurricane()
+    public void TryEndHurricane()
     {
         float leeway = 15f;
         if (rb.transform.eulerAngles.y > prevRotY - leeway && rb.transform.eulerAngles.y < prevRotY + leeway)
         {
-            onHurricaneCanceled?.Invoke();
-
-            if (_Hurricane.m_collider) _Hurricane.m_collider.gameObject.SetActive(false);
-            foreach (Collider collider in _Hurricane.m_collidersToDisable) collider.gameObject.layer = LayerMask.NameToLayer("Player");
-
-            m_isHurricane = false;
-            m_endingHurricane = false;
-
-            rb.transform.eulerAngles = new Vector3(rb.transform.eulerAngles.x, prevRotY, rb.transform.eulerAngles.z);
-
-            m_cam.StopWhirlwind(_Hurricane.m_newHurricaneCooldown - 0.1f);
+            EndHurricane();
         }
+    }
+
+    public void EndHurricane()
+    {
+        onHurricaneCanceled?.Invoke();
+
+        if (_Hurricane.m_collider) _Hurricane.m_collider.gameObject.SetActive(false);
+        foreach (Collider collider in _Hurricane.m_collidersToDisable) collider.gameObject.layer = LayerMask.NameToLayer("Player");
+
+        m_isHurricane = false;
+        m_endingHurricane = false;
+
+        rb.transform.eulerAngles = new Vector3(rb.transform.eulerAngles.x, prevRotY, rb.transform.eulerAngles.z);
+
+        m_cam.StopWhirlwind(_Hurricane.m_newHurricaneCooldown - 0.1f);
     }
 
     Vector3 m_lastPosHurricane = Vector3.zero;
@@ -530,7 +537,8 @@ public class PlayerMovement : MonoBehaviour
     {
         m_newHurricaneCooldownTimer = 0;
 
-        rb.transform.rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + new Vector3(0f, _Hurricane.m_spinSpeed * Time.fixedDeltaTime, 0f));
+        rb.transform.Rotate(new Vector3(0f, _Hurricane.m_spinSpeed * Time.fixedDeltaTime, 0f), Space.Self);// .rotation = Quaternion.Euler(rb.transform.rotation.eulerAngles + new Vector3(0f, _Hurricane.m_spinSpeed * Time.fixedDeltaTime, 0f));
+
 
         // Handle movement
         if (m_cam.whirlwindCam)
@@ -556,7 +564,7 @@ public class PlayerMovement : MonoBehaviour
             m_lastPosHurricane = rb.transform.position;
         }
 
-        if (m_endingHurricane) EndHurricane();
+        if (m_endingHurricane) TryEndHurricane();
     }
 
     #endregion
@@ -720,6 +728,9 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
+            // If player rotation to ground is locked, unlock it when standing still (Used on ramp where player is prevented from nose-diving off the end)
+            m_canRotateToGround = true; 
+
             float leeway = 0.2f;
 
             // If neither moving forward or backward, decelerate to 0, rate based on if player is reversing or moving forward
