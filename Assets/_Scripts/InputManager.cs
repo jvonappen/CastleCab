@@ -124,29 +124,29 @@ public class InputManager : MonoBehaviour
         for (int i = 0; i < GameManager.Instance.players.Count; i++)
         {
             GameObject player = GameManager.Instance.players[i].player;
-            //GameObject customizationMenu = player.GetComponent<CustomizationSpawner>().customizationMenu;
-            //Camera cam = customizationMenu.GetComponentInChildren<Camera>();
+            GameObject customizationMenu = player.GetComponent<CustomisationSpawner>().customizationMenu;
+            Camera cam = customizationMenu.GetComponentInChildren<Camera>();
 
-            //int playerIndex = customizationMenu.GetComponent<PlayerInput>().user.index + 1;
+            int playerIndex = customizationMenu.GetComponent<PlayerInput>().user.index + 1;
 
             #region Cam size & pos
-            //Vector2 size = Vector2.one;
-            //if (manager.playerCount == 2) size = new(0.5f, 1);
-            //else if (manager.playerCount == 3 || manager.playerCount == 4) size = new(0.5f, 0.5f);
+            Vector2 size = Vector2.one;
+            if (manager.playerCount == 2) size = new(0.5f, 1);
+            else if (manager.playerCount == 3 || manager.playerCount == 4) size = new(0.5f, 0.5f);
 
-            //Vector2 pos = Vector2.zero;
-            //if (manager.playerCount > 2 && playerIndex == 1) pos = new(0, 0.5f);
-            //else if (playerIndex == 2)
-            //{
-            //    if (manager.playerCount == 2) pos = new(0.5f, 0);
-            //    else pos = new(0.5f, 0.5f);
-            //}
-            //else if (playerIndex == 4) pos = new(0.5f, 0);
+            Vector2 pos = Vector2.zero;
+            if (manager.playerCount > 2 && playerIndex == 1) pos = new(0, 0.5f);
+            else if (playerIndex == 2)
+            {
+                if (manager.playerCount == 2) pos = new(0.5f, 0);
+                else pos = new(0.5f, 0.5f);
+            }
+            else if (playerIndex == 4) pos = new(0.5f, 0);
             #endregion
 
-            //cam.rect = new(pos.x, pos.y, size.x, size.y);
+            cam.rect = new(pos.x, pos.y, size.x, size.y);
 
-            //customizationMenu.GetComponent<SwitchUI2P>().UpdateUI();
+            customizationMenu.GetComponent<SwitchUI2P>().UpdateUI();
         }
     }
 }

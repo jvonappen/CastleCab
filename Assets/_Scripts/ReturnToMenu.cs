@@ -41,7 +41,6 @@ public class ReturnToMenu : MonoBehaviour
         WagonData.playerNumber = 0;
         Debug.Log("player number = " + WagonData.playerNumber);
 
-        GameManager.SetCustomizing(false);
         manager.ClearPlayers();
         manager.LoadScene("StartMenu");
     }

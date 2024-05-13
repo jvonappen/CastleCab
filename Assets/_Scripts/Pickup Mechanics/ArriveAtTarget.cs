@@ -60,7 +60,7 @@ public class ArriveAtTarget : MonoBehaviour
             _wagonData.isOccupied = false;
             _wagonData.destinationTarget = null;
             _wagonContents.destination = null;
-            _wagonContents.gameObject.SetActive(false);
+            //_wagonContents.gameObject.SetActive(false);
 
         }
 
@@ -98,6 +98,7 @@ public class ArriveAtTarget : MonoBehaviour
 
         }
 
+        if(_wagonContents.isAtTarget) { _wagonContents.ChangeAnimation("Dance"); }
         
 
     }
