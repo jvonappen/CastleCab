@@ -37,7 +37,6 @@ public class DyeSlot : MonoBehaviour
 
     public void UpdateSlotColour()
     {
-        Debug.Log("Updated");
         DyeData dye = m_selector.GetDye(m_dyeType);
         if (dye.colour != new Color())
         {

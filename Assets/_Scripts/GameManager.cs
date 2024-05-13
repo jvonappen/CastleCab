@@ -119,11 +119,6 @@ public class GameManager : MonoBehaviour
     public PlayerData GetPlayerData(InputDevice _device) => m_players.FirstOrDefault(item => item.device == _device);
     public void SetPlayerData(InputDevice _device, PlayerData _data) => m_players[m_players.FindIndex(item => item.device == _device)] = _data;
 
-    static bool m_isCustomizing;
-    static public bool isCustomizing { get { return m_isCustomizing; } }
-    static public void SetCustomizing(bool _isCustomizing) => m_isCustomizing = _isCustomizing;
-
-
     #region Gold
     [SerializeField] int m_gold;
     public int gold { get { return m_gold; } }
@@ -169,9 +164,9 @@ public class GameManager : MonoBehaviour
 
     public void OpenCustomization()
     {
-        m_isCustomizing = true;
+        FindObjectOfType<PlayerInputManager>().DisableJoining();
 
-       // foreach (PlayerData data in players) data.player.GetComponent<CustomizationSpawner>().StartCustomization();
+        foreach (PlayerData data in players) data.player.GetComponent<CustomisationSpawner>().StartCustomization();
         InputManager.EnableSplitscreen();
     }
 
