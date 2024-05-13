@@ -18,6 +18,13 @@ public class MapScreenLocatioMoverPerPlayerJoined : MonoBehaviour
     [SerializeField] GameObject pos2;
     [SerializeField] GameObject pos3;
 
+    [Header("Map Cam")]
+    [SerializeField] private GameObject mapCam;
+
+    [Header("Debug - LookAt Values")]
+    [SerializeField] private float X = 0;
+    [SerializeField] private float Y = 180;
+    [SerializeField] private float Z = 0;
 
     private void Awake()
     {
@@ -31,6 +38,15 @@ public class MapScreenLocatioMoverPerPlayerJoined : MonoBehaviour
         if (WagonData.playerNumber >= 3) { mapImage.transform.position = pos3.transform.position; }
 
         boarderImage.transform.position = mapImage.transform.position;
+    }
+    public void LookAtMiniMap()
+    {
+        if(mapCam!=null)
+        {
+            transform.LookAt(mapCam.transform);
+            transform.Rotate(X, Y, Z);
+        }
+        
     }
 
 }
