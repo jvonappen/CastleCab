@@ -28,7 +28,7 @@ public class PlayerCustomization : MonoBehaviour
 
     private void Exit(InputAction.CallbackContext context)
     {
-        GameManager.SetCustomizing(false);
+        FindObjectOfType<PlayerInputManager>().EnableJoining();
 
         PlayerInputManager.instance.splitScreen = false;
         FindObjectOfType<MenuCanvasManager>()?.EnableMenu();

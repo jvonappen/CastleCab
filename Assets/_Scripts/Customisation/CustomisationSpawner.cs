@@ -26,11 +26,11 @@ public class CustomisationSpawner : MonoBehaviour
         m_customizationMenu.GetComponent<PlayerInputHandler>().SetPaired(true);
         m_customizationInput = m_customizationMenu.GetComponent<PlayerInput>();
 
-        if (GameManager.isCustomizing)
-        {
-            StartCustomization();
-            InputManager.EnableSplitscreen();
-        }
+        //if (GameManager.isCustomizing)
+        //{
+        //    StartCustomization();
+        //    InputManager.EnableSplitscreen();
+        //}
     }
 
     public void StartCustomization()
