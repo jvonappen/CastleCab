@@ -23,8 +23,7 @@ public class WagonData : MonoBehaviour
         playerNumber = playerNumber + 1;
         thisPlayerNumber = playerNumber;
         AddToRankSystem();
-        //r1st.SetActive(false); r2nd.SetActive(false); r3rd.SetActive(false); r4th.SetActive(false);
-        MapScreenLocatioMoverPerPlayerJoined.Instance.MapPosUpdate();
+        MapScreenLocation.Instance.MapPosUpdate();
     }
 
     private void AddToRankSystem()
