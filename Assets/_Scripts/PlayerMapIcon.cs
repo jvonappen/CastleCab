@@ -12,12 +12,4 @@ public class PlayerMapIcon : MonoBehaviour
         thisPlayerNumber = WagonData.playerNumber;
         PlayerMapIcons[thisPlayerNumber].SetActive(true);
     }
-
-    private void Update()
-    {
-        MapScreenLocatioMoverPerPlayerJoined.Instance.LookAtMiniMap(PlayerMapIcons[thisPlayerNumber]);
-    }
-
-
-
 }
