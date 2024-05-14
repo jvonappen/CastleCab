@@ -72,9 +72,9 @@ public class PlayerAttack : MonoBehaviour
         Health health = null;
         if (!colliderRB)
         {
-            health = _collider.GetComponent<Health>();
-            if (!health) return;
+            if (!_collider.TryGetComponent(out health)) return;
         }
+        else if (colliderRB == m_playerMovement.wagon) return;
 
         if (!_collider.isTrigger)
         {
@@ -88,7 +88,6 @@ public class PlayerAttack : MonoBehaviour
 
                 if (playerForce > GetDamageForce())
                 {
-                    //health.gameObject.SetActive(false);
                     health.DealDamage(GetDamage(), this);
                 }
             }

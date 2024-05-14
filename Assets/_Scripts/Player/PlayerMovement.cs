@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] PlayerUpgrades m_playerUpgrades;
 
     public Rigidbody rb;
-    [SerializeField] Rigidbody wagon;
+    public Rigidbody wagon;
     public Transform horse { get { return rb.transform; } }
 
     [SerializeField] ProgressBar m_staminaBar;
