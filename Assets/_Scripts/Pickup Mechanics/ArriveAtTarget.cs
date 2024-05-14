@@ -50,18 +50,20 @@ public class ArriveAtTarget : MonoBehaviour
 
         if (_wagonContents.zonedDeliveriesToggle == true && _wagonContents != null && _wagonContents.destination == this.gameObject)
         {
-            RankingSystem.Instance.CalculateRanking(_wagonData);
+            
             _wagonContents.thisPlayerMarker.SetActive(false);
             _wagonContents.thisPlayerBeam.SetActive(false);
             _wagonData.score.scoreValue = _wagonData.score.scoreValue + _wagonContents.scoreGiven;
-            
+
+
             _wagonContents.transform.parent = null;
             _wagonContents.transform.position = exitLocation.transform.position;
             _wagonContents.isAtTarget = true;
             _wagonData.isOccupied = false;
             _wagonData.destinationTarget = null;
             _wagonContents.destination = null;
-            //_wagonContents.gameObject.SetActive(false);
+
+            RankingSystem.Instance.UpdateRanking();
 
         }
 
