@@ -53,7 +53,7 @@ public class ArriveAtTarget : MonoBehaviour
             _wagonContents.thisPlayerMarker.SetActive(false);
             _wagonContents.thisPlayerBeam.SetActive(false);
             _wagonData.score.scoreValue = _wagonData.score.scoreValue + _wagonContents.scoreGiven;
-            RankingSystem.Instance.UpdateRank(_wagonData.score.scoreValue, _wagonData);
+            
             _wagonContents.transform.parent = null;
             _wagonContents.transform.position = exitLocation.transform.position;
             _wagonContents.isAtTarget = true;
