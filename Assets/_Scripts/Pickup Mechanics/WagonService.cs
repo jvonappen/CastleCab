@@ -22,7 +22,9 @@ public class WagonService : MonoBehaviour
     private int listLength;
  
 
-    private WagonData wagonData;
+    private WagonData wagonData_A;
+    private WagonData wagonData_B;
+
     private GameObject _wagonSlot;
 
     //[Header("Timer")]
@@ -41,6 +43,11 @@ public class WagonService : MonoBehaviour
     [Header("Zoned Deliveries Toggle")]
     [SerializeField] public bool zonedDeliveriesToggle;
     [SerializeField] private int thisZoneNumber;
+
+    [SerializeField] private bool currentlyInCart;
+    [SerializeField] private int currentPlayer;
+
+
     [Header("DM - Debug")]
     [SerializeField] private DestinationManager DM;
     private GameObject[] z1;
@@ -87,20 +94,8 @@ public class WagonService : MonoBehaviour
 
     private void Awake()
     {
-        //if(DM == null)
-        //{
-        //    DM = DestinationManager.Instance;
-        //    StartRefs();
-        //}
-
-
-
-        // agent = this.gameObject.GetComponent<NavMeshAgent>();
         listLength = destinationList.Length;
-
         zoneSelect = RandomIntExcept(1, 5, thisZoneNumber);
-
-
 
         ////////////////////////////////////////////////////////////////////////////TimerManager.RunAfterTime(() =>
         ////////////////////////////////////////////////////////////////////////////{
@@ -126,9 +121,6 @@ public class WagonService : MonoBehaviour
             destination = destinationList[randomDestination];
         }
 
-        //customerSeat = WagonData.wagonSlot;
-
-
     }
 
     void LateUpdate()
@@ -144,34 +136,52 @@ public class WagonService : MonoBehaviour
     {
         if (other.tag != "Wagon") return;
         if (isAtTarget) return;
-        wagonData = other.GetComponent<WagonData>();
+        wagonData_A = other.GetComponent<WagonData>();
 
-        _wagonSlot = wagonData.wagonSlot;
+        _wagonSlot = wagonData_A.wagonSlot;
 
-        if (zonedDeliveriesToggle == true && !wagonData.isOccupied)
+        if (zonedDeliveriesToggle == true && !wagonData_A.isOccupied && !currentlyInCart)
         {
+            currentlyInCart = true;
             ZoneSelector(zoneSelect);
-            wagonData.destinationTarget = destination;
-            wagonData.isOccupied = true;
+            wagonData_A.destinationTarget = destination;
+            wagonData_A.isOccupied = true;
             this.transform.parent = _wagonSlot.transform;
             this.transform.position = this._wagonSlot.transform.position;
             transform.rotation = new Quaternion(X, Y, Z, 0);
             ChangeAnimation(NPC_FLAP);
+            PlayerMarkerSelect(wagonData_A.thisPlayerNumber, true);
+            currentPlayer = wagonData_A.thisPlayerNumber;
+            wagonData_B = wagonData_A;
+        }
+        if(zonedDeliveriesToggle == true && !wagonData_A.isOccupied && currentlyInCart == true)
+        {
+            currentlyInCart = true;
+            wagonData_A.isOccupied = true;
+            this.transform.parent = _wagonSlot.transform;
+            this.transform.position = this._wagonSlot.transform.position;
+            transform.rotation = new Quaternion(X, Y, Z, 0);
+            PlayerMarkerSelect(wagonData_A.thisPlayerNumber, true);
+            PlayerMarkerSelect(wagonData_B.thisPlayerNumber, false);
+            wagonData_B.isOccupied = false;
+
+            currentPlayer = wagonData_A.thisPlayerNumber;
+            wagonData_B = wagonData_A;
         }
 
 
-        if (captureFlagToggle == true && !wagonData.isOccupied)
+        if (captureFlagToggle == true && !wagonData_A.isOccupied)
         {
-            destination = playerBaseList[wagonData.thisPlayerNumber - 1];
-            wagonData.destinationTarget = destination;
-            wagonData.isOccupied = true;
+            destination = playerBaseList[wagonData_A.thisPlayerNumber - 1];
+            wagonData_A.destinationTarget = destination;
+            wagonData_A.isOccupied = true;
             this.transform.parent = _wagonSlot.transform;
             this.transform.position = this._wagonSlot.transform.position;            
             transform.rotation = new Quaternion(X, Y, Z, 0);
 
         }
 
-        if (!wagonData.isOccupied && destination != null && !captureFlagToggle)
+        if (!wagonData_A.isOccupied && destination != null && !captureFlagToggle)
         {
             //fareText.text = dollarsGiven.ToString();
             //AudioManager.Instance.PlaySFX("In");
@@ -186,9 +196,9 @@ public class WagonService : MonoBehaviour
             //ChangeAnimation(NPC_FLAP);
             //targetParticles.SetActive(true);
 
-            wagonData.destinationTarget = destination;
+            wagonData_A.destinationTarget = destination;
          
-            wagonData.isOccupied = true;
+            wagonData_A.isOccupied = true;
 
            // CompassBar.objectiveObjectTransform = destination.transform;
             //this.gameObject.GetComponent<CapsuleCollider>().enabled = false; 
@@ -207,7 +217,7 @@ public class WagonService : MonoBehaviour
 
         }
 
-        PlayerMarkerSelect(wagonData.thisPlayerNumber);
+        
     }
 
     public void SetTargetParticlesPosition()
@@ -269,23 +279,23 @@ public class WagonService : MonoBehaviour
         destination = list[randomDestination];
     }
 
-    private void PlayerMarkerSelect(int pn)
+    private void PlayerMarkerSelect(int pn, bool active)
     {
-        if (pn == 1) { thisPlayerMarker = tmP1; thisPlayerBeam = bmP1; MarkerPlacement(thisPlayerMarker, thisPlayerBeam); }
-        if (pn == 2) { thisPlayerMarker = tmP2; thisPlayerBeam = bmP2; MarkerPlacement(thisPlayerMarker, thisPlayerBeam); }
-        if (pn == 3) { thisPlayerMarker = tmP3; thisPlayerBeam = bmP3; MarkerPlacement(thisPlayerMarker, thisPlayerBeam); }
-        if (pn == 4) { thisPlayerMarker = tmP4; thisPlayerBeam = bmP4; MarkerPlacement(thisPlayerMarker, thisPlayerBeam); }
+        if (pn == 1) { thisPlayerMarker = tmP1; thisPlayerBeam = bmP1; MarkerPlacement(thisPlayerMarker, thisPlayerBeam, active); }
+        if (pn == 2) { thisPlayerMarker = tmP2; thisPlayerBeam = bmP2; MarkerPlacement(thisPlayerMarker, thisPlayerBeam, active); }
+        if (pn == 3) { thisPlayerMarker = tmP3; thisPlayerBeam = bmP3; MarkerPlacement(thisPlayerMarker, thisPlayerBeam, active); }
+        if (pn == 4) { thisPlayerMarker = tmP4; thisPlayerBeam = bmP4; MarkerPlacement(thisPlayerMarker, thisPlayerBeam, active); }
 
     }
 
-    private void MarkerPlacement(GameObject marker, GameObject beam)
+    private void MarkerPlacement(GameObject marker, GameObject beam, bool active)
     {
         marker.transform.position = destination.transform.position;
         marker.transform.position = new Vector3(destination.transform.position.x, mapY, destination.transform.position.z);
-        marker.SetActive(true);
+        marker.SetActive(active);
 
         beam.transform.position = destination.transform.position;
-        beam.SetActive(true);
+        beam.SetActive(active);
     }
 
     private void StartRefs()
