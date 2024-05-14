@@ -15,9 +15,7 @@ public class WagonData : MonoBehaviour
 
     public int thisPlayerNumber;
     public static int playerNumber = 0;
-
-    [Header("Rank Position Icons")]
-    public GameObject r1st, r2nd, r3rd, r4th;
+    public GameObject rankingUI;
     private void Awake()
     {
         isOccupied = false;
@@ -25,7 +23,7 @@ public class WagonData : MonoBehaviour
         playerNumber = playerNumber + 1;
         thisPlayerNumber = playerNumber;
         AddToRankSystem();
-        r1st.SetActive(false); r2nd.SetActive(false); r3rd.SetActive(false); r4th.SetActive(false);
+        //r1st.SetActive(false); r2nd.SetActive(false); r3rd.SetActive(false); r4th.SetActive(false);
         MapScreenLocatioMoverPerPlayerJoined.Instance.MapPosUpdate();
     }
 
