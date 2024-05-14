@@ -87,12 +87,27 @@ public class UpgradePointProgress : PointProgress
 
     private void Start()
     {
-        m_manager = GameManager.Instance;
+        
 
         UpdateCostText();
 
+        
+    }
+
+    private void OnEnable()
+    {
+        m_manager = GameManager.Instance;
+
         m_manager.onGoldChanged += OnCurrencyChanged;
         if (m_playerUpgrades) m_playerUpgrades.onAttributePointsChanged += OnCurrencyChanged;
+    }
+
+    private void OnDisable()
+    {
+        m_manager = GameManager.Instance;
+
+        m_manager.onGoldChanged -= OnCurrencyChanged;
+        if (m_playerUpgrades) m_playerUpgrades.onAttributePointsChanged -= OnCurrencyChanged;
     }
 
     void OnCurrencyChanged(int _oldVal, int _newVal) => UpdateCostText();
