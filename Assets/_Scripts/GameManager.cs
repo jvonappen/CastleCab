@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using System.Linq;
 
+#region Material structs
 public struct MaterialInformation
 {
     public MaterialInformation(DyeData _main, DyeData _secondary, DyeData _tertiary)
@@ -20,6 +21,29 @@ public struct MaterialInformation
     public DyeData secondaryDye { get { return m_secondaryDye; } }
     public DyeData tertiaryDye { get { return m_tertiaryDye; } }
 }
+
+public struct HorseMatInformation
+{
+    public HorseMatInformation(DyeData _base, DyeData _hair, DyeData _tail, DyeData _nose, DyeData _feet, DyeData _pattern)
+    {
+        m_baseDye = _base;
+        m_hairDye = _hair;
+        m_tailDye = _tail;
+        m_noseDye = _nose;
+        m_feetDye = _feet;
+        m_patternDye = _pattern;
+    }
+
+    DyeData m_baseDye, m_hairDye, m_tailDye, m_noseDye, m_feetDye, m_patternDye;
+
+    public DyeData baseDye { get { return m_baseDye; } }
+    public DyeData hairDye { get { return m_hairDye; } }
+    public DyeData tailDye { get { return m_tailDye; } }
+    public DyeData noseDye { get { return m_noseDye; } }
+    public DyeData feetDye { get { return m_feetDye; } }
+    public DyeData patternDye { get { return m_patternDye; } }
+}
+#endregion
 
 public struct ModelCustomization
 {
@@ -64,11 +88,12 @@ public struct ModelCustomization
 public struct PlayerData
 {
     #region Constructor
-    public PlayerData(GameObject _obj, InputDevice _device, List<ModelCustomization> _modelCustomizations)
+    public PlayerData(GameObject _obj, InputDevice _device, List<ModelCustomization> _modelCustomizations, HorseMatInformation _horseMat)
     {
         m_player = _obj;
         m_device = _device;
         m_modelCustomizations = _modelCustomizations;
+        m_horseMat = _horseMat;
     }
     #endregion
 
@@ -76,10 +101,12 @@ public struct PlayerData
     GameObject m_player;
     InputDevice m_device;
     List<ModelCustomization> m_modelCustomizations;
+    HorseMatInformation m_horseMat;
 
     public GameObject player { get { return m_player; } set { m_player = value; } }
     public InputDevice device { get { return m_device; } }
     public List<ModelCustomization> modelCustomizations { get { return m_modelCustomizations; } }
+    public HorseMatInformation horseMat { get { return m_horseMat; } }
     #endregion
 }
 
@@ -111,7 +138,7 @@ public class GameManager : MonoBehaviour
         PlayerInput playerInput = _player.GetComponent<PlayerInput>();
         InputDevice device = playerInput.devices[0];
 
-        PlayerData data = new(_player, device, new());
+        PlayerData data = new(_player, device, new(), new());
 
         // If no devices in playerData match the new device, it is added as a new player
         if (!m_players.Any(existingData => existingData.device == device)) m_players.Add(data);
@@ -181,7 +208,7 @@ public class GameManager : MonoBehaviour
             {
                 GameObject player = inputManager.JoinUser(m_players[i].device);
 
-                m_players[i] = new(player, m_players[i].device, m_players[i].modelCustomizations);
+                m_players[i] = new(player, m_players[i].device, m_players[i].modelCustomizations, m_players[i].horseMat);
 
                 foreach (ModelSelector modelSelector in player.GetComponentsInChildren<ModelSelector>())
                 {
@@ -192,6 +219,8 @@ public class GameManager : MonoBehaviour
                     if (foundItem.mat.secondaryDye.colour != null) modelSelector.colourSelector.SetDye("Secondary", foundItem.mat.secondaryDye);
                     if (foundItem.mat.tertiaryDye.colour != null) modelSelector.colourSelector.SetDye("Tertiary", foundItem.mat.tertiaryDye);
                 }
+
+                player.GetComponentInChildren<HorseColourSelector>().SetDyes(m_players[i].horseMat);
             }
         }
         

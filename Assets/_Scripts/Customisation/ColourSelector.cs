@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public struct DyeData
@@ -11,38 +9,19 @@ public struct DyeData
 
 public class ColourSelector : MonoBehaviour
 {
-    ModelSelector m_modelSelector;
-    public ModelSelector modelSelector { get { return m_modelSelector; } }
-    private void Awake() => m_modelSelector = GetComponent<ModelSelector>();
+    public virtual Material GetMat() { return null; }
 
-    public void SetMainDye(SO_Dye _dye) => SetDye("Main", _dye);
-    public void SetSecondaryDye(SO_Dye _dye) => SetDye("Secondary", _dye);
-    public void SetTertiaryDye(SO_Dye _dye) => SetDye("Tertiary", _dye);
-
-    public void ResetMainDye() => ResetDye("Main");
-    public void ResetSecondaryDye() => ResetDye("Secondary");
-    public void ResetTertiaryDye() => ResetDye("Tertiary");
-
-    void ResetDye(string _colourSegment)
-    {
-        if (m_modelSelector.previewObject)
-        {
-            ModelSettings settings = m_modelSelector.previewObject.GetComponent<ModelSettings>();
-            if (settings)
-                SetDye(_colourSegment, settings.defaultMat.GetColor("_" + _colourSegment + "_Colour"), settings.defaultMat.GetFloat("_" + _colourSegment + "_Metal"), settings.defaultMat.GetFloat("_" + _colourSegment + "_Rough"));
-        }
-    }
-
-    public void SetDye(string _colourSegment, SO_Dye _dye)
+    public virtual void ResetDye(string _colourSegment) { }
+    public virtual void SetDye(string _colourSegment, SO_Dye _dye)
     {
         if (_dye) SetDye(_colourSegment, _dye.m_colour, _dye.m_metal, _dye.m_roughness);
         else ResetDye(_colourSegment);
     }
-    public void SetDye(string _colourSegment, DyeData _dye) => SetDye(_colourSegment, _dye.colour, _dye.metal, _dye.roughness);
+    public virtual void SetDye(string _colourSegment, DyeData _dye) => SetDye(_colourSegment, _dye.colour, _dye.metal, _dye.roughness);
 
-    void SetDye(string _colourSegment, Color _colour, float _metal, float _roughness)
+    public void SetDye(string _colourSegment, Color _colour, float _metal, float _roughness)
     {
-        Material mat = m_modelSelector.GetMat();
+        Material mat = GetMat();
         if (mat)
         {
             mat.SetColor("_" + _colourSegment + "_Colour", _colour);
@@ -53,7 +32,7 @@ public class ColourSelector : MonoBehaviour
 
     public DyeData GetDye(string _colourSegment)
     {
-        Material mat = m_modelSelector.GetMat();
+        Material mat = GetMat();
         if (mat)
         {
             DyeData data = new();
@@ -67,4 +46,6 @@ public class ColourSelector : MonoBehaviour
 
         return new();
     }
+
+    public void CopyMatToSelector(ColourSelector _selector) => _selector.GetComponent<Renderer>().sharedMaterial = GetMat();
 }

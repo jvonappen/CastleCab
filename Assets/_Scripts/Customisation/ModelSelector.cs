@@ -8,7 +8,7 @@ public class ModelSelector : MonoBehaviour
     [Tooltip("Index to differentiate different types e.g. hats, wheels, wagons")] public int m_typeIndex;
     //string m_selectorType;
 
-    [HideInInspector] public ColourSelector colourSelector;
+    [HideInInspector] public MultiColourSelector colourSelector;
 
     List<GameObject> m_selectionlist = new();
 
@@ -22,7 +22,7 @@ public class ModelSelector : MonoBehaviour
 
     private void Awake()
     {
-        colourSelector = GetComponent<ColourSelector>();
+        colourSelector = GetComponent<MultiColourSelector>();
 
         foreach (Transform child in transform)
         {
