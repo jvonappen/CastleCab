@@ -9,7 +9,7 @@ public class DyeCollection : MonoBehaviour
     [SerializeField] CategorySelector m_categorySelector;
     public CategorySelector categorySelector { get { return m_categorySelector; } }
 
-    [SerializeField] ColourSelector m_selector;
+    [SerializeField] MultiColourSelector m_selector;
 
     [SerializeField] GameObject m_firstSelected;
     public GameObject firstSelected { get { return m_firstSelected; } }
@@ -44,7 +44,7 @@ public class DyeCollection : MonoBehaviour
     {
         selectedDye = _dye;
 
-        GameObject dyeSlotToSelect = categorySelector.m_selectedObject.transform.Find("MainDye").gameObject;
+        GameObject dyeSlotToSelect = categorySelector.m_selectedObject.transform.GetChild(2).gameObject;
 
         categorySelector.SetDyeInteraction(true);
         m_customisationDisplay.input.playerInput.uiInputModule.GetComponent<MultiplayerEventSystem>().SetSelectedGameObject(dyeSlotToSelect);

@@ -11,15 +11,21 @@ public class PlayerCustomization : MonoBehaviour
     {
         m_playerInput = _input;
         m_playerModelSelector = m_playerInput.GetComponentInChildren<ModelSelector>();
+        m_playerHorseColourSelector = m_playerInput.GetComponentInChildren<HorseColourSelector>();
     }
 
     ModelSelector m_customizeModelSelector;
     ModelSelector m_playerModelSelector;
 
+    HorseColourSelector m_horseColourSelector;
+    HorseColourSelector m_playerHorseColourSelector;
+
     PlayerInputHandler m_input;
     private void Awake()
     {
         m_customizeModelSelector = transform.GetComponentInChildren<ModelSelector>();
+        m_horseColourSelector = transform.GetComponentInChildren<HorseColourSelector>();
+
         m_input = GetComponent<PlayerInputHandler>();
     }
 
@@ -40,6 +46,7 @@ public class PlayerCustomization : MonoBehaviour
     {
         InputManager.SwitchPlayerInput(m_input.playerInput, m_playerInput);
         m_customizeModelSelector.CopySelectionToSelector(m_playerModelSelector);
+        m_horseColourSelector.CopyMatToSelector(m_playerHorseColourSelector);
 
         StoreCustomizationsToPlayer();
 
@@ -59,6 +66,18 @@ public class PlayerCustomization : MonoBehaviour
         else device = GetComponent<PlayerInput>().devices[0];
 
         PlayerData data = GameManager.Instance.GetPlayerData(device);
-        GameManager.Instance.SetPlayerData(device, new(data.player, data.device, modelCustomizations));
+        GameManager.Instance.SetPlayerData(device, new(data.player, data.device, modelCustomizations, GetHorseMat()));
+    }
+
+    public HorseMatInformation GetHorseMat()
+    {
+        return new HorseMatInformation(
+            m_horseColourSelector.GetDye("Base"),
+            m_horseColourSelector.GetDye("Hair"),
+            m_horseColourSelector.GetDye("Tail"),
+            m_horseColourSelector.GetDye("Nose"),
+            m_horseColourSelector.GetDye("Feet"),
+            m_horseColourSelector.GetDye("Horse_Pattern")
+            );
     }
 }

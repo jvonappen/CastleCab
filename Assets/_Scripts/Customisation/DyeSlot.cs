@@ -26,8 +26,14 @@ public class DyeSlot : MonoBehaviour
         UpdateSlotColour();
     }
 
-    private void OnEnable() => m_selector.modelSelector.onModelSelect += UpdateSlotColour;
-    private void OnDisable() => m_selector.modelSelector.onModelSelect -= UpdateSlotColour;
+    private void OnEnable()
+    {
+        if (m_selector.GetType() == typeof(MultiColourSelector)) ((MultiColourSelector)m_selector).modelSelector.onModelSelect += UpdateSlotColour;
+    }
+    private void OnDisable()
+    {
+        if (m_selector.GetType() == typeof(MultiColourSelector)) ((MultiColourSelector)m_selector).modelSelector.onModelSelect -= UpdateSlotColour;
+    }
 
     public void EquipDye()
     {
