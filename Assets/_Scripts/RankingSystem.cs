@@ -8,7 +8,13 @@ public class RankingSystem : MonoBehaviour
     [SerializeField] public WagonData P1, P2, P3, P4;
 
     [Header("Ranking Position UI")]
-    [SerializeField] GameObject first;
+    [SerializeField] private GameObject ui_first, ui_second, ui_third, ui_fourth;
+    private GameObject ui_p1, ui_p2, ui_p3, ui_p4;
+
+
+    //Transform Positions for 1v1 or 1vMore UI
+    [SerializeField] private GameObject tposA_1v1, tposB_1v1;
+    [SerializeField] private GameObject tposA_1vMore, tposB_1vMore, tposC_1vMore, tposD_1vMore;
 
     [Header("Debug")]
     [SerializeField] private int scoreP1, scoreP2, scoreP3, scoreP4;
@@ -73,5 +79,21 @@ public class RankingSystem : MonoBehaviour
     //    player.r4th.SetActive(false);
 
     //}
+
+    private void RankingUIPlacement()
+    {
+        if(P1 == true && P2 == true && P3 == false)
+        {
+
+        }
+        if(P3 != false)
+        {
+
+        }
+        if (P4 != false)
+        {
+
+        }
+    }
 
 }
