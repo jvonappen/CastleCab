@@ -6,22 +6,22 @@ using UnityEngine;
 [RequireComponent(typeof(TextMeshPro))]
 public class PopupDisplay
 {
-    static int m_popupCap = 25;
-    static List<GameObject> m_popupList = new();
-
-    static GameObject m_lastPopup;
-
-    static GameObject CreatePopup()
-    {
-        GameObject go = new GameObject("PopupDisplay");
-        m_popupList.Add(go);
-
-        go.layer = LayerMask.NameToLayer("UI");
-        //go.AddComponent<RectTransform>();
-        //go.AddComponent<TextMeshProUGUI>();
-        return go;
-    }
-
+    //static int m_popupCap = 25;
+    //static List<GameObject> m_popupList = new();
+    //
+    //static GameObject m_lastPopup;
+    //
+    //static GameObject CreatePopup()
+    //{
+    //    GameObject go = new GameObject("PopupDisplay");
+    //    m_popupList.Add(go);
+    //
+    //    go.layer = LayerMask.NameToLayer("UI");
+    //    //go.AddComponent<RectTransform>();
+    //    //go.AddComponent<TextMeshProUGUI>();
+    //    return go;
+    //}
+    //
     //static GameObject FindValidPopup(int _index, int _totalRecursions = 0)
     //{
     //    // If looped through all possible popups and none are valid, add a new one to increase the pool

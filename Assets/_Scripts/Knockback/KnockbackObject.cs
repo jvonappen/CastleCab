@@ -46,7 +46,8 @@ public class KnockbackObject : MonoBehaviour
             Knockback kb = otherRB.GetComponent<Knockback>();
             if (kb)
             {
-                Vector3 contactPoint = m_collider.ClosestPoint(transform.position);
+                Vector3 contactPoint = transform.position;
+                if (!(m_collider.GetType() == typeof(MeshCollider) && !((MeshCollider)m_collider).convex)) contactPoint = m_collider.ClosestPoint(transform.position);
 
                 kb.KnockBack((otherRB.transform.position - transform.position).normalized, contactPoint);
 

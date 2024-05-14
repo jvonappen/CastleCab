@@ -27,11 +27,12 @@ public class CategorySelector : MonoBehaviour
     public void SelectObject(GameObject _obj)
     {
         if (_obj == m_selectedObject) return;
-        
-        if (m_tween == null || !m_tween.IsPlaying())
+
+        if (m_tween == null)
         {
             float selectionDistanceFromPrevious = m_selectedObject.transform.localPosition.y - _obj.transform.localPosition.y;
             m_tween = transform.DOLocalMoveY(transform.localPosition.y + selectionDistanceFromPrevious, 0.1f);
+            m_tween.OnKill(() => { m_tween = null; });
 
             _obj.GetComponentInChildren<Image>().transform.DOScale(Vector3.one * m_selectImageSizeMulti, 0.1f);
 
