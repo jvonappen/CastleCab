@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] PlayerUpgrades m_playerUpgrades;
 
     public Rigidbody rb;
-    [SerializeField] Rigidbody wagon;
+    public Rigidbody wagon;
     public Transform horse { get { return rb.transform; } }
 
     [SerializeField] ProgressBar m_staminaBar;
@@ -358,7 +358,12 @@ public class PlayerMovement : MonoBehaviour
 
         wagon.drag = m_defaultDrag;
 
-        if (m_isSmackStunned) m_isSmackStunned = false;
+        if (m_isSmackStunned)
+        {
+            rb.velocity = new Vector3(0, rb.velocity.y, 0);
+            TimerManager.RunAfterTime(() => { m_isSmackStunned = false; }, 0.1f);
+            
+        }
 
         if (m_isAirControl) CancelAirControl();
 
@@ -482,11 +487,14 @@ public class PlayerMovement : MonoBehaviour
     {
         if (m_isGrounded)
         {
-            if (m_staminaBar)
+            if (m_canMove && !m_isSmackStunned)
             {
-                if (m_staminaBar.progress > 0) OnHurricanePerformed();
+                if (m_staminaBar)
+                {
+                    if (m_staminaBar.progress > 0) OnHurricanePerformed();
+                }
+                else OnHurricanePerformed();
             }
-            else OnHurricanePerformed();
         }
     }
     void OnHurricanePerformed()

@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using static UnityEngine.ParticleSystem;
 
 public class Health : MonoBehaviour
 {

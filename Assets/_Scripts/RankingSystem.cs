@@ -7,9 +7,17 @@ public class RankingSystem : MonoBehaviour
     public static RankingSystem Instance;
 
     [SerializeField] public WagonData P1, P2, P3, P4;
-    [SerializeField] private int scoreP1, scoreP2, scoreP3, scoreP4;
+
+    [Header("Ranking Position UI")]
+    [SerializeField] private GameObject ui_first, ui_second, ui_third, ui_fourth;
 
     
+    //Transform Positions for 1v1 or 1vMore UI
+    [SerializeField] private GameObject tposA_1v1, tposB_1v1;
+    [SerializeField] private GameObject tposA_1vMore, tposB_1vMore, tposC_1vMore, tposD_1vMore;
+
+    [Header("Debug")]
+    [SerializeField] private int scoreP1, scoreP2, scoreP3, scoreP4;   
 
     private void Awake()
     {
@@ -19,61 +27,64 @@ public class RankingSystem : MonoBehaviour
             gameObject.transform.SetParent(null);
             DontDestroyOnLoad(gameObject);
         }
-        else
+        else { Destroy(gameObject); }          
+    }
+
+    public void CalculateRanking(WagonData player)
+    {
+        GetScore();
+
+        player.rank = 0;
+
+        if (player.score.scoreValue >= scoreP1) { player.rank = player.rank - 1; }
+        if (player.score.scoreValue >= scoreP2) { player.rank = player.rank - 1; }
+        if (player.score.scoreValue >= scoreP3) { player.rank = player.rank - 1; }
+        if (player.score.scoreValue >= scoreP4) { player.rank = player.rank - 1; }
+
+        if (player.score.scoreValue < scoreP1) { player.rank = player.rank + 1; }
+        if (player.score.scoreValue < scoreP2) { player.rank = player.rank + 1; }
+        if (player.score.scoreValue < scoreP3) { player.rank = player.rank + 1; }
+        if (player.score.scoreValue < scoreP4) { player.rank = player.rank + 1; }
+
+        SetRankingUI(player);
+        RankingUIPlacement();
+    }
+
+    private void GetScore()
+    {
+        if (P1 != null) { scoreP1 = P1.score.scoreValue; }
+        if (P2 != null) { scoreP2 = P2.score.scoreValue; }
+        if (P3 != null) { scoreP3 = P3.score.scoreValue; }
+        if (P4 != null) { scoreP4 = P4.score.scoreValue; }
+    }
+
+    private void SetRankingUI(WagonData player)
+    {
+        if (player.rank == 1) { player.rankingUI = ui_first;  }
+        if (player.rank == 2) { player.rankingUI = ui_second; }
+        if (player.rank == 3) { player.rankingUI = ui_third;  }
+        if (player.rank == 4) { player.rankingUI = ui_fourth; }
+
+        else Debug.Log("Ranking system error");
+    }
+
+    private void RankingUIPlacement()
+    {
+        if (P1 != null && P2 != null && P3 == null)
         {
-            Destroy(gameObject);
+            P1.rankingUI.transform.position = tposA_1v1.transform.position;
+            P2.rankingUI.transform.position = tposB_1v1.transform.position;
         }
-
-        
-       
-    }
-
-    public void UpdateRank(int score, WagonData player)
-    {
-        PlayerRank(score, player);
-
-        if (P1 != null) { PlayerRank(scoreP1, P1); DoTheRank(P1); }
-        if (P2 != null) { PlayerRank(scoreP2, P2); DoTheRank(P2); }
-        if (P3 != null) { PlayerRank(scoreP3, P3); DoTheRank(P3); }
-        if (P4 != null) { PlayerRank(scoreP4, P4); DoTheRank(P4); }
-
-    }
-
-    private void PlayerRank(int score, WagonData player)
-    {
-
-        int rank = 0;
-
-        if (P1 != null && score > scoreP1) rank = +1;
-        if (P2 != null && score > scoreP2) rank = +1;
-        if (P3 != null && score > scoreP3) rank = +1;
-        if (P4 != null && score > scoreP4) rank = +1;
-
-        if (P1 != null && score < scoreP1) rank = -1;
-        if (P2 != null && score < scoreP2) rank = -1;
-        if (P3 != null && score < scoreP3) rank = -1;
-        if (P4 != null && score < scoreP4) rank = -1;
-
-        player.rank = rank;
-
-    }
-
-    private void DoTheRank(WagonData player)
-    {
-        ResetRankIcons(player);
-        if (player.rank == 1) player.r1st.SetActive(true);
-        if (player.rank == 2) player.r2nd.SetActive(true);
-        if (player.rank == 3) player.r3rd.SetActive(true);
-        if (player.rank == 4) player.r4th.SetActive(true);
-    }
-
-    private void ResetRankIcons(WagonData player)
-    {
-        player.r1st.SetActive(false);
-        player.r2nd.SetActive(false);
-        player.r3rd.SetActive(false);
-        player.r4th.SetActive(false);
-
+        if (P3 != null)
+        {
+            P1.rankingUI.transform.position = tposA_1vMore.transform.position;
+            P2.rankingUI.transform.position = tposB_1vMore.transform.position;
+            P3.rankingUI.transform.position = tposC_1vMore.transform.position;
+        }
+        if (P4 != null)
+        {
+            P4.rankingUI.transform.position = tposD_1vMore.transform.position;
+        }
     }
 
 }
