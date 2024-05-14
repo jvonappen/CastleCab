@@ -358,7 +358,12 @@ public class PlayerMovement : MonoBehaviour
 
         wagon.drag = m_defaultDrag;
 
-        if (m_isSmackStunned) m_isSmackStunned = false;
+        if (m_isSmackStunned)
+        {
+            rb.velocity = new Vector3(0, rb.velocity.y, 0);
+            TimerManager.RunAfterTime(() => { m_isSmackStunned = false; }, 0.1f);
+            
+        }
 
         if (m_isAirControl) CancelAirControl();
 
