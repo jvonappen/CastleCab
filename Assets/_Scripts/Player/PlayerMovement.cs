@@ -482,11 +482,14 @@ public class PlayerMovement : MonoBehaviour
     {
         if (m_isGrounded)
         {
-            if (m_staminaBar)
+            if (m_canMove && !m_isSmackStunned)
             {
-                if (m_staminaBar.progress > 0) OnHurricanePerformed();
+                if (m_staminaBar)
+                {
+                    if (m_staminaBar.progress > 0) OnHurricanePerformed();
+                }
+                else OnHurricanePerformed();
             }
-            else OnHurricanePerformed();
         }
     }
     void OnHurricanePerformed()

@@ -143,11 +143,10 @@ public class WagonService : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag != "Wagon") return;
-        if (isAtTarget) { Debug.Log(isAtTarget); return; }
+        if (isAtTarget) return;
         wagonData = other.GetComponent<WagonData>();
 
         _wagonSlot = wagonData.wagonSlot;
-        Debug.Log(wagonData.wagonSlot);
 
         if (zonedDeliveriesToggle == true && !wagonData.isOccupied)
         {
@@ -174,7 +173,6 @@ public class WagonService : MonoBehaviour
 
         if (!wagonData.isOccupied && destination != null && !captureFlagToggle)
         {
-            Debug.Log(destination);
             //fareText.text = dollarsGiven.ToString();
             //AudioManager.Instance.PlaySFX("In");
             //this.transform.parent = this.customerSeat.transform;
