@@ -27,6 +27,8 @@ public class CustomisationDisplay : MonoBehaviour
     ModelSelector m_currentModelSelector;
     public void SetModelSelector(ModelSelector _modelSelector) => m_currentModelSelector = _modelSelector;
 
+    SkinSelector m_skinSelector;
+
     private void OnEnable()
     {
         m_input.m_playerControls.UI.ToggleCustomiseMode.performed += ToggleMode;
@@ -46,6 +48,17 @@ public class CustomisationDisplay : MonoBehaviour
         SelectMenu1();
     }
 
+    public void SetMenu(GameObject _menu)
+    {
+        m_modeMenu1.SetActive(false);
+        m_modeMenu1 = _menu;
+        m_modeMenu1.SetActive(true);
+
+        m_selectedDisplay = m_modeMenu1;
+
+        if (m_selectedDisplay.TryGetComponent(out SkinCollection collection)) m_skinSelector = collection.skinSelector;
+    }
+
     void ToggleMode(InputAction.CallbackContext context) => ToggleMode();
     public void ToggleMode()
     {
@@ -56,7 +69,7 @@ public class CustomisationDisplay : MonoBehaviour
     void SelectMenu1()
     {
         // TEMPORARY
-        m_currentModelSelector = m_modeMenu1.GetComponent<ModelCollection>().modelSelector;
+        if (m_modeMenu1.TryGetComponent(out ModelCollection collection)) m_currentModelSelector = collection.modelSelector;
 
         m_display.Display1();
 
@@ -73,7 +86,7 @@ public class CustomisationDisplay : MonoBehaviour
     void SelectMenu2()
     {
         m_dyeCollection.SetInteraction(true);
-        m_currentModelSelector.SelectSelected();
+        if (m_currentModelSelector) m_currentModelSelector.SelectSelected();
 
         m_display.Display2();
 
@@ -107,7 +120,9 @@ public class CustomisationDisplay : MonoBehaviour
     }
     void ExitSelector()
     {
-        m_currentModelSelector.SelectSelected();
+        if (m_currentModelSelector) m_currentModelSelector.SelectSelected();
+        if (m_skinSelector) m_skinSelector.DisplaySelectedSkin();
+
         m_categorySelector.SetInteraction(true);
         m_eventSystem.SetSelectedGameObject(m_categorySelector.m_selectedObject);
 
