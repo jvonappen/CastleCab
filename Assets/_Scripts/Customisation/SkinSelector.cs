@@ -5,7 +5,20 @@ public class SkinSelector : MonoBehaviour
     SkinData m_previewSkin, m_selectedSkin;
 
     ColourSelector m_colourSelector;
-    private void Awake() => m_colourSelector = GetComponent<ColourSelector>();
+    private void Awake()
+    {
+        m_colourSelector = GetComponent<ColourSelector>();
+        m_selectedSkin = GetSkin();
+    }
+
+    public SkinData GetSkin()
+    {
+        SkinData skin;
+        skin.m_baseColour = m_colourSelector.GetMat().GetTexture("_Skin_BaseColour") as Texture2D;
+        skin.m_mask = m_colourSelector.GetMat().GetTexture("_Skin_Mask") as Texture2D;
+
+        return skin;
+    }
 
     public void SetSkin(SO_Skin _skin) => SetSkin(_skin.m_data);
 
