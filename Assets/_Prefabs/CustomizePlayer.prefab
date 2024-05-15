@@ -23021,6 +23021,7 @@ GameObject:
   - component: {fileID: 8355361736514287120}
   - component: {fileID: 99624854869806534}
   - component: {fileID: 5178928165874561767}
+  - component: {fileID: 2985995306656294457}
   m_Layer: 5
   m_Name: ----Skins
   m_TagString: Untagged
@@ -23085,6 +23086,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47532bc3ecc40534999f8ef0e7ba9d96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2985995306656294457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4794685881957150965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65b69ace61fcf5449a60e2c868c97163, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_skinSelector: {fileID: 7685232477966774098}
 --- !u!1 &4795486137706868149
 GameObject:
   m_ObjectHideFlags: 0
@@ -28934,6 +28948,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: ButtonSelector, Assembly-CSharp
         m_MethodName: SelectButtonByIndex
         m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 7685232477966774098}
+        m_TargetAssemblyTypeName: SkinSelector, Assembly-CSharp
+        m_MethodName: ConfirmSkin
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -38236,6 +38262,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: ButtonSelector, Assembly-CSharp
         m_MethodName: SelectButtonByIndex
         m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 7685232477966774098}
+        m_TargetAssemblyTypeName: SkinSelector, Assembly-CSharp
+        m_MethodName: ConfirmSkin
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
