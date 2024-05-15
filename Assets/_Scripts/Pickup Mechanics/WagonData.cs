@@ -31,9 +31,9 @@ public class WagonData : MonoBehaviour
         thisPlayerNumber = playerNumber;
         score.scoreValue = playerNumber;
        
-        RankingSystem.Instance.players.Add(this);
+       // RankingSystem.Instance.players.Add(this);
         MapScreenLocation.Instance.MapPosUpdate();
-        RankingSystem.Instance.UpdateRanking();
+      //  RankingSystem.Instance.UpdateRanking();
 
         //SetRankingPOS();
 
