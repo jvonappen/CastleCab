@@ -46,6 +46,13 @@ public class CustomisationDisplay : MonoBehaviour
         SelectMenu1();
     }
 
+    public void SetMenu(GameObject _menu)
+    {
+        m_modeMenu1.SetActive(false);
+        m_modeMenu1 = _menu;
+        m_modeMenu1.SetActive(true);
+    }
+
     void ToggleMode(InputAction.CallbackContext context) => ToggleMode();
     public void ToggleMode()
     {
@@ -56,7 +63,7 @@ public class CustomisationDisplay : MonoBehaviour
     void SelectMenu1()
     {
         // TEMPORARY
-        m_currentModelSelector = m_modeMenu1.GetComponent<ModelCollection>().modelSelector;
+        if (m_modeMenu1.TryGetComponent(out ModelCollection collection)) m_currentModelSelector = collection.modelSelector;
 
         m_display.Display1();
 
@@ -73,7 +80,7 @@ public class CustomisationDisplay : MonoBehaviour
     void SelectMenu2()
     {
         m_dyeCollection.SetInteraction(true);
-        m_currentModelSelector.SelectSelected();
+        if (m_currentModelSelector) m_currentModelSelector.SelectSelected();
 
         m_display.Display2();
 
@@ -107,7 +114,7 @@ public class CustomisationDisplay : MonoBehaviour
     }
     void ExitSelector()
     {
-        m_currentModelSelector.SelectSelected();
+        if (m_currentModelSelector) m_currentModelSelector.SelectSelected();
         m_categorySelector.SetInteraction(true);
         m_eventSystem.SetSelectedGameObject(m_categorySelector.m_selectedObject);
 
