@@ -16,17 +16,6 @@ public class RankingSystem : MonoBehaviour
     [SerializeField] private GameObject ui_third;
     [SerializeField] private GameObject ui_fourth;
 
-
-    [Header("Transform Positions 1v1")]
-    [SerializeField] private GameObject posA_1v1;
-    [SerializeField] private GameObject posB_1v1;
-
-    [Header("Transform Positions 1vMore")]
-    [SerializeField] private GameObject posA_1vMore;
-    [SerializeField] private GameObject posB_1vMore;
-    [SerializeField] private GameObject posC_1vMore;
-    [SerializeField] private GameObject posD_1vMore;
-
     private void Awake()
     {
         if (Instance == null)
@@ -42,6 +31,8 @@ public class RankingSystem : MonoBehaviour
     {
         CalculateRanks();
         RankingUIPlacement();
+
+        Debug.Log(players.Count);
     }
 
     private void CalculateRanks()
@@ -51,7 +42,8 @@ public class RankingSystem : MonoBehaviour
 
     private void RankingUIPlacement()
     {
-        if (P1 != null && P2 != null && P3 == null)
+        if (players.Count == 1) { players[0].rankingUI = ui_first; }
+        if (players.Count == 2)
         {
             ui_first.SetActive(true);
             ui_second.SetActive(true);
@@ -61,29 +53,22 @@ public class RankingSystem : MonoBehaviour
             players[0].rankingUI = ui_first;
             players[1].rankingUI = ui_second;
 
-            P1.rankingUI.transform.position = posA_1v1.transform.position;
-            P2.rankingUI.transform.position = posB_1v1.transform.position;
         }
-        if (P3 != null)
+        if (players.Count == 3)
         {
             ui_third.SetActive(true);
             players[0].rankingUI = ui_first;
             players[1].rankingUI = ui_second;
             players[2].rankingUI = ui_third;
 
-            P1.rankingUI.transform.position = posA_1vMore.transform.position;
-            P2.rankingUI.transform.position = posB_1vMore.transform.position;
-            P3.rankingUI.transform.position = posC_1vMore.transform.position;
         }
-        if (P4 != null)
+        if (players.Count == 4)
         {
             ui_fourth.SetActive(true);
             players[0].rankingUI = ui_first;
             players[1].rankingUI = ui_second;
             players[2].rankingUI = ui_third;
             players[3].rankingUI = ui_fourth;
-
-            P4.rankingUI.transform.position = posD_1vMore.transform.position;
         }
 
     }
