@@ -14,6 +14,8 @@ public class WagonData : MonoBehaviour
     public int thisPlayerNumber;
     public static int playerNumber = 0;
     public GameObject rankingUI;
+    [SerializeField] private GameObject rankingPOS_L;
+    [SerializeField] private GameObject rankingPOS_R;
     private void Awake()
     {
         isOccupied = false;
@@ -21,18 +23,20 @@ public class WagonData : MonoBehaviour
         playerNumber = playerNumber + 1;
         thisPlayerNumber = playerNumber;
         score.scoreValue = playerNumber;
-        AddToRankingSystem();
+       
         RankingSystem.Instance.players.Add(this);
         MapScreenLocation.Instance.MapPosUpdate();
         RankingSystem.Instance.UpdateRanking();
+
+        SetRankingPOS();
     }
 
-    private void AddToRankingSystem()
+    private void SetRankingPOS()
     {
-        if (playerNumber == 1) { RankingSystem.Instance.P1 = this; }
-        if (playerNumber == 2) { RankingSystem.Instance.P2 = this; }
-        if (playerNumber == 3) { RankingSystem.Instance.P3 = this; }
-        if (playerNumber == 4) { RankingSystem.Instance.P4 = this; }
+        if (thisPlayerNumber == 1) { rankingUI.transform.position = rankingPOS_L.transform.position; }
+        if (thisPlayerNumber == 2) { rankingUI.transform.position = rankingPOS_R.transform.position; }
+        if (thisPlayerNumber == 3) { rankingUI.transform.position = rankingPOS_L.transform.position; }
+        if (thisPlayerNumber == 4) { rankingUI.transform.position = rankingPOS_R.transform.position; }
     }
 
 }
