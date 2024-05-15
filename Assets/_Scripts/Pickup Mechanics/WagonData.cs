@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class WagonData : MonoBehaviour
 {
@@ -13,7 +14,9 @@ public class WagonData : MonoBehaviour
     public Score score;
     public int thisPlayerNumber;
     public static int playerNumber = 0;
-    public GameObject rankingUI;
+    public Image[] rankingNumberUI;
+    public Image currentRankUI;
+
     [SerializeField] private GameObject rankingPOS_L;
     [SerializeField] private GameObject rankingPOS_R;
     private void Awake()
@@ -29,14 +32,16 @@ public class WagonData : MonoBehaviour
         RankingSystem.Instance.UpdateRanking();
 
         SetRankingPOS();
+
+        
     }
 
     private void SetRankingPOS()
     {
-        if (thisPlayerNumber == 1) { rankingUI.transform.position = rankingPOS_L.transform.position; }
-        if (thisPlayerNumber == 2) { rankingUI.transform.position = rankingPOS_R.transform.position; }
-        if (thisPlayerNumber == 3) { rankingUI.transform.position = rankingPOS_L.transform.position; }
-        if (thisPlayerNumber == 4) { rankingUI.transform.position = rankingPOS_R.transform.position; }
+        if (thisPlayerNumber == 1) { currentRankUI.transform.position = rankingPOS_L.transform.position; }
+        if (thisPlayerNumber == 2) { currentRankUI.transform.position = rankingPOS_R.transform.position; }
+        if (thisPlayerNumber == 3) { currentRankUI.transform.position = rankingPOS_L.transform.position; }
+        if (thisPlayerNumber == 4) { currentRankUI.transform.position = rankingPOS_R.transform.position; }
     }
 
 }
