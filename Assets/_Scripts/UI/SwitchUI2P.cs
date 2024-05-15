@@ -13,9 +13,8 @@ public class SwitchUI2P : PlayerJoinedNotifier
 
     PlayerInput m_playerInput;
 
-    public override void Start()
+    public void Start()
     {
-        base.Start();
         UpdateUI();
     }
 

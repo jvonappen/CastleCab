@@ -28,10 +28,8 @@ public class CoopScaleUI : PlayerJoinedNotifier
 
     }
 
-    public override void Start()
+    public void Start()
     {
-        base.Start();
-
         m_originalScale = transform.localScale;
         if (GameManager.Instance.players.Count > m_playersUntilActive - 1) transform.localScale = m_newScale;
     }
@@ -45,10 +43,7 @@ public class CoopScaleUI : PlayerJoinedNotifier
     public override void OnPlayerLeft(PlayerInput _player, List<PlayerInput> _players)
     {
         base.OnPlayerLeft(_player, _players);
-        if (transform)
-        {
-            if (GameManager.Instance.players.Count < m_playersUntilActive + 1) transform.localScale = m_originalScale;
-        }
-        
+        if (GameManager.Instance.players.Count < m_playersUntilActive + 1) transform.localScale = m_originalScale;
+
     }
 }
