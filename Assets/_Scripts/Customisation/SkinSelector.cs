@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class SkinSelector : MonoBehaviour
+public class SkinSelector : CustomisationSelector
 {
     SkinData m_previewSkin, m_selectedSkin;
 
     ColourSelector m_colourSelector;
-    private void Awake()
+    private void Start()
     {
         m_colourSelector = GetComponent<ColourSelector>();
         m_selectedSkin = GetSkin();
@@ -20,10 +20,14 @@ public class SkinSelector : MonoBehaviour
         return skin;
     }
 
+    public SkinData GetSelectedSkin() => m_selectedSkin;
+
     public void SetSkin(SO_Skin _skin) => SetSkin(_skin.m_data);
 
     public void SetSkin(SkinData _skin)
     {
+        if (!m_colourSelector) m_colourSelector = GetComponent<ColourSelector>();
+
         m_colourSelector.GetMat().SetTexture("_Skin_BaseColour", _skin.m_baseColour);
         m_colourSelector.GetMat().SetTexture("_Skin_Mask", _skin.m_mask);
 
@@ -31,5 +35,5 @@ public class SkinSelector : MonoBehaviour
     }
 
     public void ConfirmSkin() => m_selectedSkin = m_previewSkin;
-    public void DisplaySelectedSkin() => SetSkin(m_selectedSkin);
+    public override void DisplaySelected() => SetSkin(m_selectedSkin);
 }

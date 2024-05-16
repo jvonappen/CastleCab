@@ -24,7 +24,7 @@ public struct MaterialInformation
 
 public struct HorseMatInformation
 {
-    public HorseMatInformation(DyeData _base, DyeData _hair, DyeData _tail, DyeData _nose, DyeData _feet, DyeData _pattern)
+    public HorseMatInformation(DyeData _base, DyeData _hair, DyeData _tail, DyeData _nose, DyeData _feet, DyeData _pattern, Texture2D _patternStyle, SkinData _skinData)
     {
         m_baseDye = _base;
         m_hairDye = _hair;
@@ -32,16 +32,22 @@ public struct HorseMatInformation
         m_noseDye = _nose;
         m_feetDye = _feet;
         m_patternDye = _pattern;
+        m_pattern = _patternStyle;
+        m_skinData = _skinData;
     }
 
     DyeData m_baseDye, m_hairDye, m_tailDye, m_noseDye, m_feetDye, m_patternDye;
-
+    Texture2D m_pattern; 
+    SkinData m_skinData;
+    
     public DyeData baseDye { get { return m_baseDye; } }
     public DyeData hairDye { get { return m_hairDye; } }
     public DyeData tailDye { get { return m_tailDye; } }
     public DyeData noseDye { get { return m_noseDye; } }
     public DyeData feetDye { get { return m_feetDye; } }
     public DyeData patternDye { get { return m_patternDye; } }
+    public Texture2D pattern { get { return m_pattern; } }
+    public SkinData skinData { get { return m_skinData; } }
 }
 #endregion
 

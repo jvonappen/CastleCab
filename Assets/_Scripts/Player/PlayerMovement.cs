@@ -610,7 +610,10 @@ public class PlayerMovement : MonoBehaviour
         m_isGrounded = true;
 
         if (m_canRotateToGround)
+        {
             rb.transform.rotation = Quaternion.Slerp(rb.transform.rotation, Quaternion.FromToRotation(rb.transform.up, _hit.normal) * rb.transform.rotation, Time.fixedDeltaTime * 10.0f);
+        }
+            
     }
     #endregion
 

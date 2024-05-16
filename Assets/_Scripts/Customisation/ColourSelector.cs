@@ -7,7 +7,7 @@ public struct DyeData
     public float roughness;
 }
 
-public class ColourSelector : MonoBehaviour
+public class ColourSelector : CustomisationSelector
 {
     public virtual Material GetMat() { return null; }
 
