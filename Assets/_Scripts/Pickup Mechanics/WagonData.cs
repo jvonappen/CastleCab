@@ -11,8 +11,8 @@ public class WagonData : MonoBehaviour
     [SerializeField] private GameObject wagonSlotPoint;
 
     public bool isOccupied;
-    public  GameObject wagonSlot;
-    public  GameObject destinationTarget;
+    [HideInInspector] public  GameObject wagonSlot;
+    [HideInInspector] public GameObject destinationTarget;
     public Score score;
     public int thisPlayerNumber;
     public static int playerNumber = 0;

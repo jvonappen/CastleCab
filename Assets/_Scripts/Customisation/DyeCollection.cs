@@ -9,8 +9,6 @@ public class DyeCollection : MonoBehaviour
     [SerializeField] CategorySelector m_categorySelector;
     public CategorySelector categorySelector { get { return m_categorySelector; } }
 
-    [SerializeField] MultiColourSelector m_selector;
-
     [SerializeField] GameObject m_firstSelected;
     public GameObject firstSelected { get { return m_firstSelected; } }
 

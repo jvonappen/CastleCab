@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class SkinSelector : MonoBehaviour
+public class SkinSelector : CustomisationSelector
 {
     SkinData m_previewSkin, m_selectedSkin;
 
     ColourSelector m_colourSelector;
-    private void Awake()
+    private void Start()
     {
         m_colourSelector = GetComponent<ColourSelector>();
         m_selectedSkin = GetSkin();
@@ -31,5 +31,5 @@ public class SkinSelector : MonoBehaviour
     }
 
     public void ConfirmSkin() => m_selectedSkin = m_previewSkin;
-    public void DisplaySelectedSkin() => SetSkin(m_selectedSkin);
+    public override void DisplaySelected() => SetSkin(m_selectedSkin);
 }

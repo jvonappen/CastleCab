@@ -2,29 +2,27 @@ using UnityEngine;
 
 public class HorseColourSelector : ColourSelector
 {
+    Texture2D m_previewPattern, m_selectedPattern;
+
     Material m_defaultMat, m_currentMat;
     private void Awake()
     {
         m_defaultMat = GetComponent<Renderer>().sharedMaterial;
+        m_selectedPattern = m_defaultMat.GetTexture("_Horse_Pattern") as Texture2D;
 
         // Instances material
         m_currentMat = new(m_defaultMat); 
         GetComponent<Renderer>().sharedMaterial = m_currentMat;
     }
 
-    public void SetBaseDye(SO_Dye _dye) => SetDye("Base", _dye);
-    public void SetHairDye(SO_Dye _dye) => SetDye("Hair", _dye);
-    public void SetTailDye(SO_Dye _dye) => SetDye("Tail", _dye);
-    public void SetNoseDye(SO_Dye _dye) => SetDye("Nose", _dye);
-    public void SetFeetDye(SO_Dye _dye) => SetDye("Feet", _dye);
-    public void SetPatternDye(SO_Dye _dye) => SetDye("Horse_Pattern", _dye);
+    public void SetPattern(Texture2D _pattern)
+    {
+        m_currentMat.SetTexture("_Horse_Pattern", _pattern);
+        m_previewPattern = _pattern;
+    }
 
-    public void ResetBaseDye() => ResetDye("Base");
-    public void ResetHairDye() => ResetDye("Hair");
-    public void ResetTailDye() => ResetDye("Tail");
-    public void ResetNoseDye() => ResetDye("Nose");
-    public void ResetFeetDye() => ResetDye("Feet");
-    public void ResetPatternDye() => ResetDye("Horse_Pattern");
+    public void ConfirmPattern() => m_selectedPattern = m_previewPattern;
+    public override void DisplaySelected() => SetPattern(m_selectedPattern);
 
     public void SetDyes(HorseMatInformation _data)
     {
