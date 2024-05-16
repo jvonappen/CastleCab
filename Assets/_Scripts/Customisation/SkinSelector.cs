@@ -20,10 +20,14 @@ public class SkinSelector : CustomisationSelector
         return skin;
     }
 
+    public SkinData GetSelectedSkin() => m_selectedSkin;
+
     public void SetSkin(SO_Skin _skin) => SetSkin(_skin.m_data);
 
     public void SetSkin(SkinData _skin)
     {
+        if (!m_colourSelector) m_colourSelector = GetComponent<ColourSelector>();
+
         m_colourSelector.GetMat().SetTexture("_Skin_BaseColour", _skin.m_baseColour);
         m_colourSelector.GetMat().SetTexture("_Skin_Mask", _skin.m_mask);
 

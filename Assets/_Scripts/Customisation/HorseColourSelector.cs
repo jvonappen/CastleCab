@@ -2,13 +2,20 @@ using UnityEngine;
 
 public class HorseColourSelector : ColourSelector
 {
+    SkinSelector m_skinSelector;
+    public SkinSelector skinSelector { get { return m_skinSelector; } }
+
+
     Texture2D m_previewPattern, m_selectedPattern;
+    public Texture2D GetSelectedPattern() => m_selectedPattern;
 
     Material m_defaultMat, m_currentMat;
     private void Awake()
     {
         m_defaultMat = GetComponent<Renderer>().sharedMaterial;
         m_selectedPattern = m_defaultMat.GetTexture("_Horse_Pattern") as Texture2D;
+
+        m_skinSelector = GetComponent<SkinSelector>();
 
         // Instances material
         m_currentMat = new(m_defaultMat); 
@@ -32,6 +39,8 @@ public class HorseColourSelector : ColourSelector
         SetDye("Nose", _data.noseDye);
         SetDye("Feet", _data.feetDye);
         SetDye("Horse_Pattern", _data.patternDye);
+        SetPattern(_data.pattern);
+        m_skinSelector.SetSkin(_data.skinData);
     }
 
     public override void ResetDye(string _colourSegment)

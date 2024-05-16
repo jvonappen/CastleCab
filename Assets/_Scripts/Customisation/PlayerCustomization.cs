@@ -55,11 +55,11 @@ public class PlayerCustomization : MonoBehaviour
 
     public void StoreCustomizationsToPlayer()
     {
-        //List<ModelCustomization> modelCustomizations = new();
-        //foreach (ModelSelector in obj) // etc etc
+        List<ModelCustomization> modelCustomizations = new();
+        foreach (ModelSelector selector in GetComponentsInChildren<ModelSelector>()) modelCustomizations.Add(new(selector));
 
         // Temp
-        List<ModelCustomization> modelCustomizations = new() { new(m_customizeModelSelector) };
+        //List<ModelCustomization> modelCustomizations = new() { new(m_customizeModelSelector) };
 
         InputDevice device;
         if (m_playerInput.devices.Count > 0) device = m_playerInput.devices[0];
@@ -77,7 +77,9 @@ public class PlayerCustomization : MonoBehaviour
             m_horseColourSelector.GetDye("Tail"),
             m_horseColourSelector.GetDye("Nose"),
             m_horseColourSelector.GetDye("Feet"),
-            m_horseColourSelector.GetDye("Horse_Pattern")
+            m_horseColourSelector.GetDye("Horse_Pattern"),
+            m_horseColourSelector.GetSelectedPattern(),
+            m_horseColourSelector.skinSelector.GetSelectedSkin()
             );
     }
 }
