@@ -61,4 +61,11 @@ public class PlayerHealth : Health
             base.DealDamage(_damageAmount, _player);
         }
     }
+
+    public void HealthPickupIncrease(float pickupValue)
+    {
+        m_health = m_health + pickupValue;
+        if (m_health > m_maxHealth) m_health = m_maxHealth;
+        UpdateHealthBar();
+    }
 }
