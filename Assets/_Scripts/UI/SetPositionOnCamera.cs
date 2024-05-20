@@ -28,12 +28,10 @@ public class SetPositionOnCamera : MonoBehaviour
     }
     #endregion
 
-    void SetPositionAtScreenPoint(PlayerInput _player, List<PlayerInput> _players)
-    {
-        SetPositionAtScreenPoint();
-        //TimerManager.RunAfterTime(SetPositionAtScreenPoint, 0.1f);
-    }
-    void SetPositionAtScreenPoint()
+    void SetPositionAtScreenPoint(PlayerInput _player, List<PlayerInput> _players) => SetPositionAtScreenPoint();
+    public void SetPositionAtScreenPoint() => SetPositionAtPoint(m_positionOnCamera);
+
+    public void SetPositionAtPoint(Vector3 _point)
     {
         float camWidth = Screen.width * m_cam.rect.width;
         float camHeight = Screen.height * m_cam.rect.height;
@@ -43,10 +41,12 @@ public class SetPositionOnCamera : MonoBehaviour
         float camPosY = 0;
         if (m_cam.rect.y != 0) camPosY = m_cam.rect.y * Screen.height;
 
-        Vector3 screenPos = new Vector3(camPosX, camPosY, m_positionOnCamera.z);
-        if (m_positionOnCamera.x != 0) screenPos += Vector3.right * (camWidth * m_positionOnCamera.x);
-        if (m_positionOnCamera.y != 0) screenPos += Vector3.up * (camHeight * m_positionOnCamera.y);
+        Vector3 screenPos = new Vector3(camPosX, camPosY, _point.z);
+        if (_point.x != 0) screenPos += Vector3.right * (camWidth * _point.x);
+        if (_point.y != 0) screenPos += Vector3.up * (camHeight * _point.y);
 
         transform.position = m_cam.ScreenToWorldPoint(screenPos);
     }
+
+    public void SetPositionReady() => SetPositionAtPoint(new(0.66f, 0.5f, 3));
 }
