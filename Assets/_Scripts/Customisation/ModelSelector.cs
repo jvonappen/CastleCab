@@ -6,7 +6,7 @@ using UnityEngine;
 public class ModelSelector : MonoBehaviour
 {
     [Tooltip("Index to differentiate different types e.g. hats, wheels, wagons")] public int m_typeIndex;
-    //string m_selectorType;
+    [SerializeField] bool m_indexZeroIsNone;
 
     [HideInInspector] public MultiColourSelector colourSelector;
 
@@ -50,6 +50,8 @@ public class ModelSelector : MonoBehaviour
 
     public void PreviewObjectByIndex(int _index)
     {
+        if (!m_indexZeroIsNone) _index++;
+
         if (_index == 0) DeselectAll();
         else PreviewObject(transform.GetChild(_index - 1).gameObject);
 

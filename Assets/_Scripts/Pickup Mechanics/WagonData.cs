@@ -10,10 +10,14 @@ public class WagonData : MonoBehaviour
 {
     [SerializeField] private GameObject wagonSlotPoint;
 
-    public bool isOccupied;
+    [SerializeField] public PlayerHealth playerHealth;
+
+   public bool isOccupied;
     [HideInInspector] public  GameObject wagonSlot;
     [HideInInspector] public GameObject destinationTarget;
     public Score score;
+
+    [Header("Debug")]
     public int thisPlayerNumber;
     public static int playerNumber = 0;
     //public GameObject[] rankingNumberUI;
