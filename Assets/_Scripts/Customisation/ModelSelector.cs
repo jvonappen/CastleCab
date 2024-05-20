@@ -6,7 +6,7 @@ using UnityEngine;
 public class ModelSelector : MonoBehaviour
 {
     [Tooltip("Index to differentiate different types e.g. hats, wheels, wagons")] public int m_typeIndex;
-    //string m_selectorType;
+    [SerializeField] bool m_indexZeroIsNone;
 
     [HideInInspector] public MultiColourSelector colourSelector;
 
@@ -29,6 +29,15 @@ public class ModelSelector : MonoBehaviour
             m_selectionlist.Add(child.gameObject);
             child.gameObject.AddComponent<ModelSettings>();
         }
+
+        SelectDefault();
+    }
+
+    public void SelectDefault()
+    {
+        // Sets default selected
+        PreviewObjectByIndex(0);
+        SelectObject();
     }
 
     public Material GetMat()
@@ -50,6 +59,8 @@ public class ModelSelector : MonoBehaviour
 
     public void PreviewObjectByIndex(int _index)
     {
+        if (!m_indexZeroIsNone) _index++;
+
         if (_index == 0) DeselectAll();
         else PreviewObject(transform.GetChild(_index - 1).gameObject);
 
@@ -92,7 +103,10 @@ public class ModelSelector : MonoBehaviour
 
     public int GetSelectedIndex()
     {
-        if (previewObject) return previewObject.transform.GetSiblingIndex() + 1;
+        int siblingIndex = previewObject.transform.GetSiblingIndex();
+        if (m_indexZeroIsNone) siblingIndex++;
+
+        if (previewObject) return siblingIndex;
         else return 0;
     }
 }
