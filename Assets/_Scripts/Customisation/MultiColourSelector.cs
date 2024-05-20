@@ -24,5 +24,9 @@ public class MultiColourSelector : ColourSelector
         }
     }
 
-    public override Material GetMat() { return m_modelSelector.GetMat(); }
+    public override Material GetMat()
+    {
+        if (!m_modelSelector) m_modelSelector = GetComponent<ModelSelector>();
+        return m_modelSelector.GetMat();
+    }
 }

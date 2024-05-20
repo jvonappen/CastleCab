@@ -23,16 +23,18 @@ public class DyeSlot : MonoBehaviour
         m_buttonImage = GetComponent<Image>();
         m_colourSlot = transform.GetChild(0).GetComponent<Image>();
 
-        UpdateSlotColour();
+        if (m_selector.GetType() == typeof(MultiColourSelector)) m_selector.GetComponent<ModelSelector>().SelectDefault();
     }
+
+    private void Start() => UpdateSlotColour();
 
     private void OnEnable()
     {
-        if (m_selector.GetType() == typeof(MultiColourSelector)) ((MultiColourSelector)m_selector).modelSelector.onModelSelect += UpdateSlotColour;
+        if (m_selector.GetType() == typeof(MultiColourSelector)) ((MultiColourSelector)m_selector).GetComponent<ModelSelector>().onModelSelect += UpdateSlotColour;
     }
     private void OnDisable()
     {
-        if (m_selector.GetType() == typeof(MultiColourSelector)) ((MultiColourSelector)m_selector).modelSelector.onModelSelect -= UpdateSlotColour;
+        if (m_selector.GetType() == typeof(MultiColourSelector)) ((MultiColourSelector)m_selector).GetComponent<ModelSelector>().onModelSelect -= UpdateSlotColour;
     }
 
     public void EquipDye()

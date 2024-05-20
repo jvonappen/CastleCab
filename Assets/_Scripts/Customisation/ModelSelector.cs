@@ -29,6 +29,15 @@ public class ModelSelector : MonoBehaviour
             m_selectionlist.Add(child.gameObject);
             child.gameObject.AddComponent<ModelSettings>();
         }
+
+        SelectDefault();
+    }
+
+    public void SelectDefault()
+    {
+        // Sets default selected
+        PreviewObjectByIndex(0);
+        SelectObject();
     }
 
     public Material GetMat()
@@ -94,7 +103,10 @@ public class ModelSelector : MonoBehaviour
 
     public int GetSelectedIndex()
     {
-        if (previewObject) return previewObject.transform.GetSiblingIndex() + 1;
+        int siblingIndex = previewObject.transform.GetSiblingIndex();
+        if (m_indexZeroIsNone) siblingIndex++;
+
+        if (previewObject) return siblingIndex;
         else return 0;
     }
 }
