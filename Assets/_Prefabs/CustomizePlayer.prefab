@@ -14265,7 +14265,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -109.99994, y: -521.00024}
+  m_AnchoredPosition: {x: -109.99988, y: -521.00024}
   m_SizeDelta: {x: -1299.9996, y: 220}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2750570366195460656
@@ -19862,7 +19862,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -521.5, y: -0}
   m_SizeDelta: {x: 476.7, y: 325.40002}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6343939923786969258
@@ -24479,6 +24479,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 2835761184835072570}
+          m_TargetAssemblyTypeName: SetPositionOnCamera, Assembly-CSharp
+          m_MethodName: SetPositionAtScreenPoint
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     onNextMenu:
       m_PersistentCalls:
         m_Calls: []
@@ -27209,7 +27221,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -110.90033, y: -7.999939}
+  m_AnchoredPosition: {x: -110.90027, y: -7.999939}
   m_SizeDelta: {x: -1248.5, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8223339432997078238
@@ -33995,7 +34007,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -109.99994, y: -759.00024}
+  m_AnchoredPosition: {x: -109.99988, y: -759.00024}
   m_SizeDelta: {x: -1299.9996, y: 220}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7020763601482587950
@@ -37590,7 +37602,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -109.99994, y: -285}
+  m_AnchoredPosition: {x: -109.99988, y: -285}
   m_SizeDelta: {x: -1299.9996, y: 220}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7583615828031516456
@@ -41106,6 +41118,30 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 4796813618885351993}
+          m_TargetAssemblyTypeName: ModelDisplaySwitcher, Assembly-CSharp
+          m_MethodName: DisplayModel
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 2
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 2835761184835072570}
+          m_TargetAssemblyTypeName: SetPositionOnCamera, Assembly-CSharp
+          m_MethodName: SetPositionReady
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!114 &5476482871020038173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43808,7 +43844,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6417322567002185916}
   - component: {fileID: 2455434949385593280}
-  - component: {fileID: 1860954120995842799}
   - component: {fileID: 8377792316356096464}
   m_Layer: 3
   m_Name: Horse
@@ -43857,24 +43892,6 @@ MonoBehaviour:
     colliders: []
   wind: {x: 0, y: 0, z: 0}
   debugDraw: 0
---- !u!114 &1860954120995842799
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9057303960262046578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8adfc5e465d1cf4c8b50a831a85ad28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_playerInput: {fileID: 933286522574379257}
-  m_cam: {fileID: 0}
-  m_rotationPoint: {fileID: 0}
-  m_rotSpeedX: 200
-  m_rotSpeedY: 200
-  m_maxAngleLimitY: 60
 --- !u!54 &8377792316356096464
 Rigidbody:
   m_ObjectHideFlags: 0
