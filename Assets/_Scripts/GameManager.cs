@@ -232,8 +232,6 @@ public class GameManager : MonoBehaviour
 
         foreach (ModelSelector modelSelector in player.GetComponentsInChildren<ModelSelector>())
         {
-            Debug.Log("Applying cosmetics to: " + modelSelector.gameObject);
-
             ModelCustomization foundItem = _player.modelCustomizations.FirstOrDefault(item => item.typeIndex == modelSelector.m_typeIndex);
             modelSelector.PreviewObjectByIndex(foundItem.index);
 
