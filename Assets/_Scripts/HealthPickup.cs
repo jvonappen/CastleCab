@@ -30,12 +30,11 @@ public class HealthPickup : MonoBehaviour
         //Destroy(gameObject);
        
         gameObject.SetActive(false);
-        _wagonData.pickupParticle.SetActive(true);
+        _wagonData.PlayPickUpParticle();
 
         TimerManager.RunAfterTime(() =>
         {
-            gameObject.SetActive(true);
-            _wagonData.pickupParticle.SetActive(false);
+            gameObject.SetActive(true);          
         }, respawnTime);
 
         

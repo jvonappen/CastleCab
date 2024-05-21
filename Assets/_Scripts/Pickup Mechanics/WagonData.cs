@@ -18,7 +18,7 @@ public class WagonData : MonoBehaviour
     public Score score;
 
     [Header("Particles")]
-    [SerializeField] public GameObject pickupParticle;
+    [SerializeField] private GameObject pickupParticle;
 
     [Header("Debug")]
     public int thisPlayerNumber;
@@ -46,6 +46,16 @@ public class WagonData : MonoBehaviour
         //SetRankingPOS();
 
         
+    }
+
+    public void PlayPickUpParticle()
+    {
+        pickupParticle.SetActive(true);
+
+        TimerManager.RunAfterTime(() =>
+        {
+            pickupParticle.SetActive(false);
+        }, 1.5f);
     }
 
     //private void SetRankingPOS()
