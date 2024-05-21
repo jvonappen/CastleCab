@@ -24,7 +24,6 @@ public class SetCosmeticsOnEnable : MonoBehaviour
             modelSelector.PreviewObjectByIndex(foundItem.index);
             modelSelector.SelectObject();
 
-            //modelSelector.colourSelector ??= modelSelector.GetComponent<MultiColourSelector>();
             if (foundItem.mat.mainDye.colour != null) modelSelector.colourSelector.SetDye("Main", foundItem.mat.mainDye);
             if (foundItem.mat.secondaryDye.colour != null) modelSelector.colourSelector.SetDye("Secondary", foundItem.mat.secondaryDye);
             if (foundItem.mat.tertiaryDye.colour != null) modelSelector.colourSelector.SetDye("Tertiary", foundItem.mat.tertiaryDye);
