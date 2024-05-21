@@ -17,6 +17,9 @@ public class Health : MonoBehaviour
 
     public Action<float, float> onHealthChanged;
 
+    [SerializeField] private bool canRespawn = true;
+    [SerializeField] private float respawnTime = 5;
+
     [SerializeField] protected List<GameObject> m_damagedParticlePrefabs, m_destroyedParticlePrefabs;
     protected List<ParticleSystem> m_damagedParticles = new(), m_destroyedParticles = new();
     
@@ -111,6 +114,7 @@ public class Health : MonoBehaviour
         onDeath?.Invoke();
         //Destroy();
         gameObject.SetActive(false);
+        RespawnObject();
     }
 
     protected virtual void Destroy() => Destroy(gameObject);
@@ -122,5 +126,16 @@ public class Health : MonoBehaviour
             if (sfxAudio != null) AudioManager.Instance.PlayGroupAudio(sfxAudio.audioGroupName);
         }
         else Debug.LogWarning("There is no audio manager in scene!");
+    }
+
+    private void RespawnObject()
+    {
+        if (!canRespawn) return;
+
+        TimerManager.RunAfterTime(() =>
+        {
+            m_health = m_maxHealth;
+            gameObject.SetActive(true);
+        }, respawnTime);
     }
 }
