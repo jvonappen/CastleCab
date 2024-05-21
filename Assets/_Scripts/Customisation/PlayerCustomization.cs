@@ -51,10 +51,12 @@ public class PlayerCustomization : MonoBehaviour
     public void SwitchInput()
     {
         InputManager.SwitchPlayerInput(m_input.playerInput, m_playerInput);
-        m_customizeModelSelector.CopySelectionToSelector(m_playerModelSelector);
-        m_horseColourSelector.CopyMatToSelector(m_playerHorseColourSelector);
+        //m_customizeModelSelector.CopySelectionToSelector(m_playerModelSelector);
+        //m_horseColourSelector.CopyMatToSelector(m_playerHorseColourSelector);
 
-        StoreCustomizationsToPlayer();
+        StoreCustomizationsToPlayer(true);
+
+        GameManager.Instance.ApplyCustomisationsToPlayer(m_playerInput.gameObject);
 
         gameObject.SetActive(false);
     }
