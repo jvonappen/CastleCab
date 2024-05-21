@@ -230,10 +230,13 @@ public class GameManager : MonoBehaviour
     {
         GameObject player = _player.player;
 
-        foreach (ModelSelector modelSelector in player.GetComponentsInChildren<ModelSelector>())
+        foreach (ModelSelector modelSelector in player.GetComponentsInChildren<ModelSelector>(true))
         {
+            modelSelector.Init();
+
             ModelCustomization foundItem = _player.modelCustomizations.FirstOrDefault(item => item.typeIndex == modelSelector.m_typeIndex);
             modelSelector.PreviewObjectByIndex(foundItem.index);
+            modelSelector.SelectObject();
 
             if (foundItem.mat.mainDye.colour != null) modelSelector.colourSelector.SetDye("Main", foundItem.mat.mainDye);
             if (foundItem.mat.secondaryDye.colour != null) modelSelector.colourSelector.SetDye("Secondary", foundItem.mat.secondaryDye);
