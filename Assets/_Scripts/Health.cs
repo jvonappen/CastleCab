@@ -19,6 +19,7 @@ public class Health : MonoBehaviour
 
     [SerializeField] private bool canRespawn = true;
     [SerializeField] private float respawnTime = 5;
+    [SerializeField] private GameObject respawnParticle;
 
     [SerializeField] protected List<GameObject> m_damagedParticlePrefabs, m_destroyedParticlePrefabs;
     protected List<ParticleSystem> m_damagedParticles = new(), m_destroyedParticles = new();
@@ -33,6 +34,11 @@ public class Health : MonoBehaviour
     private void Awake() => Init();
     protected virtual void Init()
     {
+        if(respawnParticle != null) respawnParticle.SetActive(false);
+
+        m_damagedParticles.Clear();
+        m_destroyedParticles.Clear();
+
         m_manager = FindObjectOfType<GameManager>();
 
         if (!m_popupLocation) m_popupLocation = transform;
@@ -68,8 +74,8 @@ public class Health : MonoBehaviour
                 m_damagedParticles[randIndex].transform.SetParent(null);
                 m_damagedParticles[randIndex].Play();
 
-                CFX_AutoDestructShuriken t = m_damagedParticles[randIndex].GetComponent<CFX_AutoDestructShuriken>();
-                if (t) t.enabled = true;
+                //CFX_AutoDestructShuriken t = m_damagedParticles[randIndex].GetComponent<CFX_AutoDestructShuriken>();
+                //if (t) t.enabled = true;
             }
 
             float previousHealth = m_health;
@@ -134,8 +140,11 @@ public class Health : MonoBehaviour
 
         TimerManager.RunAfterTime(() =>
         {
+            respawnParticle.transform.position = gameObject.transform.position;
+            respawnParticle.SetActive(true);
             m_health = m_maxHealth;
             gameObject.SetActive(true);
+            Init();
         }, respawnTime);
     }
 }
