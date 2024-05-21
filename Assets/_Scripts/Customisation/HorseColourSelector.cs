@@ -14,7 +14,7 @@ public class HorseColourSelector : ColourSelector
     bool m_hasInitialised;
 
     private void Awake() => Init();
-    public void Init()
+    public override void Init()
     {
         if (m_hasInitialised) return;
 
