@@ -17,6 +17,9 @@ public class WagonData : MonoBehaviour
     [HideInInspector] public GameObject destinationTarget;
     public Score score;
 
+    [Header("Particles")]
+    [SerializeField] public GameObject pickupParticle;
+
     [Header("Debug")]
     public int thisPlayerNumber;
     public static int playerNumber = 0;
@@ -29,6 +32,7 @@ public class WagonData : MonoBehaviour
 
     private void Awake()
     {
+        pickupParticle.SetActive(false);
         isOccupied = false;
         wagonSlot = wagonSlotPoint;
         playerNumber = playerNumber + 1;
