@@ -17,9 +17,9 @@ public class Health : MonoBehaviour
 
     public Action<float, float> onHealthChanged;
 
-    [SerializeField] private bool canRespawn = true;
-    [SerializeField] private float respawnTime = 5;
-    [SerializeField] private GameObject respawnParticle;
+    [SerializeField] private bool m_canRespawn = true;
+    [SerializeField] private float m_respawnTime = 5;
+    [SerializeField] private GameObject m_PrefabRespawnParticle;
 
     [SerializeField] protected List<GameObject> m_damagedParticlePrefabs, m_destroyedParticlePrefabs;
     protected List<ParticleSystem> m_damagedParticles = new(), m_destroyedParticles = new();
@@ -34,7 +34,7 @@ public class Health : MonoBehaviour
     private void Awake() => Init();
     protected virtual void Init()
     {
-        if(respawnParticle != null) respawnParticle.SetActive(false);
+       
 
         m_damagedParticles.Clear();
         m_destroyedParticles.Clear();
@@ -136,15 +136,17 @@ public class Health : MonoBehaviour
 
     private void RespawnObject()
     {
-        if (!canRespawn) return;
+        if (!m_canRespawn) return;
 
         TimerManager.RunAfterTime(() =>
         {
-            respawnParticle.transform.position = gameObject.transform.position;
-            respawnParticle.SetActive(true);
+            if(m_PrefabRespawnParticle != null)
+            {
+                m_PrefabRespawnParticle.SetActive(true);
+            }
             m_health = m_maxHealth;
             gameObject.SetActive(true);
             Init();
-        }, respawnTime);
+        }, m_respawnTime);
     }
 }

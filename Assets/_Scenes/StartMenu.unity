@@ -54794,6 +54794,7 @@ GameObject:
   - component: {fileID: 1040039486}
   - component: {fileID: 1040039485}
   - component: {fileID: 1040039484}
+  - component: {fileID: 1040039487}
   m_Layer: 6
   m_Name: Terrain
   m_TagString: Untagged
@@ -54880,6 +54881,37 @@ Transform:
   - {fileID: 138625191}
   m_Father: {fileID: 2117616632}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1040039487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1040039483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.25
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 144b032f2db55894d8d4180dd382bf53, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &1040819287
 GameObject:
   m_ObjectHideFlags: 0
@@ -91120,7 +91152,7 @@ PrefabInstance:
       objectReference: {fileID: 6595079877111011518}
     - target: {fileID: 2804825003938653158, guid: 4803c5e44d8b9f1468a133a5c0c10c3d, type: 3}
       propertyPath: vehiclePool.Array.size
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2804825003938653158, guid: 4803c5e44d8b9f1468a133a5c0c10c3d, type: 3}
       propertyPath: trafficNodeLayer.m_Bits
@@ -91132,7 +91164,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2804825003938653158, guid: 4803c5e44d8b9f1468a133a5c0c10c3d, type: 3}
       propertyPath: vehiclePool.Array.data[1].name
-      value: Pig
+      value: Cow
       objectReference: {fileID: 0}
     - target: {fileID: 2804825003938653158, guid: 4803c5e44d8b9f1468a133a5c0c10c3d, type: 3}
       propertyPath: vehiclePool.Array.data[2].name
@@ -91148,7 +91180,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2804825003938653158, guid: 4803c5e44d8b9f1468a133a5c0c10c3d, type: 3}
       propertyPath: vehiclePool.Array.data[0].amount
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2804825003938653158, guid: 4803c5e44d8b9f1468a133a5c0c10c3d, type: 3}
       propertyPath: vehiclePool.Array.data[1].amount
@@ -91173,7 +91205,7 @@ PrefabInstance:
     - target: {fileID: 2804825003938653158, guid: 4803c5e44d8b9f1468a133a5c0c10c3d, type: 3}
       propertyPath: vehiclePool.Array.data[1].vehiclePrefab
       value: 
-      objectReference: {fileID: 9171037607184688062, guid: 16b872d8b7ce93d4cb7e30b22c9acbc3, type: 3}
+      objectReference: {fileID: 9171037607184688062, guid: cec6562652bda3743959af78189227c1, type: 3}
     - target: {fileID: 2804825003938653158, guid: 4803c5e44d8b9f1468a133a5c0c10c3d, type: 3}
       propertyPath: vehiclePool.Array.data[2].vehiclePrefab
       value: 
@@ -91230,34 +91262,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5054723202096266997, guid: 4803c5e44d8b9f1468a133a5c0c10c3d, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5054723202096266997, guid: 4803c5e44d8b9f1468a133a5c0c10c3d, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 679b99638f29e6e49acae45ff5460ae0, type: 2}
-    - target: {fileID: 5054723202096266997, guid: 4803c5e44d8b9f1468a133a5c0c10c3d, type: 3}
-      propertyPath: m_Materials.Array.data[1]
-      value: 
-      objectReference: {fileID: 2100000, guid: 679b99638f29e6e49acae45ff5460ae0, type: 2}
-    - target: {fileID: 5054723202096266997, guid: 4803c5e44d8b9f1468a133a5c0c10c3d, type: 3}
-      propertyPath: m_Materials.Array.data[2]
-      value: 
-      objectReference: {fileID: 2100000, guid: 679b99638f29e6e49acae45ff5460ae0, type: 2}
-    - target: {fileID: 5054723202096266997, guid: 4803c5e44d8b9f1468a133a5c0c10c3d, type: 3}
-      propertyPath: m_Materials.Array.data[3]
-      value: 
-      objectReference: {fileID: 2100000, guid: c3e4ac6a9732f3449b9efaf62c70d8ef, type: 2}
-    - target: {fileID: 5054723202096266997, guid: 4803c5e44d8b9f1468a133a5c0c10c3d, type: 3}
-      propertyPath: m_Materials.Array.data[4]
-      value: 
-      objectReference: {fileID: 2100000, guid: 27f53cd08cefc044fa5576d59d9f1c6f, type: 2}
-    - target: {fileID: 5054723202096266997, guid: 4803c5e44d8b9f1468a133a5c0c10c3d, type: 3}
-      propertyPath: m_Materials.Array.data[5]
-      value: 
-      objectReference: {fileID: 2100000, guid: c3e4ac6a9732f3449b9efaf62c70d8ef, type: 2}
     - target: {fileID: 5837364801753031863, guid: 4803c5e44d8b9f1468a133a5c0c10c3d, type: 3}
       propertyPath: m_Mesh
       value: 

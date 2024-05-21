@@ -29,6 +29,12 @@ public class PlayerCustomization : MonoBehaviour
         m_input = GetComponent<PlayerInputHandler>();
     }
 
+    private void Start()
+    {
+        m_horseColourSelector.skinSelector.Init();
+        StoreCustomizationsToPlayer(true);
+    }
+
     private void OnEnable() => m_input.m_playerControls.UI.Exit.performed += Exit;
     private void OnDisable() => m_input.m_playerControls.UI.Exit.performed -= Exit;
 
@@ -45,18 +51,24 @@ public class PlayerCustomization : MonoBehaviour
     public void SwitchInput()
     {
         InputManager.SwitchPlayerInput(m_input.playerInput, m_playerInput);
-        m_customizeModelSelector.CopySelectionToSelector(m_playerModelSelector);
-        m_horseColourSelector.CopyMatToSelector(m_playerHorseColourSelector);
+        //m_customizeModelSelector.CopySelectionToSelector(m_playerModelSelector);
+        //m_horseColourSelector.CopyMatToSelector(m_playerHorseColourSelector);
 
-        StoreCustomizationsToPlayer();
+        StoreCustomizationsToPlayer(true);
+
+        GameManager.Instance.ApplyCustomisationsToPlayer(m_playerInput.gameObject);
 
         gameObject.SetActive(false);
     }
 
-    public void StoreCustomizationsToPlayer()
+    public void StoreCustomizationsToPlayer(bool _storeInactive = false)
     {
         List<ModelCustomization> modelCustomizations = new();
-        foreach (ModelSelector selector in GetComponentsInChildren<ModelSelector>()) modelCustomizations.Add(new(selector));
+        foreach (ModelSelector selector in GetComponentsInChildren<ModelSelector>(_storeInactive))
+        {
+            selector.Init();
+            modelCustomizations.Add(new(selector));
+        }
 
         // Temp
         //List<ModelCustomization> modelCustomizations = new() { new(m_customizeModelSelector) };

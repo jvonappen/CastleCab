@@ -54,6 +54,8 @@ public class ChangeMenu : MonoBehaviour
     {
         if (m_nextMenu)
         {
+            m_playerInput.GetComponent<PlayerCustomization>().StoreCustomizationsToPlayer(true);
+
             m_nextMenu.SetActive(true);
 
             m_eventSystem.SetSelectedGameObject(m_buttonToSelectNext);
@@ -68,6 +70,8 @@ public class ChangeMenu : MonoBehaviour
     {
         if (m_previousMenu)
         {
+            m_playerInput.GetComponent<PlayerCustomization>().StoreCustomizationsToPlayer(true);
+
             m_previousMenu.SetActive(true);
 
             m_eventSystem.SetSelectedGameObject(m_buttonToSelectPrevious);

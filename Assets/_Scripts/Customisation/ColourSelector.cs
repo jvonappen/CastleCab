@@ -9,7 +9,10 @@ public struct DyeData
 
 public class ColourSelector : CustomisationSelector
 {
-    public virtual Material GetMat() { return null; }
+    public virtual Material GetMat(bool _previewMat = true) { return null; }
+
+    protected bool m_isInitialised;
+    public virtual void Init() { }
 
     public virtual void ResetDye(string _colourSegment) { }
     public virtual void SetDye(string _colourSegment, SO_Dye _dye)
@@ -30,9 +33,9 @@ public class ColourSelector : CustomisationSelector
         }
     }
 
-    public DyeData GetDye(string _colourSegment)
+    public DyeData GetDye(string _colourSegment, bool _previewDye = true)
     {
-        Material mat = GetMat();
+        Material mat = GetMat(_previewDye);
         if (mat)
         {
             DyeData data = new();

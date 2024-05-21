@@ -6596,6 +6596,38 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!1 &2146371633854723705
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3964073944405163122}
+  m_Layer: 3
+  m_Name: Particles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3964073944405163122
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2146371633854723705}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5820355507901772674}
+  m_Father: {fileID: 7863771096885059532}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2148603057328923646
 GameObject:
   m_ObjectHideFlags: 0
@@ -6900,6 +6932,7 @@ Transform:
   - {fileID: 1536472578947096489}
   - {fileID: 3509968977487242756}
   - {fileID: 5354545354823200387}
+  - {fileID: 3964073944405163122}
   m_Father: {fileID: 7295361350551407811}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &2993029738518890700
@@ -7046,6 +7079,9 @@ MonoBehaviour:
   m_health: 250
   m_dishonourPunishment: 15
   m_goldReward: 20
+  m_canRespawn: 1
+  m_respawnTime: 5
+  m_PrefabRespawnParticle: {fileID: 0}
   m_damagedParticlePrefabs: []
   m_destroyedParticlePrefabs: []
   sfxAudio: {fileID: 0}
@@ -12865,6 +12901,7 @@ MonoBehaviour:
   wagonSlot: {fileID: 0}
   destinationTarget: {fileID: 0}
   score: {fileID: 5251593115083082181}
+  pickupParticle: {fileID: 5820355507901772733}
   thisPlayerNumber: 0
 --- !u!1 &5557777616571108074
 GameObject:
@@ -15633,6 +15670,93 @@ RectTransform:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5670179479046621476, guid: ba065d0b9df9da34aac97df2c3374cd1, type: 3}
   m_PrefabInstance: {fileID: 3599159238605705091}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4836366491914769692
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 3964073944405163122}
+    m_Modifications:
+    - target: {fileID: 1429954232896169630, guid: 9f9ac17002872514a932408aa7f09c70, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1429954232896169630, guid: 9f9ac17002872514a932408aa7f09c70, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1429954232896169630, guid: 9f9ac17002872514a932408aa7f09c70, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1429954232896169630, guid: 9f9ac17002872514a932408aa7f09c70, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1429954232896169630, guid: 9f9ac17002872514a932408aa7f09c70, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1429954232896169630, guid: 9f9ac17002872514a932408aa7f09c70, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 1429954232896169630, guid: 9f9ac17002872514a932408aa7f09c70, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1429954232896169630, guid: 9f9ac17002872514a932408aa7f09c70, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1429954232896169630, guid: 9f9ac17002872514a932408aa7f09c70, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1429954232896169630, guid: 9f9ac17002872514a932408aa7f09c70, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1429954232896169630, guid: 9f9ac17002872514a932408aa7f09c70, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1429954232896169630, guid: 9f9ac17002872514a932408aa7f09c70, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1429954232896169630, guid: 9f9ac17002872514a932408aa7f09c70, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1429954232896169630, guid: 9f9ac17002872514a932408aa7f09c70, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1429954232896169633, guid: 9f9ac17002872514a932408aa7f09c70, type: 3}
+      propertyPath: m_Name
+      value: Pickup Item Particle
+      objectReference: {fileID: 0}
+    - target: {fileID: 1429954232937552485, guid: 9f9ac17002872514a932408aa7f09c70, type: 3}
+      propertyPath: m_Intensity
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f9ac17002872514a932408aa7f09c70, type: 3}
+--- !u!4 &5820355507901772674 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1429954232896169630, guid: 9f9ac17002872514a932408aa7f09c70, type: 3}
+  m_PrefabInstance: {fileID: 4836366491914769692}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5820355507901772733 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1429954232896169633, guid: 9f9ac17002872514a932408aa7f09c70, type: 3}
+  m_PrefabInstance: {fileID: 4836366491914769692}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5237632264840477049
 PrefabInstance:
