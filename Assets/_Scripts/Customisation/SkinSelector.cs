@@ -5,10 +5,18 @@ public class SkinSelector : CustomisationSelector
     SkinData m_previewSkin, m_selectedSkin;
 
     ColourSelector m_colourSelector;
-    private void Start()
+
+    bool m_isInitialised;
+
+    private void Start() => Init();
+    public void Init()
     {
+        if (m_isInitialised) return;
+
         m_colourSelector = GetComponent<ColourSelector>();
         m_selectedSkin = GetSkin();
+
+        m_isInitialised = true;
     }
 
     public SkinData GetSkin()

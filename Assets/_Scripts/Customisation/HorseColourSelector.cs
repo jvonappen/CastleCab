@@ -10,16 +10,24 @@ public class HorseColourSelector : ColourSelector
     public Texture2D GetSelectedPattern() => m_selectedPattern;
 
     Material m_defaultMat, m_currentMat;
-    private void Awake()
+
+    bool m_hasInitialised;
+
+    private void Awake() => Init();
+    public void Init()
     {
+        if (m_hasInitialised) return;
+
         m_defaultMat = GetComponent<Renderer>().sharedMaterial;
         m_selectedPattern = m_defaultMat.GetTexture("_Horse_Pattern") as Texture2D;
 
         m_skinSelector = GetComponent<SkinSelector>();
 
         // Instances material
-        m_currentMat = new(m_defaultMat); 
+        m_currentMat = new(m_defaultMat);
         GetComponent<Renderer>().sharedMaterial = m_currentMat;
+
+        m_hasInitialised = true;
     }
 
     public void SetPattern(Texture2D _pattern)
@@ -48,5 +56,5 @@ public class HorseColourSelector : ColourSelector
         SetDye(_colourSegment, m_defaultMat.GetColor("_" + _colourSegment + "_Colour"), m_defaultMat.GetFloat("_" + _colourSegment + "_Metal"), m_defaultMat.GetFloat("_" + _colourSegment + "_Rough"));
     }
 
-    public override Material GetMat() { return m_currentMat; }
+    public override Material GetMat(bool _previewMat) { return m_currentMat; }
 }
