@@ -12,25 +12,35 @@ public class ModelSelector : MonoBehaviour
 
     List<GameObject> m_selectionlist = new();
 
-    GameObject m_previewObject;
+    [SerializeField] GameObject m_previewObject, m_selectedObject;
     public GameObject previewObject { get { return m_previewObject; } }
-
-    GameObject m_selectedObject;
     public GameObject selectedObject { get { return m_selectedObject; } }
 
     public Action onModelSelect;
 
-    private void Awake()
-    {
-        colourSelector = GetComponent<MultiColourSelector>();
+    bool m_hasInitialised;
 
+    private void Awake() => Init();
+    public void Init()
+    {
+        if (m_hasInitialised) return;
+
+        colourSelector = GetComponent<MultiColourSelector>();
+        
         foreach (Transform child in transform)
         {
             m_selectionlist.Add(child.gameObject);
-            child.gameObject.AddComponent<ModelSettings>();
+            child.gameObject.AddComponent<ModelSettings>().Init();
         }
 
+        m_selectedObject = transform.GetChild(0).gameObject;
+        m_previewObject = m_selectedObject;
+
+        colourSelector.Init();
+
         SelectDefault();
+
+        m_hasInitialised = true;
     }
 
     public void SelectDefault()
@@ -45,6 +55,13 @@ public class ModelSelector : MonoBehaviour
         if (previewObject) return previewObject.GetComponent<Renderer>().sharedMaterial;
         else return null;
     }
+
+    public Material GetSelectedMat()
+    {
+        if (selectedObject) return selectedObject.GetComponent<Renderer>().sharedMaterial;
+        else return null;
+    }
+
     public Material InstanceMat() => new(GetMat());
     public void SetMat(Material _mat) => previewObject.GetComponent<Renderer>().sharedMaterial = _mat;
 
@@ -103,10 +120,13 @@ public class ModelSelector : MonoBehaviour
 
     public int GetSelectedIndex()
     {
-        int siblingIndex = previewObject.transform.GetSiblingIndex();
-        if (m_indexZeroIsNone) siblingIndex++;
+        if (selectedObject)
+        {
+            int siblingIndex = selectedObject.transform.GetSiblingIndex();
+            if (m_indexZeroIsNone) siblingIndex++;
 
-        if (previewObject) return siblingIndex;
+            return siblingIndex;
+        }
         else return 0;
     }
 }
