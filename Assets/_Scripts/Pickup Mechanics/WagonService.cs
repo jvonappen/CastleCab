@@ -142,6 +142,7 @@ public class WagonService : MonoBehaviour
 
         if (zonedDeliveriesToggle == true && !wagonData_A.isOccupied && !currentlyInCart)
         {
+            wagonData_A.PlayPickUpParticle();
             currentlyInCart = true;
             ZoneSelector(zoneSelect);
             wagonData_A.destinationTarget = destination;
@@ -156,6 +157,7 @@ public class WagonService : MonoBehaviour
         }
         if(zonedDeliveriesToggle == true && !wagonData_A.isOccupied && currentlyInCart == true)
         {
+            wagonData_A.PlayPickUpParticle();
             currentlyInCart = true;
             wagonData_A.isOccupied = true;
             this.transform.parent = _wagonSlot.transform;
@@ -172,6 +174,7 @@ public class WagonService : MonoBehaviour
 
         if (captureFlagToggle == true && !wagonData_A.isOccupied)
         {
+            wagonData_A.PlayPickUpParticle();
             destination = playerBaseList[wagonData_A.thisPlayerNumber - 1];
             wagonData_A.destinationTarget = destination;
             wagonData_A.isOccupied = true;
