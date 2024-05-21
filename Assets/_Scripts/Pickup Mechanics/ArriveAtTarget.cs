@@ -63,7 +63,7 @@ public class ArriveAtTarget : MonoBehaviour
             _wagonData.destinationTarget = null;
             _wagonContents.destination = null;
 
-            RankingSystem.Instance.UpdateRanking();
+            //RankingSystem.Instance.UpdateRanking();
 
         }
 

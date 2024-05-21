@@ -17,6 +17,10 @@ public class Health : MonoBehaviour
 
     public Action<float, float> onHealthChanged;
 
+    [SerializeField] private bool m_canRespawn = true;
+    [SerializeField] private float m_respawnTime = 5;
+    [SerializeField] private GameObject m_PrefabRespawnParticle;
+
     [SerializeField] protected List<GameObject> m_damagedParticlePrefabs, m_destroyedParticlePrefabs;
     protected List<ParticleSystem> m_damagedParticles = new(), m_destroyedParticles = new();
     
@@ -30,6 +34,11 @@ public class Health : MonoBehaviour
     private void Awake() => Init();
     protected virtual void Init()
     {
+       
+
+        m_damagedParticles.Clear();
+        m_destroyedParticles.Clear();
+
         m_manager = FindObjectOfType<GameManager>();
 
         if (!m_popupLocation) m_popupLocation = transform;
@@ -65,8 +74,8 @@ public class Health : MonoBehaviour
                 m_damagedParticles[randIndex].transform.SetParent(null);
                 m_damagedParticles[randIndex].Play();
 
-                CFX_AutoDestructShuriken t = m_damagedParticles[randIndex].GetComponent<CFX_AutoDestructShuriken>();
-                if (t) t.enabled = true;
+                //CFX_AutoDestructShuriken t = m_damagedParticles[randIndex].GetComponent<CFX_AutoDestructShuriken>();
+                //if (t) t.enabled = true;
             }
 
             float previousHealth = m_health;
@@ -111,6 +120,7 @@ public class Health : MonoBehaviour
         onDeath?.Invoke();
         //Destroy();
         gameObject.SetActive(false);
+        RespawnObject();
     }
 
     protected virtual void Destroy() => Destroy(gameObject);
@@ -122,5 +132,21 @@ public class Health : MonoBehaviour
             if (sfxAudio != null) AudioManager.Instance.PlayGroupAudio(sfxAudio.audioGroupName);
         }
         else Debug.LogWarning("There is no audio manager in scene!");
+    }
+
+    private void RespawnObject()
+    {
+        if (!m_canRespawn) return;
+
+        TimerManager.RunAfterTime(() =>
+        {
+            if(m_PrefabRespawnParticle != null)
+            {
+                m_PrefabRespawnParticle.SetActive(true);
+            }
+            m_health = m_maxHealth;
+            gameObject.SetActive(true);
+            Init();
+        }, m_respawnTime);
     }
 }

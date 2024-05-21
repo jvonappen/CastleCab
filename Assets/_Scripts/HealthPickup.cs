@@ -7,6 +7,7 @@ public class HealthPickup : MonoBehaviour
     [SerializeField] private int healthIncrease = 1;
 
     [SerializeField] private float spinValue = 5;
+    [SerializeField] private float respawnTime = 3;
 
     private WagonData _wagonData;
 
@@ -23,8 +24,16 @@ public class HealthPickup : MonoBehaviour
 
         _wagonData.playerHealth.HealthPickupIncrease(healthIncrease);
 
-            //AudioManager.Instance.PlaySFX("Money");
-            Destroy(gameObject);
+        //AudioManager.Instance.PlaySFX("Money");
+        //Destroy(gameObject);
+
+        gameObject.SetActive(false);
+
+        TimerManager.RunAfterTime(() =>
+        {
+            gameObject.SetActive(true);
+        }, respawnTime);
+
         
     }
 }

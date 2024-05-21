@@ -48,8 +48,8 @@ public class PlayerMovement : MonoBehaviour
     [System.Serializable]
     public struct Speed
     {
-        [SerializeField] internal float m_maxSpeed;
-        [SerializeField] internal float m_accelerationRate, m_decelerationRate;
+        /*[SerializeField] internal*/ public float m_maxSpeed;
+       /* [SerializeField] internal*/ public float m_accelerationRate, m_decelerationRate;
 
         [SerializeField] internal float m_maxReverseSpeed, m_reverseAccelerationRate, m_reverseDecelerationRate;
 
