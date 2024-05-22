@@ -67,7 +67,7 @@ public struct ModelCustomization
         m_typeIndex = _selector.m_typeIndex;
         m_index = _selector.GetSelectedIndex();
 
-        Material material = _selector.GetMat();
+        Material material = _selector.GetSelectedMat();
         if (material)
         {
             DyeData mainDye = _selector.colourSelector.GetDye("Main", false);
@@ -132,13 +132,19 @@ public class GameManager : MonoBehaviour
             // Set DontDestroyOnLoad
             transform.parent = null;
             DontDestroyOnLoad(gameObject);
+
+            DontDestroyOnLoad(m_loadingScreen);
         }
     }
     #endregion
 
+    public GameObject m_loadingScreen;
+
     List<PlayerData> m_players = new();
     public List<PlayerData> players { get { return m_players; } }
     public void ClearPlayers() => m_players.Clear();
+
+    bool m_retainCosmeticsOnSceneLoad;
 
     public void AddPlayer(GameObject _player)
     {
@@ -194,7 +200,13 @@ public class GameManager : MonoBehaviour
         onGoldChanged?.Invoke(m_gold, m_gold);
     }
 
-    public void LoadScene(string _sceneName) => SceneManager.LoadScene(_sceneName);
+    public void LoadScene(string _sceneName, bool _retainCosmetics = false)
+    {
+        m_retainCosmeticsOnSceneLoad = _retainCosmetics;
+
+        m_loadingScreen.SetActive(true);
+        SceneManager.LoadScene(_sceneName);
+    }
 
     public void OpenCustomization()
     {
@@ -206,19 +218,19 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name != "StartMenu")
+        m_loadingScreen.SetActive(false);
+
+        InputManager inputManager = FindObjectOfType<InputManager>();
+
+        // Pairs users to existing (or new if neccesary) 'PlayerInput's, and replaces player reference
+        for (int i = 0; i < m_players.Count; i++)
         {
-            InputManager inputManager = FindObjectOfType<InputManager>();
+            GameObject player = inputManager.JoinUser(m_players[i].device);
 
-            // Pairs users to existing (or new if neccesary) 'PlayerInput's, and replaces player reference
-            for (int i = 0; i < m_players.Count; i++)
-            {
-                GameObject player = inputManager.JoinUser(m_players[i].device);
+            m_players[i] = new(player, m_players[i].device, m_players[i].modelCustomizations, m_players[i].horseMat);
 
-                m_players[i] = new(player, m_players[i].device, m_players[i].modelCustomizations, m_players[i].horseMat);
-
-                ApplyCustomisationsToPlayer(m_players[i]);
-            }
+            if (m_retainCosmeticsOnSceneLoad) ApplyCustomisationsToPlayer(m_players[i]);
+            //PlayerCustomization.StoreCustomizationsToPlayer(m_players[i].player.GetComponent<PlayerInput>(), m_players[i].player);
         }
     }
 
@@ -232,17 +244,31 @@ public class GameManager : MonoBehaviour
 
         foreach (ModelSelector modelSelector in player.GetComponentsInChildren<ModelSelector>(true))
         {
-            modelSelector.Init();
-
             ModelCustomization foundItem = _player.modelCustomizations.FirstOrDefault(item => item.typeIndex == modelSelector.m_typeIndex);
-            modelSelector.PreviewObjectByIndex(foundItem.index);
-            modelSelector.SelectObject();
+            if (foundItem.typeIndex == modelSelector.m_typeIndex)
+            {
+                modelSelector.Init();
 
-            if (foundItem.mat.mainDye.colour != null) modelSelector.colourSelector.SetDye("Main", foundItem.mat.mainDye);
-            if (foundItem.mat.secondaryDye.colour != null) modelSelector.colourSelector.SetDye("Secondary", foundItem.mat.secondaryDye);
-            if (foundItem.mat.tertiaryDye.colour != null) modelSelector.colourSelector.SetDye("Tertiary", foundItem.mat.tertiaryDye);
+                modelSelector.PreviewObjectByIndex(foundItem.index);
+                modelSelector.SelectObject();
+
+                if (foundItem.mat.mainDye.colour != null) modelSelector.colourSelector.SetDye("Main", foundItem.mat.mainDye);
+                if (foundItem.mat.secondaryDye.colour != null) modelSelector.colourSelector.SetDye("Secondary", foundItem.mat.secondaryDye);
+                if (foundItem.mat.tertiaryDye.colour != null) modelSelector.colourSelector.SetDye("Tertiary", foundItem.mat.tertiaryDye);
+            }
         }
 
-        player.GetComponentInChildren<HorseColourSelector>().SetDyes(_player.horseMat);
+        // Checks if horse mat has been initialised by ensuring the pattern isn't null
+        if (_player.horseMat.pattern != null) player.GetComponentInChildren<HorseColourSelector>().SetDyes(_player.horseMat);
+    }
+
+    public void ResetGame(bool _retainPlayers = true, bool _retainCosmetics = false)
+    {
+        m_loadingScreen.SetActive(true);
+
+        WagonData.playerNumber = 0;
+
+        if (!_retainPlayers) ClearPlayers();
+        LoadScene("StartMenu", _retainCosmetics);
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,20 +11,13 @@ public class PlayerCustomization : MonoBehaviour
     public void SetOtherPlayerInput(PlayerInput _input)
     {
         m_playerInput = _input;
-        m_playerModelSelector = m_playerInput.GetComponentInChildren<ModelSelector>();
-        m_playerHorseColourSelector = m_playerInput.GetComponentInChildren<HorseColourSelector>();
     }
 
-    ModelSelector m_customizeModelSelector;
-    ModelSelector m_playerModelSelector;
-
     HorseColourSelector m_horseColourSelector;
-    HorseColourSelector m_playerHorseColourSelector;
 
     PlayerInputHandler m_input;
     private void Awake()
     {
-        m_customizeModelSelector = transform.GetComponentInChildren<ModelSelector>();
         m_horseColourSelector = transform.GetComponentInChildren<HorseColourSelector>();
 
         m_input = GetComponent<PlayerInputHandler>();
@@ -32,7 +26,8 @@ public class PlayerCustomization : MonoBehaviour
     private void Start()
     {
         m_horseColourSelector.skinSelector.Init();
-        StoreCustomizationsToPlayer(true);
+        StoreCustomizationsToPlayer(m_input.playerInput, m_playerInput.gameObject, true);
+        ApplyCosmeticsToPlayer();
     }
 
     private void OnEnable() => m_input.m_playerControls.UI.Exit.performed += Exit;
@@ -51,8 +46,6 @@ public class PlayerCustomization : MonoBehaviour
     public void SwitchInput()
     {
         InputManager.SwitchPlayerInput(m_input.playerInput, m_playerInput);
-        //m_customizeModelSelector.CopySelectionToSelector(m_playerModelSelector);
-        //m_horseColourSelector.CopyMatToSelector(m_playerHorseColourSelector);
 
         StoreCustomizationsToPlayer(true);
 
@@ -61,37 +54,61 @@ public class PlayerCustomization : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void StoreCustomizationsToPlayer(bool _storeInactive = false)
+    public void ApplyCosmeticsToPlayer()
+    {
+        HorseColourSelector horseSelector = gameObject.GetComponentInChildren<HorseColourSelector>(true);
+        horseSelector.Init();
+        horseSelector.GetComponent<SkinSelector>().Init();
+
+        PlayerData data = GameManager.Instance.GetPlayerData(m_playerInput.gameObject);
+
+        foreach (ModelSelector modelSelector in gameObject.GetComponentsInChildren<ModelSelector>(true))
+        {
+            modelSelector.Init();
+
+            ModelCustomization foundItem = data.modelCustomizations.FirstOrDefault(item => item.typeIndex == modelSelector.m_typeIndex);
+
+            modelSelector.PreviewObjectByIndex(foundItem.index);
+            modelSelector.SelectObject();
+
+            if (foundItem.mat.mainDye.colour != null) modelSelector.colourSelector.SetDye("Main", foundItem.mat.mainDye);
+            if (foundItem.mat.secondaryDye.colour != null) modelSelector.colourSelector.SetDye("Secondary", foundItem.mat.secondaryDye);
+            if (foundItem.mat.tertiaryDye.colour != null) modelSelector.colourSelector.SetDye("Tertiary", foundItem.mat.tertiaryDye);
+        }
+
+        horseSelector.SetDyes(data.horseMat);
+    }
+
+    public void StoreCustomizationsToPlayer(bool _storeInactive = false) => StoreCustomizationsToPlayer(m_playerInput, gameObject, _storeInactive);
+
+    public static void StoreCustomizationsToPlayer(PlayerInput _input, GameObject _basePlayer, bool _storeInactive = false)
     {
         List<ModelCustomization> modelCustomizations = new();
-        foreach (ModelSelector selector in GetComponentsInChildren<ModelSelector>(_storeInactive))
+        foreach (ModelSelector selector in _basePlayer.GetComponentsInChildren<ModelSelector>(_storeInactive))
         {
             selector.Init();
             modelCustomizations.Add(new(selector));
         }
 
-        // Temp
-        //List<ModelCustomization> modelCustomizations = new() { new(m_customizeModelSelector) };
-
         InputDevice device;
-        if (m_playerInput.devices.Count > 0) device = m_playerInput.devices[0];
-        else device = GetComponent<PlayerInput>().devices[0];
+        if (_input.devices.Count > 0) device = _input.devices[0];
+        else device = _basePlayer.GetComponent<PlayerInput>().devices[0];
 
         PlayerData data = GameManager.Instance.GetPlayerData(device);
-        GameManager.Instance.SetPlayerData(device, new(data.player, data.device, modelCustomizations, GetHorseMat()));
+        GameManager.Instance.SetPlayerData(device, new(data.player, data.device, modelCustomizations, GetHorseMat(_basePlayer.GetComponentInChildren<HorseColourSelector>(true))));
     }
 
-    public HorseMatInformation GetHorseMat()
+    public static HorseMatInformation GetHorseMat(HorseColourSelector _selector)
     {
         return new HorseMatInformation(
-            m_horseColourSelector.GetDye("Base"),
-            m_horseColourSelector.GetDye("Hair"),
-            m_horseColourSelector.GetDye("Tail"),
-            m_horseColourSelector.GetDye("Nose"),
-            m_horseColourSelector.GetDye("Feet"),
-            m_horseColourSelector.GetDye("Horse_Pattern"),
-            m_horseColourSelector.GetSelectedPattern(),
-            m_horseColourSelector.skinSelector.GetSelectedSkin()
+            _selector.GetDye("Base"),
+            _selector.GetDye("Hair"),
+            _selector.GetDye("Tail"),
+            _selector.GetDye("Nose"),
+            _selector.GetDye("Feet"),
+            _selector.GetDye("Horse_Pattern"),
+            _selector.GetSelectedPattern(),
+            _selector.skinSelector.GetSelectedSkin()
             );
     }
 }

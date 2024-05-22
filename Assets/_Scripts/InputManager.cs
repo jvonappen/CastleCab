@@ -63,10 +63,20 @@ public class InputManager : MonoBehaviour
         return spawnPos;
     }
 
-    public void UnpairedDeviceUsed(InputControl _inputControl, InputEventPtr _inputEventPtr) => JoinUser(_inputControl.device);
-    public GameObject JoinUser(InputDevice _device)
+    public void UnpairedDeviceUsed(InputControl _inputControl, InputEventPtr _inputEventPtr) => JoinUser(_inputControl.device, _inputEventPtr);
+    public GameObject JoinUser(InputDevice _device, InputEventPtr _eventPtr = new())
     {
         if (_device.name == "Mouse") return null;
+
+        if (_device is Keyboard && _eventPtr != new InputEventPtr())
+        {
+            Keyboard controls = (Keyboard)_device;
+            if (controls.backspaceKey.ReadValueFromEvent(_eventPtr) == 1)
+            {
+                GameManager.Instance.ResetGame();
+                return null;
+            }
+        }
 
         PlayerInputHandler[] players = new PlayerInputHandler[m_players.Count];
         for (int i = 0; i < m_players.Count; i++) players[i] = m_players[i].GetComponent<PlayerInputHandler>();
