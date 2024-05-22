@@ -627,6 +627,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""ReturnMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5acf8985-0d46-4ef6-81a2-d6f69fb20048"",
+                    ""path"": ""<Keyboard>/backspace"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ReturnMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
