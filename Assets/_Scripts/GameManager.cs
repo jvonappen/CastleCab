@@ -132,9 +132,13 @@ public class GameManager : MonoBehaviour
             // Set DontDestroyOnLoad
             transform.parent = null;
             DontDestroyOnLoad(gameObject);
+
+            DontDestroyOnLoad(m_loadingScreen);
         }
     }
     #endregion
+
+    public GameObject m_loadingScreen;
 
     List<PlayerData> m_players = new();
     public List<PlayerData> players { get { return m_players; } }
@@ -194,7 +198,11 @@ public class GameManager : MonoBehaviour
         onGoldChanged?.Invoke(m_gold, m_gold);
     }
 
-    public void LoadScene(string _sceneName) => SceneManager.LoadScene(_sceneName);
+    public void LoadScene(string _sceneName)
+    {
+        m_loadingScreen.SetActive(true);
+        SceneManager.LoadScene(_sceneName);
+    }
 
     public void OpenCustomization()
     {
@@ -206,6 +214,8 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        m_loadingScreen.SetActive(false);
+
         if (scene.name != "StartMenu")
         {
             InputManager inputManager = FindObjectOfType<InputManager>();
@@ -244,5 +254,15 @@ public class GameManager : MonoBehaviour
         }
 
         player.GetComponentInChildren<HorseColourSelector>().SetDyes(_player.horseMat);
+    }
+
+    public void ResetGame()
+    {
+        m_loadingScreen.SetActive(true);
+
+        WagonData.playerNumber = 0;
+
+        ClearPlayers();
+        LoadScene("StartMenu");
     }
 }

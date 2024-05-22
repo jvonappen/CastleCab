@@ -8,13 +8,13 @@ public class ReturnToMenu : MonoBehaviour
     bool m_hasInitialized;
 
     PlayerControls m_playerControls;
+    GameManager m_manager;
 
-    [SerializeField] GameObject loadingScreenUI;
     private void Start()
     {
-        loadingScreenUI.SetActive(false);
-
         m_playerControls = GetComponent<PlayerInputHandler>().m_playerControls;
+        m_manager = GameManager.Instance;
+
         m_hasInitialized = true;
 
         m_playerControls.Controls.ReturnMenu.performed += OpenMenu;
@@ -24,23 +24,11 @@ public class ReturnToMenu : MonoBehaviour
     { 
         if (m_hasInitialized)
         {
-            
             m_playerControls.Controls.ReturnMenu.performed += OpenMenu;
-
-          
         }
                      
     }
     private void OnDisable() => m_playerControls.Controls.ReturnMenu.performed -= OpenMenu;
 
-    void OpenMenu(InputAction.CallbackContext context)
-    {
-        GameManager manager = GameManager.Instance;
-
-        loadingScreenUI.SetActive(true);
-        WagonData.playerNumber = 0;
-
-        manager.ClearPlayers();
-        manager.LoadScene("StartMenu");
-    }
+    void OpenMenu(InputAction.CallbackContext context) => GameManager.Instance.ResetGame();
 }
