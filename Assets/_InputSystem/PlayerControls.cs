@@ -621,7 +621,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""6d6b1c59-77d1-4908-a2ab-a238fffde948"",
                     ""path"": ""<Gamepad>/rightStickPress"",
-                    ""interactions"": """",
+                    ""interactions"": ""Hold(duration=1)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ReturnMenu"",
