@@ -20,7 +20,7 @@ public class HealthPickup : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag != "Wagon") return;    
+        if (other.tag != "Wagon" || other.tag != "Player") return;    
             
         _wagonData = other.GetComponent<WagonData>();
 
