@@ -12,8 +12,8 @@ public class ReadyUp : MonoBehaviour
 
     void StartGame(InputAction.CallbackContext context)
     {
-        foreach (PlayerCustomization player in FindObjectsOfType<PlayerCustomization>()) player.StoreCustomizationsToPlayer();
+        foreach (PlayerCustomization player in FindObjectsOfType<PlayerCustomization>()) player.StoreCustomizationsToPlayer(true);
 
-        GameManager.Instance.LoadScene(GameManager.Instance.GetComponent<SceneToLoad>().sceneToLoad);
+        GameManager.Instance.LoadScene(GameManager.Instance.GetComponent<SceneToLoad>().sceneToLoad, true);
     }
 }
