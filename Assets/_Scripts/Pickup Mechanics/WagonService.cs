@@ -17,7 +17,7 @@ public class WagonService : MonoBehaviour
     [SerializeField] private GameObject[] destinationList;
     [Space]
 
-
+    [SerializeField] private GameObject m_pickupMarker;
 
     private int listLength;
  
@@ -142,6 +142,7 @@ public class WagonService : MonoBehaviour
 
         if (zonedDeliveriesToggle == true && !wagonData_A.isOccupied && !currentlyInCart)
         {
+            m_pickupMarker.SetActive(false);
             wagonData_A.PlayPickUpParticle();
             currentlyInCart = true;
             ZoneSelector(zoneSelect);
@@ -157,6 +158,7 @@ public class WagonService : MonoBehaviour
         }
         if(zonedDeliveriesToggle == true && !wagonData_A.isOccupied && currentlyInCart == true)
         {
+            m_pickupMarker.SetActive(false);
             wagonData_A.PlayPickUpParticle();
             currentlyInCart = true;
             wagonData_A.isOccupied = true;
@@ -174,6 +176,7 @@ public class WagonService : MonoBehaviour
 
         if (captureFlagToggle == true && !wagonData_A.isOccupied)
         {
+            m_pickupMarker.SetActive(false);
             wagonData_A.PlayPickUpParticle();
             destination = playerBaseList[wagonData_A.thisPlayerNumber - 1];
             wagonData_A.destinationTarget = destination;
@@ -186,6 +189,7 @@ public class WagonService : MonoBehaviour
 
         if (!wagonData_A.isOccupied && destination != null && !captureFlagToggle)
         {
+            m_pickupMarker.SetActive(false);
             //fareText.text = dollarsGiven.ToString();
             //AudioManager.Instance.PlaySFX("In");
             //this.transform.parent = this.customerSeat.transform;
