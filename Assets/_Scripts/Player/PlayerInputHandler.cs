@@ -13,6 +13,8 @@ public class PlayerInputHandler : MonoBehaviour
     bool m_paired;
     public void SetPaired(bool _isPaired) => m_paired = _isPaired;
 
+    public Action onPaired;
+
     private void Awake()
     {
         m_playerControls = new PlayerControls();
@@ -30,6 +32,8 @@ public class PlayerInputHandler : MonoBehaviour
         m_playerInput.SwitchCurrentControlScheme(_device);
 
         if (GameManager.Instance) GameManager.Instance.AddPlayer(gameObject);
+
+        onPaired?.Invoke();
 
         return true;
     }

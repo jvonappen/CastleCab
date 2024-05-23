@@ -1,47 +1,30 @@
-using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
-
-[Serializable]
-public struct MenuEvent
-{
-    public UnityEvent onPreviousMenu;
-    public UnityEvent onNextMenu;
-}
 
 public class ChangeMenu : MonoBehaviour
 {
     [SerializeField] PlayerInputHandler m_playerInput;
     MultiplayerEventSystem m_eventSystem;
 
-    [Space(10)]
-    [SerializeField] GameObject m_nextMenu;
-    [SerializeField] GameObject m_buttonToSelectNext;
-    
-    [Space(10)]
-    [SerializeField] GameObject m_previousMenu;
-    [SerializeField] GameObject m_buttonToSelectPrevious;
+    [SerializeField] ChangeMenu m_nextMenu, m_previousMenu;
+    [SerializeField] GameObject m_buttonToSelect;
 
-    [Space(10)]
-    [SerializeField] MenuEvent m_events;
+    public UnityEvent onSetMenu;
 
-    public UnityEvent onPreviousMenu { get { return m_events.onPreviousMenu; } }
-    public UnityEvent onNextMenu { get { return m_events.onNextMenu; } }
-
-    private void Start()
-    {
-        m_eventSystem = m_playerInput.playerInput.uiInputModule.GetComponent<MultiplayerEventSystem>();
-    }
 
     private void OnEnable()
     {
+        m_eventSystem ??= m_playerInput.playerInput.uiInputModule.GetComponent<MultiplayerEventSystem>();
+
         if (m_playerInput.m_playerControls != null)
         {
             m_playerInput.m_playerControls.UI.Next.performed += Next;
             m_playerInput.m_playerControls.UI.Previous.performed += Previous;
         }
+
+        onSetMenu?.Invoke();
     }
 
     private void OnDisable()
@@ -50,19 +33,22 @@ public class ChangeMenu : MonoBehaviour
         m_playerInput.m_playerControls.UI.Previous.performed -= Previous;
     }
 
+    public void SetMenu()
+    {
+        m_playerInput.GetComponent<PlayerCustomization>().StoreCustomizationsToPlayer(true);
+
+        gameObject.SetActive(true);
+        m_eventSystem.SetSelectedGameObject(m_buttonToSelect);
+
+        onSetMenu?.Invoke();
+    }
+
     void Next(InputAction.CallbackContext context)
     {
         if (m_nextMenu)
         {
-            m_playerInput.GetComponent<PlayerCustomization>().StoreCustomizationsToPlayer(true);
-
-            m_nextMenu.SetActive(true);
-
-            m_eventSystem.SetSelectedGameObject(m_buttonToSelectNext);
-
+            m_nextMenu.SetMenu();
             gameObject.SetActive(false);
-
-            onNextMenu?.Invoke();
         }
     }
 
@@ -70,15 +56,8 @@ public class ChangeMenu : MonoBehaviour
     {
         if (m_previousMenu)
         {
-            m_playerInput.GetComponent<PlayerCustomization>().StoreCustomizationsToPlayer(true);
-
-            m_previousMenu.SetActive(true);
-
-            m_eventSystem.SetSelectedGameObject(m_buttonToSelectPrevious);
-
+            m_previousMenu.SetMenu();
             gameObject.SetActive(false);
-
-            onPreviousMenu?.Invoke();
         }
     }
 }

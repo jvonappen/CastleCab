@@ -29,6 +29,8 @@ public class CustomisationDisplay : MonoBehaviour
 
     CustomisationSelector m_selector;
 
+    bool m_isGreyedOut;
+
     private void OnEnable()
     {
         m_input.m_playerControls.UI.ToggleCustomiseMode.performed += ToggleMode;
@@ -57,6 +59,8 @@ public class CustomisationDisplay : MonoBehaviour
         m_selectedDisplay = m_modeMenu1;
 
         if (m_selectedDisplay.TryGetComponent(out SelectorCollection collection)) m_selector = collection.selector;
+
+        GreyOutSelectorMenu(true);
     }
 
     void ToggleMode(InputAction.CallbackContext context) => ToggleMode();
@@ -66,7 +70,7 @@ public class CustomisationDisplay : MonoBehaviour
         else SelectMenu1();
     }
 
-    void SelectMenu1()
+    public void SelectMenu1()
     {
         // TEMPORARY
         if (m_modeMenu1.TryGetComponent(out ModelCollection collection)) m_currentModelSelector = collection.modelSelector;
@@ -83,7 +87,7 @@ public class CustomisationDisplay : MonoBehaviour
         ExitSelector();
     }
 
-    void SelectMenu2()
+    public void SelectMenu2()
     {
         m_dyeCollection.SetInteraction(true);
         if (m_currentModelSelector) m_currentModelSelector.SelectSelected();
@@ -98,6 +102,15 @@ public class CustomisationDisplay : MonoBehaviour
         m_isMode1 = false;
 
         SelectButton();
+    }
+
+    public void DeselectMenu2()
+    {
+        m_display.Display1();
+        m_selectedDisplay = m_modeMenu1;
+
+        m_modeMenu2.SetActive(false);
+        m_isMode1 = true;
     }
 
     public void SelectButton()
@@ -118,19 +131,24 @@ public class CustomisationDisplay : MonoBehaviour
         if (m_categorySelector.canInteractDyes) SelectMenu2();
         else SelectMenu1();
     }
-    void ExitSelector()
+
+    public void SetSelectedModel() { if (m_currentModelSelector) m_currentModelSelector.SelectSelected(); }
+
+    public void ExitSelector()
     {
-        if (m_currentModelSelector) m_currentModelSelector.SelectSelected();
+        SetSelectedModel();
         if (m_selector) m_selector.DisplaySelected();
 
         m_categorySelector.SetInteraction(true);
-        m_eventSystem.SetSelectedGameObject(m_categorySelector.m_selectedObject);
+        if (m_eventSystem) m_eventSystem.SetSelectedGameObject(m_categorySelector.m_selectedObject);
 
-        GreyOutSelectorMenu(true);
+        if (m_selectedDisplay) GreyOutSelectorMenu(true);
     }
 
     public void GreyOutSelectorMenu(bool _isGreyedOut)
     {
+        m_isGreyedOut = _isGreyedOut;
+
         if (_isGreyedOut)
         {
             m_menuText.alpha = 125f / 255f;
@@ -142,4 +160,6 @@ public class CustomisationDisplay : MonoBehaviour
             foreach (Image image in m_selectedDisplay.GetComponentsInChildren<Image>()) image.color = new(image.color.r, image.color.g, image.color.b, 1);
         }
     }
+
+    public void UpdateGreyOut() => GreyOutSelectorMenu(m_isGreyedOut);
 }

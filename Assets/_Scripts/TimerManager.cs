@@ -98,7 +98,7 @@ public class Timer
         {
             m_functionToCall();
         }
-        catch { Debug.LogWarning("TimerManager failed to invoke action. Script may no longer exist."); }
+        catch { }
     }
 }
 

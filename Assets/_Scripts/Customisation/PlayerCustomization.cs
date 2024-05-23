@@ -56,9 +56,13 @@ public class PlayerCustomization : MonoBehaviour
 
     public void ApplyCosmeticsToPlayer()
     {
-        HorseColourSelector horseSelector = gameObject.GetComponentInChildren<HorseColourSelector>(true);
-        horseSelector.Init();
-        horseSelector.GetComponent<SkinSelector>().Init();
+        HorseColourSelector[] horseSelectors = gameObject.GetComponentsInChildren<HorseColourSelector>(true);
+        foreach (HorseColourSelector selector in horseSelectors)
+        {
+            selector.Init();
+            selector.GetComponent<SkinSelector>().Init();
+        }
+        
 
         PlayerData data = GameManager.Instance.GetPlayerData(m_playerInput.gameObject);
 
@@ -76,7 +80,7 @@ public class PlayerCustomization : MonoBehaviour
             if (foundItem.mat.tertiaryDye.colour != null) modelSelector.colourSelector.SetDye("Tertiary", foundItem.mat.tertiaryDye);
         }
 
-        horseSelector.SetDyes(data.horseMat);
+        foreach (HorseColourSelector selector in horseSelectors) selector.SetDyes(data.horseMat);
     }
 
     public void StoreCustomizationsToPlayer(bool _storeInactive = false) => StoreCustomizationsToPlayer(m_playerInput, gameObject, _storeInactive);
@@ -91,7 +95,7 @@ public class PlayerCustomization : MonoBehaviour
         }
 
         InputDevice device;
-        if (_input.devices.Count > 0) device = _input.devices[0];
+        if (_input && _input.devices.Count > 0) device = _input.devices[0];
         else device = _basePlayer.GetComponent<PlayerInput>().devices[0];
 
         PlayerData data = GameManager.Instance.GetPlayerData(device);

@@ -36,13 +36,14 @@ public class ColourSelector : CustomisationSelector
     public DyeData GetDye(string _colourSegment, bool _previewDye = true)
     {
         Material mat = GetMat(_previewDye);
-        if (mat)
+        if (mat && mat.shader != GameManager.defaultShader)
         {
-            DyeData data = new();
-
-            data.colour = mat.GetColor("_" + _colourSegment + "_Colour");
-            data.metal = mat.GetFloat("_" + _colourSegment + "_Metal");
-            data.roughness = mat.GetFloat("_" + _colourSegment + "_Rough");
+            DyeData data = new()
+            {
+                colour = mat.GetColor("_" + _colourSegment + "_Colour"),
+                metal = mat.GetFloat("_" + _colourSegment + "_Metal"),
+                roughness = mat.GetFloat("_" + _colourSegment + "_Rough")
+            };
 
             return data;
         }

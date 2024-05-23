@@ -30,13 +30,17 @@ public class CategorySelector : MonoBehaviour
 
         if (m_tween == null)
         {
-            float selectionDistanceFromPrevious = m_selectedObject.transform.localPosition.y - _obj.transform.localPosition.y;
-            m_tween = transform.DOLocalMoveY(transform.localPosition.y + selectionDistanceFromPrevious, 0.1f);
-            m_tween.OnKill(() => { m_tween = null; });
+            if (m_selectedObject)
+            {
+                float selectionDistanceFromPrevious = m_selectedObject.transform.localPosition.y - _obj.transform.localPosition.y;
+                m_tween = transform.DOLocalMoveY(transform.localPosition.y + selectionDistanceFromPrevious, 0.1f);
+                m_tween.OnKill(() => { m_tween = null; });
+
+                DeselectObject(m_selectedObject);
+            }
 
             _obj.GetComponentInChildren<Image>().transform.DOScale(Vector3.one * m_selectImageSizeMulti, 0.1f);
 
-            DeselectObject(m_selectedObject);
             _obj.transform.GetChild(0).gameObject.SetActive(true);
 
             m_selectedObject = _obj;

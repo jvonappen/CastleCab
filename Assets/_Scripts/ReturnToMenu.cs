@@ -8,12 +8,10 @@ public class ReturnToMenu : MonoBehaviour
     bool m_hasInitialized;
 
     PlayerControls m_playerControls;
-    GameManager m_manager;
 
     private void Start()
     {
         m_playerControls = GetComponent<PlayerInputHandler>().m_playerControls;
-        m_manager = GameManager.Instance;
 
         m_hasInitialized = true;
 
@@ -30,5 +28,5 @@ public class ReturnToMenu : MonoBehaviour
     }
     private void OnDisable() => m_playerControls.Controls.ReturnMenu.performed -= OpenMenu;
 
-    void OpenMenu(InputAction.CallbackContext context) => GameManager.Instance.ResetGame();
+    void OpenMenu(InputAction.CallbackContext context) => GameManager.Instance.ResetGame(true, true);
 }
