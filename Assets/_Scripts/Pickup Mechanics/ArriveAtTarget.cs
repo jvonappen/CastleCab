@@ -7,22 +7,18 @@ public class ArriveAtTarget : MonoBehaviour
 {
     
     [SerializeField] private GameObject exitLocation;
-    //[SerializeField] public GameObject targetParticles;
 
-    
+    [SerializeField] private bool m_canVanish = true;
+    [SerializeField] private GameObject m_vanishParticles;
+    [SerializeField] private float m_vanishTimer = 10;
 
     private WagonService _wagonContents;
     private WagonData _wagonData;
     private GameObject _cartTargetPoint;
 
-    //[SerializeField] private Score thisScore;
-
-    // [Header("Timer")]
-    //[SerializeField] private GameObject timerObject;
-
     private void Awake()
     {
-
+        m_vanishParticles.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -63,45 +59,21 @@ public class ArriveAtTarget : MonoBehaviour
             _wagonData.destinationTarget = null;
             _wagonContents.destination = null;
 
-            //RankingSystem.Instance.UpdateRanking();
-
         }
 
-        //if (!_wagonContents.captureFlagToggle && _wagonContents != null && _wagonContents.destination == this.gameObject)
-        //{
-        //    //AudioManager.Instance.StopSFX();
-        //    _wagonContents.transform.parent = null;
-        //    _wagonContents.transform.position = exitLocation.transform.position;
+        if(_wagonContents.isAtTarget)
+        { 
+            _wagonContents.ChangeAnimation("Dance");
+            if(m_canVanish)
+            {
+                TimerManager.RunAfterTime(() =>
+                {
+                    if (m_vanishParticles != null){m_vanishParticles.SetActive(true);}
+                    _wagonContents.gameObject.SetActive(false);
+                }, m_vanishTimer);
+            }
 
-        //    _wagonData.isOccupied = false;
-        //    _wagonData.destinationTarget = null;
-
-
-        //    //DollarDisplay.dollarValue = DollarDisplay.dollarValue + wagonContents.dollarsGiven;
-
-        //    _wagonData.score.scoreValue = _wagonData.score.scoreValue + _wagonContents.scoreGiven;
-
-
-
-        //    // AudioManager.Instance.PlaySFX("Money");
-
-        //    //AchievementManager.platniumTracker = AchievementManager.platniumTracker + 1;
-        //    //AchievementManager.Instance.PlatniumDriver();
-
-        //    _wagonContents.destination = null;
-
-        //    // timerObject.SetActive(false);
-
-        //    _wagonContents.isAtTarget = true;
-
-        //    //wagonContents.SetActive(false);
-
-        //    // wagonContents.ResetTaxiPickUp();
-
-
-        //}
-
-        if(_wagonContents.isAtTarget) { _wagonContents.ChangeAnimation("Dance"); }
+        }
         
 
     }
