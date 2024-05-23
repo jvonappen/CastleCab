@@ -8,6 +8,8 @@ public class KnockbackObject : MonoBehaviour
     Collider m_collider;
     Rigidbody rb;
     Knockback m_knockback;
+
+    [SerializeField] private AudioGroupDetails audioGroup;
     private void Awake()
     {
         m_collider = GetComponent<Collider>();
@@ -28,6 +30,8 @@ public class KnockbackObject : MonoBehaviour
 
         if (CheckLayer(rb.gameObject.layer))
         {
+            if (audioGroup != null) AudioManager.Instance.PlayGroupAudio(audioGroup.audioGroupName);
+
             Knockback kb = rb.GetComponent<Knockback>();
 
             Vector3 contactPoint = collision.GetContact(0).point;

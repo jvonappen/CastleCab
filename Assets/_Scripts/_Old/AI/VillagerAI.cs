@@ -17,6 +17,8 @@ public class VillagerAI : MonoBehaviour
     [Tooltip("How far the AI will wander from the wander tranform.")]
     [SerializeField] private float wanderRange = 25;
 
+    [SerializeField] private AudioGroupDetails audioGroup;
+
     private NavMeshAgent agent;
     private Transform thisTransform;
 
@@ -45,6 +47,7 @@ public class VillagerAI : MonoBehaviour
         if (collision.gameObject.tag == "Wagon" || collision.gameObject.tag == "Player" || collision.gameObject.tag == "NPC")
         {
             agent.enabled = false;
+            if (audioGroup != null) AudioManager.Instance.PlayGroupAudio(audioGroup.audioGroupName);
 
             TimerManager.RunAfterTime(() =>
             {
