@@ -59,7 +59,7 @@ public class AudioManager : MonoBehaviour
     {
         AudioDetails audio = Array.Find(sfxAudio, x => x.audioName == name);
         if (audio == null) { Debug.Log("Audio not found"); }
-        if (sfxSource.isPlaying) return;
+        //if (sfxSource.isPlaying) return;
         else
         {
             sfxSource.clip = audio.clip;

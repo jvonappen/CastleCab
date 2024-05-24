@@ -144,6 +144,7 @@ public class WagonService : MonoBehaviour
         {
             m_pickupMarker.SetActive(false);
             wagonData_A.PlayPickUpParticle();
+            AudioManager.Instance.PlaySFX("In");
             currentlyInCart = true;
             ZoneSelector(zoneSelect);
             wagonData_A.destinationTarget = destination;
@@ -160,6 +161,7 @@ public class WagonService : MonoBehaviour
         {
             m_pickupMarker.SetActive(false);
             wagonData_A.PlayPickUpParticle();
+            AudioManager.Instance.PlaySFX("In");
             currentlyInCart = true;
             wagonData_A.isOccupied = true;
             this.transform.parent = _wagonSlot.transform;

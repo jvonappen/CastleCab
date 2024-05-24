@@ -34,7 +34,7 @@ public class ArriveAtTarget : MonoBehaviour
         if (_wagonContents.captureFlagToggle == true && _wagonContents != null && _wagonContents.destination == this.gameObject)
         {
             _wagonData.score.scoreValue = _wagonData.score.scoreValue + _wagonContents.scoreGiven;
-            
+            AudioManager.Instance.PlaySFX("Out");
             _wagonContents.transform.parent = null;
             _wagonContents.transform.position = exitLocation.transform.position;
             _wagonContents.isAtTarget = true;
@@ -46,7 +46,7 @@ public class ArriveAtTarget : MonoBehaviour
 
         if (_wagonContents.zonedDeliveriesToggle == true && _wagonContents != null && _wagonContents.destination == this.gameObject)
         {
-            
+            AudioManager.Instance.PlaySFX("Out");
             _wagonContents.thisPlayerMarker.SetActive(false);
             _wagonContents.thisPlayerBeam.SetActive(false);
             _wagonData.score.scoreValue = _wagonData.score.scoreValue + _wagonContents.scoreGiven;
