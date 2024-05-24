@@ -64,6 +64,7 @@ GameObject:
   - component: {fileID: 1076914405013217971}
   - component: {fileID: 1958962937292851367}
   - component: {fileID: 1454719429108735570}
+  - component: {fileID: 8965776946302976662}
   m_Layer: 0
   m_Name: Guillotine
   m_TagString: Untagged
@@ -131,6 +132,31 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.17964149, z: 2.9337025}
   m_Center: {x: 0, y: -1.8985449, z: 0.005859852}
+--- !u!114 &8965776946302976662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649199693561104204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b2412d7b607ce54290fe5b66608b7d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_health: 15
+  m_dishonourPunishment: 100
+  m_goldReward: 10
+  m_canRespawn: 1
+  m_respawnTime: 5
+  m_PrefabRespawnParticle: {fileID: 0}
+  m_damagedParticlePrefabs: []
+  m_destroyedParticlePrefabs: []
+  sfxAudio: {fileID: 0}
+  m_showPopup: 1
+  m_popupLocation: {fileID: 0}
+  m_popupRandomRange: 2
+  m_fontSize: 5
 --- !u!1 &5046343819103817282
 GameObject:
   m_ObjectHideFlags: 0
