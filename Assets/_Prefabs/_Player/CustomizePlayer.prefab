@@ -12944,6 +12944,8 @@ GameObject:
   - component: {fileID: 7686447256347710308}
   - component: {fileID: 2835761184835072570}
   - component: {fileID: 6776778097277972944}
+  - component: {fileID: 7937153018057017822}
+  - component: {fileID: 7200833458473897015}
   m_Layer: 3
   m_Name: ----CustomizationSpinDisplay
   m_TagString: Untagged
@@ -13016,6 +13018,35 @@ MonoBehaviour:
   m_playerInput: {fileID: 933286522574379257}
   m_scriptToRequire: {fileID: 7686447256347710308}
   m_isInverse: 0
+--- !u!114 &7937153018057017822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2592564540338774581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c6de4d1e78e148498e0a57b4c16d4ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_spinSpeed: 20
+  m_relativeTo: 0
+--- !u!114 &7200833458473897015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2592564540338774581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa8efdb34b301fa4db3607430ac6e6cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_playerInput: {fileID: 933286522574379257}
+  m_scriptToRequire: {fileID: 7937153018057017822}
+  m_isInverse: 1
 --- !u!1 &2595060015873846107
 GameObject:
   m_ObjectHideFlags: 0
