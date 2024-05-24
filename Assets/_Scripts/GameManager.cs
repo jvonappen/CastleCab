@@ -205,7 +205,7 @@ public class GameManager : MonoBehaviour
     public void LoadScene(string _sceneName, bool _retainCosmetics = false)
     {
         m_retainCosmeticsOnSceneLoad = _retainCosmetics;
-
+        
         if (SceneManager.GetActiveScene().name != "StartMenu")
         {
             for (int i = 0; i < m_players.Count; i++)
@@ -214,7 +214,18 @@ public class GameManager : MonoBehaviour
         
         m_loadingScreen.SetActive(true);
 
-        TimerManager.RunAfterTime(() => { SceneManager.LoadScene(_sceneName); }, 0.01f);
+        TimerManager.RunAfterTime(() => { StartCoroutine(LoadSceneAsyncronously(_sceneName)); }, 0.01f);
+        //TimerManager.RunAfterTime(() => { SceneManager.LoadScene(_sceneName); }, 0.01f);
+    }
+
+    IEnumerator LoadSceneAsyncronously(string _sceneName)
+    {
+        AsyncOperation operation = SceneManager.LoadSceneAsync(_sceneName);
+        while (!operation.isDone)
+        {
+            //Debug.Log(operation.progress);
+            yield return null;
+        }
     }
 
     public void OpenCustomization()
@@ -228,7 +239,8 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        m_loadingScreen.SetActive(false);
+        TimerManager.RunAfterTime(() => { m_loadingScreen.SetActive(false); }, 2f);
+        //m_loadingScreen.SetActive(false);
 
         InputManager inputManager = FindObjectOfType<InputManager>();
 

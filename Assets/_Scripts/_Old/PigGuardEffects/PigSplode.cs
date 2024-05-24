@@ -91,7 +91,7 @@ public class PigSplode : MonoBehaviour
                 }
 
                 //_soundManager.Play("PlayerHit");
-                AudioManager.Instance.PlayGroupAudio("GuardPunch");
+               // AudioManager.Instance.PlayGroupAudio("GuardPunch");
                 ParticleSystem impact = Instantiate(_playerImpact, other.transform);
                 other.rigidbody.AddForce((other.transform.position - this.transform.position) * _playerForce, ForceMode.Impulse);
 

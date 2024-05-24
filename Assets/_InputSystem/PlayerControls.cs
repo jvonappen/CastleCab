@@ -152,6 +152,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Fart"",
+                    ""type"": ""Button"",
+                    ""id"": ""c8a5e6c7-5087-4bed-85a7-8ea941e3150d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MegaFart"",
+                    ""type"": ""Button"",
+                    ""id"": ""a492927d-6500-4ad9-ada3-d7fe998b9f06"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -636,6 +654,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ReturnMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7b05f599-af51-452c-af09-505f57cfe0c8"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a86b259c-df08-482a-9912-d034e4e53a1b"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MegaFart"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1400,6 +1440,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Controls_StatsMenu = m_Controls.FindAction("StatsMenu", throwIfNotFound: true);
         m_Controls_JoinGame = m_Controls.FindAction("JoinGame", throwIfNotFound: true);
         m_Controls_ReturnMenu = m_Controls.FindAction("ReturnMenu", throwIfNotFound: true);
+        m_Controls_Fart = m_Controls.FindAction("Fart", throwIfNotFound: true);
+        m_Controls_MegaFart = m_Controls.FindAction("MegaFart", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1491,6 +1533,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Controls_StatsMenu;
     private readonly InputAction m_Controls_JoinGame;
     private readonly InputAction m_Controls_ReturnMenu;
+    private readonly InputAction m_Controls_Fart;
+    private readonly InputAction m_Controls_MegaFart;
     public struct ControlsActions
     {
         private @PlayerControls m_Wrapper;
@@ -1509,6 +1553,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @StatsMenu => m_Wrapper.m_Controls_StatsMenu;
         public InputAction @JoinGame => m_Wrapper.m_Controls_JoinGame;
         public InputAction @ReturnMenu => m_Wrapper.m_Controls_ReturnMenu;
+        public InputAction @Fart => m_Wrapper.m_Controls_Fart;
+        public InputAction @MegaFart => m_Wrapper.m_Controls_MegaFart;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1560,6 +1606,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ReturnMenu.started += instance.OnReturnMenu;
             @ReturnMenu.performed += instance.OnReturnMenu;
             @ReturnMenu.canceled += instance.OnReturnMenu;
+            @Fart.started += instance.OnFart;
+            @Fart.performed += instance.OnFart;
+            @Fart.canceled += instance.OnFart;
+            @MegaFart.started += instance.OnMegaFart;
+            @MegaFart.performed += instance.OnMegaFart;
+            @MegaFart.canceled += instance.OnMegaFart;
         }
 
         private void UnregisterCallbacks(IControlsActions instance)
@@ -1606,6 +1658,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ReturnMenu.started -= instance.OnReturnMenu;
             @ReturnMenu.performed -= instance.OnReturnMenu;
             @ReturnMenu.canceled -= instance.OnReturnMenu;
+            @Fart.started -= instance.OnFart;
+            @Fart.performed -= instance.OnFart;
+            @Fart.canceled -= instance.OnFart;
+            @MegaFart.started -= instance.OnMegaFart;
+            @MegaFart.performed -= instance.OnMegaFart;
+            @MegaFart.canceled -= instance.OnMegaFart;
         }
 
         public void RemoveCallbacks(IControlsActions instance)
@@ -1807,6 +1865,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnStatsMenu(InputAction.CallbackContext context);
         void OnJoinGame(InputAction.CallbackContext context);
         void OnReturnMenu(InputAction.CallbackContext context);
+        void OnFart(InputAction.CallbackContext context);
+        void OnMegaFart(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

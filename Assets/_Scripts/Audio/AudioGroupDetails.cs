@@ -7,6 +7,9 @@ using UnityEngine;
 public class AudioGroupDetails : ScriptableObject
 {
     public string audioGroupName;
+
+    public float audioGroupVolume = 1f;
+  
     public AudioClip[] audioClips;
 }
 

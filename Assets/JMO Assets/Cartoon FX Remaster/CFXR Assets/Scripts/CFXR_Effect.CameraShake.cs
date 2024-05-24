@@ -194,7 +194,7 @@ namespace CartoonFX
 					camerasPreRenderPosition.Remove(cam);
 				}
 
-				cameras.Clear();
+				//cameras.Clear();
 
 				if (useMainCamera && Camera.main != null)
 				{

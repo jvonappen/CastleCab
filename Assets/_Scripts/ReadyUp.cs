@@ -11,12 +11,12 @@ public class ReadyUp : MonoBehaviour
 
     private void OnEnable()
     {
-        m_input.m_playerControls.Controls.Boost.performed += SetReady;
+        m_input.m_playerControls.UI.Submit.performed += SetReady;
         m_input.m_playerControls.UI.Cancel.performed += CancelReady;
     }
     private void OnDisable()
     {
-        m_input.m_playerControls.Controls.Boost.performed -= SetReady;
+        m_input.m_playerControls.UI.Submit.performed -= SetReady;
         m_input.m_playerControls.UI.Cancel.performed -= CancelReady;
     }
 

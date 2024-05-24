@@ -25,7 +25,7 @@ public class HealthPickup : MonoBehaviour
         {
             m_wagonData = other.GetComponent<WagonData>();
             m_wagonData.playerHealth.HealthPickupIncrease(healthIncrease);
-            //AudioManager.Instance.PlaySFX("Money");
+            AudioManager.Instance.PlaySFX("HealthPickup");
             gameObject.SetActive(false);
             m_wagonData.PlayPickUpParticle();
             TimerManager.RunAfterTime(() =>{ gameObject.SetActive(true); }, respawnTime);
