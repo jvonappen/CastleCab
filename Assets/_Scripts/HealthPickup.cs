@@ -11,7 +11,8 @@ public class HealthPickup : MonoBehaviour
 
 
 
-   private WagonData _wagonData;
+   private WagonData m_wagonData;
+    private PlayerHealth m_playerHealth;
 
     private void Update()
     {
@@ -20,23 +21,25 @@ public class HealthPickup : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag != "Wagon") return;    
-            
-        _wagonData = other.GetComponent<WagonData>();
-
-        _wagonData.playerHealth.HealthPickupIncrease(healthIncrease);
-
-        //AudioManager.Instance.PlaySFX("Money");
-        //Destroy(gameObject);
-       
-        gameObject.SetActive(false);
-        _wagonData.PlayPickUpParticle();
-
-        TimerManager.RunAfterTime(() =>
+        if (other.tag == "Wagon")
         {
-            gameObject.SetActive(true);          
-        }, respawnTime);
+            m_wagonData = other.GetComponent<WagonData>();
+            m_wagonData.playerHealth.HealthPickupIncrease(healthIncrease);
+            AudioManager.Instance.PlaySFX("HealthPickup");
+            gameObject.SetActive(false);
+            m_wagonData.PlayPickUpParticle();
+            TimerManager.RunAfterTime(() =>{ gameObject.SetActive(true); }, respawnTime);
+        }
 
-        
+        //if (other.tag == "Player")
+        //{
+        //    m_playerHealth = other.attachedRigidbody.GetComponentInParent<PlayerHealth>();
+        //    m_playerHealth.HealthPickupIncrease(healthIncrease);
+        //    //AudioManager.Instance.PlaySFX("Money");
+        //    gameObject.SetActive(false);
+        //    m_wagonData.PlayPickUpParticle();
+        //    TimerManager.RunAfterTime(() => { gameObject.SetActive(true); }, respawnTime);
+        //}
+
     }
 }

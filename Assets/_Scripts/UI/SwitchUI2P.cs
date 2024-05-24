@@ -5,6 +5,9 @@ using UnityEngine.InputSystem.UI;
 public class SwitchUI2P : PlayerJoinedNotifier
 {
     [SerializeField] GameObject m_defaultUI, m_2pUI;
+    GameObject m_openMenu;
+    public GameObject currentMenu { get { return m_openMenu; } }
+
     [SerializeField] float m_defaultCamSize, m_2pCamSize;
 
     [SerializeField] GameObject m_defaultSelectedButton, m_2pSelectedButton;
@@ -16,6 +19,29 @@ public class SwitchUI2P : PlayerJoinedNotifier
     public void Start()
     {
         UpdateUI();
+
+        // Selects default button when first opened menu
+        if (m_defaultUI) m_multiplayerEventSystem.SetSelectedGameObject(m_defaultSelectedButton);
+        else m_multiplayerEventSystem.SetSelectedGameObject(m_2pSelectedButton);
+    }
+
+    bool hasInitialised;
+    public override void OnEnable()
+    {
+        base.OnEnable();
+
+        //if (!hasInitialised)
+        //{
+        //    hasInitialised = true;
+        //    return;
+        //}
+        //m_openMenu.GetComponent<MaintainOpenMenu>().OpenMenu();
+    }
+
+    public void OpenDefaultMenu()
+    {
+        UpdateUI();
+        m_openMenu.GetComponent<MaintainOpenMenu>().OpenMenu();
     }
 
     public override void Awake()
@@ -49,7 +75,7 @@ public class SwitchUI2P : PlayerJoinedNotifier
             if (!m_2pUI.activeSelf)
             {
                 m_2pUI.SetActive(true);
-
+                
                 // Translate menu state to other canvas
                 m_defaultUI.GetComponent<MaintainOpenMenu>().SwitchMenus();
                 if (!SelectButtonTwin()) m_multiplayerEventSystem.SetSelectedGameObject(m_2pSelectedButton);
@@ -58,6 +84,8 @@ public class SwitchUI2P : PlayerJoinedNotifier
 
                 m_playerInput.camera.orthographicSize = m_2pCamSize;
             }
+
+            m_openMenu = m_2pUI;
         }
     }
 
@@ -68,7 +96,7 @@ public class SwitchUI2P : PlayerJoinedNotifier
             if (!m_defaultUI.activeSelf)
             {
                 m_defaultUI.SetActive(true);
-
+                
                 // Translate menu state to other canvas
                 m_2pUI.GetComponent<MaintainOpenMenu>().SwitchMenus();
                 if (!SelectButtonTwin()) m_multiplayerEventSystem.SetSelectedGameObject(m_defaultSelectedButton);
@@ -77,6 +105,8 @@ public class SwitchUI2P : PlayerJoinedNotifier
 
                 m_playerInput.camera.orthographicSize = m_defaultCamSize;
             }
+
+            m_openMenu = m_defaultUI;
         }
     }
 

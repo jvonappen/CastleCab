@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -16,8 +17,14 @@ public class VillagerAI : MonoBehaviour
     [Tooltip("How far the AI will wander from the wander tranform.")]
     [SerializeField] private float wanderRange = 25;
 
+    [SerializeField] private AudioGroupDetails audioGroup;
+
     private NavMeshAgent agent;
     private Transform thisTransform;
+
+    private float RD;
+    private float SD;
+
 
     private void Awake()
     {
@@ -35,12 +42,31 @@ public class VillagerAI : MonoBehaviour
         
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Wagon" || collision.gameObject.tag == "Player" || collision.gameObject.tag == "NPC")
+        {
+            agent.enabled = false;
+            if (audioGroup != null) AudioManager.Instance.PlayGroupAudio(audioGroup.audioGroupName);
+
+            TimerManager.RunAfterTime(() =>
+            {
+                RD = 1;
+                agent.enabled = true;
+                agent = this.gameObject.GetComponent<NavMeshAgent>();
+                thisTransform = this.agent.transform;
+                agent.speed = movementSpeed;
+            }, 6);
+        }
+
+    }
+
     private void Wander()
     {
-        float RD = this.agent.remainingDistance;
-        float SD = this.agent.stoppingDistance;
+        RD = this.agent.remainingDistance;
+        SD = this.agent.stoppingDistance;
 
-        if (RD <= SD)
+        if (RD <= 2)
         {
             Vector3 point;
             if (FindRandomPoint(wanderTransform.position, wanderRange, out point)) //pass in centrepoint and radius of area
@@ -66,20 +92,6 @@ public class VillagerAI : MonoBehaviour
 
         result = Vector3.zero;
         return false;
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Mud")
-        {
-            agent.speed = agent.speed/ 2f;
-        }
-    }
-    private void OnTriggerExit (Collider other)
-    {
-        if (other.gameObject.tag == "Mud")
-        {
-            agent.speed = movementSpeed;
-        }
     }
 
 }

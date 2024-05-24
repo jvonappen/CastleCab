@@ -42,7 +42,13 @@ public class DyeCollection : MonoBehaviour
     {
         selectedDye = _dye;
 
-        GameObject dyeSlotToSelect = categorySelector.m_selectedObject.transform.GetChild(2).gameObject;
+        GameObject dyeSlotToSelect;// = categorySelector.m_selectedObject.transform.GetChild(2).gameObject;
+        if (categorySelector.m_selectedObject.transform.childCount < 3)
+        {
+            dyeSlotToSelect = categorySelector.selections[0].transform.GetChild(2).gameObject;
+            //categorySelector.SelectObject(dyeSlotToSelect);
+        }
+        else dyeSlotToSelect = categorySelector.m_selectedObject.transform.GetChild(2).gameObject;
 
         categorySelector.SetDyeInteraction(true);
         m_customisationDisplay.input.playerInput.uiInputModule.GetComponent<MultiplayerEventSystem>().SetSelectedGameObject(dyeSlotToSelect);

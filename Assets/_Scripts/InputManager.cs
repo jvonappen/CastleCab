@@ -73,7 +73,7 @@ public class InputManager : MonoBehaviour
             Keyboard controls = (Keyboard)_device;
             if (controls.backspaceKey.ReadValueFromEvent(_eventPtr) == 1)
             {
-                GameManager.Instance.ResetGame();
+                GameManager.Instance.ResetGame(false);
                 return null;
             }
         }

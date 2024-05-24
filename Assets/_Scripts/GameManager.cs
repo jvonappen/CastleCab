@@ -134,6 +134,8 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
 
             DontDestroyOnLoad(m_loadingScreen);
+
+            defaultShader = getUsedRenderPipeline().defaultShader;
         }
     }
     #endregion
@@ -204,15 +206,23 @@ public class GameManager : MonoBehaviour
     {
         m_retainCosmeticsOnSceneLoad = _retainCosmetics;
 
+        if (SceneManager.GetActiveScene().name != "StartMenu")
+        {
+            for (int i = 0; i < m_players.Count; i++)
+                PlayerCustomization.StoreCustomizationsToPlayer(m_players[i].player.GetComponent<PlayerInput>(), m_players[i].player);
+        }
+        
         m_loadingScreen.SetActive(true);
-        SceneManager.LoadScene(_sceneName);
+
+        TimerManager.RunAfterTime(() => { SceneManager.LoadScene(_sceneName); }, 0.01f);
     }
 
     public void OpenCustomization()
     {
         FindObjectOfType<PlayerInputManager>().DisableJoining();
 
-        foreach (PlayerData data in players) data.player.GetComponent<CustomisationSpawner>().StartCustomization();
+        for (int i = 0; i < players.Count; i++) players[i].player.GetComponent<CustomisationSpawner>().StartCustomization();
+        //foreach (PlayerData data in players) data.player.GetComponent<CustomisationSpawner>().StartCustomization();
         InputManager.EnableSplitscreen();
     }
 
@@ -271,4 +281,18 @@ public class GameManager : MonoBehaviour
         if (!_retainPlayers) ClearPlayers();
         LoadScene("StartMenu", _retainCosmetics);
     }
+
+    /// <summary>
+    /// Returns the current pipline. Returns NULL if it's the standard render pipeline.
+    /// </summary>
+    /// <returns></returns>
+    public static UnityEngine.Rendering.RenderPipelineAsset getUsedRenderPipeline()
+    {
+        if (UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline != null)
+            return UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline;
+        else
+            return UnityEngine.Rendering.GraphicsSettings.defaultRenderPipeline;
+    }
+
+    public static Shader defaultShader;
 }

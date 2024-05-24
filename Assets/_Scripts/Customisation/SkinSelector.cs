@@ -36,7 +36,7 @@ public class SkinSelector : CustomisationSelector
     {
         if (!m_colourSelector) m_colourSelector = GetComponent<ColourSelector>();
 
-        m_colourSelector.GetMat().SetTexture("_Skin_BaseColour", _skin.m_baseColour);
+        if (_skin.m_baseColour != null) m_colourSelector.GetMat().SetTexture("_Skin_BaseColour", _skin.m_baseColour);
         m_colourSelector.GetMat().SetTexture("_Skin_Mask", _skin.m_mask);
 
         m_previewSkin = _skin;
