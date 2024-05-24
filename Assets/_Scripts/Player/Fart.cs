@@ -30,13 +30,13 @@ public class Fart : MonoBehaviour
     {
         m_fart.gameObject.SetActive(true);
         m_fart.Play();
-        AudioManager.Instance.PlayGroupAudio("Farts");
+        AudioManager.Instance.PlayGroupAudio("FartsShort");
     }
 
     public void MegaFart()
     {
         m_megaFart.gameObject.SetActive(true);
         m_megaFart.Play();
-        AudioManager.Instance.PlayGroupAudio("Farts");
+        AudioManager.Instance.PlayGroupAudio("FartsLong");
     }
 }
