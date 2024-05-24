@@ -16,7 +16,8 @@ public class SetPositionOnCamera : MonoBehaviour
         InputManager.onPlayerJoined += SetPositionAtScreenPoint;
         InputManager.onPlayerLeft += SetPositionAtScreenPoint;
 
-        TimerManager.RunAfterTime(SetPositionAtScreenPoint, 0.1f);
+        if (GameManager.Instance.players.Count != 2) TimerManager.RunAfterTime(SetPositionAtScreenPoint, 0.1f);
+        else TimerManager.RunAfterTime(SetPosition2pUpgrade, 0.1f);
     }
 
     private void OnDisable()
@@ -49,4 +50,7 @@ public class SetPositionOnCamera : MonoBehaviour
     }
 
     public void SetPositionReady() => SetPositionAtPoint(new(0.66f, 0.5f, 3));
+    public void SetPosition2pCustomise() => SetPositionAtPoint(new(0.69f, 0.66f, 3));
+    public void SetPositionCentre() => SetPositionAtPoint(new(0.5f, 0.5f, 3));
+    public void SetPosition2pUpgrade() => SetPositionAtPoint(new(0.75f, 0.5f, 3));
 }

@@ -56,31 +56,34 @@ public class PlayerCustomization : MonoBehaviour
 
     public void ApplyCosmeticsToPlayer()
     {
-        HorseColourSelector[] horseSelectors = gameObject.GetComponentsInChildren<HorseColourSelector>(true);
-        foreach (HorseColourSelector selector in horseSelectors)
+        if (m_playerInput)
         {
-            selector.Init();
-            selector.GetComponent<SkinSelector>().Init();
+            HorseColourSelector[] horseSelectors = gameObject.GetComponentsInChildren<HorseColourSelector>(true);
+            foreach (HorseColourSelector selector in horseSelectors)
+            {
+                selector.Init();
+                selector.GetComponent<SkinSelector>().Init();
+            }
+
+
+            PlayerData data = GameManager.Instance.GetPlayerData(m_playerInput.gameObject);
+
+            foreach (ModelSelector modelSelector in gameObject.GetComponentsInChildren<ModelSelector>(true))
+            {
+                modelSelector.Init();
+
+                ModelCustomization foundItem = data.modelCustomizations.FirstOrDefault(item => item.typeIndex == modelSelector.m_typeIndex);
+
+                modelSelector.PreviewObjectByIndex(foundItem.index);
+                modelSelector.SelectObject();
+
+                if (foundItem.mat.mainDye.colour != null) modelSelector.colourSelector.SetDye("Main", foundItem.mat.mainDye);
+                if (foundItem.mat.secondaryDye.colour != null) modelSelector.colourSelector.SetDye("Secondary", foundItem.mat.secondaryDye);
+                if (foundItem.mat.tertiaryDye.colour != null) modelSelector.colourSelector.SetDye("Tertiary", foundItem.mat.tertiaryDye);
+            }
+
+            foreach (HorseColourSelector selector in horseSelectors) selector.SetDyes(data.horseMat);
         }
-        
-
-        PlayerData data = GameManager.Instance.GetPlayerData(m_playerInput.gameObject);
-
-        foreach (ModelSelector modelSelector in gameObject.GetComponentsInChildren<ModelSelector>(true))
-        {
-            modelSelector.Init();
-
-            ModelCustomization foundItem = data.modelCustomizations.FirstOrDefault(item => item.typeIndex == modelSelector.m_typeIndex);
-
-            modelSelector.PreviewObjectByIndex(foundItem.index);
-            modelSelector.SelectObject();
-
-            if (foundItem.mat.mainDye.colour != null) modelSelector.colourSelector.SetDye("Main", foundItem.mat.mainDye);
-            if (foundItem.mat.secondaryDye.colour != null) modelSelector.colourSelector.SetDye("Secondary", foundItem.mat.secondaryDye);
-            if (foundItem.mat.tertiaryDye.colour != null) modelSelector.colourSelector.SetDye("Tertiary", foundItem.mat.tertiaryDye);
-        }
-
-        foreach (HorseColourSelector selector in horseSelectors) selector.SetDyes(data.horseMat);
     }
 
     public void StoreCustomizationsToPlayer(bool _storeInactive = false) => StoreCustomizationsToPlayer(m_playerInput, gameObject, _storeInactive);

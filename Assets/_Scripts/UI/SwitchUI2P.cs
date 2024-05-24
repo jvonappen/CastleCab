@@ -25,19 +25,6 @@ public class SwitchUI2P : PlayerJoinedNotifier
         else m_multiplayerEventSystem.SetSelectedGameObject(m_2pSelectedButton);
     }
 
-    bool hasInitialised;
-    public override void OnEnable()
-    {
-        base.OnEnable();
-
-        //if (!hasInitialised)
-        //{
-        //    hasInitialised = true;
-        //    return;
-        //}
-        //m_openMenu.GetComponent<MaintainOpenMenu>().OpenMenu();
-    }
-
     public void OpenDefaultMenu()
     {
         UpdateUI();
@@ -72,18 +59,15 @@ public class SwitchUI2P : PlayerJoinedNotifier
     {
         if (m_2pUI)
         {
-            if (!m_2pUI.activeSelf)
-            {
-                m_2pUI.SetActive(true);
-                
-                // Translate menu state to other canvas
-                m_defaultUI.GetComponent<MaintainOpenMenu>().SwitchMenus();
-                if (!SelectButtonTwin()) m_multiplayerEventSystem.SetSelectedGameObject(m_2pSelectedButton);
+            m_2pUI.SetActive(true);
 
-                m_defaultUI.SetActive(false);
+            // Translate menu state to other canvas
+            m_defaultUI.GetComponent<MaintainOpenMenu>().SwitchMenus();
+            if (!SelectButtonTwin()) m_multiplayerEventSystem.SetSelectedGameObject(m_2pSelectedButton);
 
-                m_playerInput.camera.orthographicSize = m_2pCamSize;
-            }
+            m_defaultUI.SetActive(false);
+
+            m_playerInput.camera.orthographicSize = m_2pCamSize;
 
             m_openMenu = m_2pUI;
         }
@@ -93,18 +77,15 @@ public class SwitchUI2P : PlayerJoinedNotifier
     {
         if (m_defaultUI)
         {
-            if (!m_defaultUI.activeSelf)
-            {
-                m_defaultUI.SetActive(true);
-                
-                // Translate menu state to other canvas
-                m_2pUI.GetComponent<MaintainOpenMenu>().SwitchMenus();
-                if (!SelectButtonTwin()) m_multiplayerEventSystem.SetSelectedGameObject(m_defaultSelectedButton);
+            m_defaultUI.SetActive(true);
 
-                m_2pUI.SetActive(false);
+            // Translate menu state to other canvas
+            m_2pUI.GetComponent<MaintainOpenMenu>().SwitchMenus();
+            if (!SelectButtonTwin()) m_multiplayerEventSystem.SetSelectedGameObject(m_defaultSelectedButton);
 
-                m_playerInput.camera.orthographicSize = m_defaultCamSize;
-            }
+            m_2pUI.SetActive(false);
+
+            m_playerInput.camera.orthographicSize = m_defaultCamSize;
 
             m_openMenu = m_defaultUI;
         }
@@ -123,7 +104,7 @@ public class SwitchUI2P : PlayerJoinedNotifier
                 m_multiplayerEventSystem.SetSelectedGameObject(twinButton);
                 return true;
             }
-            else Debug.LogWarning("Twin button not set");
+            //else Debug.LogWarning("Twin button not set");
         }
 
         return false;

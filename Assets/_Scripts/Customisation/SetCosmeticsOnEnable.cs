@@ -9,26 +9,29 @@ public class SetCosmeticsOnEnable : MonoBehaviour
 
     private void OnEnable()
     {
-        HorseColourSelector horseSelector = gameObject.GetComponentInChildren<HorseColourSelector>();
-        horseSelector.Init();
-        horseSelector.GetComponent<SkinSelector>().Init();
-
-        PlayerData data = GameManager.Instance.GetPlayerData(m_playerBase.playerInput.gameObject);
-
-        foreach (ModelSelector modelSelector in gameObject.GetComponentsInChildren<ModelSelector>())
+        if (m_playerBase.playerInput)
         {
-            modelSelector.Init();
+            HorseColourSelector horseSelector = gameObject.GetComponentInChildren<HorseColourSelector>();
+            horseSelector.Init();
+            horseSelector.GetComponent<SkinSelector>().Init();
 
-            ModelCustomization foundItem = data.modelCustomizations.FirstOrDefault(item => item.typeIndex == modelSelector.m_typeIndex);
+            PlayerData data = GameManager.Instance.GetPlayerData(m_playerBase.playerInput.gameObject);
 
-            modelSelector.PreviewObjectByIndex(foundItem.index);
-            modelSelector.SelectObject();
+            foreach (ModelSelector modelSelector in gameObject.GetComponentsInChildren<ModelSelector>())
+            {
+                modelSelector.Init();
 
-            if (foundItem.mat.mainDye.colour != null) modelSelector.colourSelector.SetDye("Main", foundItem.mat.mainDye);
-            if (foundItem.mat.secondaryDye.colour != null) modelSelector.colourSelector.SetDye("Secondary", foundItem.mat.secondaryDye);
-            if (foundItem.mat.tertiaryDye.colour != null) modelSelector.colourSelector.SetDye("Tertiary", foundItem.mat.tertiaryDye);
+                ModelCustomization foundItem = data.modelCustomizations.FirstOrDefault(item => item.typeIndex == modelSelector.m_typeIndex);
+
+                modelSelector.PreviewObjectByIndex(foundItem.index);
+                modelSelector.SelectObject();
+
+                if (foundItem.mat.mainDye.colour != null) modelSelector.colourSelector.SetDye("Main", foundItem.mat.mainDye);
+                if (foundItem.mat.secondaryDye.colour != null) modelSelector.colourSelector.SetDye("Secondary", foundItem.mat.secondaryDye);
+                if (foundItem.mat.tertiaryDye.colour != null) modelSelector.colourSelector.SetDye("Tertiary", foundItem.mat.tertiaryDye);
+            }
+
+            horseSelector.SetDyes(data.horseMat);
         }
-
-        horseSelector.SetDyes(data.horseMat);
     }
 }
