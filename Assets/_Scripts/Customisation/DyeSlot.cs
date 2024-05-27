@@ -23,6 +23,7 @@ public class DyeSlot : MonoBehaviour
         m_buttonImage = GetComponent<Image>();
         m_colourSlot = transform.GetChild(0).GetComponent<Image>();
 
+        if (m_selector == null) Debug.LogWarning("colour selector not set for dye slot");
         if (m_selector.GetType() == typeof(MultiColourSelector)) m_selector.GetComponent<ModelSelector>().SelectDefault();
     }
 
