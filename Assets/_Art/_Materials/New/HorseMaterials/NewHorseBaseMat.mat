@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5259752944659256474
+--- !u!114 &-4285112600560701377
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mount
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Name: NewHorseBaseMat
+  m_Shader: {fileID: -6465566751694194690, guid: 04c7e21b2f4df6e499d41b858771427c, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -30,8 +30,7 @@ Material:
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap:
-    RenderType: Opaque
+  stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
@@ -61,6 +60,22 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Feet_Mask:
+        m_Texture: {fileID: 2800000, guid: d2e8ba5e10594584bb5a9da4808949d6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Hair_Mask:
+        m_Texture: {fileID: 2800000, guid: da306ae9dd73a544482ac9aa6fb51e3d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Horse_Eyes:
+        m_Texture: {fileID: 2800000, guid: 0a29a9714b626cb42a13ae33112b4521, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Horse_Pattern:
+        m_Texture: {fileID: 2800000, guid: 7dd98f00891caaa40bfed06d41e9fdda, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -69,11 +84,35 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Multimask_FEN:
+        m_Texture: {fileID: 2800000, guid: 0c7ca4b913bcc8b42b9cd64c9354f130, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Multimask_HairTail:
+        m_Texture: {fileID: 2800000, guid: 4ec38203df6944a41a14aad3e94e8476, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Nose_Mask:
+        m_Texture: {fileID: 2800000, guid: 8659e891cee747f45880196e58179c78, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_1ddae53593694de4b1abd6d906806713_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: cdf25a590fba469429c6892f166c2e87, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Skin_BaseColour:
+        m_Texture: {fileID: 2800000, guid: 7dd98f00891caaa40bfed06d41e9fdda, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Skin_Mask:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -97,6 +136,8 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaToMask: 0
+    - _Base_Metal: 0
+    - _Base_Rough: 0.25
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -109,25 +150,47 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
+    - _Feet_Metal: 0
+    - _Feet_Rough: 0.25
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _Hair_Metal: 0
+    - _Hair_Rough: 0.1
+    - _Horse_Patterm_Rough: 0.3
+    - _Horse_Pattern_Metal: 0
+    - _Horse_Pattern_Rough: 0
     - _Metallic: 0
+    - _Nose_Metal: 0
+    - _Nose_Rough: 0.25
     - _OcclusionStrength: 1
     - _Parallax: 0.005
+    - _Pattern_Toggle: 1
+    - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Smoothness: 0.3
+    - _Skin_Metal: 0
+    - _Skin_Rough: 0
+    - _Skin_Toggle: 0
+    - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
+    - _Tail_Metal: 0
+    - _Tail_Rough: 0.1
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.31132078, g: 0.31132078, b: 0.31132078, a: 1}
-    - _Color: {r: 0.31132075, g: 0.31132075, b: 0.31132075, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Base_Colour: {r: 0.5754717, g: 0.32213822, b: 0.16558382, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Feet_Colour: {r: 0.41509432, g: 0.2737058, b: 0.17426129, a: 1}
+    - _Hair_Colour: {r: 0.2264151, g: 0.10929966, b: 0.020291913, a: 1}
+    - _Horse_Pattern_Colour: {r: 0.5471698, g: 0.31082118, b: 0.17808829, a: 1}
+    - _Nose_Colour: {r: 0.509434, g: 0.40543303, b: 0.31479177, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _Tail_Colour: {r: 0.22745098, g: 0.10980392, b: 0.023529412, a: 1}
   m_BuildTextureStacks: []

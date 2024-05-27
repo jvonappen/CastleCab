@@ -107,6 +107,7 @@ public class PlayerCustomization : MonoBehaviour
 
     public static HorseMatInformation GetHorseMat(HorseColourSelector _selector)
     {
+        if (_selector.skinSelector == null) Debug.LogWarning(_selector + " skinSelector does not exist");
         return new HorseMatInformation(
             _selector.GetDye("Base"),
             _selector.GetDye("Hair"),

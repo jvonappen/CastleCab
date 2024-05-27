@@ -12,7 +12,7 @@ public class ModelSelector : MonoBehaviour
 
     List<GameObject> m_selectionlist = new();
 
-    [SerializeField] GameObject m_previewObject, m_selectedObject;
+    GameObject m_previewObject, m_selectedObject;
     public GameObject previewObject { get { return m_previewObject; } }
     public GameObject selectedObject { get { return m_selectedObject; } }
 
