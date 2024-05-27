@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class DyeCollection : MonoBehaviour
 {
-    [SerializeField] CustomisationDisplay m_customisationDisplay;
+    [SerializeField] CustomisationDisplayOld m_customisationDisplay;
     [SerializeField] CategorySelector m_categorySelector;
     public CategorySelector categorySelector { get { return m_categorySelector; } }
 
