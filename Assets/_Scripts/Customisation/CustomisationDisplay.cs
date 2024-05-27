@@ -21,6 +21,8 @@ public class CustomisationDisplay : MonoBehaviour
 
     GameObject m_selectedDisplay;
 
+    CustomisationSelector m_selector;
+
     ModelSelector m_currentModelSelector;
     public void SetModelSelector(ModelSelector _modelSelector) => m_currentModelSelector = _modelSelector;
 
@@ -36,6 +38,8 @@ public class CustomisationDisplay : MonoBehaviour
         
         m_selectedDisplay = _menu;
         m_selectedDisplay.SetActive(true);
+
+        if (m_selectedDisplay.TryGetComponent(out SelectorCollection collection)) m_selector = collection.selector;
 
         SelectButton();
     }
@@ -66,7 +70,7 @@ public class CustomisationDisplay : MonoBehaviour
         m_categorySelectorBase.SetActive(true);
 
         SetSelectedModel();
-        //if (m_selector) m_selector.DisplaySelected();
+        if (m_selector) m_selector.DisplaySelected();
 
         m_categorySelector.SetInteraction(true);
         if (m_eventSystem) m_eventSystem.SetSelectedGameObject(m_categorySelector.m_selectedObject);
