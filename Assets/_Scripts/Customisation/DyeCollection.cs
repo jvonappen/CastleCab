@@ -5,20 +5,23 @@ using UnityEngine.UI;
 
 public class DyeCollection : MonoBehaviour
 {
-    [SerializeField] CustomisationDisplayOld m_customisationDisplay;
-    [SerializeField] CategorySelector m_categorySelector;
-    public CategorySelector categorySelector { get { return m_categorySelector; } }
+    //[SerializeField] CustomisationDisplay m_customisationDisplay;
+    public MultiplayerEventSystem m_eventSystem;
+    //[SerializeField] CategorySelector m_categorySelector;
+    //public CategorySelector categorySelector { get { return m_categorySelector; } }
 
     [SerializeField] GameObject m_firstSelected;
-    public GameObject firstSelected { get { return m_firstSelected; } }
+    //public GameObject firstSelected { get { return m_firstSelected; } }
 
     [SerializeField] GameObject m_buttonPrefab;
     [SerializeField] List<SO_Dye> m_dyes;
 
     List<Button> m_buttons = new();
 
-    SO_Dye m_selectedDye;
-    public SO_Dye selectedDye { get { return m_selectedDye; } set { m_selectedDye = value; } }
+    DyeSlot m_dyeSlot;
+
+    //SO_Dye m_selectedDye;
+    //public SO_Dye selectedDye { get { return m_selectedDye; } set { m_selectedDye = value; } }
 
     private void Awake()
     {
@@ -38,23 +41,15 @@ public class DyeCollection : MonoBehaviour
         }
     }
 
+    public void SetSlot(DyeSlot _slot) => m_dyeSlot = _slot;
+
     public void SelectDye(SO_Dye _dye)
     {
-        selectedDye = _dye;
+        m_dyeSlot.SetDye(_dye);
 
-        GameObject dyeSlotToSelect;// = categorySelector.m_selectedObject.transform.GetChild(2).gameObject;
-        if (categorySelector.m_selectedObject.transform.childCount < 3)
-        {
-            dyeSlotToSelect = categorySelector.selections[0].transform.GetChild(2).gameObject;
-            //categorySelector.SelectObject(dyeSlotToSelect);
-        }
-        else dyeSlotToSelect = categorySelector.m_selectedObject.transform.GetChild(2).gameObject;
-
-        categorySelector.SetDyeInteraction(true);
-        m_customisationDisplay.input.playerInput.uiInputModule.GetComponent<MultiplayerEventSystem>().SetSelectedGameObject(dyeSlotToSelect);
-        SetInteraction(false);
-
-        m_customisationDisplay.GreyOutSelectorMenu(true);
+        if (m_dyeSlot.m_buttonToSelect) m_eventSystem.SetSelectedGameObject(m_dyeSlot.m_buttonToSelect);
+        if (m_dyeSlot.m_nextSlot) m_dyeSlot.m_nextSlot.onClick?.Invoke();
+        else m_dyeSlot.GetComponent<CustomButton>().Deselect();
     }
 
     public void SelectEraser() => SelectDye(null);

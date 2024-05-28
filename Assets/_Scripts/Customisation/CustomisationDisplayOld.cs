@@ -16,7 +16,7 @@ public class CustomisationDisplayOld : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI m_menuText;
 
-    DyeCollection m_dyeCollection;
+    DyeCollectionOld m_dyeCollection;
 
     bool m_isMode1 = true;
 
@@ -45,7 +45,7 @@ public class CustomisationDisplayOld : MonoBehaviour
     private void Start()
     {
         m_eventSystem = m_input.playerInput.uiInputModule.GetComponent<MultiplayerEventSystem>();
-        m_dyeCollection = m_modeMenu2.GetComponent<DyeCollection>();
+        m_dyeCollection = m_modeMenu2.GetComponent<DyeCollectionOld>();
 
         SelectMenu1();
     }

@@ -41,6 +41,9 @@ public class CustomisationDisplay : MonoBehaviour
 
         if (m_selectedDisplay.TryGetComponent(out SelectorCollection collection)) m_selector = collection.selector;
 
+        //SetSelectedModel();
+        //if (m_selector) m_selector.DisplaySelected();
+
         SelectButton();
     }
 
@@ -51,7 +54,7 @@ public class CustomisationDisplay : MonoBehaviour
 
         Debug.Log(m_selectedDisplay);
         GameObject buttonToSelect = m_selectedDisplay.GetComponentInChildren<Button>().gameObject;
-        DyeCollection dyeCollection = m_selectedDisplay.GetComponent<DyeCollection>();
+        DyeCollectionOld dyeCollection = m_selectedDisplay.GetComponent<DyeCollectionOld>();
         if (dyeCollection) buttonToSelect = dyeCollection.firstSelected;
 
         m_eventSystem.SetSelectedGameObject(buttonToSelect);
