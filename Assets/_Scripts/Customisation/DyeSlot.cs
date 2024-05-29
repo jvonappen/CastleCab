@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class DyeSlot : MonoBehaviour
 {
     [SerializeField] DyeCollection m_collection;
 
-    public Button m_nextSlot;
+    [SerializeField] bool m_selectNextSlot;
+
+    public CustomButton m_nextSlot;
     public GameObject m_buttonToSelect;
 
     ColourSelector m_selector;
@@ -20,10 +23,12 @@ public class DyeSlot : MonoBehaviour
 
     Button m_button;
 
+    [SerializeField] UnityEvent m_onDye;
+
     private void Awake()
     {
         m_button = GetComponent<Button>();
-        m_button.onClick.AddListener(SetDyeType);
+        m_button.onClick.AddListener(OnClick);
 
         m_buttonImage = GetComponent<Image>();
         m_colourSlot = transform.GetChild(0).GetComponent<Image>();
@@ -39,6 +44,20 @@ public class DyeSlot : MonoBehaviour
     {
         m_selector.SetDye(m_dyeType, _dye);
         UpdateSlotColour();
+
+        m_onDye?.Invoke();
+    }
+
+    public void OnClick()
+    {
+        m_collection.OnSlotClicked(this);
+    }
+
+    public void SelectNextSlot()
+    {
+        GetComponent<CustomButton>().Deselect();
+        if (!m_selectNextSlot) m_nextSlot.Select();
+        else m_collection.m_eventSystem.SetSelectedGameObject(m_nextSlot.gameObject);
     }
 
     public void UpdateSlotColour()

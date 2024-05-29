@@ -52,7 +52,6 @@ public class CustomisationDisplay : MonoBehaviour
         m_categorySelector.SetInteraction(false);
         m_categorySelector.SetDyeInteraction(false);
 
-        Debug.Log(m_selectedDisplay);
         GameObject buttonToSelect = m_selectedDisplay.GetComponentInChildren<Button>().gameObject;
         DyeCollectionOld dyeCollection = m_selectedDisplay.GetComponent<DyeCollectionOld>();
         if (dyeCollection) buttonToSelect = dyeCollection.firstSelected;

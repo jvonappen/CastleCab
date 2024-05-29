@@ -8,7 +8,7 @@ public class ExpandOnSelect : MonoBehaviour
 {
     [SerializeField] bool m_setInFront = true;
     [SerializeField] float m_scaleMulti = 1.2f;
-    float m_defaultScale;
+    [SerializeField] float m_defaultScale;
 
     TweenerCore<Vector3, Vector3, VectorOptions> m_tween;
 
@@ -27,6 +27,12 @@ public class ExpandOnSelect : MonoBehaviour
 
     //private void OnEnable() => transform.localScale = Vector3.one * m_defaultScale;
     private void OnDisable()
+    {
+        m_tween.Kill();
+        transform.localScale = Vector3.one * m_defaultScale;
+    }
+
+    public void ResetScale()
     {
         m_tween.Kill();
         transform.localScale = Vector3.one * m_defaultScale;
