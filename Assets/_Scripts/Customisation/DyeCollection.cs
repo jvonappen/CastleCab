@@ -1,17 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
 public class DyeCollection : MonoBehaviour
 {
-    //[SerializeField] CustomisationDisplay m_customisationDisplay;
     public MultiplayerEventSystem m_eventSystem;
-    //[SerializeField] CategorySelector m_categorySelector;
-    //public CategorySelector categorySelector { get { return m_categorySelector; } }
 
     [SerializeField] GameObject m_firstSelected;
-    //public GameObject firstSelected { get { return m_firstSelected; } }
 
     [SerializeField] GameObject m_buttonPrefab;
     [SerializeField] List<SO_Dye> m_dyes;
@@ -20,8 +17,7 @@ public class DyeCollection : MonoBehaviour
 
     DyeSlot m_dyeSlot;
 
-    //SO_Dye m_selectedDye;
-    //public SO_Dye selectedDye { get { return m_selectedDye; } set { m_selectedDye = value; } }
+    [SerializeField] UnityEvent onDyesSelected;
 
     private void Awake()
     {
@@ -41,6 +37,11 @@ public class DyeCollection : MonoBehaviour
         }
     }
 
+    public void OnSlotClicked(DyeSlot _slot)
+    {
+        if (_slot == m_dyeSlot) m_eventSystem.SetSelectedGameObject(m_firstSelected);
+    }
+
     public void SetSlot(DyeSlot _slot) => m_dyeSlot = _slot;
 
     public void SelectDye(SO_Dye _dye)
@@ -48,8 +49,13 @@ public class DyeCollection : MonoBehaviour
         m_dyeSlot.SetDye(_dye);
 
         if (m_dyeSlot.m_buttonToSelect) m_eventSystem.SetSelectedGameObject(m_dyeSlot.m_buttonToSelect);
-        if (m_dyeSlot.m_nextSlot) m_dyeSlot.m_nextSlot.onClick?.Invoke();
-        else m_dyeSlot.GetComponent<CustomButton>().Deselect();
+        if (m_dyeSlot.m_nextSlot) m_dyeSlot.SelectNextSlot();
+        else
+        {
+            CustomButton thisButton = m_dyeSlot.GetComponent<CustomButton>();
+            thisButton.Deselect();
+            thisButton.SetInteractable(false);
+        }
     }
 
     public void SelectEraser() => SelectDye(null);
@@ -58,4 +64,6 @@ public class DyeCollection : MonoBehaviour
     {
         foreach (Button button in m_buttons) button.interactable = _canInteract;
     }
+
+    public void OnSelect() => onDyesSelected?.Invoke();
 }

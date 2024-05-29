@@ -18,5 +18,7 @@ public class DyeButton : MonoBehaviour
         if (_dye) m_colourDisplay.color = _dye.m_colour;
     }
 
+    public void OnSelect() => m_collection.OnSelect();
+
     public void SetDye() => m_collection.SelectDye(m_dye);
 }

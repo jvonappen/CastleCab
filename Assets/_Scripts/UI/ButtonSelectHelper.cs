@@ -1,16 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ButtonSelectHelper : MonoBehaviour
 {
     [SerializeField] List<CustomButton> m_buttons;
 
-    public void SelectButtonByIndex(int _index)
+    public void UpdateButtonInteractions()
+    {
+        for (int i = 0; i < m_buttons.Count; i++) m_buttons[i].SetInteractable(m_buttons[i].isClickSelected);
+    }
+
+    public void EnableButtonInteractions()
+    {
+        for (int i = 0; i < m_buttons.Count; i++) m_buttons[i].SetInteractable(true);
+    }
+
+    public void SelectButtonByIndex(int _index) => SelectButton(m_buttons[_index]);
+    public void SelectButton(CustomButton _button)
     {
         DeselectAll();
-        m_buttons[_index].Select();
+        _button.Select();
+
+        //if (m_restrainSelection) UpdateButtonInteractions();
     }
 
     public void DeselectAll()
