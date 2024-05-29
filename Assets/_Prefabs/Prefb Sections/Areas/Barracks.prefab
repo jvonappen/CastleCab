@@ -1334,6 +1334,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 842166167180383615}
     m_Modifications:
+    - target: {fileID: 430665523, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
       propertyPath: m_Name
       value: pfb_PigGuard (7)
@@ -1381,13 +1385,62 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4946728841905949678}
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2741591458668457531}
   m_SourcePrefab: {fileID: 100100000, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
 --- !u!4 &5443898152963034020 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5749727919895441227, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
   m_PrefabInstance: {fileID: 308425735906206959}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5443898152963034023 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+  m_PrefabInstance: {fileID: 308425735906206959}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &4946728841905949678
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5443898152963034023}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &2741591458668457531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5443898152963034023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b317824f86c764cb5442f70e320d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 3.5
+  wanderTransform: {fileID: 5443898152963034020}
+  wanderRange: 20
+  audioGroup: {fileID: 0}
 --- !u!1001 &396426444169456768
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1780,6 +1833,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 842166167180383615}
     m_Modifications:
+    - target: {fileID: 430665523, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
       propertyPath: m_Name
       value: pfb_PigGuard (8)
@@ -1827,8 +1884,57 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 252276472101161784}
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2754746023464074339}
   m_SourcePrefab: {fileID: 100100000, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+--- !u!1 &4835662799361710912 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+  m_PrefabInstance: {fileID: 923407963463742472}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &252276472101161784
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4835662799361710912}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &2754746023464074339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4835662799361710912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b317824f86c764cb5442f70e320d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 3.5
+  wanderTransform: {fileID: 4835662799361710915}
+  wanderRange: 20
+  audioGroup: {fileID: 0}
 --- !u!4 &4835662799361710915 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5749727919895441227, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
@@ -2028,6 +2134,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 842166167180383615}
     m_Modifications:
+    - target: {fileID: 430665523, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
       propertyPath: m_Name
       value: pfb_PigGuard (10)
@@ -2075,8 +2185,57 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2032626166480648612}
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 409679751718744938}
   m_SourcePrefab: {fileID: 100100000, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+--- !u!1 &4676872090520905225 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+  m_PrefabInstance: {fileID: 1093448334194805057}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &2032626166480648612
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4676872090520905225}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &409679751718744938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4676872090520905225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b317824f86c764cb5442f70e320d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 3.5
+  wanderTransform: {fileID: 4676872090520905226}
+  wanderRange: 20
+  audioGroup: {fileID: 0}
 --- !u!4 &4676872090520905226 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5749727919895441227, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
@@ -2164,6 +2323,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 842166167180383615}
     m_Modifications:
+    - target: {fileID: 430665523, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
       propertyPath: m_Name
       value: pfb_PigGuard (23)
@@ -2211,13 +2374,62 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2457090708350629317}
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8627390811583192658}
   m_SourcePrefab: {fileID: 100100000, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
 --- !u!4 &6899974805616788344 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5749727919895441227, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
   m_PrefabInstance: {fileID: 1155878723865308211}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6899974805616788347 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+  m_PrefabInstance: {fileID: 1155878723865308211}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &2457090708350629317
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6899974805616788347}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &8627390811583192658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6899974805616788347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b317824f86c764cb5442f70e320d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 3.5
+  wanderTransform: {fileID: 6899974805616788344}
+  wanderRange: 20
+  audioGroup: {fileID: 0}
 --- !u!1001 &1293225897367803464
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2672,6 +2884,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 842166167180383615}
     m_Modifications:
+    - target: {fileID: 430665523, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
       propertyPath: m_Name
       value: pfb_PigGuard (16)
@@ -2719,8 +2935,57 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7454253617654470595}
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 305940561446571461}
   m_SourcePrefab: {fileID: 100100000, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+--- !u!1 &6031097797471107137 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+  m_PrefabInstance: {fileID: 2051917853051098889}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &7454253617654470595
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6031097797471107137}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &305940561446571461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6031097797471107137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b317824f86c764cb5442f70e320d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 3.5
+  wanderTransform: {fileID: 6031097797471107138}
+  wanderRange: 20
+  audioGroup: {fileID: 0}
 --- !u!4 &6031097797471107138 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5749727919895441227, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
@@ -2858,6 +3123,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 842166167180383615}
     m_Modifications:
+    - target: {fileID: 430665523, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
       propertyPath: m_Name
       value: pfb_PigGuard (2)
@@ -2905,8 +3174,57 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3115238095501960540}
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 973172279332272849}
   m_SourcePrefab: {fileID: 100100000, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+--- !u!1 &5895495930019464196 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+  m_PrefabInstance: {fileID: 2169082748202986316}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &3115238095501960540
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5895495930019464196}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &973172279332272849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5895495930019464196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b317824f86c764cb5442f70e320d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 3.5
+  wanderTransform: {fileID: 5895495930019464199}
+  wanderRange: 20
+  audioGroup: {fileID: 0}
 --- !u!4 &5895495930019464199 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5749727919895441227, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
@@ -3044,6 +3362,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 842166167180383615}
     m_Modifications:
+    - target: {fileID: 430665523, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
       propertyPath: m_Name
       value: pfb_PigGuard (15)
@@ -3091,13 +3413,62 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 534974959416552570}
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1714262617043432416}
   m_SourcePrefab: {fileID: 100100000, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
 --- !u!4 &8053135433006112869 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5749727919895441227, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
   m_PrefabInstance: {fileID: 2308480832650841902}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8053135433006112870 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+  m_PrefabInstance: {fileID: 2308480832650841902}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &534974959416552570
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8053135433006112870}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &1714262617043432416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8053135433006112870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b317824f86c764cb5442f70e320d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 3.5
+  wanderTransform: {fileID: 8053135433006112869}
+  wanderRange: 20
+  audioGroup: {fileID: 0}
 --- !u!1001 &2331077256746609292
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3692,6 +4063,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 842166167180383615}
     m_Modifications:
+    - target: {fileID: 430665523, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
       propertyPath: m_Name
       value: pfb_PigGuard (4)
@@ -3739,8 +4114,57 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4633460898504860345}
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4218822333693662511}
   m_SourcePrefab: {fileID: 100100000, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+--- !u!1 &7548574149566870740 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+  m_PrefabInstance: {fileID: 2813288677300657052}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &4633460898504860345
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7548574149566870740}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &4218822333693662511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7548574149566870740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b317824f86c764cb5442f70e320d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 3.5
+  wanderTransform: {fileID: 7548574149566870743}
+  wanderRange: 20
+  audioGroup: {fileID: 0}
 --- !u!4 &7548574149566870743 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5749727919895441227, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
@@ -3890,6 +4314,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 842166167180383615}
     m_Modifications:
+    - target: {fileID: 430665523, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
       propertyPath: m_Name
       value: pfb_PigGuard (13)
@@ -3937,13 +4365,62 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3904577037127932140}
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7642515116943298831}
   m_SourcePrefab: {fileID: 100100000, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
 --- !u!4 &7083093800735833504 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5749727919895441227, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
   m_PrefabInstance: {fileID: 3280616540740915947}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7083093800735833507 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+  m_PrefabInstance: {fileID: 3280616540740915947}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &3904577037127932140
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7083093800735833507}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &7642515116943298831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7083093800735833507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b317824f86c764cb5442f70e320d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 3.5
+  wanderTransform: {fileID: 7083093800735833504}
+  wanderRange: 20
+  audioGroup: {fileID: 0}
 --- !u!1001 &3379618886485442675
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4262,6 +4739,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 842166167180383615}
     m_Modifications:
+    - target: {fileID: 430665523, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
       propertyPath: m_Name
       value: pfb_PigGuard (19)
@@ -4309,13 +4790,62 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2713870721458061009}
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4206997128259051135}
   m_SourcePrefab: {fileID: 100100000, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
 --- !u!4 &9053875210348190909 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5749727919895441227, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
   m_PrefabInstance: {fileID: 3634106504908878838}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &9053875210348190910 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+  m_PrefabInstance: {fileID: 3634106504908878838}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &2713870721458061009
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9053875210348190910}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &4206997128259051135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9053875210348190910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b317824f86c764cb5442f70e320d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 3.5
+  wanderTransform: {fileID: 9053875210348190909}
+  wanderRange: 20
+  audioGroup: {fileID: 0}
 --- !u!1001 &3669842028403495542
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4510,6 +5040,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 842166167180383615}
     m_Modifications:
+    - target: {fileID: 430665523, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
       propertyPath: m_Name
       value: pfb_PigGuard (1)
@@ -4557,13 +5091,62 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8493409128129731916}
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3466235573651440908}
   m_SourcePrefab: {fileID: 100100000, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
 --- !u!4 &8830083119055697456 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5749727919895441227, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
   m_PrefabInstance: {fileID: 3837597690229660027}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8830083119055697459 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+  m_PrefabInstance: {fileID: 3837597690229660027}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &8493409128129731916
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8830083119055697459}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &3466235573651440908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8830083119055697459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b317824f86c764cb5442f70e320d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 3.5
+  wanderTransform: {fileID: 8830083119055697456}
+  wanderRange: 20
+  audioGroup: {fileID: 0}
 --- !u!1001 &3853970519522737410
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5266,6 +5849,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 842166167180383615}
     m_Modifications:
+    - target: {fileID: 430665523, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
       propertyPath: m_Name
       value: pfb_PigGuard (9)
@@ -5313,13 +5900,62 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4602651388912858437}
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1533139866203858362}
   m_SourcePrefab: {fileID: 100100000, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
 --- !u!4 &1000419817838469648 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5749727919895441227, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
   m_PrefabInstance: {fileID: 4767367598260522331}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1000419817838469651 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+  m_PrefabInstance: {fileID: 4767367598260522331}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &4602651388912858437
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000419817838469651}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &1533139866203858362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000419817838469651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b317824f86c764cb5442f70e320d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 3.5
+  wanderTransform: {fileID: 1000419817838469648}
+  wanderRange: 20
+  audioGroup: {fileID: 0}
 --- !u!1001 &4778501937734469991
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5390,6 +6026,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 842166167180383615}
     m_Modifications:
+    - target: {fileID: 430665523, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
       propertyPath: m_Name
       value: pfb_PigGuard (6)
@@ -5437,13 +6077,62 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 437672299771418750}
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6510013188325561939}
   m_SourcePrefab: {fileID: 100100000, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
 --- !u!4 &878372060534536540 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5749727919895441227, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
   m_PrefabInstance: {fileID: 4898713152315364887}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &878372060534536543 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+  m_PrefabInstance: {fileID: 4898713152315364887}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &437672299771418750
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 878372060534536543}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &6510013188325561939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 878372060534536543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b317824f86c764cb5442f70e320d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 3.5
+  wanderTransform: {fileID: 878372060534536540}
+  wanderRange: 20
+  audioGroup: {fileID: 0}
 --- !u!1001 &5020827348056103283
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6076,6 +6765,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 842166167180383615}
     m_Modifications:
+    - target: {fileID: 430665523, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
       propertyPath: m_Name
       value: pfb_PigGuard (22)
@@ -6123,13 +6816,62 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8350316851843388496}
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3678324214276044705}
   m_SourcePrefab: {fileID: 100100000, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
 --- !u!4 &129065712100739752 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5749727919895441227, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
   m_PrefabInstance: {fileID: 5620962379382777315}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &129065712100739755 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+  m_PrefabInstance: {fileID: 5620962379382777315}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &8350316851843388496
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 129065712100739755}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &3678324214276044705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 129065712100739755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b317824f86c764cb5442f70e320d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 3.5
+  wanderTransform: {fileID: 129065712100739752}
+  wanderRange: 20
+  audioGroup: {fileID: 0}
 --- !u!1001 &5622507491400740928
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7146,6 +7888,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 842166167180383615}
     m_Modifications:
+    - target: {fileID: 430665523, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
       propertyPath: m_Name
       value: pfb_PigGuard (17)
@@ -7193,8 +7939,57 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2795126301512047258}
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3237250678879170602}
   m_SourcePrefab: {fileID: 100100000, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+--- !u!1 &1447870673425726657 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+  m_PrefabInstance: {fileID: 6619444419164476297}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &2795126301512047258
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1447870673425726657}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &3237250678879170602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1447870673425726657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b317824f86c764cb5442f70e320d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 3.5
+  wanderTransform: {fileID: 1447870673425726658}
+  wanderRange: 20
+  audioGroup: {fileID: 0}
 --- !u!4 &1447870673425726658 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5749727919895441227, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
@@ -7270,6 +8065,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 842166167180383615}
     m_Modifications:
+    - target: {fileID: 430665523, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
       propertyPath: m_Name
       value: pfb_PigGuard
@@ -7317,8 +8116,57 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5231251474491640790}
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 726349971810283957}
   m_SourcePrefab: {fileID: 100100000, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+--- !u!1 &1354635529795641229 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+  m_PrefabInstance: {fileID: 6703470341124321477}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &5231251474491640790
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354635529795641229}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &726349971810283957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354635529795641229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b317824f86c764cb5442f70e320d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 3.5
+  wanderTransform: {fileID: 1354635529795641230}
+  wanderRange: 20
+  audioGroup: {fileID: 0}
 --- !u!4 &1354635529795641230 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5749727919895441227, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
@@ -7518,6 +8366,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 842166167180383615}
     m_Modifications:
+    - target: {fileID: 430665523, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
       propertyPath: m_Name
       value: pfb_PigGuard (5)
@@ -7565,13 +8417,62 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4633482744508242971}
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1990679832361716852}
   m_SourcePrefab: {fileID: 100100000, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
 --- !u!4 &1154650049247328673 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5749727919895441227, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
   m_PrefabInstance: {fileID: 6903181561710335722}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1154650049247328674 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+  m_PrefabInstance: {fileID: 6903181561710335722}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &4633482744508242971
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1154650049247328674}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &1990679832361716852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1154650049247328674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b317824f86c764cb5442f70e320d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 3.5
+  wanderTransform: {fileID: 1154650049247328673}
+  wanderRange: 20
+  audioGroup: {fileID: 0}
 --- !u!1001 &6954688423399465839
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7654,6 +8555,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 842166167180383615}
     m_Modifications:
+    - target: {fileID: 430665523, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
       propertyPath: m_Name
       value: pfb_PigGuard (21)
@@ -7701,13 +8606,62 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3655370059346137840}
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3309567781662004851}
   m_SourcePrefab: {fileID: 100100000, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
 --- !u!4 &3318761259476394600 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5749727919895441227, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
   m_PrefabInstance: {fileID: 7045240448229068067}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3318761259476394603 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+  m_PrefabInstance: {fileID: 7045240448229068067}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &3655370059346137840
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3318761259476394603}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &3309567781662004851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3318761259476394603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b317824f86c764cb5442f70e320d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 3.5
+  wanderTransform: {fileID: 3318761259476394600}
+  wanderRange: 20
+  audioGroup: {fileID: 0}
 --- !u!1001 &7159262221523584108
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8054,6 +9008,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 842166167180383615}
     m_Modifications:
+    - target: {fileID: 430665523, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
       propertyPath: m_Name
       value: pfb_PigGuard (12)
@@ -8101,8 +9059,57 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5844452687395854318}
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4894947103365537806}
   m_SourcePrefab: {fileID: 100100000, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+--- !u!1 &3123912901913911177 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+  m_PrefabInstance: {fileID: 7246710919577071809}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &5844452687395854318
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3123912901913911177}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &4894947103365537806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3123912901913911177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b317824f86c764cb5442f70e320d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 3.5
+  wanderTransform: {fileID: 3123912901913911178}
+  wanderRange: 20
+  audioGroup: {fileID: 0}
 --- !u!4 &3123912901913911178 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5749727919895441227, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
@@ -8426,6 +9433,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 842166167180383615}
     m_Modifications:
+    - target: {fileID: 430665523, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
       propertyPath: m_Name
       value: pfb_PigGuard (11)
@@ -8473,13 +9484,62 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6292309802767972622}
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9145610510044973357}
   m_SourcePrefab: {fileID: 100100000, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
 --- !u!4 &2560915099914822921 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5749727919895441227, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
   m_PrefabInstance: {fileID: 7800535423018076738}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2560915099914822922 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+  m_PrefabInstance: {fileID: 7800535423018076738}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &6292309802767972622
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2560915099914822922}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &9145610510044973357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2560915099914822922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b317824f86c764cb5442f70e320d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 3.5
+  wanderTransform: {fileID: 2560915099914822921}
+  wanderRange: 20
+  audioGroup: {fileID: 0}
 --- !u!1001 &7856306819524324010
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8612,6 +9672,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 842166167180383615}
     m_Modifications:
+    - target: {fileID: 430665523, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
       propertyPath: m_Name
       value: pfb_PigGuard (3)
@@ -8659,13 +9723,62 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6445772965741961323}
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8314261736112439728}
   m_SourcePrefab: {fileID: 100100000, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
 --- !u!4 &2491365750805125585 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5749727919895441227, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
   m_PrefabInstance: {fileID: 7879110113860204186}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2491365750805125586 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+  m_PrefabInstance: {fileID: 7879110113860204186}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &6445772965741961323
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2491365750805125586}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &8314261736112439728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2491365750805125586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b317824f86c764cb5442f70e320d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 3.5
+  wanderTransform: {fileID: 2491365750805125585}
+  wanderRange: 20
+  audioGroup: {fileID: 0}
 --- !u!1001 &7900419571458604881
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9108,6 +10221,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 842166167180383615}
     m_Modifications:
+    - target: {fileID: 430665523, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
       propertyPath: m_Name
       value: pfb_PigGuard (14)
@@ -9155,8 +10272,57 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5435209504500146379}
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4957933328777233063}
   m_SourcePrefab: {fileID: 100100000, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+--- !u!1 &3928178032870168636 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+  m_PrefabInstance: {fileID: 8739395672907413364}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &5435209504500146379
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3928178032870168636}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &4957933328777233063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3928178032870168636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b317824f86c764cb5442f70e320d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 3.5
+  wanderTransform: {fileID: 3928178032870168639}
+  wanderRange: 20
+  audioGroup: {fileID: 0}
 --- !u!4 &3928178032870168639 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5749727919895441227, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
@@ -9170,6 +10336,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 842166167180383615}
     m_Modifications:
+    - target: {fileID: 430665523, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
       propertyPath: m_Name
       value: pfb_PigGuard (18)
@@ -9217,8 +10387,57 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5694390488915211338}
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 305133889391399018}
   m_SourcePrefab: {fileID: 100100000, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+--- !u!1 &3929079511548794004 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+  m_PrefabInstance: {fileID: 8740862267293367260}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &5694390488915211338
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3929079511548794004}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &305133889391399018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3929079511548794004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b317824f86c764cb5442f70e320d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 3.5
+  wanderTransform: {fileID: 3929079511548794007}
+  wanderRange: 20
+  audioGroup: {fileID: 0}
 --- !u!4 &3929079511548794007 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5749727919895441227, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
@@ -9480,6 +10699,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 842166167180383615}
     m_Modifications:
+    - target: {fileID: 430665523, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
       propertyPath: m_Name
       value: pfb_PigGuard (20)
@@ -9527,8 +10750,57 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5899895424657276666}
+    - targetCorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2225023677162008955}
   m_SourcePrefab: {fileID: 100100000, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+--- !u!1 &3758829089408244152 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5749727919895441224, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
+  m_PrefabInstance: {fileID: 8926460123737896688}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &5899895424657276666
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3758829089408244152}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &2225023677162008955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3758829089408244152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55b317824f86c764cb5442f70e320d8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 3.5
+  wanderTransform: {fileID: 3758829089408244155}
+  wanderRange: 20
+  audioGroup: {fileID: 0}
 --- !u!4 &3758829089408244155 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5749727919895441227, guid: 4b102a9c5697146419ebcaccca35bd96, type: 3}
