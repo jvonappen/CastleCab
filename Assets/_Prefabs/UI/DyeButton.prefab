@@ -105,7 +105,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.5803922, g: 0.6666667, b: 1, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -178,6 +178,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: -4935405698140491629}
+          m_TargetAssemblyTypeName: DyeButton, Assembly-CSharp
+          m_MethodName: OnSelect
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   - eventID: 10
     callback:
       m_PersistentCalls:
@@ -206,7 +218,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c57cf79dd349ca4e9c4e56a99e42b7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_setInFront: 1
   m_scaleMulti: 1.5
+  m_defaultScale: 0
 --- !u!1 &6604637937647017598
 GameObject:
   m_ObjectHideFlags: 0

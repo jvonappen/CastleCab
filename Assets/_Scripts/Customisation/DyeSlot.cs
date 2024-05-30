@@ -1,13 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class DyeSlot : MonoBehaviour
 {
     [SerializeField] DyeCollection m_collection;
 
-    [SerializeField] ColourSelector m_selector;
+    [SerializeField] bool m_selectNextSlot;
+
+    public CustomButton m_nextSlot;
+    public GameObject m_buttonToSelect;
+
+    ColourSelector m_selector;
+    public void SetColourSelector(ColourSelector _selector) => m_selector = _selector;
+
     [SerializeField] string m_dyeType;
 
     Image m_buttonImage;
@@ -15,33 +23,41 @@ public class DyeSlot : MonoBehaviour
 
     Button m_button;
 
+    [SerializeField] UnityEvent m_onDye;
+
     private void Awake()
     {
         m_button = GetComponent<Button>();
-        m_button.onClick.AddListener(EquipDye);
+        m_button.onClick.AddListener(OnClick);
 
         m_buttonImage = GetComponent<Image>();
         m_colourSlot = transform.GetChild(0).GetComponent<Image>();
 
         if (m_selector == null) Debug.LogWarning("colour selector not set for dye slot");
-        if (m_selector.GetType() == typeof(MultiColourSelector)) m_selector.GetComponent<ModelSelector>().SelectDefault();
     }
 
     private void Start() => UpdateSlotColour();
 
-    private void OnEnable()
+    public void SetDyeType() => m_collection.SetSlot(this);
+
+    public void SetDye(SO_Dye _dye)
     {
-        if (m_selector.GetType() == typeof(MultiColourSelector)) ((MultiColourSelector)m_selector).GetComponent<ModelSelector>().onModelSelect += UpdateSlotColour;
-    }
-    private void OnDisable()
-    {
-        if (m_selector.GetType() == typeof(MultiColourSelector)) ((MultiColourSelector)m_selector).GetComponent<ModelSelector>().onModelSelect -= UpdateSlotColour;
+        m_selector.SetDye(m_dyeType, _dye);
+        UpdateSlotColour();
+
+        m_onDye?.Invoke();
     }
 
-    public void EquipDye()
+    public void OnClick()
     {
-        m_selector.SetDye(m_dyeType, m_collection.selectedDye);
-        UpdateSlotColour();
+        m_collection.OnSlotClicked(this);
+    }
+
+    public void SelectNextSlot()
+    {
+        GetComponent<CustomButton>().Deselect();
+        if (!m_selectNextSlot) m_nextSlot.Select();
+        else m_collection.m_eventSystem.SetSelectedGameObject(m_nextSlot.gameObject);
     }
 
     public void UpdateSlotColour()
@@ -57,10 +73,5 @@ public class DyeSlot : MonoBehaviour
             m_buttonImage.color = new Color(255, 255, 255, 0.25f);
             m_colourSlot.color = new Color(255, 255, 255, 0.25f);
         }
-    }
-
-    public void OnSelect()
-    {
-        m_collection.categorySelector.SelectObject(transform.parent.gameObject);
     }
 }
