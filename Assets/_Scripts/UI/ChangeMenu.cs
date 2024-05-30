@@ -43,7 +43,8 @@ public class ChangeMenu : MonoBehaviour
         onSetMenu?.Invoke();
     }
 
-    void Next(InputAction.CallbackContext context)
+    void Next(InputAction.CallbackContext context) => NextMenu();
+    public void NextMenu()
     {
         if (m_nextMenu)
         {
@@ -52,7 +53,8 @@ public class ChangeMenu : MonoBehaviour
         }
     }
 
-    void Previous(InputAction.CallbackContext context)
+    void Previous(InputAction.CallbackContext context) => PreviousMenu();
+    public void PreviousMenu()
     {
         if (m_previousMenu)
         {
