@@ -20,8 +20,8 @@ public class ChangeMenu : MonoBehaviour
 
         if (m_playerInput.m_playerControls != null)
         {
-            m_playerInput.m_playerControls.UI.Next.performed += Next;
-            m_playerInput.m_playerControls.UI.Previous.performed += Previous;
+            //m_playerInput.m_playerControls.UI.Next.performed += Next;
+            //m_playerInput.m_playerControls.UI.Previous.performed += Previous;
         }
 
         onSetMenu?.Invoke();
@@ -29,8 +29,8 @@ public class ChangeMenu : MonoBehaviour
 
     private void OnDisable()
     {
-        m_playerInput.m_playerControls.UI.Next.performed -= Next;
-        m_playerInput.m_playerControls.UI.Previous.performed -= Previous;
+        //m_playerInput.m_playerControls.UI.Next.performed -= Next;
+        //m_playerInput.m_playerControls.UI.Previous.performed -= Previous;
     }
 
     public void SetMenu()
