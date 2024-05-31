@@ -47,6 +47,9 @@ public class WagonService : MonoBehaviour
     [SerializeField] private bool currentlyInCart;
     [SerializeField] private int currentPlayer;
 
+    [SerializeField] private bool m_canVanish = true;
+    [SerializeField] private GameObject m_vanishParticles;
+    [SerializeField] private float m_vanishTimer = 10;
 
     [Header("DM - Debug")]
     [SerializeField] private DestinationManager DM;
@@ -97,13 +100,7 @@ public class WagonService : MonoBehaviour
         listLength = destinationList.Length;
         zoneSelect = RandomIntExcept(1, 5, thisZoneNumber);
 
-        ////////////////////////////////////////////////////////////////////////////TimerManager.RunAfterTime(() =>
-        ////////////////////////////////////////////////////////////////////////////{
-        ////////////////////////////////////////////////////////////////////////////    // Do stuff
-        ////////////////////////////////////////////////////////////////////////////}, 1);
-
-        ////////////////////////////////////////////////////////////////////////////TimerManager.RunAfterTime(Start, 1);
-        
+        m_vanishParticles.SetActive(false);
     }
     private void Start()
     {
@@ -243,6 +240,23 @@ public class WagonService : MonoBehaviour
         _currentAnimation = newAnimation;
     }
 
+    public void OnDropOff()
+    {
+        transform.parent = null;
+        isAtTarget = true;
+        destination = null;
+
+        ChangeAnimation("Dance");
+
+        if (m_canVanish)
+        {
+            TimerManager.RunAfterTime(() =>
+            {
+                if (m_vanishParticles != null) { m_vanishParticles.SetActive(true); }
+                gameObject.SetActive(false);
+            }, m_vanishTimer);
+        }
+    }
 
     //public void ResetTaxiPickUp()
     //{
