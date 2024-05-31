@@ -7143,7 +7143,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6595079877914573971}
   - component: {fileID: 6675228846841819017}
-  - component: {fileID: 1904257646751180743}
   - component: {fileID: 8001916430103914274}
   m_Layer: 3
   m_Name: Horse
@@ -7202,30 +7201,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 1
---- !u!114 &1904257646751180743
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2711936263577685615}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d76f24409a39604ca3986f91ce6d28a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interpolate: 1
-  jiggleRigs:
-  - rootTransform: {fileID: 0}
-    jiggleSettings: {fileID: 11400000, guid: 5d8b4519449100049aa4902a4f33bb8c, type: 2}
-    ignoredTransforms: []
-    colliders: []
-  - rootTransform: {fileID: 0}
-    jiggleSettings: {fileID: 11400000, guid: 39e25b1ddcdbae04eabd7bdc48ca31fd, type: 2}
-    ignoredTransforms: []
-    colliders: []
-  wind: {x: 0, y: 0, z: 0}
-  debugDraw: 0
 --- !u!114 &8001916430103914274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7267,7 +7242,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3210980722015533313}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.28421503, y: 0.0000000164968, z: -0.0000000048903126, w: 0.95876056}
+  m_LocalRotation: {x: 0.28421503, y: -0.000000016496799, z: 0.000000004890313, w: 0.95876056}
   m_LocalPosition: {x: 0, y: 7.3709984, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -13408,7 +13383,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6601952027056651362}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18326387, y: 7.688393e-15, z: -1.571819e-15, w: 0.98306376}
+  m_LocalRotation: {x: 0.18326387, y: -0, z: -0, w: 0.98306376}
   m_LocalPosition: {x: 0, y: 7.3709984, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -16412,8 +16387,7 @@ PrefabInstance:
       value: Model (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 8787106229344554435, guid: 2b975bcd6e6868b40b60f55c52bb2f2d, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b975bcd6e6868b40b60f55c52bb2f2d, type: 3}
