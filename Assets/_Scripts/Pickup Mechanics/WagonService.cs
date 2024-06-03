@@ -7,12 +7,9 @@ using TMPro;
 using UnityEngine.Timeline;
 
 public class WagonService : MonoBehaviour
-{
-    //[SerializeField] private GameObject customerSeat;  
-    
+{   
     [SerializeField] public int scoreGiven;
-    //[SerializeField] public GameObject targetParticles;
-    //public bool isInCart = false;
+
     [Space]
     [SerializeField] private GameObject[] destinationList;
     [Space]
@@ -25,7 +22,7 @@ public class WagonService : MonoBehaviour
     private WagonData wagonData_A;
     private WagonData wagonData_B;
 
-    private GameObject _wagonSlot;
+    private GameObject m_wagonSlot;
 
     //[Header("Timer")]
     //[SerializeField] private GameObject timerObject;
@@ -42,13 +39,14 @@ public class WagonService : MonoBehaviour
 
     [Header("Zoned Deliveries Toggle")]
     [SerializeField] public bool zonedDeliveriesToggle;
+    public bool canSteal = true;
     [SerializeField] private int thisZoneNumber;
 
     [SerializeField] private bool currentlyInCart;
     [SerializeField] private int currentPlayer;
 
     [SerializeField] private bool m_canVanish = true;
-    [SerializeField] private GameObject m_vanishParticles;
+
     [SerializeField] private float m_vanishTimer = 10;
 
     [Header("DM - Debug")]
@@ -99,8 +97,6 @@ public class WagonService : MonoBehaviour
     {
         listLength = destinationList.Length;
         zoneSelect = RandomIntExcept(1, 5, thisZoneNumber);
-
-        m_vanishParticles.SetActive(false);
     }
     private void Start()
     {
@@ -120,115 +116,17 @@ public class WagonService : MonoBehaviour
 
     }
 
-    void LateUpdate()
-    {
-        //transform.LookAt(_wagonSlot.transform);
-        //transform.Rotate(X, Y, Z);
-       
-        //fareText.text = dollarsGiven.ToString();
-       // if(isAtTarget == true) { ChangeAnimation(NPC_DANCE); }
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag != "Wagon") return;
         if (isAtTarget) return;
         wagonData_A = other.GetComponent<WagonData>();
 
-        _wagonSlot = wagonData_A.wagonSlot;
+        m_wagonSlot = wagonData_A.wagonSlot;
 
-        if (zonedDeliveriesToggle == true && !wagonData_A.isOccupied && !currentlyInCart)
-        {
-            m_pickupMarker.SetActive(false);
-            wagonData_A.PlayPickUpParticle();
-            AudioManager.Instance.PlaySFX("In");
-            currentlyInCart = true;
-            ZoneSelector(zoneSelect);
-            wagonData_A.destinationTarget = destination;
-            wagonData_A.isOccupied = true;
-            this.transform.parent = _wagonSlot.transform;
-            this.transform.position = this._wagonSlot.transform.position;
-            transform.rotation = new Quaternion(X, Y, Z, 0);
-            ChangeAnimation(NPC_FLAP);
-            PlayerMarkerSelect(wagonData_A.thisPlayerNumber, true);
-            currentPlayer = wagonData_A.thisPlayerNumber;
-            wagonData_B = wagonData_A;
-        }
-        if(zonedDeliveriesToggle == true && !wagonData_A.isOccupied && currentlyInCart == true)
-        {
-            m_pickupMarker.SetActive(false);
-            wagonData_A.PlayPickUpParticle();
-            AudioManager.Instance.PlaySFX("In");
-            currentlyInCart = true;
-            wagonData_A.isOccupied = true;
-            this.transform.parent = _wagonSlot.transform;
-            this.transform.position = this._wagonSlot.transform.position;
-            transform.rotation = new Quaternion(X, Y, Z, 0);
-            PlayerMarkerSelect(wagonData_A.thisPlayerNumber, true);
-            PlayerMarkerSelect(wagonData_B.thisPlayerNumber, false);
-            wagonData_B.isOccupied = false;
-
-            currentPlayer = wagonData_A.thisPlayerNumber;
-            wagonData_B = wagonData_A;
-        }
-
-
-        if (captureFlagToggle == true && !wagonData_A.isOccupied)
-        {
-            m_pickupMarker.SetActive(false);
-            wagonData_A.PlayPickUpParticle();
-            destination = playerBaseList[wagonData_A.thisPlayerNumber - 1];
-            wagonData_A.destinationTarget = destination;
-            wagonData_A.isOccupied = true;
-            this.transform.parent = _wagonSlot.transform;
-            this.transform.position = this._wagonSlot.transform.position;            
-            transform.rotation = new Quaternion(X, Y, Z, 0);
-
-        }
-
-        if (!wagonData_A.isOccupied && destination != null && !captureFlagToggle)
-        {
-            m_pickupMarker.SetActive(false);
-            //fareText.text = dollarsGiven.ToString();
-            //AudioManager.Instance.PlaySFX("In");
-            //this.transform.parent = this.customerSeat.transform;
-            //this.transform.position = this.customerSeat.transform.position;
-
-            this.transform.parent = _wagonSlot.transform;
-            this.transform.position = this._wagonSlot.transform.position;
-            transform.rotation = new Quaternion(X, Y, Z,0);
-
-
-            //ChangeAnimation(NPC_FLAP);
-            //targetParticles.SetActive(true);
-
-            wagonData_A.destinationTarget = destination;
-         
-            wagonData_A.isOccupied = true;
-
-           // CompassBar.objectiveObjectTransform = destination.transform;
-            //this.gameObject.GetComponent<CapsuleCollider>().enabled = false; 
-            //this.gameObject.GetComponentInChildren<Canvas>().enabled = false;
-            //this.gameObject.GetComponentInChildren<ParticleSystem>().Stop();
-
-           // this.agent.enabled = false;
-            //isInCart = true;
-
-            //SetTargetParticlesPosition();
-            //timeValue.inService = true;
-            //timeValue.timerValue = 45;
-            
-            
-            //timerObject.SetActive(true);
-
-        }
-
-        
-    }
-
-    public void SetTargetParticlesPosition()
-    {
-        //targetParticles.transform.position = destination.transform.position;
+        if (zonedDeliveriesToggle == true) { PassengerPickupMode(); }
+        if (zonedDeliveriesToggle == true && canSteal == true) { StealPassengerMode(); }
+        if(!zonedDeliveriesToggle && captureFlagToggle == true) { CaptureTheFlagMode(); }
     }
 
     public void ChangeAnimation(string newAnimation)
@@ -240,7 +138,7 @@ public class WagonService : MonoBehaviour
         _currentAnimation = newAnimation;
     }
 
-    public void OnDropOff()
+    public void OnDropOff(GameObject particles)
     {
         transform.parent = null;
         isAtTarget = true;
@@ -252,30 +150,12 @@ public class WagonService : MonoBehaviour
         {
             TimerManager.RunAfterTime(() =>
             {
-                if (m_vanishParticles != null) { m_vanishParticles.SetActive(true); }
+                if (particles != null) { particles.SetActive(true); }
                 gameObject.SetActive(false);
             }, m_vanishTimer);
         }
     }
 
-    //public void ResetTaxiPickUp()
-    //{
-    //    StartCoroutine(ResetWait());
-    //}
-
-    //IEnumerator ResetWait()
-    //{
-    //   // Debug.Log("Doing a wait");
-    //   //// yield return new WaitForSeconds(resetDelay);
-    //   // //this.gameObject.transform.position = _ogTrans.position;
-    //   // isAtTarget = false;
-    //   // int randomDestination = UnityEngine.Random.Range(0, listLength);
-    //   // destination = destinationList[randomDestination];
-    //   // //ChangeAnimation(NPC_ATTENTION);
-    //   // this.gameObject.GetComponentInChildren<Canvas>().enabled = true;
-    //   // this.gameObject.GetComponentInChildren<ParticleSystem>().Play();
-    //   // Debug.Log("Did a reset");
-    //}
 
     private int RandomIntExcept(int min, int max, int except)
     {
@@ -338,6 +218,81 @@ public class WagonService : MonoBehaviour
         bmP2 = DM.beamP2; bmP2.SetActive(false);
         bmP3 = DM.beamP3; bmP3.SetActive(false);
         bmP4 = DM.beamP4; bmP4.SetActive(false);
+    }
+
+    private void CaptureTheFlagMode()
+    {
+        if (captureFlagToggle == true && !wagonData_A.isOccupied) //Capture Flag
+        {
+            m_pickupMarker.SetActive(false);
+            wagonData_A.PlayPickUpParticle();
+            destination = playerBaseList[wagonData_A.thisPlayerNumber - 1];
+            wagonData_A.destinationTarget = destination;
+            wagonData_A.isOccupied = true;
+            this.transform.parent = m_wagonSlot.transform;
+            this.transform.position = this.m_wagonSlot.transform.position;
+            transform.rotation = new Quaternion(X, Y, Z, 0);
+
+        }
+    }
+
+    private void PassengerPickupMode()
+    {
+        if (zonedDeliveriesToggle == true && !wagonData_A.isOccupied && !currentlyInCart)
+        {
+            m_pickupMarker.SetActive(false);
+            wagonData_A.PlayPickUpParticle();
+            AudioManager.Instance.PlaySFX("In");
+            currentlyInCart = true;
+            ZoneSelector(zoneSelect);
+            wagonData_A.destinationTarget = destination;
+            wagonData_A.isOccupied = true;
+            this.transform.parent = m_wagonSlot.transform;
+            this.transform.position = this.m_wagonSlot.transform.position;
+            transform.rotation = new Quaternion(X, Y, Z, 0);
+            ChangeAnimation(NPC_FLAP);
+            PlayerMarkerSelect(wagonData_A.thisPlayerNumber, true);
+            currentPlayer = wagonData_A.thisPlayerNumber;
+            wagonData_B = wagonData_A;
+        }
+    }
+
+    private void StealPassengerMode()
+    {
+        if (zonedDeliveriesToggle == true && !wagonData_A.isOccupied && currentlyInCart == true)
+        {
+            m_pickupMarker.SetActive(false);
+            wagonData_A.PlayPickUpParticle();
+            AudioManager.Instance.PlaySFX("In");
+            currentlyInCart = true;
+            wagonData_A.isOccupied = true;
+            this.transform.parent = m_wagonSlot.transform;
+            this.transform.position = this.m_wagonSlot.transform.position;
+            transform.rotation = new Quaternion(X, Y, Z, 0);
+            PlayerMarkerSelect(wagonData_A.thisPlayerNumber, true);
+            PlayerMarkerSelect(wagonData_B.thisPlayerNumber, false);
+            wagonData_B.isOccupied = false;
+
+            currentPlayer = wagonData_A.thisPlayerNumber;
+            wagonData_B = wagonData_A;
+        }
+    }
+
+    private void BasicDeliveryMode()
+    {
+        if (!wagonData_A.isOccupied && destination != null && !captureFlagToggle)
+        {
+            m_pickupMarker.SetActive(false);
+
+
+            this.transform.parent = m_wagonSlot.transform;
+            this.transform.position = this.m_wagonSlot.transform.position;
+            transform.rotation = new Quaternion(X, Y, Z, 0);
+
+            wagonData_A.destinationTarget = destination;
+
+            wagonData_A.isOccupied = true;
+        }
     }
 }
 

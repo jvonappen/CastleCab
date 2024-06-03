@@ -4,32 +4,33 @@ using UnityEngine;
 
 public class LookAt : MonoBehaviour
 {
-    [SerializeField] private GameObject player;
-
     [Header("Debug-Testing")]
+    [SerializeField] private GameObject m_player;
+    [SerializeField] private GameObject m_villager;
+
     [SerializeField] private float X;
     [SerializeField] private float Y;
     [SerializeField] private float Z;
 
-    [SerializeField] private GameObject villager;
+    
 
     private void Awake()
     {
-        villager = this.gameObject;
+        m_villager = this.gameObject;
     }
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Player"  || other.tag == "Wagon")
         {
-            player = other.gameObject;
+            m_player = other.gameObject;
         }
     }
 
     void LateUpdate()
     {
-        if(player!= null) 
+        if(m_player!= null) 
         {
-            transform.LookAt(player.transform);
+            transform.LookAt(m_player.transform);
             transform.Rotate(X, Y, Z);
         }
         
