@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(TextMeshPro))]
 public class PlayerName : MonoBehaviour
 {
-    PlayerInput m_input;
+    [SerializeField] PlayerInput m_input;
     TextMeshPro m_display;
 
     [SerializeField] List<Color> m_playerColours;
@@ -17,7 +17,6 @@ public class PlayerName : MonoBehaviour
 
     private void Awake()
     {
-        m_input = GetComponentInParent<PlayerInput>();
         m_display = GetComponent<TextMeshPro>();
 
         m_playerNumber = m_input.user.index + 1;
