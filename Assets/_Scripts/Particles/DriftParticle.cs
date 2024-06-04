@@ -7,9 +7,6 @@ public class DriftParticle : ParticleHandler
 
         m_playerMovement.onGrounded += OnGrounded;
         m_playerMovement.onExitGrounded += ExitGrounded;
-
-        m_playerMovement.onHurricane += PlayParticle;
-        m_playerMovement.onHurricaneCanceled += EndHurricane;
     }
 
     void OnGrounded()
@@ -19,13 +16,8 @@ public class DriftParticle : ParticleHandler
 
     void ExitGrounded() => StopParticle();
 
-    void EndHurricane()
-    {
-        if (!m_playerMovement.isDrifting) StopParticle();
-    }
-
     void EndDrift()
     {
-        if (!m_playerMovement.isHurricane) StopParticle();
+        StopParticle();
     }
 }
