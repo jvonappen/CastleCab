@@ -73,6 +73,7 @@ public class CameraFollow : MonoBehaviour
     {
         m_isWhirlwind = true;
 
+        m_whirlwindCam.GetComponent<WhirlwindCam>().SetOffset();
         m_whirlwindCam.Priority = 12;
     }
 
