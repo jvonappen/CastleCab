@@ -20,12 +20,12 @@ public class Knockback : MonoBehaviour
         if (folderObj) m_folder = folderObj.transform;
     }
 
-    public virtual void KnockBack(Vector3 _dir, Vector3 _origin)
+    public virtual void KnockBack(Vector3 _dir, Vector3 _origin, float _objectMulti = 1)
     {
         if (rb.isKinematic) Debug.LogWarning("Cannot knock back kinematic object");
 
-        rb.velocity = _dir * m_force;
-        rb.velocity = new Vector3(rb.velocity.x, m_velY, rb.velocity.z);
+        rb.velocity = _dir * m_force * _objectMulti;
+        rb.velocity = new Vector3(rb.velocity.x, m_velY * _objectMulti, rb.velocity.z);
 
         if (_origin != Vector3.zero)
         {

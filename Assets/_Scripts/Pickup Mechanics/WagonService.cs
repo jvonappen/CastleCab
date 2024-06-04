@@ -39,8 +39,9 @@ public class WagonService : MonoBehaviour
 
     [Header("Zoned Deliveries Toggle")]
     [SerializeField] public bool zonedDeliveriesToggle;
-    public bool canSteal = true;
+    private bool canBeStolen = true;
     [SerializeField] private int thisZoneNumber;
+    [SerializeField] private float m_stolenCoolDownTimer = 5;
 
     [SerializeField] private bool currentlyInCart;
     [SerializeField] private int currentPlayer;
@@ -125,7 +126,7 @@ public class WagonService : MonoBehaviour
         m_wagonSlot = wagonData_A.wagonSlot;
 
         if (zonedDeliveriesToggle == true) { PassengerPickupMode(); }
-        if (zonedDeliveriesToggle == true && canSteal == true) { StealPassengerMode(); }
+        if (zonedDeliveriesToggle == true && canBeStolen == true) { StealPassengerMode(); }
         if(!zonedDeliveriesToggle && captureFlagToggle == true) { CaptureTheFlagMode(); }
     }
 
@@ -271,6 +272,16 @@ public class WagonService : MonoBehaviour
             transform.rotation = new Quaternion(X, Y, Z, 0);
             PlayerMarkerSelect(wagonData_A.thisPlayerNumber, true);
             PlayerMarkerSelect(wagonData_B.thisPlayerNumber, false);
+
+            canBeStolen = false;
+            if(canBeStolen == false)
+            {
+                TimerManager.RunAfterTime(() =>
+                {
+                    canBeStolen = true;
+                }, m_stolenCoolDownTimer);
+            }
+
             wagonData_B.isOccupied = false;
 
             currentPlayer = wagonData_A.thisPlayerNumber;

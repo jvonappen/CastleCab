@@ -165,7 +165,11 @@ public class PlayerMovement : MonoBehaviour
     bool m_endingHurricane;
     Vector2 m_directionMoveInput;
 
+    bool m_continueHurricane;
+
     float m_newHurricaneCooldownTimer;
+
+    Timer m_continueHurricaneTimer;
 
     public bool isHurricane { get { return m_isHurricane; } }
     [SerializeField] Hurricane _Hurricane;
@@ -499,6 +503,16 @@ public class PlayerMovement : MonoBehaviour
     }
     void OnHurricanePerformed()
     {
+        if (m_isHurricane)
+        {
+            m_continueHurricane = true;
+            if (m_continueHurricaneTimer != null)
+            {
+                TimerManager.DestroyTimer(m_continueHurricaneTimer);
+                m_continueHurricaneTimer = null;
+            }
+        }
+        
         if (m_newHurricaneCooldownTimer >= _Hurricane.m_newHurricaneCooldown)
         {
             onHurricane?.Invoke();
@@ -521,7 +535,16 @@ public class PlayerMovement : MonoBehaviour
         float leeway = 15f;
         if (rb.transform.eulerAngles.y > prevRotY - leeway && rb.transform.eulerAngles.y < prevRotY + leeway)
         {
-            EndHurricane();
+            if (m_continueHurricane)
+            {
+                // If player attempted hurricane again during hurricane and the buffer timer isn't set
+                if (m_continueHurricaneTimer == null)
+                {
+                    // Once the hurricane button hasn't been been pressed for {0.2f} seconds, allow it to end. (Timer is destroyed each time button is pressed)
+                    m_continueHurricaneTimer = TimerManager.RunAfterTime(() => { m_continueHurricaneTimer = null; m_continueHurricane = false; }, 0.2f);
+                }
+            }
+            else EndHurricane();
         }
     }
 

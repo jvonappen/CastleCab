@@ -15,8 +15,8 @@ public class DustParticle : ParticleHandler
 
     private void Update()
     {
-        if (m_playerMovement.currentSpeed < m_minSpeedToTrigger) StopParticle();
-        else if(!m_isEmitting && m_playerMovement.isGrounded) PlayParticle();
+        if (m_playerMovement.currentSpeed < m_minSpeedToTrigger || m_playerMovement.isHurricane) StopParticle();
+        else if(!m_isEmitting && m_playerMovement.isGrounded && !m_playerMovement.isHurricane) PlayParticle();
     }
 
     //void OnStartMovement()
