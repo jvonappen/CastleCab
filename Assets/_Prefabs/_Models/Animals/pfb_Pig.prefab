@@ -201,6 +201,8 @@ GameObject:
   - component: {fileID: 8568793628153864215}
   - component: {fileID: 352674380825425138}
   - component: {fileID: 8382040014513748955}
+  - component: {fileID: 2388082896310944590}
+  - component: {fileID: 4647276966507791667}
   m_Layer: 0
   m_Name: pfb_Pig
   m_TagString: Pig
@@ -308,6 +310,59 @@ MonoBehaviour:
   wanderTransform: {fileID: 109217634991927615}
   wanderRange: 20
   audioGroup: {fileID: 0}
+--- !u!114 &2388082896310944590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779074841722923909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b2412d7b607ce54290fe5b66608b7d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_health: 30
+  m_dishonourPunishment: 15
+  m_goldReward: 20
+  m_canRespawn: 1
+  m_respawnTime: 5
+  m_PrefabRespawnParticle: {fileID: 141433446842962269, guid: 9a300ba111052ed4b84133515fa48a6d, type: 3}
+  m_damagedParticlePrefabs: []
+  m_destroyedParticlePrefabs:
+  - {fileID: 2040044314665895850, guid: b7c721497d8739843a7ca2240e1453d4, type: 3}
+  sfxAudio: {fileID: 0}
+  m_showPopup: 1
+  m_popupLocation: {fileID: 0}
+  m_popupRandomRange: 2
+  m_fontSize: 5
+--- !u!54 &4647276966507791667
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779074841722923909}
+  serializedVersion: 4
+  m_Mass: 100
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &790592479367925908
 GameObject:
   m_ObjectHideFlags: 0
