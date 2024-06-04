@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 1800489176826143}
   - component: {fileID: 4010945971889475258}
   - component: {fileID: 1174675709949475440}
-  - component: {fileID: 544052597472093938}
   - component: {fileID: 7210596045867550963}
+  - component: {fileID: 4831168109142716414}
   m_Layer: 0
   m_Name: pfb_SM_wall_modular
   m_TagString: Untagged
@@ -87,8 +87,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &544052597472093938
-MeshCollider:
+--- !u!114 &7210596045867550963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 814506280684018597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69229ecce01be984daf85cdafca3247e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_collisionLayer:
+    serializedVersion: 2
+    m_Bits: 8392712
+  m_knockbackStrengthMulti: 1
+  audioGroup: {fileID: 0}
+--- !u!65 &4831168109142716414
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -105,22 +122,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -812738834414670909, guid: 089c039e12c2fef4085551d660a6df5a, type: 3}
---- !u!114 &7210596045867550963
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 814506280684018597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69229ecce01be984daf85cdafca3247e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_collisionLayer:
-    serializedVersion: 2
-    m_Bits: 8392712
+  serializedVersion: 3
+  m_Size: {x: 4.0208316, y: 2.8938217, z: 0.8239476}
+  m_Center: {x: 0.0000011920929, y: 1.4333041, z: -0.000000029802322}

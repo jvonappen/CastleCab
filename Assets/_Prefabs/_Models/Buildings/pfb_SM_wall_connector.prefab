@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 392649518590245730}
   - component: {fileID: 3665124418306421959}
   - component: {fileID: 1529487145445834765}
-  - component: {fileID: 213993366901349515}
   - component: {fileID: -5637041927411059720}
+  - component: {fileID: 5185137786212956858}
   m_Layer: 0
   m_Name: pfb_SM_wall_connector
   m_TagString: Untagged
@@ -87,8 +87,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &213993366901349515
-MeshCollider:
+--- !u!114 &-5637041927411059720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024894391044334040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69229ecce01be984daf85cdafca3247e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_collisionLayer:
+    serializedVersion: 2
+    m_Bits: 8392712
+  m_knockbackStrengthMulti: 1
+  audioGroup: {fileID: 0}
+--- !u!65 &5185137786212956858
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -105,22 +122,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -800217888612096313, guid: 93c63a944a06db743a524de653b6b1c4, type: 3}
---- !u!114 &-5637041927411059720
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1024894391044334040}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69229ecce01be984daf85cdafca3247e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_collisionLayer:
-    serializedVersion: 2
-    m_Bits: 8392712
+  serializedVersion: 3
+  m_Size: {x: 1.1417725, y: 3.029019, z: 1.0040178}
+  m_Center: {x: -0.0000011622906, y: 1.4279827, z: 0.00000020861626}
