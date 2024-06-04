@@ -7467,7 +7467,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3210980722015533313}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.28421503, y: 0.000000016496799, z: -0.000000004890313, w: 0.95876056}
+  m_LocalRotation: {x: 0.28421503, y: -0.0000000164968, z: 0.0000000048903135, w: 0.95876056}
   m_LocalPosition: {x: 0, y: 7.3709984, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -12978,6 +12978,7 @@ GameObject:
   m_Component:
   - component: {fileID: 174020542252542896}
   - component: {fileID: 8941179720501066981}
+  - component: {fileID: 71124673729015035}
   m_Layer: 26
   m_Name: WhirlwindCam
   m_TagString: Untagged
@@ -12994,7 +12995,7 @@ Transform:
   m_GameObject: {fileID: 4916949567786804390}
   serializedVersion: 2
   m_LocalRotation: {x: 0.18485864, y: 3.0615265e-17, z: 1.0633032e-16, w: 0.98276514}
-  m_LocalPosition: {x: 0, y: 7.3709984, z: -10}
+  m_LocalPosition: {x: 0, y: 0.8709984, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -13040,6 +13041,22 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 3083482260095330351}
+--- !u!114 &71124673729015035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4916949567786804390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a76148aa91b2e74da881f367030b38b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_target: {fileID: 846986972918874326}
+  m_collisionMask:
+    serializedVersion: 2
+    m_Bits: 32836
 --- !u!1 &5165477338824766943
 GameObject:
   m_ObjectHideFlags: 0
@@ -15481,6 +15498,7 @@ MonoBehaviour:
   m_collisionLayer:
     serializedVersion: 2
     m_Bits: 4294967295
+  m_knockbackStrengthMulti: 1
   audioGroup: {fileID: 0}
 --- !u!1 &9100175355093825896
 GameObject:
