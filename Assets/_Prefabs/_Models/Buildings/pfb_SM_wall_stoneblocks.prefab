@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 539550694818868417}
   - component: {fileID: 3518162239858238308}
   - component: {fileID: 1673072569070229422}
-  - component: {fileID: 69356106589342504}
   - component: {fileID: 2132249725058411922}
+  - component: {fileID: 2068869218685389606}
   m_Layer: 0
   m_Name: pfb_SM_wall_stoneblocks
   m_TagString: Untagged
@@ -85,8 +85,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &69356106589342504
-MeshCollider:
+--- !u!114 &2132249725058411922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880188551915779707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69229ecce01be984daf85cdafca3247e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_collisionLayer:
+    serializedVersion: 2
+    m_Bits: 8392712
+  m_knockbackStrengthMulti: 1
+  audioGroup: {fileID: 0}
+--- !u!65 &2068869218685389606
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -103,22 +120,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -4309056175209646113, guid: 43e2668116ef80240a7ab43d26d7499d, type: 3}
---- !u!114 &2132249725058411922
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 880188551915779707}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69229ecce01be984daf85cdafca3247e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_collisionLayer:
-    serializedVersion: 2
-    m_Bits: 8392712
+  serializedVersion: 3
+  m_Size: {x: 4.4148746, y: 2.7368374, z: 1.1917212}
+  m_Center: {x: 0.000006198883, y: 1.2991114, z: 0.000000029802322}
