@@ -10,11 +10,11 @@ public class PlayerKnockback : Knockback
         m_player = GetComponentInParent<PlayerMovement>();
     }
 
-    public override void KnockBack(Vector3 _dir, Vector3 _origin)
+    public override void KnockBack(Vector3 _dir, Vector3 _origin, float _objectMulti = 1)
     {
         if (m_player.isHurricane) return;
         
-        base.KnockBack(_dir, _origin);
+        base.KnockBack(_dir, _origin, _objectMulti);
 
         m_player.isSmackStunned = true;
 
