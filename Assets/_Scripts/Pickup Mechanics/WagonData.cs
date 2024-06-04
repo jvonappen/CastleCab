@@ -13,6 +13,7 @@ public class WagonData : MonoBehaviour
    public bool isOccupied;
     [HideInInspector] public  GameObject wagonSlot;
     [HideInInspector] public GameObject destinationTarget;
+
     public Score score;
 
     [Header("Particles")]
