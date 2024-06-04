@@ -13,9 +13,9 @@ public class EnemyKnockback : Knockback
         m_AI = GetComponent<PoliceAI>();
     }
 
-    public override void KnockBack(Vector3 _dir, Vector3 _origin)
+    public override void KnockBack(Vector3 _dir, Vector3 _origin, float _objectMulti = 1)
     {
-        base.KnockBack(_dir, _origin);
+        base.KnockBack(_dir, _origin, _objectMulti);
 
         //m_AI.Stun();
     }
