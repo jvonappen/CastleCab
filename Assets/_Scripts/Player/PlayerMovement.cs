@@ -679,6 +679,9 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
 
+    [SerializeField] float m_maxRangeFromSlipstrteamTrail = 10;
+    [SerializeField] List<TrailData> trailSegmentsInRange;
+    [SerializeField] float m_slipstreamSpeedMulti = 1.1f, m_slipstreamAccelerationMulti = 1.1f;
     void MoveVelocity()
     {
         if (!m_canMove) return;
@@ -689,6 +692,7 @@ public class PlayerMovement : MonoBehaviour
         #region CalculateSpeed
 
         float statMulti = 1;
+        bool inSlipstream = false;
 
         if (m_staminaBar && m_isBoosting)
         {
@@ -711,31 +715,64 @@ public class PlayerMovement : MonoBehaviour
         {
             if (!m_isReversing)
             {
+                #region Slipstream
+                // Accelerating or boosting:
+                List<PlayerData> playerData = GameManager.Instance.players;
+
+                //List<TrailData> trailSegmentsInRange = new();
+                trailSegmentsInRange.Clear();
+
+                for (int i = 0; i < playerData.Count; i++)
+                {
+                    GameObject player = playerData[i].player;
+                    if (player == gameObject) continue;
+
+                    if (player.TryGetComponent(out Slipstream slipstream))
+                    {
+                        List<TrailData> trailList = slipstream.trailList;
+                        foreach (TrailData data in trailList) // trail list is a copy of the list, not a reference
+                        {
+                            // This functionality may cause lag, if each player has (10) trail segments, this runs 30 times per player that is moving, assuming there are 4 players active
+                            if (Vector3.Distance(data.position, rb.transform.position) <= m_maxRangeFromSlipstrteamTrail) trailSegmentsInRange.Add(data);
+                        }
+                    }
+                }
+
+                if (trailSegmentsInRange.Count > 0) inSlipstream = true;
+                else inSlipstream = false;
+                #endregion
+
                 if (!m_isBoosting)
                 {
+                    float maxSpeed = inSlipstream ? _Speed.m_maxSpeed * m_slipstreamSpeedMulti : _Speed.m_maxSpeed;
+                    float accelerationRate = inSlipstream ? _Speed.m_accelerationRate * m_slipstreamAccelerationMulti : _Speed.m_accelerationRate;
+
                     // Accelerate if player is accelerating and isn't at max speed
-                    if (currentSpeed < _Speed.m_maxSpeed)
+                    if (currentSpeed < maxSpeed)
                     {
                         float accelInput = m_isDrifting ? 1 : m_accelerationInput;
                         if (accelInput > 0.7f) accelInput = 1;
-                        AddSpeed(Time.fixedDeltaTime * _Speed.m_accelerationRate * accelInput);
-                        if (currentSpeed > _Speed.m_maxSpeed) SetCurrentSpeed(_Speed.m_maxSpeed); // Caps speed at max
+                        AddSpeed(Time.fixedDeltaTime * accelerationRate * accelInput);
+                        if (currentSpeed > maxSpeed) SetCurrentSpeed(maxSpeed); // Caps speed at max
                     }
-                    else if (currentSpeed > _Speed.m_maxSpeed) // Decelerates rather than sets due to boost
+                    else if (currentSpeed > maxSpeed) // Decelerates rather than sets due to boost
                     {
                         AddSpeed(Time.fixedDeltaTime * -_Boost.m_decelerationRate);
-                        if (currentSpeed < _Speed.m_maxSpeed) SetCurrentSpeed(_Speed.m_maxSpeed);
+                        if (currentSpeed < maxSpeed) SetCurrentSpeed(maxSpeed);
                     }
                 }
                 else
                 {
+                    float maxSpeed = inSlipstream ? _Boost.m_maxSpeed * m_slipstreamSpeedMulti : _Boost.m_maxSpeed;
+                    float accelerationRate = inSlipstream ? _Boost.m_accelerationRate * m_slipstreamAccelerationMulti : _Boost.m_accelerationRate;
+
                     // Accelerate if player is boosting and isn't at max boost speed
-                    if (currentSpeed <= _Boost.m_maxSpeed)
+                    if (currentSpeed <= maxSpeed)
                     {
-                        if (currentSpeed < _Boost.m_maxSpeed)
+                        if (currentSpeed < maxSpeed)
                         {
-                            AddSpeed(Time.fixedDeltaTime * _Boost.m_accelerationRate);
-                            if (currentSpeed > _Boost.m_maxSpeed) SetCurrentSpeed(_Boost.m_maxSpeed); // Caps speed at max
+                            AddSpeed(Time.fixedDeltaTime * accelerationRate);
+                            if (currentSpeed > maxSpeed) SetCurrentSpeed(maxSpeed); // Caps speed at max
                         }
                         
                         if (m_staminaBar)
