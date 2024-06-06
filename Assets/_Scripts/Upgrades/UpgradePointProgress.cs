@@ -94,16 +94,20 @@ public class UpgradePointProgress : PointProgress
         
     }
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
+
         m_manager = GameManager.Instance;
 
         m_manager.onGoldChanged += OnCurrencyChanged;
         if (m_playerUpgrades) m_playerUpgrades.onAttributePointsChanged += OnCurrencyChanged;
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
+
         m_manager = GameManager.Instance;
 
         m_manager.onGoldChanged -= OnCurrencyChanged;
@@ -121,6 +125,8 @@ public class UpgradePointProgress : PointProgress
     #region Colour
     string GetColour()
     {
+        if (!m_manager) m_manager = GameManager.Instance;
+
         if (m_manager)
         {
             string colourHex;

@@ -31,6 +31,9 @@ public class PointProgress : MonoBehaviour
 
     TweenerCore<Vector3, Vector3, VectorOptions> m_scaleTween;
 
+    protected virtual void OnEnable() { }
+    protected virtual void OnDisable() { }
+
     public virtual void AddProgress()
     {
         if (m_progress < m_points.Count) m_progress++;

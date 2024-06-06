@@ -11,7 +11,11 @@ public class CartUpgradeProgress : UpgradePointProgress
     }
     [SerializeField] StatUpgrade m_statUpgrade;
 
-    private void OnEnable() => SyncUpgradesToPlayer();
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        SyncUpgradesToPlayer();
+    }
     void SyncUpgradesToPlayer()
     {
         if (m_statUpgrade == StatUpgrade.Health)
@@ -40,14 +44,10 @@ public class CartUpgradeProgress : UpgradePointProgress
         }
     }
 
-    /// <summary>
-    /// Updates global stat and runs a function on all instances of this script type to keep them in sync
-    /// </summary>
     protected override void OnProgressAdd()
     {
         base.OnProgressAdd();
 
-        // Updates static global stat
         if (m_statUpgrade == StatUpgrade.Health)
         {
             m_playerUpgrades.AddHealth();
@@ -74,7 +74,6 @@ public class CartUpgradeProgress : UpgradePointProgress
     {
         base.OnProgressRemove();
 
-        // Updates static global stat
         if (m_statUpgrade == StatUpgrade.Health)
         {
             m_playerUpgrades.RemoveHealth();
