@@ -1,34 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ObjectiveArrow : MonoBehaviour
 {
     [SerializeField] float m_distanceFromPlayer = 175;
     [SerializeField] Transform m_horse;
 
-    [SerializeField] RectTransform m_canvas;
-
     [SerializeField] RectTransform m_rotatePoint;
-    [SerializeField] Transform m_tempTarget;
+    [SerializeField] Transform m_target;
+    public void SetTarget(Transform _target) => m_target = _target;
+
+    Image m_image;
 
     float m_distance;
 
+    private void Awake() => m_image = GetComponent<Image>();
+
     private void Update()
     {
-        Vector3 dir = m_tempTarget.position - m_horse.position;
-        //m_distance = dir.magnitude;
+        if (m_target)
+        {
+            m_image.enabled = true;
 
-        Vector3 localDir = m_horse.worldToLocalMatrix.MultiplyVector(dir);
-        Vector2 screenDir = new(localDir.x, localDir.z);
-        screenDir.Normalize();
+            Vector3 dir = m_target.position - m_horse.position;
+            //m_distance = dir.magnitude;
 
-        RectTransform rt = GetComponent<RectTransform>();
-        rt.anchoredPosition = m_rotatePoint.anchoredPosition + (screenDir * m_distanceFromPlayer);
+            Vector3 localDir = m_horse.worldToLocalMatrix.MultiplyVector(dir);
+            Vector2 screenDir = new(localDir.x, localDir.z);
+            screenDir.Normalize();
 
-        rt.up = -screenDir;
-        rt.localEulerAngles = new(0, 0, rt.localEulerAngles.z); 
-        //rt.LookAt(m_rotatePoint);
-        //Debug.Log(Vector3.Cross(m_rotatePoint.forward, -screenDir).y);
+            RectTransform rt = GetComponent<RectTransform>();
+            rt.anchoredPosition = m_rotatePoint.anchoredPosition + (screenDir * m_distanceFromPlayer);
+
+            rt.up = -screenDir;
+            rt.localEulerAngles = new(0, 0, rt.localEulerAngles.z);
+        }
+        else m_image.enabled = false;
     }
 }

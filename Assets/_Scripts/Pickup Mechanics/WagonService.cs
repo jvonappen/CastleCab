@@ -225,15 +225,9 @@ public class WagonService : MonoBehaviour
     {
         if (captureFlagToggle == true && !wagonData_A.isOccupied) //Capture Flag
         {
-            m_pickupMarker.SetActive(false);
-            wagonData_A.PlayPickUpParticle();
             destination = playerBaseList[wagonData_A.thisPlayerNumber - 1];
-            wagonData_A.destinationTarget = destination;
-            wagonData_A.isOccupied = true;
-            this.transform.parent = m_wagonSlot.transform;
-            this.transform.position = this.m_wagonSlot.transform.position;
-            transform.rotation = new Quaternion(X, Y, Z, 0);
 
+            PickupObjective();
         }
     }
 
@@ -241,20 +235,13 @@ public class WagonService : MonoBehaviour
     {
         if (zonedDeliveriesToggle == true && !wagonData_A.isOccupied && !currentlyInCart)
         {
-            m_pickupMarker.SetActive(false);
-            wagonData_A.PlayPickUpParticle();
-            AudioManager.Instance.PlaySFX("In");
-            currentlyInCart = true;
-            ZoneSelector(zoneSelect);
-            wagonData_A.destinationTarget = destination;
-            wagonData_A.isOccupied = true;
-            this.transform.parent = m_wagonSlot.transform;
-            this.transform.position = this.m_wagonSlot.transform.position;
-            transform.rotation = new Quaternion(X, Y, Z, 0);
+            ZoneSelector(zoneSelect); // Sets destination
+
+            PickupObjective();
+
             ChangeAnimation(NPC_FLAP);
-            PlayerMarkerSelect(wagonData_A.thisPlayerNumber, true);
-            currentPlayer = wagonData_A.thisPlayerNumber;
-            wagonData_B = wagonData_A;
+            
+            SetPassenger();
         }
     }
 
@@ -262,31 +249,53 @@ public class WagonService : MonoBehaviour
     {
         if (zonedDeliveriesToggle == true && !wagonData_A.isOccupied && currentlyInCart == true)
         {
-            m_pickupMarker.SetActive(false);
-            wagonData_A.PlayPickUpParticle();
-            AudioManager.Instance.PlaySFX("In");
-            currentlyInCart = true;
-            wagonData_A.isOccupied = true;
-            this.transform.parent = m_wagonSlot.transform;
-            this.transform.position = this.m_wagonSlot.transform.position;
-            transform.rotation = new Quaternion(X, Y, Z, 0);
-            PlayerMarkerSelect(wagonData_A.thisPlayerNumber, true);
-            PlayerMarkerSelect(wagonData_B.thisPlayerNumber, false);
+            PickupObjective();
 
-            canBeStolen = false;
-            if(canBeStolen == false)
-            {
-                TimerManager.RunAfterTime(() =>
-                {
-                    canBeStolen = true;
-                }, m_stolenCoolDownTimer);
-            }
-
-            wagonData_B.isOccupied = false;
-
-            currentPlayer = wagonData_A.thisPlayerNumber;
-            wagonData_B = wagonData_A;
+            StealPassenger();
         }
+    }
+
+    void StealPassenger()
+    {
+        PlayerMarkerSelect(wagonData_B.thisPlayerNumber, false);
+
+        canBeStolen = false;
+        if (canBeStolen == false)
+        {
+            TimerManager.RunAfterTime(() =>
+            {
+                canBeStolen = true;
+            }, m_stolenCoolDownTimer);
+        }
+
+        wagonData_B.isOccupied = false;
+
+        SetPassenger();
+    }
+
+    void SetPassenger()
+    {
+        AudioManager.Instance.PlaySFX("In");
+        currentlyInCart = true;
+
+        PlayerMarkerSelect(wagonData_A.thisPlayerNumber, true);
+
+        currentPlayer = wagonData_A.thisPlayerNumber;
+        wagonData_B = wagonData_A;
+    }
+
+    void PickupObjective()
+    {
+        m_pickupMarker.SetActive(false);
+        wagonData_A.PlayPickUpParticle();
+
+        wagonData_A.destinationTarget = destination;
+        wagonData_A.isOccupied = true;
+        transform.parent = m_wagonSlot.transform;
+        transform.position = m_wagonSlot.transform.position;
+        transform.rotation = new Quaternion(X, Y, Z, 0);
+
+        wagonData_A.OnPickup(destination.transform);
     }
 
     private void BasicDeliveryMode()

@@ -10,11 +10,13 @@ public class WagonData : MonoBehaviour
 
     [SerializeField] public PlayerHealth playerHealth;
 
-   public bool isOccupied;
+    public bool isOccupied;
     [HideInInspector] public  GameObject wagonSlot;
     [HideInInspector] public GameObject destinationTarget;
 
     public Score score;
+
+    [SerializeField] ObjectiveArrow m_objectiveArrow;
 
     [Header("Particles")]
     [SerializeField] private GameObject pickupParticle;
@@ -33,6 +35,11 @@ public class WagonData : MonoBehaviour
         score.scoreValue = playerNumber;
        
         MapScreenLocation.Instance.MapPosUpdate();  
+    }
+
+    public void OnPickup(Transform _destination)
+    {
+        m_objectiveArrow.SetTarget(_destination);
     }
 
     public void PlayPickUpParticle()
