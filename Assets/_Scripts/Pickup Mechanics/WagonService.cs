@@ -155,6 +155,8 @@ public class WagonService : MonoBehaviour
                 gameObject.SetActive(false);
             }, m_vanishTimer);
         }
+
+        wagonData_A.OnDropOff();
     }
 
 
