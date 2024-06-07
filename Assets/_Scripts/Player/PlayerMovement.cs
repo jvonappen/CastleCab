@@ -141,7 +141,7 @@ public class PlayerMovement : MonoBehaviour
         [SerializeField] internal float maxSpeedMulti, accelerationMulti;
         [SerializeField] internal float maxAngle;
     }
-    List<TrailData> m_trailSegmentsInRange;
+    List<TrailData> m_trailSegmentsInRange = new();
     bool m_inSlipstream = false;
 
     [SerializeField] SlipstreamData _Slipstream;
@@ -910,7 +910,7 @@ public class PlayerMovement : MonoBehaviour
                         }
                         else
                         {
-                            Debug.Log("Player: " + player.name + " is behind player: " + gameObject.name);
+                            //Debug.Log(player.name + " is behind: " + gameObject.name);
                         }
                     }
                 }
