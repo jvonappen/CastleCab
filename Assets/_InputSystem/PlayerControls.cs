@@ -440,7 +440,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Keyboard"",
                     ""id"": ""2eeefc4d-3381-4520-bb4e-e1f5fbba5860"",
-                    ""path"": ""1DAxis"",
+                    ""path"": ""1DAxis(minValue=1,maxValue=-1)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

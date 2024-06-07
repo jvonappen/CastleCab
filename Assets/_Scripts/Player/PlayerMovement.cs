@@ -670,7 +670,7 @@ public class PlayerMovement : MonoBehaviour
         // Redirect velocity to new moveDir
         if (m_isGrounded && !m_isReversing) rb.velocity = new(moveDir.x * previousSpeed, rb.velocity.y, moveDir.z * previousSpeed);
 
-        // Caps local y velocity - May make player float, hence the grounded check
+        // Caps local y velocity
         if (isGrounded)
         {
             Vector3 localVelocity = rb.transform.InverseTransformDirection(rb.velocity);
@@ -770,63 +770,23 @@ public class PlayerMovement : MonoBehaviour
                     AddSpeed(Time.fixedDeltaTime * accelerationRate * accelInput);
                     if (currentSpeed > maxSpeed) SetCurrentSpeed(maxSpeed); // Caps speed at max
                 }
-                else if (!m_isBoosting)
+                else if (!m_isBoosting && !m_isDrifting) // Decelerate from boost - Has to check if drifting or drifting up a slope will launch player
                 {
                     AddSpeed(Time.fixedDeltaTime * -_Boost.m_decelerationRate);
-                    if (currentSpeed < maxSpeed) SetCurrentSpeed(maxSpeed);
                 }
-
-                //if (!m_isBoosting)
-                //{
-                //    
-                //
-                //    // Accelerate if player is accelerating and isn't at max speed
-                //    if (currentSpeed < maxSpeed)
-                //    {
-                //        float accelInput = m_isDrifting ? 1 : m_accelerationInput;
-                //        if (accelInput > 0.7f) accelInput = 1;
-                //        AddSpeed(Time.fixedDeltaTime * accelerationRate * accelInput);
-                //        if (currentSpeed > maxSpeed) SetCurrentSpeed(maxSpeed); // Caps speed at max
-                //    }
-                //    else if (currentSpeed > maxSpeed) // Decelerates rather than sets due to boost
-                //    {
-                //        AddSpeed(Time.fixedDeltaTime * -_Boost.m_decelerationRate);
-                //        if (currentSpeed < maxSpeed) SetCurrentSpeed(maxSpeed);
-                //    }
-                //}
-                //else
-                //{
-                //    
-                //
-                //    // Accelerate if player is boosting and isn't at max boost speed
-                //    if (currentSpeed <= maxSpeed)
-                //    {
-                //        if (currentSpeed < maxSpeed)
-                //        {
-                //            AddSpeed(Time.fixedDeltaTime * accelerationRate);
-                //            if (currentSpeed > maxSpeed) SetCurrentSpeed(maxSpeed); // Caps speed at max
-                //        }
-                //        
-                //        if (m_staminaBar)
-                //        {
-                //            float staminaCostPerSec = _Boost.m_staminaCostPerSec - (m_playerUpgrades.staminaPoints * (_Boost.m_staminaCostPerSec * (_Stamina.m_decreasePercentPerStatPoint / 100)));
-                //
-                //            m_staminaBar.progress -= Time.fixedDeltaTime * staminaCostPerSec;
-                //            m_staminaBar.UpdateProgress();
-                //        }
-                //    }
-                //}
             }
         }
         else if (m_isReversing)
         {
             // Decelerates if player is reversing and isn't at max reverse speed.
-            // Uses deceleration rate instead of reverse acceleration if it is still going forward to prevent sliding 
-            if (Vector3.Dot(rb.transform.forward, rb.velocity.normalized) > 0.2f) AddSpeed(Time.fixedDeltaTime * -_Speed.m_decelerationRate);
-            else if (currentSpeed < _Speed.m_maxReverseSpeed) // Accelerates in reverse with different rate once player starts moving backwards
+            if (Vector3.Dot(rb.transform.forward, rb.velocity.normalized) > 0.2f)
             {
-                AddSpeed(Time.fixedDeltaTime * -_Speed.m_reverseAccelerationRate);
-                if (currentSpeed > _Speed.m_maxReverseSpeed) SetCurrentSpeed(-_Speed.m_maxReverseSpeed); // Caps speed (in negative because it is moving backwards)
+                AddSpeed(Time.fixedDeltaTime * _Speed.m_reverseAccelerationRate);
+            }
+            else if (currentSpeed < _Speed.m_maxReverseSpeed) 
+            {
+                AddSpeed(Time.fixedDeltaTime * _Speed.m_reverseAccelerationRate);
+                if (currentSpeed > _Speed.m_maxReverseSpeed) SetCurrentSpeed(_Speed.m_maxReverseSpeed); // Caps speed
             }
         }
         else
@@ -848,7 +808,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (Vector3.Dot(rb.transform.forward, rb.velocity.normalized) < 0) // Increase speed (player was reversing)
             {
-                if (currentSpeed > 0 + leeway) AddSpeed(Time.fixedDeltaTime * _Speed.m_reverseDecelerationRate);
+                if (currentSpeed > 0 + leeway) AddSpeed(Time.fixedDeltaTime * -_Speed.m_reverseDecelerationRate);
                 if (currentSpeed < 0 + leeway) SetCurrentSpeed(0);
             }
         }
@@ -907,6 +867,12 @@ public class PlayerMovement : MonoBehaviour
                     dir *= _Drifting.m_moveMultiplier;
                 }
             }
+        }
+
+        if (m_isReversing) dir = -rb.transform.forward;
+        else if (!m_isAccelerating)
+        {
+            if (Vector3.Dot(rb.transform.forward, -rb.velocity.normalized) > 0.2f) dir = -rb.transform.forward;
         }
 
         return dir;
