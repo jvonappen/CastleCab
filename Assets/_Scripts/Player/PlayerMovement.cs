@@ -734,7 +734,20 @@ public class PlayerMovement : MonoBehaviour
                         foreach (TrailData data in trailList) // trail list is a copy of the list, not a reference
                         {
                             // This functionality may cause lag, if each player has (10) trail segments, this runs 30 times per player that is moving, assuming there are 4 players active
-                            if (Vector3.Distance(data.position, rb.transform.position) <= m_maxRangeFromSlipstrteamTrail) trailSegmentsInRange.Add(data);
+                            if (Vector3.Distance(data.position, rb.transform.position) <= m_maxRangeFromSlipstrteamTrail)
+                            {
+                                // Uses dot product to calculate if the player that owns the trail is behind you. This is used ensure a slipstream isn't accessed from a player that isn't in front of you
+                                Vector3 trailDisplacement = slipstream.horse.position - rb.transform.position;
+                                float dot = Vector3.Dot(trailDisplacement, rb.transform.forward);
+                                if (dot >= 0)
+                                {
+                                    trailSegmentsInRange.Add(data);
+                                }
+                                else
+                                {
+                                    Debug.Log("Player: " + player.name + " is behind player: " + gameObject.name);
+                                }
+                            }
                         }
                     }
                 }

@@ -20,6 +20,7 @@ public class Slipstream : MonoBehaviour
     [SerializeField] float m_spawnRate = 0.3f;
 
     [SerializeField] Transform m_horse;
+    public Transform horse { get { return m_horse; } }
 
     [SerializeField] List<TrailData> m_trailList = new();
     public List<TrailData> trailList { get { return m_trailList; } }
