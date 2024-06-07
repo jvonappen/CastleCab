@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerUpgrades : MonoBehaviour
 {
@@ -38,7 +39,7 @@ public class PlayerUpgrades : MonoBehaviour
     public Action onAddHealth, onAddStamina, onAddSpeed, onAddAttack;
     public Action onRemoveHealth, onRemoveStamina, onRemoveSpeed, onRemoveAttack;
 
-    int m_healthPoints = 0, m_staminaPoints = 0, m_speedPoints = 0, m_attackPoints = 0;
+    [SerializeField] int m_healthPoints = 0, m_staminaPoints = 0, m_speedPoints = 0, m_attackPoints = 0;
 
     public int healthPoints { get { return m_healthPoints; } }
     public int staminaPoints { get { return m_staminaPoints; } }
@@ -102,4 +103,14 @@ public class PlayerUpgrades : MonoBehaviour
     public int staminaCost { get { return m_staminaCost; } set { m_staminaCost = value; } }
     public int speedCost { get { return m_speedCost; } set { m_speedCost = value; } }
     public int attackCost { get { return m_attackCost; } set { m_attackCost = value; } }
+
+    public void StoreUpgradeDataToPlayer()
+    {
+        InputDevice device = GetComponent<PlayerInput>().devices[0];
+        PlayerData data = GameManager.Instance.GetPlayerData(device);
+
+        PlayerUpgradeData upgradeData = new(m_attributePoints, m_healthPoints, m_staminaPoints, m_speedPoints, m_attackPoints);
+
+        GameManager.Instance.SetPlayerData(device, new(data.player, device, data.modelCustomizations, data.horseMat, upgradeData));
+    }
 }

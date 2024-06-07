@@ -92,15 +92,37 @@ public struct ModelCustomization
     #endregion
 }
 
+#region PlayerUpgrades Constructor
+public struct PlayerUpgradeData
+{
+    int m_attributePoints, m_health, m_stamina, m_speed, m_attack;
+    public PlayerUpgradeData(int _attributePoints, int _health, int _stamina, int _speed, int _attack)
+    {
+        m_attributePoints = _attributePoints;
+        m_health = _health;
+        m_stamina = _stamina;
+        m_speed = _speed;
+        m_attack = _attack;
+    }
+
+    public int attributePoints { get { return m_attributePoints; } }
+    public int health { get { return m_health; } }
+    public int stamina { get {  return m_stamina; } }
+    public int speed { get { return m_speed; } }
+    public int attack { get { return m_attack; } }
+}
+#endregion
+
 public struct PlayerData
 {
     #region Constructor
-    public PlayerData(GameObject _obj, InputDevice _device, List<ModelCustomization> _modelCustomizations, HorseMatInformation _horseMat)
+    public PlayerData(GameObject _obj, InputDevice _device, List<ModelCustomization> _modelCustomizations, HorseMatInformation _horseMat, PlayerUpgradeData _playerUpgradeData)
     {
         m_player = _obj;
         m_device = _device;
         m_modelCustomizations = _modelCustomizations;
         m_horseMat = _horseMat;
+        m_playerUpgradeData = _playerUpgradeData;
     }
     #endregion
 
@@ -109,11 +131,13 @@ public struct PlayerData
     InputDevice m_device;
     List<ModelCustomization> m_modelCustomizations;
     HorseMatInformation m_horseMat;
+    PlayerUpgradeData m_playerUpgradeData;
 
     public GameObject player { get { return m_player; } set { m_player = value; } }
     public InputDevice device { get { return m_device; } }
     public List<ModelCustomization> modelCustomizations { get { return m_modelCustomizations; } }
     public HorseMatInformation horseMat { get { return m_horseMat; } }
+    public PlayerUpgradeData playerUpgradeData { get { return m_playerUpgradeData; } }
     #endregion
 }
 
@@ -153,7 +177,7 @@ public class GameManager : MonoBehaviour
         PlayerInput playerInput = _player.GetComponent<PlayerInput>();
         InputDevice device = playerInput.devices[0];
 
-        PlayerData data = new(_player, device, new(), new());
+        PlayerData data = new(_player, device, new(), new(), new());
 
         // If no devices in playerData match the new device, it is added as a new player
         if (!m_players.Any(existingData => existingData.device == device)) m_players.Add(data);
@@ -249,7 +273,7 @@ public class GameManager : MonoBehaviour
         {
             GameObject player = inputManager.JoinUser(m_players[i].device);
 
-            m_players[i] = new(player, m_players[i].device, m_players[i].modelCustomizations, m_players[i].horseMat);
+            m_players[i] = new(player, m_players[i].device, m_players[i].modelCustomizations, m_players[i].horseMat, m_players[i].playerUpgradeData);
 
             if (m_retainCosmeticsOnSceneLoad) ApplyCustomisationsToPlayer(m_players[i]);
             //PlayerCustomization.StoreCustomizationsToPlayer(m_players[i].player.GetComponent<PlayerInput>(), m_players[i].player);

@@ -22,8 +22,6 @@ public class PlayerMovement : MonoBehaviour
 
     Animator m_animator;
 
-    [SerializeField] PlayerUpgrades m_playerUpgrades;
-
     public Rigidbody rb;
     public Rigidbody wagon;
     public Transform horse { get { return rb.transform; } }
@@ -48,18 +46,18 @@ public class PlayerMovement : MonoBehaviour
     [System.Serializable]
     public struct Speed
     {
-        /*[SerializeField] internal*/ public float m_maxSpeed;
-       /* [SerializeField] internal*/ public float m_accelerationRate, m_decelerationRate;
+        public float m_maxSpeed;
+        public float m_accelerationRate, m_decelerationRate;
 
         [SerializeField] internal float m_maxReverseSpeed, m_reverseAccelerationRate, m_reverseDecelerationRate;
 
-        //[SerializeField] internal float m_inAirMultiplier;
         [SerializeField] internal float m_airDrag;
 
         [SerializeField] internal float m_maxVelY;
 
         [Space(5)]
-        [SerializeField] internal float m_multiPerStatPoint;
+        [SerializeField] internal float m_maxSpeedMultiPerStatPoint;
+        [SerializeField] internal float m_accelerationMultiPerStatPoint;
     }
     public float currentSpeed { get { return rb.velocity.magnitude; } }
     bool m_attemptingAccelerate;
@@ -701,10 +699,22 @@ public class PlayerMovement : MonoBehaviour
 
         if (!m_isGrounded) return;
 
+        // Move outside this function on awake if performance issues, this just means updating playerdata during play will need to call a function to manually update it
+        PlayerUpgradeData data = GameManager.Instance.GetPlayerData(m_playerInput.playerInput.devices[0]).playerUpgradeData;
+
         #region CalculateSpeed
 
-        float statMulti = 1;
-        
+        // Alters speed based on stat upgrades
+        float statMaxSpeedMulti = 1;
+        float statAccelerationMulti = 1;
+        if (data.speed > 0)
+        {
+            statMaxSpeedMulti = (data.speed * _Speed.m_maxSpeedMultiPerStatPoint) + 1;
+            statAccelerationMulti = (data.speed * _Speed.m_accelerationMultiPerStatPoint) + 1;
+        }
+
+
+
         if (m_staminaBar && m_isBoosting)
         {
             // If stamina runs out, cancel boost
@@ -728,48 +738,79 @@ public class PlayerMovement : MonoBehaviour
             {
                 CalculateSlipstream();
 
-                if (!m_isBoosting)
+                float maxSpeed;
+                float accelerationRate;
+                if (!m_isBoosting) // Regular acceleration speed
                 {
-                    float maxSpeed = m_inSlipstream ? _Speed.m_maxSpeed * _Slipstream.maxSpeedMulti : _Speed.m_maxSpeed;
-                    float accelerationRate = m_inSlipstream ? _Speed.m_accelerationRate * _Slipstream.accelerationMulti : _Speed.m_accelerationRate;
-
-                    // Accelerate if player is accelerating and isn't at max speed
-                    if (currentSpeed < maxSpeed)
-                    {
-                        float accelInput = m_isDrifting ? 1 : m_accelerationInput;
-                        if (accelInput > 0.7f) accelInput = 1;
-                        AddSpeed(Time.fixedDeltaTime * accelerationRate * accelInput);
-                        if (currentSpeed > maxSpeed) SetCurrentSpeed(maxSpeed); // Caps speed at max
-                    }
-                    else if (currentSpeed > maxSpeed) // Decelerates rather than sets due to boost
-                    {
-                        AddSpeed(Time.fixedDeltaTime * -_Boost.m_decelerationRate);
-                        if (currentSpeed < maxSpeed) SetCurrentSpeed(maxSpeed);
-                    }
+                    maxSpeed = m_inSlipstream ? _Speed.m_maxSpeed * _Slipstream.maxSpeedMulti : _Speed.m_maxSpeed;
+                    accelerationRate = m_inSlipstream ? _Speed.m_accelerationRate * _Slipstream.accelerationMulti : _Speed.m_accelerationRate;
                 }
-                else
+                else // Boost speed
                 {
-                    float maxSpeed = m_inSlipstream ? _Boost.m_maxSpeed * _Slipstream.maxSpeedMulti : _Boost.m_maxSpeed;
-                    float accelerationRate = m_inSlipstream ? _Boost.m_accelerationRate * _Slipstream.accelerationMulti : _Boost.m_accelerationRate;
+                    maxSpeed = m_inSlipstream ? _Boost.m_maxSpeed * _Slipstream.maxSpeedMulti : _Boost.m_maxSpeed;
+                    accelerationRate = m_inSlipstream ? _Boost.m_accelerationRate * _Slipstream.accelerationMulti : _Boost.m_accelerationRate;
 
-                    // Accelerate if player is boosting and isn't at max boost speed
-                    if (currentSpeed <= maxSpeed)
-                    {
-                        if (currentSpeed < maxSpeed)
-                        {
-                            AddSpeed(Time.fixedDeltaTime * accelerationRate);
-                            if (currentSpeed > maxSpeed) SetCurrentSpeed(maxSpeed); // Caps speed at max
-                        }
-                        
-                        if (m_staminaBar)
-                        {
-                            float staminaCostPerSec = _Boost.m_staminaCostPerSec - (m_playerUpgrades.staminaPoints * (_Boost.m_staminaCostPerSec * (_Stamina.m_decreasePercentPerStatPoint / 100)));
-
-                            m_staminaBar.progress -= Time.fixedDeltaTime * staminaCostPerSec;
-                            m_staminaBar.UpdateProgress();
-                        }
-                    }
+                    // Updates stamina from boost
+                    float staminaCostPerSec = _Boost.m_staminaCostPerSec - (data.stamina * (_Boost.m_staminaCostPerSec * (_Stamina.m_decreasePercentPerStatPoint / 100)));
+                    m_staminaBar.progress -= Time.fixedDeltaTime * staminaCostPerSec;
+                    m_staminaBar.UpdateProgress();
                 }
+                maxSpeed *= statMaxSpeedMulti;
+                accelerationRate *= statAccelerationMulti;
+
+                if (currentSpeed < maxSpeed)
+                {
+                    float accelInput = m_isDrifting ? 1 : m_accelerationInput;
+                    if (accelInput > 0.7f) accelInput = 1;
+                    AddSpeed(Time.fixedDeltaTime * accelerationRate * accelInput);
+                    if (currentSpeed > maxSpeed) SetCurrentSpeed(maxSpeed); // Caps speed at max
+                }
+                else if (!m_isBoosting)
+                {
+                    AddSpeed(Time.fixedDeltaTime * -_Boost.m_decelerationRate);
+                    if (currentSpeed < maxSpeed) SetCurrentSpeed(maxSpeed);
+                }
+
+                //if (!m_isBoosting)
+                //{
+                //    
+                //
+                //    // Accelerate if player is accelerating and isn't at max speed
+                //    if (currentSpeed < maxSpeed)
+                //    {
+                //        float accelInput = m_isDrifting ? 1 : m_accelerationInput;
+                //        if (accelInput > 0.7f) accelInput = 1;
+                //        AddSpeed(Time.fixedDeltaTime * accelerationRate * accelInput);
+                //        if (currentSpeed > maxSpeed) SetCurrentSpeed(maxSpeed); // Caps speed at max
+                //    }
+                //    else if (currentSpeed > maxSpeed) // Decelerates rather than sets due to boost
+                //    {
+                //        AddSpeed(Time.fixedDeltaTime * -_Boost.m_decelerationRate);
+                //        if (currentSpeed < maxSpeed) SetCurrentSpeed(maxSpeed);
+                //    }
+                //}
+                //else
+                //{
+                //    
+                //
+                //    // Accelerate if player is boosting and isn't at max boost speed
+                //    if (currentSpeed <= maxSpeed)
+                //    {
+                //        if (currentSpeed < maxSpeed)
+                //        {
+                //            AddSpeed(Time.fixedDeltaTime * accelerationRate);
+                //            if (currentSpeed > maxSpeed) SetCurrentSpeed(maxSpeed); // Caps speed at max
+                //        }
+                //        
+                //        if (m_staminaBar)
+                //        {
+                //            float staminaCostPerSec = _Boost.m_staminaCostPerSec - (m_playerUpgrades.staminaPoints * (_Boost.m_staminaCostPerSec * (_Stamina.m_decreasePercentPerStatPoint / 100)));
+                //
+                //            m_staminaBar.progress -= Time.fixedDeltaTime * staminaCostPerSec;
+                //            m_staminaBar.UpdateProgress();
+                //        }
+                //    }
+                //}
             }
         }
         else if (m_isReversing)
@@ -807,16 +848,10 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        // Alters speed based on stat upgrades
-        if (m_playerUpgrades.speedPoints > 0)
-        {
-            statMulti = (m_playerUpgrades.speedPoints * _Speed.m_multiPerStatPoint) + 1;
-        }
+        
         #endregion
 
-        float newSpeed = currentSpeed * statMulti;
-
-        m_animator.SetFloat("Speed", newSpeed / _Speed.m_maxSpeed);
+        m_animator.SetFloat("Speed", rb.velocity.magnitude);
 
         if (!m_isGrounded && _Speed.m_airDrag != 0)
         {
@@ -833,7 +868,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (m_staminaBar)
             {
-                float staminaCostPerSec = _Hurricane.m_staminaCostPerSec - (m_playerUpgrades.staminaPoints * (_Hurricane.m_staminaCostPerSec * (_Stamina.m_decreasePercentPerStatPoint / 100)));
+                float staminaCostPerSec = _Hurricane.m_staminaCostPerSec - (data.stamina * (_Hurricane.m_staminaCostPerSec * (_Stamina.m_decreasePercentPerStatPoint / 100)));
 
                 float staminaCostThisFrame = staminaCostPerSec * Time.fixedDeltaTime;
 

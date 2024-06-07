@@ -102,7 +102,7 @@ public class PlayerCustomization : MonoBehaviour
         else device = _basePlayer.GetComponent<PlayerInput>().devices[0];
 
         PlayerData data = GameManager.Instance.GetPlayerData(device);
-        GameManager.Instance.SetPlayerData(device, new(data.player, data.device, modelCustomizations, GetHorseMat(_basePlayer.GetComponentInChildren<HorseColourSelector>(true))));
+        GameManager.Instance.SetPlayerData(device, new(data.player, data.device, modelCustomizations, GetHorseMat(_basePlayer.GetComponentInChildren<HorseColourSelector>(true)), data.playerUpgradeData));
     }
 
     public static HorseMatInformation GetHorseMat(HorseColourSelector _selector)

@@ -4,8 +4,7 @@ using UnityEngine.InputSystem;
 public class ReadyUp : MonoBehaviour
 {
     [SerializeField] PlayerInputHandler m_input;
-    [SerializeField] SwitchUI2P m_switchUI2p;
-    
+
     [SerializeField] GameObject m_readyText, m_notReadyText;
     bool m_isReady;
 
@@ -68,7 +67,11 @@ public class ReadyUp : MonoBehaviour
 
     public void StartGame()
     {
-        foreach (PlayerCustomization player in FindObjectsOfType<PlayerCustomization>()) player.StoreCustomizationsToPlayer(true);
+        foreach (PlayerCustomization player in FindObjectsOfType<PlayerCustomization>())
+        {
+            player.StoreCustomizationsToPlayer(true);
+            player.GetComponent<PlayerUpgrades>().StoreUpgradeDataToPlayer();
+        }
 
         GameManager.Instance.LoadScene(GameManager.Instance.GetComponent<SceneToLoad>().sceneToLoad, true);
     }
