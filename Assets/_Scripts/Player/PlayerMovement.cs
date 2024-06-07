@@ -700,7 +700,12 @@ public class PlayerMovement : MonoBehaviour
         if (!m_isGrounded) return;
 
         // Move outside this function on awake if performance issues, this just means updating playerdata during play will need to call a function to manually update it
-        PlayerUpgradeData data = GameManager.Instance.GetPlayerData(m_playerInput.playerInput.devices[0]).playerUpgradeData;
+        PlayerUpgradeData data = new();
+        try
+        {
+            data = GameManager.Instance.GetPlayerData(m_playerInput.playerInput.devices[0]).playerUpgradeData;
+        }
+        catch { return; }
 
         #region CalculateSpeed
 

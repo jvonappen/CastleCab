@@ -17,8 +17,6 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] [Tooltip("Minimum force required to damage entity")] float m_damageForce = 18;
     [SerializeField] float m_abilityDamageForce = 9;
 
-    [SerializeField] PlayerUpgrades m_playerUpgrades;
-
     public float GetVelocityAverage() { return m_magnitudeOverSeconds.Count > 0 ? m_magnitudeOverSeconds.Average() : 0; }
 
     List<float> m_magnitudeOverSeconds = new();
@@ -49,7 +47,7 @@ public class PlayerAttack : MonoBehaviour
         if (m_playerMovement.isBoosting) currentDamage += (m_baseDamage * m_boostDamageMulti) - m_baseDamage;
         else if (m_playerMovement.isHurricane) currentDamage += (m_baseDamage * m_hurricaneDamageMulti) - m_baseDamage;
 
-        float multi = m_playerUpgrades.attackPoints * m_damageMultiPerStat + 1;
+        float multi = GameManager.Instance.GetPlayerData(gameObject).playerUpgradeData.attack * m_damageMultiPerStat + 1;
 
         return currentDamage * multi;
     }

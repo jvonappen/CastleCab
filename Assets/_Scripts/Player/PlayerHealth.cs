@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerHealth : Health
 {
@@ -12,8 +13,6 @@ public class PlayerHealth : Health
 
     float m_originalMaxHealth;
 
-    [SerializeField] PlayerUpgrades m_playerUpgrades;
-
     protected override void Init()
     {
         base.Init();
@@ -21,20 +20,23 @@ public class PlayerHealth : Health
         m_playerMovement = GetComponentInParent<PlayerMovement>();
 
         m_originalMaxHealth = m_maxHealth;
-        m_maxHealth = m_originalMaxHealth + (m_addHealthPerStat * m_playerUpgrades.healthPoints);
+
+        //int healthPoints = GameManager.Instance.GetPlayerData(GetComponentInParent<PlayerInput>().devices[0]).playerUpgradeData.health;
+        //m_maxHealth = m_originalMaxHealth + (m_addHealthPerStat * healthPoints);
+        m_maxHealth = m_originalMaxHealth;
 
         m_health = m_maxHealth;
         UpdateHealthBar();
 
-        m_playerUpgrades.onAddHealth += OnHealthUpgrade;
-        m_playerUpgrades.onRemoveHealth += OnHealthUpgrade;
+        TimerManager.RunAfterTime(OnHealthUpgrade, 0.1f);
 
         onHealthChanged += OnHealthChanged;
     }
 
-    void OnHealthUpgrade()
+    void OnHealthUpgrade() // If upgrade is made after init, call this manually
     {
-        m_maxHealth = m_originalMaxHealth + (m_addHealthPerStat * m_playerUpgrades.healthPoints);
+        int healthPoints = GameManager.Instance.GetPlayerData(GetComponentInParent<PlayerInput>().devices[0]).playerUpgradeData.health;
+        m_maxHealth = m_originalMaxHealth + (m_addHealthPerStat * healthPoints);
         m_health = m_maxHealth;
     }
 
