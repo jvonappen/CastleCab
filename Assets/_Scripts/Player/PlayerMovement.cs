@@ -133,6 +133,20 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Stamina _Stamina;
     #endregion
 
+    #region Slipstream
+    [System.Serializable]
+    public struct SlipstreamData
+    {
+        [SerializeField] internal float trailDetectionRange;
+        [SerializeField] internal float maxSpeedMulti, accelerationMulti;
+        [SerializeField] internal float maxAngle;
+    }
+    List<TrailData> m_trailSegmentsInRange;
+    bool m_inSlipstream = false;
+
+    [SerializeField] SlipstreamData _Slipstream;
+    #endregion
+
     #region Boost
     [System.Serializable]
     public struct Boost
@@ -679,10 +693,7 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
 
-    [SerializeField] float m_maxRangeFromSlipstrteamTrail = 10;
-    [SerializeField] List<TrailData> trailSegmentsInRange;
-    [SerializeField] float m_slipstreamSpeedMulti = 1.1f, m_slipstreamAccelerationMulti = 1.1f;
-    [SerializeField] float m_maxSlipstreamAngle = 65;
+    
     void MoveVelocity()
     {
         if (!m_canMove) return;
@@ -693,8 +704,7 @@ public class PlayerMovement : MonoBehaviour
         #region CalculateSpeed
 
         float statMulti = 1;
-        bool inSlipstream = false;
-
+        
         if (m_staminaBar && m_isBoosting)
         {
             // If stamina runs out, cancel boost
@@ -716,61 +726,12 @@ public class PlayerMovement : MonoBehaviour
         {
             if (!m_isReversing)
             {
-                #region Slipstream
-                // Accelerating or boosting:
-                List<PlayerData> playerData = GameManager.Instance.players;
-
-                //List<TrailData> trailSegmentsInRange = new();
-                trailSegmentsInRange.Clear();
-
-                for (int i = 0; i < playerData.Count; i++)
-                {
-                    GameObject player = playerData[i].player;
-                    if (player == gameObject) continue;
-
-                    if (player.TryGetComponent(out Slipstream slipstream))
-                    {
-                        List<TrailData> trailList = slipstream.trailList;
-                        foreach (TrailData data in trailList) // trail list is a copy of the list, not a reference
-                        {
-                            // This functionality may cause lag, if each player has (10) trail segments, this runs 30 times per player that is moving, assuming there are 4 players active
-                            if (Vector3.Distance(data.position, rb.transform.position) <= m_maxRangeFromSlipstrteamTrail)
-                            {
-                                // Uses dot product to calculate if the player that owns the trail is behind you. This is used ensure a slipstream isn't accessed from a player that isn't in front of you
-                                Vector3 trailDisplacement = slipstream.horse.position - rb.transform.position;
-                                float dot = Vector3.Dot(trailDisplacement, rb.transform.forward);
-                                if (dot >= 0)
-                                {
-                                    trailSegmentsInRange.Add(data);
-                                }
-                                else
-                                {
-                                    Debug.Log("Player: " + player.name + " is behind player: " + gameObject.name);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                // Loops through slipstream trail segments in range until it finds one that is facing a similar direction. Otherwise does not enter slipstream.
-                inSlipstream = false;
-                for (int i = 0; i < trailSegmentsInRange.Count; i++)
-                {
-                    float slipstreamAngle = Vector3.Angle(rb.transform.forward, trailSegmentsInRange[i].direction);
-                    //Debug.Log("Slipstream angle = " + slipstreamAngle);
-                    if (slipstreamAngle <= m_maxSlipstreamAngle) 
-                    {
-                        //Debug.Log("In range of angle, breaking loop. Setting inSlipstream to true");
-                        inSlipstream = true;
-                        break;
-                    }
-                }
-                #endregion
+                CalculateSlipstream();
 
                 if (!m_isBoosting)
                 {
-                    float maxSpeed = inSlipstream ? _Speed.m_maxSpeed * m_slipstreamSpeedMulti : _Speed.m_maxSpeed;
-                    float accelerationRate = inSlipstream ? _Speed.m_accelerationRate * m_slipstreamAccelerationMulti : _Speed.m_accelerationRate;
+                    float maxSpeed = m_inSlipstream ? _Speed.m_maxSpeed * _Slipstream.maxSpeedMulti : _Speed.m_maxSpeed;
+                    float accelerationRate = m_inSlipstream ? _Speed.m_accelerationRate * _Slipstream.accelerationMulti : _Speed.m_accelerationRate;
 
                     // Accelerate if player is accelerating and isn't at max speed
                     if (currentSpeed < maxSpeed)
@@ -788,8 +749,8 @@ public class PlayerMovement : MonoBehaviour
                 }
                 else
                 {
-                    float maxSpeed = inSlipstream ? _Boost.m_maxSpeed * m_slipstreamSpeedMulti : _Boost.m_maxSpeed;
-                    float accelerationRate = inSlipstream ? _Boost.m_accelerationRate * m_slipstreamAccelerationMulti : _Boost.m_accelerationRate;
+                    float maxSpeed = m_inSlipstream ? _Boost.m_maxSpeed * _Slipstream.maxSpeedMulti : _Boost.m_maxSpeed;
+                    float accelerationRate = m_inSlipstream ? _Boost.m_accelerationRate * _Slipstream.accelerationMulti : _Boost.m_accelerationRate;
 
                     // Accelerate if player is boosting and isn't at max boost speed
                     if (currentSpeed <= maxSpeed)
@@ -915,6 +876,60 @@ public class PlayerMovement : MonoBehaviour
     {
         float result = Mathf.Sqrt((rb.velocity.x * rb.velocity.x) + (rb.velocity.z * rb.velocity.z));
         return result;
+    }
+    #endregion
+
+    #region Slipstream
+    void CalculateSlipstream()
+    {
+        // Accelerating or boosting:
+        List<PlayerData> playerData = GameManager.Instance.players;
+
+        //List<TrailData> trailSegmentsInRange = new();
+        m_trailSegmentsInRange.Clear();
+
+        for (int i = 0; i < playerData.Count; i++)
+        {
+            GameObject player = playerData[i].player;
+            if (player == gameObject) continue;
+
+            if (player.TryGetComponent(out Slipstream slipstream))
+            {
+                List<TrailData> trailList = slipstream.trailList;
+                foreach (TrailData data in trailList) // trail list is a copy of the list, not a reference
+                {
+                    // This functionality may cause lag, if each player has (10) trail segments, this runs 30 times per player that is moving, assuming there are 4 players active
+                    if (Vector3.Distance(data.position, rb.transform.position) <= _Slipstream.trailDetectionRange)
+                    {
+                        // Uses dot product to calculate if the player that owns the trail is behind you. This is used ensure a slipstream isn't accessed from a player that isn't in front of you
+                        Vector3 trailDisplacement = slipstream.horse.position - rb.transform.position;
+                        float dot = Vector3.Dot(trailDisplacement, rb.transform.forward);
+                        if (dot >= 0)
+                        {
+                            m_trailSegmentsInRange.Add(data);
+                        }
+                        else
+                        {
+                            Debug.Log("Player: " + player.name + " is behind player: " + gameObject.name);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Loops through slipstream trail segments in range until it finds one that is facing a similar direction. Otherwise does not enter slipstream.
+        m_inSlipstream = false;
+        for (int i = 0; i < m_trailSegmentsInRange.Count; i++)
+        {
+            float slipstreamAngle = Vector3.Angle(rb.transform.forward, m_trailSegmentsInRange[i].direction);
+            //Debug.Log("Slipstream angle = " + slipstreamAngle);
+            if (slipstreamAngle <= _Slipstream.maxAngle)
+            {
+                //Debug.Log("In range of angle, breaking loop. Setting inSlipstream to true");
+                m_inSlipstream = true;
+                break;
+            }
+        }
     }
     #endregion
 
