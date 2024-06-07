@@ -682,6 +682,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float m_maxRangeFromSlipstrteamTrail = 10;
     [SerializeField] List<TrailData> trailSegmentsInRange;
     [SerializeField] float m_slipstreamSpeedMulti = 1.1f, m_slipstreamAccelerationMulti = 1.1f;
+    [SerializeField] float m_maxSlipstreamAngle = 65;
     void MoveVelocity()
     {
         if (!m_canMove) return;
@@ -738,8 +739,19 @@ public class PlayerMovement : MonoBehaviour
                     }
                 }
 
-                if (trailSegmentsInRange.Count > 0) inSlipstream = true;
-                else inSlipstream = false;
+                // Loops through slipstream trail segments in range until it finds one that is facing a similar direction. Otherwise does not enter slipstream.
+                inSlipstream = false;
+                for (int i = 0; i < trailSegmentsInRange.Count; i++)
+                {
+                    float slipstreamAngle = Vector3.Angle(rb.transform.forward, trailSegmentsInRange[i].direction);
+                    //Debug.Log("Slipstream angle = " + slipstreamAngle);
+                    if (slipstreamAngle <= m_maxSlipstreamAngle) 
+                    {
+                        //Debug.Log("In range of angle, breaking loop. Setting inSlipstream to true");
+                        inSlipstream = true;
+                        break;
+                    }
+                }
                 #endregion
 
                 if (!m_isBoosting)

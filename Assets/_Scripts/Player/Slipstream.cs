@@ -33,7 +33,7 @@ public class Slipstream : MonoBehaviour
         TrailData td = new(m_horse.position, m_horse.forward);
         m_trailList.Add(td);
         
-        DebugSpawnTrailSegmentAsObject(td);
+        //DebugSpawnTrailSegmentAsObject(td);
         
         TimerManager.RunAfterTime(SpawnTrailSegment, m_spawnRate);
     }
