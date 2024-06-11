@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,8 @@ public class AudioManager : MonoBehaviour
     public AudioGroupDetails[] audioGroups;
 
     [SerializeField] private Slider musicSlider, sfxSlider; //masterSlider;
+
+    [SerializeField] float m_soundRange = 30;
 
     private void Awake()
     {
@@ -55,31 +58,37 @@ public class AudioManager : MonoBehaviour
 
     }
 
-    public void PlaySFX(string name)
+    public void PlaySoundAtDistance(string _soundName, float _distance)
     {
-        AudioDetails audio = Array.Find(sfxAudio, x => x.audioName == name);
+        // Play group audio
+        AudioGroupDetails audio = Array.Find(audioGroups, x => x.audioGroupName == _soundName);
         if (audio == null) { Debug.Log("Audio not found"); }
-        //if (sfxSource.isPlaying) return;
-        else
-        {
-            sfxSource.clip = audio.clip;
-            sfxSource.PlayOneShot(audio.clip);
-        }
-
-    }
-
-    public void PlayGroupAudio(string name)
-    {
-        AudioGroupDetails audio = Array.Find(audioGroups, x => x.audioGroupName == name);
-        if (audio == null) { Debug.Log("Audio not found"); }
-        //if (sfxSource.isPlaying) return;
         else
         {
             int randomVal = UnityEngine.Random.Range(0, audio.audioClips.Length);
             sfxSource.clip = audio.audioClips[randomVal];
+
+            sfxSource.volume = Mathf.Clamp(1 - (_distance/ m_soundRange), 0, 1); // Sets volume based on distance and max range
+
             sfxSource.PlayOneShot(audio.audioClips[randomVal]);
         }
     }
+
+    public void PlaySoundAtLocation(string _soundName, Vector3 _worldPos)
+    {
+        // Move out of this function and on a callback when players increase to make more efficient
+
+        // Could be replaced with a generic member variable (type transform) 'Listeners' as to not have dependency on project GameManager
+        List<Transform> players = GameManager.Instance.players.Select(x => x.player.transform.GetChild(0)).ToList(); // Gets horse transforms, not base player
+
+        // // // // //
+
+        // Gets closest player distance and plays sound loudness accordingly
+        Transform closestPlayer = players.OrderBy(player => (player.position - _worldPos).sqrMagnitude).FirstOrDefault();
+        PlaySoundAtDistance(_soundName, Vector3.Distance(transform.position, closestPlayer.position));
+    }
+
+    
     public void StopMusic(string name)
     {
         AudioDetails audio = Array.Find(musicAudio, x => x.audioName == name);
@@ -102,4 +111,42 @@ public class AudioManager : MonoBehaviour
     public void MusicVolume(float volume) { volume = musicSlider.value; musicSource.volume = volume; }
     public void SFXVolume(float volume) { volume = sfxSlider.value; sfxSource.volume = volume; }
 
+
+
+    #region Deprecated
+
+    /// <summary>
+    /// deprecated. Use 'PlaySoundAtDistance' (Requires AudioGroup sound)
+    /// </summary>
+    /// <param name="name"></param>
+    public void PlaySFX(string name)
+    {
+        AudioDetails audio = Array.Find(sfxAudio, x => x.audioName == name);
+        if (audio == null) { Debug.Log("Audio not found"); }
+        //if (sfxSource.isPlaying) return;
+        else
+        {
+            sfxSource.clip = audio.clip;
+            sfxSource.PlayOneShot(audio.clip);
+        }
+    }
+
+    /// <summary>
+    /// deprecated. Use 'PlaySoundAtDistance'
+    /// </summary>
+    /// <param name="name"></param>
+    public void PlayGroupAudio(string name)
+    {
+        AudioGroupDetails audio = Array.Find(audioGroups, x => x.audioGroupName == name);
+        if (audio == null) { Debug.Log("Audio not found"); }
+        //if (sfxSource.isPlaying) return;
+        else
+        {
+            int randomVal = UnityEngine.Random.Range(0, audio.audioClips.Length);
+            sfxSource.clip = audio.audioClips[randomVal];
+            sfxSource.PlayOneShot(audio.audioClips[randomVal]);
+        }
+    }
+
+    #endregion
 }
