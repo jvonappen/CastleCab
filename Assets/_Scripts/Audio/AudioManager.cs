@@ -18,7 +18,7 @@ public class AudioManager : MonoBehaviour
 
     [SerializeField] float m_soundRange = 30;
 
-    [SerializeField] List<Transform> players = new();
+    List<Transform> players = new();
 
     private void Awake()
     {
