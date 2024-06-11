@@ -741,6 +741,15 @@ public class PlayerMovement : MonoBehaviour
         {
             if (!m_isReversing)
             {
+                if (isDrifting)
+                {
+                    if (!m_animator.GetCurrentAnimatorStateInfo(0).IsName("HorseSlide")) m_animator.Play("HorseSlide"); // Plays sliding animation
+                }
+                else
+                {
+                    if (!m_animator.GetCurrentAnimatorStateInfo(0).IsName("Movement Blend Tree")) m_animator.Play("Movement Blend Tree"); // Plays running animation
+                }
+                
                 CalculateSlipstream();
 
                 float maxSpeed;
@@ -781,16 +790,20 @@ public class PlayerMovement : MonoBehaviour
             // Decelerates if player is reversing and isn't at max reverse speed.
             if (Vector3.Dot(rb.transform.forward, rb.velocity.normalized) > 0.2f)
             {
+                if (!m_animator.GetCurrentAnimatorStateInfo(0).IsName("HorseSlide")) m_animator.Play("HorseSlide"); // Plays sliding animation
                 AddSpeed(Time.fixedDeltaTime * _Speed.m_reverseAccelerationRate);
             }
             else if (currentSpeed < _Speed.m_maxReverseSpeed) 
             {
+                if (!m_animator.GetCurrentAnimatorStateInfo(0).IsName("Movement Blend Tree")) m_animator.Play("Movement Blend Tree"); // Plays running animation
                 AddSpeed(Time.fixedDeltaTime * _Speed.m_reverseAccelerationRate);
                 if (currentSpeed > _Speed.m_maxReverseSpeed) SetCurrentSpeed(_Speed.m_maxReverseSpeed); // Caps speed
             }
         }
         else
         {
+            if (!m_animator.GetCurrentAnimatorStateInfo(0).IsName("Movement Blend Tree")) m_animator.Play("Movement Blend Tree"); // Plays running/Idle animation
+
             // If player rotation to ground is locked, unlock it when standing still (Used on ramp where player is prevented from nose-diving off the end)
             m_canRotateToGround = true; 
 
