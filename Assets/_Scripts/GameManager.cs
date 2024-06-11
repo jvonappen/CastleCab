@@ -172,6 +172,8 @@ public class GameManager : MonoBehaviour
 
     bool m_retainCosmeticsOnSceneLoad;
 
+    public Action onPlayerAdd;
+
     public void AddPlayer(GameObject _player)
     {
         PlayerInput playerInput = _player.GetComponent<PlayerInput>();
@@ -180,7 +182,11 @@ public class GameManager : MonoBehaviour
         PlayerData data = new(_player, device, new(), new(), new());
 
         // If no devices in playerData match the new device, it is added as a new player
-        if (!m_players.Any(existingData => existingData.device == device)) m_players.Add(data);
+        if (!m_players.Any(existingData => existingData.device == device))
+        {
+            m_players.Add(data);
+            onPlayerAdd?.Invoke();
+        }
     }
     public PlayerData GetPlayerData(InputDevice _device) => m_players.FirstOrDefault(item => item.device == _device);
     public void SetPlayerData(InputDevice _device, PlayerData _data) => m_players[m_players.FindIndex(item => item.device == _device)] = _data;

@@ -47,7 +47,7 @@ public class VillagerAI : MonoBehaviour
         if (collision.gameObject.tag == "Wagon" || collision.gameObject.tag == "Player" || collision.gameObject.tag == "NPC")
         {
             agent.enabled = false;
-            if (audioGroup != null) AudioManager.Instance.PlayGroupAudio(audioGroup.audioGroupName);
+            if (audioGroup != null) AudioManager.Instance.PlaySoundAtLocation(audioGroup.audioGroupName, transform.position);
 
             TimerManager.RunAfterTime(() =>
             {

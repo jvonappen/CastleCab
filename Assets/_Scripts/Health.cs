@@ -129,7 +129,7 @@ public class Health : MonoBehaviour
     {
         if (AudioManager.Instance)
         {
-            if (sfxAudio != null) AudioManager.Instance.PlayGroupAudio(sfxAudio.audioGroupName);
+            if (sfxAudio != null) AudioManager.Instance.PlaySoundAtLocation(sfxAudio.audioGroupName, transform.position);
         }
         else Debug.LogWarning("There is no audio manager in scene!");
     }

@@ -18,6 +18,8 @@ public class AudioManager : MonoBehaviour
 
     [SerializeField] float m_soundRange = 30;
 
+    [SerializeField] List<Transform> players = new();
+
     private void Awake()
     {
         if (Instance == null)
@@ -41,6 +43,14 @@ public class AudioManager : MonoBehaviour
         
         MusicVolume(musicSlider.value);
         SFXVolume(sfxSlider.value);
+
+        GameManager.Instance.onPlayerAdd += OnPlayerAdd;
+        OnPlayerAdd();
+    }
+
+    public void OnPlayerAdd()
+    {
+        players = GameManager.Instance.players.Select(x => x.player.transform.GetChild(0)).ToList(); // Gets horse transforms, not base player
     }
 
     public void PlayMusic(string name)
@@ -76,13 +86,6 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySoundAtLocation(string _soundName, Vector3 _worldPos)
     {
-        // Move out of this function and on a callback when players increase to make more efficient
-
-        // Could be replaced with a generic member variable (type transform) 'Listeners' as to not have dependency on project GameManager
-        List<Transform> players = GameManager.Instance.players.Select(x => x.player.transform.GetChild(0)).ToList(); // Gets horse transforms, not base player
-
-        // // // // //
-
         // Gets closest player distance and plays sound loudness accordingly
         Transform closestPlayer = players.OrderBy(player => (player.position - _worldPos).sqrMagnitude).FirstOrDefault();
         PlaySoundAtDistance(_soundName, Vector3.Distance(transform.position, closestPlayer.position));
@@ -128,23 +131,6 @@ public class AudioManager : MonoBehaviour
         {
             sfxSource.clip = audio.clip;
             sfxSource.PlayOneShot(audio.clip);
-        }
-    }
-
-    /// <summary>
-    /// deprecated. Use 'PlaySoundAtDistance'
-    /// </summary>
-    /// <param name="name"></param>
-    public void PlayGroupAudio(string name)
-    {
-        AudioGroupDetails audio = Array.Find(audioGroups, x => x.audioGroupName == name);
-        if (audio == null) { Debug.Log("Audio not found"); }
-        //if (sfxSource.isPlaying) return;
-        else
-        {
-            int randomVal = UnityEngine.Random.Range(0, audio.audioClips.Length);
-            sfxSource.clip = audio.audioClips[randomVal];
-            sfxSource.PlayOneShot(audio.audioClips[randomVal]);
         }
     }
 

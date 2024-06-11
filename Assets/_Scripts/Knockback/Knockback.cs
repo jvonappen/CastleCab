@@ -32,7 +32,7 @@ public class Knockback : MonoBehaviour
             ParticleSystem particle = Instantiate(m_particle, _origin, Quaternion.identity).GetComponent<ParticleSystem>();
             particle.transform.SetParent(m_folder);
             particle.Play();
-            if (audioGroup != null) AudioManager.Instance.PlayGroupAudio(audioGroup.audioGroupName);
+            if (audioGroup != null) AudioManager.Instance.PlaySoundAtLocation(audioGroup.audioGroupName, transform.position);
         }
     }
 }

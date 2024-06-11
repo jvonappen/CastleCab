@@ -33,7 +33,7 @@ public class KnockbackObject : MonoBehaviour
 
         if (CheckLayer(rb.gameObject.layer))
         {
-            if (audioGroup != null) AudioManager.Instance.PlayGroupAudio(audioGroup.audioGroupName);
+            if (audioGroup != null) AudioManager.Instance.PlaySoundAtLocation(audioGroup.audioGroupName, transform.position);
 
             Knockback kb = rb.GetComponent<Knockback>();
 
