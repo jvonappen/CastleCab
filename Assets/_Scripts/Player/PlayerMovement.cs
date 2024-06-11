@@ -674,7 +674,6 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded)
         {
             Vector3 localVelocity = rb.transform.InverseTransformDirection(rb.velocity);
-            Debug.Log(localVelocity);
             if (localVelocity.y > _Speed.m_maxVelY) rb.velocity = new Vector3(rb.velocity.x, rb.transform.TransformDirection(Vector3.up * _Speed.m_maxVelY).y, rb.velocity.z);
         }
 

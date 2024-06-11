@@ -981,7 +981,7 @@ AudioSource:
   MinDistance: 1
   MaxDistance: 10
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -1064,6 +1064,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8991266044593003440}
   - component: {fileID: 8991266044593003441}
+  - component: {fileID: 6761061362461164351}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -1158,3 +1159,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4821de3bf9e77af40a5ae6cb5ea417f5, type: 2}
   musicSlider: {fileID: 8865465933654336050}
   sfxSlider: {fileID: 662497079589426157}
+  m_soundRange: 30
+--- !u!81 &6761061362461164351
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8991266044593003406}
+  m_Enabled: 1
