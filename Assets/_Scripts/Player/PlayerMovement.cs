@@ -668,12 +668,13 @@ public class PlayerMovement : MonoBehaviour
         if (!m_isAccelerating) previousSpeed = GetMagnitudeXY();
 
         // Redirect velocity to new moveDir
-        if (m_isGrounded && !m_isReversing) rb.velocity = new(moveDir.x * previousSpeed, rb.velocity.y, moveDir.z * previousSpeed);
+        if (m_isGrounded && (!m_isReversing || m_isDrifting)) rb.velocity = new(moveDir.x * previousSpeed, rb.velocity.y, moveDir.z * previousSpeed);
 
         // Caps local y velocity
         if (isGrounded)
         {
             Vector3 localVelocity = rb.transform.InverseTransformDirection(rb.velocity);
+            Debug.Log(localVelocity);
             if (localVelocity.y > _Speed.m_maxVelY) rb.velocity = new Vector3(rb.velocity.x, rb.transform.TransformDirection(Vector3.up * _Speed.m_maxVelY).y, rb.velocity.z);
         }
 
@@ -737,60 +738,70 @@ public class PlayerMovement : MonoBehaviour
             if (m_isAccelerating) m_staminaRegenTimer = 0;
         }
         
-        if (m_isAccelerating)
+        if (m_isAccelerating || m_isDrifting) // Moving forwards or drifting
         {
-            if (!m_isReversing)
+            if (isDrifting)
             {
-                CalculateSlipstream();
+                if (!m_animator.GetCurrentAnimatorStateInfo(0).IsName("HorseSlide")) m_animator.Play("HorseSlide"); // Plays sliding animation
+            }
+            else
+            {
+                if (!m_animator.GetCurrentAnimatorStateInfo(0).IsName("Movement Blend Tree")) m_animator.Play("Movement Blend Tree"); // Plays running animation
+            }
 
-                float maxSpeed;
-                float accelerationRate;
-                if (!m_isBoosting) // Regular acceleration speed
-                {
-                    maxSpeed = m_inSlipstream ? _Speed.m_maxSpeed * _Slipstream.maxSpeedMulti : _Speed.m_maxSpeed;
-                    accelerationRate = m_inSlipstream ? _Speed.m_accelerationRate * _Slipstream.accelerationMulti : _Speed.m_accelerationRate;
-                }
-                else // Boost speed
-                {
-                    maxSpeed = m_inSlipstream ? _Boost.m_maxSpeed * _Slipstream.maxSpeedMulti : _Boost.m_maxSpeed;
-                    accelerationRate = m_inSlipstream ? _Boost.m_accelerationRate * _Slipstream.accelerationMulti : _Boost.m_accelerationRate;
+            CalculateSlipstream();
 
-                    // Updates stamina from boost
-                    float staminaCostPerSec = _Boost.m_staminaCostPerSec - (data.stamina * (_Boost.m_staminaCostPerSec * (_Stamina.m_decreasePercentPerStatPoint / 100)));
-                    m_staminaBar.progress -= Time.fixedDeltaTime * staminaCostPerSec;
-                    m_staminaBar.UpdateProgress();
-                }
-                maxSpeed *= statMaxSpeedMulti;
-                accelerationRate *= statAccelerationMulti;
+            float maxSpeed;
+            float accelerationRate;
+            if (!m_isBoosting) // Regular acceleration speed
+            {
+                maxSpeed = m_inSlipstream ? _Speed.m_maxSpeed * _Slipstream.maxSpeedMulti : _Speed.m_maxSpeed;
+                accelerationRate = m_inSlipstream ? _Speed.m_accelerationRate * _Slipstream.accelerationMulti : _Speed.m_accelerationRate;
+            }
+            else // Boost speed
+            {
+                maxSpeed = m_inSlipstream ? _Boost.m_maxSpeed * _Slipstream.maxSpeedMulti : _Boost.m_maxSpeed;
+                accelerationRate = m_inSlipstream ? _Boost.m_accelerationRate * _Slipstream.accelerationMulti : _Boost.m_accelerationRate;
 
-                if (currentSpeed < maxSpeed)
-                {
-                    float accelInput = m_isDrifting ? 1 : m_accelerationInput;
-                    if (accelInput > 0.7f) accelInput = 1;
-                    AddSpeed(Time.fixedDeltaTime * accelerationRate * accelInput);
-                    if (currentSpeed > maxSpeed) SetCurrentSpeed(maxSpeed); // Caps speed at max
-                }
-                else if (!m_isBoosting && !m_isDrifting) // Decelerate from boost - Has to check if drifting or drifting up a slope will launch player
-                {
-                    AddSpeed(Time.fixedDeltaTime * -_Boost.m_decelerationRate);
-                }
+                // Updates stamina from boost
+                float staminaCostPerSec = _Boost.m_staminaCostPerSec - (data.stamina * (_Boost.m_staminaCostPerSec * (_Stamina.m_decreasePercentPerStatPoint / 100)));
+                m_staminaBar.progress -= Time.fixedDeltaTime * staminaCostPerSec;
+                m_staminaBar.UpdateProgress();
+            }
+            maxSpeed *= statMaxSpeedMulti;
+            accelerationRate *= statAccelerationMulti;
+
+            if (currentSpeed < maxSpeed)
+            {
+                float accelInput = m_isDrifting ? 1 : m_accelerationInput;
+                if (accelInput > 0.5f) accelInput = 1;
+                AddSpeed(Time.fixedDeltaTime * accelerationRate * accelInput);
+                if (currentSpeed > maxSpeed) SetCurrentSpeed(maxSpeed); // Caps speed at max
+            }
+            else if (!m_isBoosting && !m_isDrifting) // Decelerate from boost - Has to check if drifting or drifting up a slope will launch player
+            {
+                AddSpeed(Time.fixedDeltaTime * -_Boost.m_decelerationRate);
             }
         }
         else if (m_isReversing)
         {
             // Decelerates if player is reversing and isn't at max reverse speed.
-            if (Vector3.Dot(rb.transform.forward, rb.velocity.normalized) > 0.2f)
+            if (Vector3.Dot(rb.transform.forward, rb.velocity.normalized) > 0.2f) // Decelerating but still moving forward
             {
+                if (!m_animator.GetCurrentAnimatorStateInfo(0).IsName("HorseSlide")) m_animator.Play("HorseSlide"); // Plays sliding animation
                 AddSpeed(Time.fixedDeltaTime * _Speed.m_reverseAccelerationRate);
             }
-            else if (currentSpeed < _Speed.m_maxReverseSpeed) 
+            else if (currentSpeed < _Speed.m_maxReverseSpeed)  // Accelerating backwards
             {
+                if (!m_animator.GetCurrentAnimatorStateInfo(0).IsName("Movement Blend Tree")) m_animator.Play("Movement Blend Tree"); // Plays running animation
                 AddSpeed(Time.fixedDeltaTime * _Speed.m_reverseAccelerationRate);
                 if (currentSpeed > _Speed.m_maxReverseSpeed) SetCurrentSpeed(_Speed.m_maxReverseSpeed); // Caps speed
             }
         }
         else
         {
+            if (!m_animator.GetCurrentAnimatorStateInfo(0).IsName("Movement Blend Tree")) m_animator.Play("Movement Blend Tree"); // Plays running/Idle animation
+
             // If player rotation to ground is locked, unlock it when standing still (Used on ramp where player is prevented from nose-diving off the end)
             m_canRotateToGround = true; 
 
@@ -865,16 +876,21 @@ public class PlayerMovement : MonoBehaviour
                     else if (m_driftTurnInput < 0) dir = Quaternion.AngleAxis(45, Vector3.up) * rb.transform.forward;
 
                     dir *= _Drifting.m_moveMultiplier;
+
+                    Debug.Log("Got right dir");
                 }
             }
         }
 
-        if (m_isReversing) dir = -rb.transform.forward;
-        else if (!m_isAccelerating)
+        if (!m_isDrifting)
         {
-            if (Vector3.Dot(rb.transform.forward, -rb.velocity.normalized) > 0.2f) dir = -rb.transform.forward;
+            if (!m_isAccelerating)
+            {
+                if (m_isReversing) dir = -rb.transform.forward;
+                else if (Vector3.Dot(rb.transform.forward, -rb.velocity.normalized) > 0.2f) dir = -rb.transform.forward;
+            }
         }
-
+        
         return dir;
     }
 
