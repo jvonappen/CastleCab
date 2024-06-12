@@ -24,7 +24,7 @@ public class Health : MonoBehaviour
     [SerializeField] protected List<GameObject> m_damagedParticlePrefabs, m_destroyedParticlePrefabs;
     protected List<ParticleSystem> m_damagedParticles = new(), m_destroyedParticles = new();
     
-    [SerializeField] protected AudioGroupDetails sfxAudio;
+    [SerializeField] protected AudioGroupDetails m_collidedSFX, m_damagedSFX;
 
     [Header("Popup")]
     [SerializeField] protected bool m_showPopup = true;
@@ -87,6 +87,8 @@ public class Health : MonoBehaviour
             if (_player) lookAt = _player.transform.GetChild(0);
             //PopupDisplay.Spawn(m_popupLocation.position, m_popupRandomRange, _damageAmount.ToString(), m_fontSize, Color.white, Vector3.up * 3, null, lookAt);
 
+            if (m_damagedSFX != null) AudioManager.Instance.PlaySoundAtLocation(m_damagedSFX.audioGroupName, transform.position);
+
             onDamaged?.Invoke(_damageAmount, _player);
 
             CheckAlive(_player);
@@ -129,7 +131,7 @@ public class Health : MonoBehaviour
     {
         if (AudioManager.Instance)
         {
-            if (sfxAudio != null) AudioManager.Instance.PlaySoundAtLocation(sfxAudio.audioGroupName, transform.position);
+            if (m_collidedSFX != null) AudioManager.Instance.PlaySoundAtLocation(m_collidedSFX.audioGroupName, transform.position);
         }
         else Debug.LogWarning("There is no audio manager in scene!");
     }
