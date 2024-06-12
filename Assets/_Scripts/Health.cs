@@ -34,49 +34,17 @@ public class Health : MonoBehaviour
     private void Awake() => Init();
     protected virtual void Init()
     {
-       
-
-        m_damagedParticles.Clear();
-        m_destroyedParticles.Clear();
-
         m_manager = FindObjectOfType<GameManager>();
 
         if (!m_popupLocation) m_popupLocation = transform;
         m_maxHealth = m_health;
-
-        for (int i = 0; i < m_damagedParticlePrefabs.Count; i++)
-        {
-            ParticleSystem damagedParticle;
-            damagedParticle = Instantiate(m_damagedParticlePrefabs[i], transform).GetComponent<ParticleSystem>();
-            damagedParticle.transform.localPosition = Vector3.zero;
-
-            m_damagedParticles.Add(damagedParticle);
-        }
-
-        for (int i = 0; i < m_destroyedParticlePrefabs.Count; i++)
-        {
-            ParticleSystem destroyedParticle;
-            destroyedParticle = Instantiate(m_destroyedParticlePrefabs[i], transform).GetComponent<ParticleSystem>();
-            destroyedParticle.transform.localPosition = Vector3.zero;
-
-            m_destroyedParticles.Add(destroyedParticle);
-        }
     }
 
     public virtual void DealDamage(float _damageAmount, PlayerAttack _player)
     {
         if (!m_isInvulnerable)
         {
-            if (m_damagedParticles.Count > 0)
-            {
-                int randIndex = UnityEngine.Random.Range(0, m_damagedParticlePrefabs.Count);
-
-                m_damagedParticles[randIndex].transform.SetParent(null);
-                m_damagedParticles[randIndex].Play();
-
-                //CFX_AutoDestructShuriken t = m_damagedParticles[randIndex].GetComponent<CFX_AutoDestructShuriken>();
-                //if (t) t.enabled = true;
-            }
+            PlayParticle(m_damagedParticles, m_damagedParticlePrefabs);
 
             float previousHealth = m_health;
             m_health -= _damageAmount;
@@ -102,17 +70,8 @@ public class Health : MonoBehaviour
 
     protected virtual void Die(PlayerAttack _player)
     {
-        if (m_destroyedParticles.Count > 0)
-        {
-            int randIndex = UnityEngine.Random.Range(0, m_destroyedParticlePrefabs.Count);
+        PlayParticle(m_destroyedParticles, m_destroyedParticlePrefabs);
 
-            m_destroyedParticles[randIndex].transform.SetParent(null);
-            m_destroyedParticles[randIndex].Play();
-
-            CFX_AutoDestructShuriken t = m_destroyedParticles[randIndex].GetComponent<CFX_AutoDestructShuriken>();
-            if (t) t.enabled = true;
-        }
-        
         m_manager.AddGold(m_goldReward);
         if (_player)
         {
@@ -142,13 +101,54 @@ public class Health : MonoBehaviour
 
         TimerManager.RunAfterTime(() =>
         {
-            if(m_PrefabRespawnParticle != null)
-            {
-                m_PrefabRespawnParticle.SetActive(true);
-            }
+            PlayRespawnParticle();
             m_health = m_maxHealth;
             gameObject.SetActive(true);
             Init();
         }, m_respawnTime);
+    }
+
+    void PlayRespawnParticle()
+    {
+        if (m_PrefabRespawnParticle)
+        {
+            if (!m_PrefabRespawnParticle.scene.isLoaded)
+            {
+                // Instantiates respawn particle if the reference is a prefab and not an instance
+                m_PrefabRespawnParticle = Instantiate(m_PrefabRespawnParticle, transform);
+                m_PrefabRespawnParticle.transform.localPosition = Vector3.zero;
+                m_PrefabRespawnParticle.SetActive(false);
+            }
+
+            m_PrefabRespawnParticle.SetActive(true);
+        }
+    }
+
+    void PlayParticle(List<ParticleSystem> _particleList, List<GameObject> _prefabList)
+    {
+        // Instantiate particles if they don't exist
+        if (_particleList.Count == 0)
+        {
+            for (int i = 0; i < _prefabList.Count; i++)
+            {
+                ParticleSystem damagedParticle;
+                damagedParticle = Instantiate(_prefabList[i], transform).GetComponent<ParticleSystem>();
+                damagedParticle.transform.localPosition = Vector3.zero;
+
+                GameObject particleParent = GameObject.Find("----Particles");
+                if (particleParent) damagedParticle.transform.SetParent(particleParent.transform);
+
+                _particleList.Add(damagedParticle);
+            }
+        }
+
+        // Play random particle
+        if (_particleList.Count > 0)
+        {
+            int randIndex = UnityEngine.Random.Range(0, _prefabList.Count);
+
+            //_particleList[randIndex].transform.SetParent(null);
+            _particleList[randIndex].Play();
+        }
     }
 }

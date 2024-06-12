@@ -63,6 +63,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d5076ac7f2b52084285195c668854312, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2141293294692116425}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d5076ac7f2b52084285195c668854312, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 481236641460800033}
   m_SourcePrefab: {fileID: 100100000, guid: d5076ac7f2b52084285195c668854312, type: 3}
 --- !u!1 &2220847985881058621 stripped
 GameObject:
@@ -90,3 +93,31 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.2324917, y: 0.47984982, z: 0.55361754}
   m_Center: {x: 0.000004053116, y: 0.23883277, z: 0.000000029802322}
+--- !u!114 &481236641460800033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2220847985881058621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b2412d7b607ce54290fe5b66608b7d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_health: 5
+  m_dishonourPunishment: 15
+  m_goldReward: 20
+  m_canRespawn: 1
+  m_respawnTime: 5
+  m_PrefabRespawnParticle: {fileID: 9157105887711914197, guid: 416d2e94eeb15914ebd2d6529a52408e, type: 3}
+  m_damagedParticlePrefabs:
+  - {fileID: 7511328176439486736, guid: b2f9691986e2d7048b48dcf702b763f8, type: 3}
+  m_destroyedParticlePrefabs:
+  - {fileID: 7511328176439486736, guid: b2f9691986e2d7048b48dcf702b763f8, type: 3}
+  m_collidedSFX: {fileID: 11400000, guid: 219db2806e1b5434d9ef6ebde22454c7, type: 2}
+  m_damagedSFX: {fileID: 11400000, guid: 834db3b63a9ea8b4bba6bbffb568b922, type: 2}
+  m_showPopup: 1
+  m_popupLocation: {fileID: 0}
+  m_popupRandomRange: 2
+  m_fontSize: 5
