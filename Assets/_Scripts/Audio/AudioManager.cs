@@ -78,9 +78,9 @@ public class AudioManager : MonoBehaviour
             int randomVal = UnityEngine.Random.Range(0, audio.audioClips.Length);
             sfxSource.clip = audio.audioClips[randomVal];
 
-            sfxSource.volume = Mathf.Clamp(1 - (_distance/ m_soundRange), 0, 1); // Sets volume based on distance and max range
+            float volume = Mathf.Clamp(1 - (_distance/ m_soundRange), 0, 1); // Sets volume based on distance and max range
 
-            sfxSource.PlayOneShot(audio.audioClips[randomVal]);
+            sfxSource.PlayOneShot(audio.audioClips[randomVal], volume);
         }
     }
 
@@ -88,7 +88,7 @@ public class AudioManager : MonoBehaviour
     {
         // Gets closest player distance and plays sound loudness accordingly
         Transform closestPlayer = players.OrderBy(player => (player.position - _worldPos).sqrMagnitude).FirstOrDefault();
-        PlaySoundAtDistance(_soundName, Vector3.Distance(transform.position, closestPlayer.position));
+        PlaySoundAtDistance(_soundName, Vector3.Distance(_worldPos, closestPlayer.position));
     }
 
     
