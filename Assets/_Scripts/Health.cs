@@ -38,7 +38,6 @@ public class Health : MonoBehaviour
 
         if (!m_popupLocation) m_popupLocation = transform;
         m_maxHealth = m_health;
-        SetAllPrefabsInactive();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -139,47 +138,12 @@ public class Health : MonoBehaviour
                 // Instantiates the particle if the reference is a prefab and not an instance
                 pp = Instantiate(pp, transform);
                 pp.transform.localPosition = Vector3.zero;
-                pp.SetActive(false);
+               // pp.SetActive(false);
             }
 
             pp.SetActive(true);
-            TimerManager.RunAfterTime(() => { pp.SetActive(false); }, 2);
+            TimerManager.RunAfterTime(() => { pp.SetActive(false); }, 0.7F);
 
         }
     }
-
-    void SetAllPrefabsInactive()
-    {
-        if (m_collisionParticlePrefab) m_collisionParticlePrefab.SetActive(false);
-        if (m_damagedParticlePrefab) m_damagedParticlePrefab.SetActive(false);
-        if (m_destroyedParticlePrefab) m_destroyedParticlePrefab.SetActive(false);
-    }
-
-    //void PlayParticle(List<ParticleSystem> _particleList, List<GameObject> _prefabList)
-    //{
-    //    // Instantiate particles if they don't exist
-    //    if (_particleList.Count == 0)
-    //    {
-    //        for (int i = 0; i < _prefabList.Count; i++)
-    //        {
-    //            ParticleSystem damagedParticle;
-    //            damagedParticle = Instantiate(_prefabList[i], transform).GetComponent<ParticleSystem>();
-    //            damagedParticle.transform.localPosition = Vector3.zero;
-
-    //            GameObject particleParent = GameObject.Find("----Particles");
-    //            if (particleParent) damagedParticle.transform.SetParent(particleParent.transform);
-
-    //            _particleList.Add(damagedParticle);
-    //        }
-    //    }
-
-    //    // Play random particle
-    //    if (_particleList.Count > 0)
-    //    {
-    //        int randIndex = UnityEngine.Random.Range(0, _prefabList.Count);
-
-    //        //_particleList[randIndex].transform.SetParent(null);
-    //        _particleList[randIndex].Play();
-    //    }
-    //}
 }
