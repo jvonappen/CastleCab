@@ -45,6 +45,8 @@ public class KnockbackObject : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.isTrigger) return;
+
         Rigidbody otherRB = other.attachedRigidbody;
         if (!otherRB) return;
 

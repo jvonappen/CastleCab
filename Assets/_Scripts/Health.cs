@@ -19,9 +19,9 @@ public class Health : MonoBehaviour
 
     [SerializeField] private bool m_canRespawn = true;
     [SerializeField] private float m_respawnTime = 5;
-    [SerializeField] private GameObject m_PrefabRespawnParticle;
+    [SerializeField] private GameObject m_collisionParticlePrefab, m_damagedParticlePrefab, m_destroyedParticlePrefab, m_respawnParticlePrefab;
 
-    [SerializeField] protected List<GameObject> m_damagedParticlePrefabs, m_destroyedParticlePrefabs;
+    //[SerializeField] protected List<GameObject> m_damagedParticlePrefabs, m_destroyedParticlePrefabs;
     protected List<ParticleSystem> m_damagedParticles = new(), m_destroyedParticles = new();
     
     [SerializeField] protected AudioGroupDetails m_collidedSFX, m_damagedSFX, m_destroyedSFX;
@@ -38,13 +38,28 @@ public class Health : MonoBehaviour
 
         if (!m_popupLocation) m_popupLocation = transform;
         m_maxHealth = m_health;
+        SetAllPrefabsInactive();
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.tag == "Player")
+        {
+            if (AudioManager.Instance)
+            {
+                if (m_collidedSFX != null) AudioManager.Instance.PlaySoundAtLocation(m_collidedSFX.audioGroupName, transform.position);
+            }
+            else Debug.LogWarning("There is no audio manager in scene!");
+
+            PlayParticle(m_collisionParticlePrefab);
+        }
     }
 
     public virtual void DealDamage(float _damageAmount, PlayerAttack _player)
     {
         if (!m_isInvulnerable)
         {
-            PlayParticle(m_damagedParticles, m_damagedParticlePrefabs);
+            PlayParticle(m_damagedParticlePrefab);
 
             float previousHealth = m_health;
             m_health -= _damageAmount;
@@ -79,7 +94,10 @@ public class Health : MonoBehaviour
     {
         if (m_destroyedSFX != null) AudioManager.Instance.PlaySoundAtLocation(m_destroyedSFX.audioGroupName, transform.position);
 
-        PlayParticle(m_destroyedParticles, m_destroyedParticlePrefabs);
+        PlayParticle(m_destroyedParticlePrefab);
+
+        GameObject particleParent = GameObject.Find("----Particles");
+        if (particleParent && m_destroyedParticlePrefab) m_destroyedParticlePrefab.transform.SetParent(particleParent.transform);
 
         m_manager.AddGold(m_goldReward);
         if (_player)
@@ -95,17 +113,7 @@ public class Health : MonoBehaviour
 
     protected virtual void Destroy() => Destroy(gameObject);
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.transform.tag == "Player")
-        {
-            if (AudioManager.Instance)
-            {
-                if (m_collidedSFX != null) AudioManager.Instance.PlaySoundAtLocation(m_collidedSFX.audioGroupName, transform.position);
-            }
-            else Debug.LogWarning("There is no audio manager in scene!");
-        }
-    }
+
 
     private void RespawnObject()
     {
@@ -113,54 +121,65 @@ public class Health : MonoBehaviour
 
         TimerManager.RunAfterTime(() =>
         {
-            PlayRespawnParticle();
+            PlayParticle(m_respawnParticlePrefab);
             m_health = m_maxHealth;
             gameObject.SetActive(true);
             Init();
+            m_destroyedParticlePrefab.transform.SetParent(transform);
         }, m_respawnTime);
     }
 
-    void PlayRespawnParticle()
+    void PlayParticle(GameObject pp)
     {
-        if (m_PrefabRespawnParticle)
+
+        if (pp)
         {
-            if (!m_PrefabRespawnParticle.scene.isLoaded)
+            if (!pp.scene.isLoaded)
             {
-                // Instantiates respawn particle if the reference is a prefab and not an instance
-                m_PrefabRespawnParticle = Instantiate(m_PrefabRespawnParticle, transform);
-                m_PrefabRespawnParticle.transform.localPosition = Vector3.zero;
-                m_PrefabRespawnParticle.SetActive(false);
+                // Instantiates the particle if the reference is a prefab and not an instance
+                pp = Instantiate(pp, transform);
+                pp.transform.localPosition = Vector3.zero;
+                pp.SetActive(false);
             }
 
-            m_PrefabRespawnParticle.SetActive(true);
+            pp.SetActive(true);
+            TimerManager.RunAfterTime(() => { pp.SetActive(false); }, 2);
+
         }
     }
 
-    void PlayParticle(List<ParticleSystem> _particleList, List<GameObject> _prefabList)
+    void SetAllPrefabsInactive()
     {
-        // Instantiate particles if they don't exist
-        if (_particleList.Count == 0)
-        {
-            for (int i = 0; i < _prefabList.Count; i++)
-            {
-                ParticleSystem damagedParticle;
-                damagedParticle = Instantiate(_prefabList[i], transform).GetComponent<ParticleSystem>();
-                damagedParticle.transform.localPosition = Vector3.zero;
-
-                GameObject particleParent = GameObject.Find("----Particles");
-                if (particleParent) damagedParticle.transform.SetParent(particleParent.transform);
-
-                _particleList.Add(damagedParticle);
-            }
-        }
-
-        // Play random particle
-        if (_particleList.Count > 0)
-        {
-            int randIndex = UnityEngine.Random.Range(0, _prefabList.Count);
-
-            //_particleList[randIndex].transform.SetParent(null);
-            _particleList[randIndex].Play();
-        }
+        if (m_collisionParticlePrefab) m_collisionParticlePrefab.SetActive(false);
+        if (m_damagedParticlePrefab) m_damagedParticlePrefab.SetActive(false);
+        if (m_destroyedParticlePrefab) m_destroyedParticlePrefab.SetActive(false);
     }
+
+    //void PlayParticle(List<ParticleSystem> _particleList, List<GameObject> _prefabList)
+    //{
+    //    // Instantiate particles if they don't exist
+    //    if (_particleList.Count == 0)
+    //    {
+    //        for (int i = 0; i < _prefabList.Count; i++)
+    //        {
+    //            ParticleSystem damagedParticle;
+    //            damagedParticle = Instantiate(_prefabList[i], transform).GetComponent<ParticleSystem>();
+    //            damagedParticle.transform.localPosition = Vector3.zero;
+
+    //            GameObject particleParent = GameObject.Find("----Particles");
+    //            if (particleParent) damagedParticle.transform.SetParent(particleParent.transform);
+
+    //            _particleList.Add(damagedParticle);
+    //        }
+    //    }
+
+    //    // Play random particle
+    //    if (_particleList.Count > 0)
+    //    {
+    //        int randIndex = UnityEngine.Random.Range(0, _prefabList.Count);
+
+    //        //_particleList[randIndex].transform.SetParent(null);
+    //        _particleList[randIndex].Play();
+    //    }
+    //}
 }
