@@ -150,7 +150,9 @@ public class Health : MonoBehaviour
 
     void SetAllPrefabsInactive()
     {
-        m_collisionParticlePrefab.SetActive(false); m_damagedParticlePrefab.SetActive(false); m_destroyedParticlePrefab.SetActive(false);
+        if (m_collisionParticlePrefab) m_collisionParticlePrefab.SetActive(false);
+        if (m_damagedParticlePrefab) m_damagedParticlePrefab.SetActive(false);
+        if (m_destroyedParticlePrefab) m_destroyedParticlePrefab.SetActive(false);
     }
 
     //void PlayParticle(List<ParticleSystem> _particleList, List<GameObject> _prefabList)
