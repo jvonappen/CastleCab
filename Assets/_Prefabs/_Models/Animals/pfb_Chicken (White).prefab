@@ -1056,7 +1056,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3878203316653003780}
-  m_Enabled: 0
+  m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.25
   m_Speed: 3.5
@@ -1078,7 +1078,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3878203316653003780}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 55b317824f86c764cb5442f70e320d8a, type: 3}
   m_Name: 
@@ -1086,6 +1086,7 @@ MonoBehaviour:
   movementSpeed: 2
   wanderTransform: {fileID: 4510906925636406974}
   wanderRange: 10
+  audioGroup: {fileID: 0}
 --- !u!114 &4791935514847387697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1103,12 +1104,15 @@ MonoBehaviour:
   m_goldReward: 0
   m_canRespawn: 1
   m_respawnTime: 5
-  m_PrefabRespawnParticle: {fileID: 0}
-  m_damagedParticlePrefabs: []
+  m_PrefabRespawnParticle: {fileID: 2040044314665895850, guid: 9606720648b703544a39d055349d0b8d, type: 3}
+  m_damagedParticlePrefabs:
+  - {fileID: 2040044314665895850, guid: 9606720648b703544a39d055349d0b8d, type: 3}
   m_destroyedParticlePrefabs:
   - {fileID: 2040044314665895850, guid: 9606720648b703544a39d055349d0b8d, type: 3}
-  sfxAudio: {fileID: 0}
-  m_showPopup: 1
+  m_collidedSFX: {fileID: 11400000, guid: 44ae8d46fb1966d4da42f7c63d39bb07, type: 2}
+  m_damagedSFX: {fileID: 11400000, guid: 44ae8d46fb1966d4da42f7c63d39bb07, type: 2}
+  m_destroyedSFX: {fileID: 11400000, guid: 44ae8d46fb1966d4da42f7c63d39bb07, type: 2}
+  m_showPopup: 0
   m_popupLocation: {fileID: 0}
   m_popupRandomRange: 2
   m_fontSize: 5

@@ -80,7 +80,7 @@ public class AudioManager : MonoBehaviour
 
             float volume = Mathf.Clamp(1 - (_distance/ m_soundRange), 0, 1); // Sets volume based on distance and max range
 
-            sfxSource.PlayOneShot(audio.audioClips[randomVal], volume);
+            sfxSource.PlayOneShot(audio.audioClips[randomVal], volume * audio.audioGroupVolume);
         }
     }
 
@@ -88,7 +88,7 @@ public class AudioManager : MonoBehaviour
     {
         // Gets closest player distance and plays sound loudness accordingly
         Transform closestPlayer = players.OrderBy(player => (player.position - _worldPos).sqrMagnitude).FirstOrDefault();
-        PlaySoundAtDistance(_soundName, Vector3.Distance(_worldPos, closestPlayer.position));
+        if (closestPlayer) PlaySoundAtDistance(_soundName, Vector3.Distance(_worldPos, closestPlayer.position));
     }
 
     
