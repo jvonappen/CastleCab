@@ -7,8 +7,12 @@ using UnityEngine.InputSystem;
 public class Interact : MonoBehaviour
 {
     [SerializeField] PlayerInputHandler m_input;
+    [SerializeField] Camera m_cam;
+    public Camera cam { get { return m_cam; } }
 
     List<Interactable> m_interactablesInRange = new();
+
+    Interactable m_previousClosestInteractable;
 
     #region Unity Callbacks
 
@@ -18,16 +22,40 @@ public class Interact : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out Interactable interactable))
-            if (!m_interactablesInRange.Contains(interactable)) m_interactablesInRange.Add(interactable);
+        {
+            if (!m_interactablesInRange.Contains(interactable))
+            {
+                m_interactablesInRange.Add(interactable);
+                UpdateClosestInteractable();
+            }
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.TryGetComponent(out Interactable interactable))
-            if (m_interactablesInRange.Contains(interactable)) m_interactablesInRange.Remove(interactable);
+        {
+            if (m_interactablesInRange.Contains(interactable))
+            {
+                m_interactablesInRange.Remove(interactable);
+                UpdateClosestInteractable();
+            }
+        }
     }
 
     #endregion
+
+    void UpdateClosestInteractable()
+    {
+        Interactable interactable = GetClosestInteractable();
+        if (interactable != m_previousClosestInteractable)
+        {
+            if (m_previousClosestInteractable) m_previousClosestInteractable.OnExitInteractable(this);
+            if (interactable) interactable.OnEnterInteractable(this);
+
+            m_previousClosestInteractable = interactable;
+        }
+    }
 
     void InteractPerformed(InputAction.CallbackContext _context)
     {
