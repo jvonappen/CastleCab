@@ -88,7 +88,7 @@ public class AudioManager : MonoBehaviour
     {
         // Gets closest player distance and plays sound loudness accordingly
         Transform closestPlayer = players.OrderBy(player => (player.position - _worldPos).sqrMagnitude).FirstOrDefault();
-        PlaySoundAtDistance(_soundName, Vector3.Distance(_worldPos, closestPlayer.position));
+        if (closestPlayer) PlaySoundAtDistance(_soundName, Vector3.Distance(_worldPos, closestPlayer.position));
     }
 
     

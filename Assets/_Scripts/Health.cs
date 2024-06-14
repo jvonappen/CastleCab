@@ -24,7 +24,7 @@ public class Health : MonoBehaviour
     [SerializeField] protected List<GameObject> m_damagedParticlePrefabs, m_destroyedParticlePrefabs;
     protected List<ParticleSystem> m_damagedParticles = new(), m_destroyedParticles = new();
     
-    [SerializeField] protected AudioGroupDetails m_collidedSFX, m_damagedSFX;
+    [SerializeField] protected AudioGroupDetails m_collidedSFX, m_damagedSFX, m_destroyedSFX;
 
     [Header("Popup")]
     [SerializeField] protected bool m_showPopup = true;
@@ -55,21 +55,30 @@ public class Health : MonoBehaviour
             if (_player) lookAt = _player.transform.GetChild(0);
             //PopupDisplay.Spawn(m_popupLocation.position, m_popupRandomRange, _damageAmount.ToString(), m_fontSize, Color.white, Vector3.up * 3, null, lookAt);
 
-            if (m_damagedSFX != null) AudioManager.Instance.PlaySoundAtLocation(m_damagedSFX.audioGroupName, transform.position);
-
             onDamaged?.Invoke(_damageAmount, _player);
 
-            CheckAlive(_player);
+            if (CheckAlive(_player))
+            {
+                if (m_damagedSFX != null) AudioManager.Instance.PlaySoundAtLocation(m_damagedSFX.audioGroupName, transform.position);
+            }
         }
     }
 
-    void CheckAlive(PlayerAttack _player)
+    bool CheckAlive(PlayerAttack _player)
     {
-        if ((int)m_health <= 0) Die(_player);
+        if ((int)m_health <= 0)
+        {
+            Die(_player);
+            return false;
+        }
+
+        return true;
     }
 
     protected virtual void Die(PlayerAttack _player)
     {
+        if (m_destroyedSFX != null) AudioManager.Instance.PlaySoundAtLocation(m_destroyedSFX.audioGroupName, transform.position);
+
         PlayParticle(m_destroyedParticles, m_destroyedParticlePrefabs);
 
         m_manager.AddGold(m_goldReward);
@@ -88,11 +97,14 @@ public class Health : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (AudioManager.Instance)
+        if (collision.transform.tag == "Player")
         {
-            if (m_collidedSFX != null) AudioManager.Instance.PlaySoundAtLocation(m_collidedSFX.audioGroupName, transform.position);
+            if (AudioManager.Instance)
+            {
+                if (m_collidedSFX != null) AudioManager.Instance.PlaySoundAtLocation(m_collidedSFX.audioGroupName, transform.position);
+            }
+            else Debug.LogWarning("There is no audio manager in scene!");
         }
-        else Debug.LogWarning("There is no audio manager in scene!");
     }
 
     private void RespawnObject()
