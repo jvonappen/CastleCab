@@ -875,8 +875,6 @@ public class PlayerMovement : MonoBehaviour
                     else if (m_driftTurnInput < 0) dir = Quaternion.AngleAxis(45, Vector3.up) * rb.transform.forward;
 
                     dir *= _Drifting.m_moveMultiplier;
-
-                    Debug.Log("Got right dir");
                 }
             }
         }
