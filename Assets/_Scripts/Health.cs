@@ -14,31 +14,27 @@ public class Health : MonoBehaviour
 
     public Action onDeath;
     public Action<float, PlayerAttack> onDamaged;
-
     public Action<float, float> onHealthChanged;
 
     [SerializeField] private bool m_canRespawn = true;
     [SerializeField] private float m_respawnTime = 5;
-    [SerializeField] private GameObject m_collisionParticlePrefab, m_damagedParticlePrefab, m_destroyedParticlePrefab, m_respawnParticlePrefab;
 
-    //[SerializeField] protected List<GameObject> m_damagedParticlePrefabs, m_destroyedParticlePrefabs;
-    protected List<ParticleSystem> m_damagedParticles = new(), m_destroyedParticles = new();
-    
-    [SerializeField] protected AudioGroupDetails m_collidedSFX, m_damagedSFX, m_destroyedSFX;
+    [Header("Particle Prefab")]
+    [SerializeField] private GameObject m_collisionParticlePrefab;
+    [SerializeField] private GameObject m_damagedParticlePrefab;
+    [SerializeField] private GameObject m_destroyedParticlePrefab;
+    [SerializeField] private GameObject m_respawnParticlePrefab;
 
-    [Header("Popup")]
-    [SerializeField] protected bool m_showPopup = true;
-    [ConditionalHide("m_showPopup")] [SerializeField] protected Transform m_popupLocation;
-    [ConditionalHide("m_showPopup")] [SerializeField] protected float m_popupRandomRange = 2, m_fontSize = 5;
+    [Header("Audio")]
+    [SerializeField] protected AudioGroupDetails m_collidedSFX;
+    [SerializeField] protected AudioGroupDetails m_damagedSFX;
+    [SerializeField] protected AudioGroupDetails m_destroyedSFX;
 
     private void Awake() => Init();
     protected virtual void Init()
     {
         m_manager = FindObjectOfType<GameManager>();
-
-        if (!m_popupLocation) m_popupLocation = transform;
         m_maxHealth = m_health;
-        SetAllPrefabsInactive();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -86,16 +82,13 @@ public class Health : MonoBehaviour
             Die(_player);
             return false;
         }
-
         return true;
     }
 
     protected virtual void Die(PlayerAttack _player)
     {
         if (m_destroyedSFX != null) AudioManager.Instance.PlaySoundAtLocation(m_destroyedSFX.audioGroupName, transform.position);
-
         PlayParticle(m_destroyedParticlePrefab);
-
         GameObject particleParent = GameObject.Find("----Particles");
         if (particleParent && m_destroyedParticlePrefab) m_destroyedParticlePrefab.transform.SetParent(particleParent.transform);
 
@@ -139,47 +132,12 @@ public class Health : MonoBehaviour
                 // Instantiates the particle if the reference is a prefab and not an instance
                 pp = Instantiate(pp, transform);
                 pp.transform.localPosition = Vector3.zero;
-                pp.SetActive(false);
+               // pp.SetActive(false);
             }
 
             pp.SetActive(true);
-            TimerManager.RunAfterTime(() => { pp.SetActive(false); }, 2);
+            TimerManager.RunAfterTime(() => { pp.SetActive(false); }, 0.7F);
 
         }
     }
-
-    void SetAllPrefabsInactive()
-    {
-        if (m_collisionParticlePrefab) m_collisionParticlePrefab.SetActive(false);
-        if (m_damagedParticlePrefab) m_damagedParticlePrefab.SetActive(false);
-        if (m_destroyedParticlePrefab) m_destroyedParticlePrefab.SetActive(false);
-    }
-
-    //void PlayParticle(List<ParticleSystem> _particleList, List<GameObject> _prefabList)
-    //{
-    //    // Instantiate particles if they don't exist
-    //    if (_particleList.Count == 0)
-    //    {
-    //        for (int i = 0; i < _prefabList.Count; i++)
-    //        {
-    //            ParticleSystem damagedParticle;
-    //            damagedParticle = Instantiate(_prefabList[i], transform).GetComponent<ParticleSystem>();
-    //            damagedParticle.transform.localPosition = Vector3.zero;
-
-    //            GameObject particleParent = GameObject.Find("----Particles");
-    //            if (particleParent) damagedParticle.transform.SetParent(particleParent.transform);
-
-    //            _particleList.Add(damagedParticle);
-    //        }
-    //    }
-
-    //    // Play random particle
-    //    if (_particleList.Count > 0)
-    //    {
-    //        int randIndex = UnityEngine.Random.Range(0, _prefabList.Count);
-
-    //        //_particleList[randIndex].transform.SetParent(null);
-    //        _particleList[randIndex].Play();
-    //    }
-    //}
 }
