@@ -503,6 +503,7 @@ GameObject:
   - component: {fileID: 1103793853229761571}
   - component: {fileID: 7408233845903855088}
   - component: {fileID: 3044647354730020820}
+  - component: {fileID: 2743897167383792596}
   m_Layer: 15
   m_Name: Cube (7)
   m_TagString: Untagged
@@ -519,8 +520,8 @@ Transform:
   m_GameObject: {fileID: 5051609443149307655}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 25.071411, y: -11.959166, z: -72.535034}
-  m_LocalScale: {x: 5.1118684, y: 4.2872844, z: 8.534707}
+  m_LocalPosition: {x: 25.071411, y: -11.959166, z: -72.3912}
+  m_LocalScale: {x: 5.1118684, y: 4.2872844, z: 8.822327}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1370250899316565336}
@@ -596,6 +597,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2743897167383792596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5051609443149307655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69229ecce01be984daf85cdafca3247e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_collisionLayer:
+    serializedVersion: 2
+    m_Bits: 8392712
+  m_knockbackStrengthMulti: 1
+  audioGroup: {fileID: 11400000, guid: 219db2806e1b5434d9ef6ebde22454c7, type: 2}
 --- !u!1 &6526730539265498449
 GameObject:
   m_ObjectHideFlags: 0
