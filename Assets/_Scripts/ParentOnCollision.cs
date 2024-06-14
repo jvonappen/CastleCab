@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class ParentOnCollision : MonoBehaviour
 {
-    List<GameObject> m_collidingObjects = new();
-
-    [SerializeField] bool m_useColliderParent;
+    [SerializeField] bool m_useColliderParent, m_ignoreTrigger = true;
     [SerializeField] LayerMask m_collisionLayers;
 
     private void OnTriggerEnter(Collider other) => HandleCollision(other, true);
@@ -14,27 +12,28 @@ public class ParentOnCollision : MonoBehaviour
 
     void HandleCollision(Collider _collider, bool _isEnter)
     {
-        Rigidbody rb = _collider.attachedRigidbody;
-        if (rb)
+        if (!m_ignoreTrigger || !_collider.isTrigger)
         {
-            GameObject go;
-
-            if (m_useColliderParent) go = rb.transform.parent.gameObject;
-            else go = rb.gameObject;
-
-            if (go)
+            Rigidbody rb = _collider.attachedRigidbody;
+            if (rb)
             {
-                if (m_collisionLayers == (m_collisionLayers | (1 << go.layer)))
+                GameObject go;
+
+                if (m_useColliderParent) go = rb.transform.parent.gameObject;
+                else go = rb.gameObject;
+
+                if (go)
                 {
-                    if (_isEnter)
+                    if (m_collisionLayers == (m_collisionLayers | (1 << go.layer)))
                     {
-                        Debug.Log("Parented");
-                        go.transform.parent = transform;
-                    }
-                    else
-                    {
-                        Debug.Log("Unparented");
-                        go.transform.parent = null;
+                        if (_isEnter)
+                        {
+                            go.transform.parent = transform;
+                        }
+                        else
+                        {
+                            if (go.transform.parent == transform) go.transform.parent = null;
+                        }
                     }
                 }
             }
