@@ -1189,15 +1189,13 @@ MonoBehaviour:
   m_goldReward: 10
   m_canRespawn: 1
   m_respawnTime: 5
-  m_PrefabRespawnParticle: {fileID: 0}
-  m_damagedParticlePrefabs: []
-  m_destroyedParticlePrefabs: []
+  m_collisionParticlePrefab: {fileID: 0}
+  m_damagedParticlePrefab: {fileID: 0}
+  m_destroyedParticlePrefab: {fileID: 0}
+  m_respawnParticlePrefab: {fileID: 0}
   m_collidedSFX: {fileID: 0}
   m_damagedSFX: {fileID: 0}
-  m_showPopup: 1
-  m_popupLocation: {fileID: 0}
-  m_popupRandomRange: 2
-  m_fontSize: 5
+  m_destroyedSFX: {fileID: 0}
 --- !u!1001 &410527030715440500
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1354,6 +1352,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7045158431556427356}
     m_Modifications:
+    - target: {fileID: 1708602779098439457, guid: 3342772ce8fef6440bfea3b7902bf719, type: 3}
+      propertyPath: m_damagedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 3fb34228c27767546ac8e9ccecd7725f, type: 2}
+    - target: {fileID: 1708602779098439457, guid: 3342772ce8fef6440bfea3b7902bf719, type: 3}
+      propertyPath: m_collidedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 219db2806e1b5434d9ef6ebde22454c7, type: 2}
+    - target: {fileID: 1708602779098439457, guid: 3342772ce8fef6440bfea3b7902bf719, type: 3}
+      propertyPath: m_destroyedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 834db3b63a9ea8b4bba6bbffb568b922, type: 2}
     - target: {fileID: 6151640895623627702, guid: 3342772ce8fef6440bfea3b7902bf719, type: 3}
       propertyPath: m_LocalPosition.x
       value: 432.74405
@@ -1397,6 +1407,10 @@ PrefabInstance:
     - target: {fileID: 6779276855864842508, guid: 3342772ce8fef6440bfea3b7902bf719, type: 3}
       propertyPath: m_Name
       value: pfb_SM_barrel_02 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6779276855864842508, guid: 3342772ce8fef6440bfea3b7902bf719, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2334,9 +2348,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7045158431556427356}
     m_Modifications:
+    - target: {fileID: -8119564002781499730, guid: 632042ff4e0ae434fa764558cbc2a0f5, type: 3}
+      propertyPath: m_damagedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 3fb34228c27767546ac8e9ccecd7725f, type: 2}
+    - target: {fileID: -8119564002781499730, guid: 632042ff4e0ae434fa764558cbc2a0f5, type: 3}
+      propertyPath: m_collidedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 219db2806e1b5434d9ef6ebde22454c7, type: 2}
+    - target: {fileID: -8119564002781499730, guid: 632042ff4e0ae434fa764558cbc2a0f5, type: 3}
+      propertyPath: m_destroyedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 834db3b63a9ea8b4bba6bbffb568b922, type: 2}
     - target: {fileID: 5091164007577561142, guid: 632042ff4e0ae434fa764558cbc2a0f5, type: 3}
       propertyPath: m_Name
       value: SM_crate_01 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091164007577561142, guid: 632042ff4e0ae434fa764558cbc2a0f5, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 5615041077881500300, guid: 632042ff4e0ae434fa764558cbc2a0f5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3040,6 +3070,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7045158431556427356}
     m_Modifications:
+    - target: {fileID: 2264209899532466634, guid: f80c825dbbbb0b0428564cc59a7f33eb, type: 3}
+      propertyPath: m_damagedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 3fb34228c27767546ac8e9ccecd7725f, type: 2}
+    - target: {fileID: 2264209899532466634, guid: f80c825dbbbb0b0428564cc59a7f33eb, type: 3}
+      propertyPath: m_collidedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 219db2806e1b5434d9ef6ebde22454c7, type: 2}
+    - target: {fileID: 2264209899532466634, guid: f80c825dbbbb0b0428564cc59a7f33eb, type: 3}
+      propertyPath: m_destroyedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 834db3b63a9ea8b4bba6bbffb568b922, type: 2}
     - target: {fileID: 8641906008480952024, guid: f80c825dbbbb0b0428564cc59a7f33eb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 438.73
@@ -3083,6 +3125,10 @@ PrefabInstance:
     - target: {fileID: 8981839116813628514, guid: f80c825dbbbb0b0428564cc59a7f33eb, type: 3}
       propertyPath: m_Name
       value: SM_crate_02 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8981839116813628514, guid: f80c825dbbbb0b0428564cc59a7f33eb, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4180,6 +4226,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7045158431556427356}
     m_Modifications:
+    - target: {fileID: 1708602779098439457, guid: 3342772ce8fef6440bfea3b7902bf719, type: 3}
+      propertyPath: m_damagedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 3fb34228c27767546ac8e9ccecd7725f, type: 2}
+    - target: {fileID: 1708602779098439457, guid: 3342772ce8fef6440bfea3b7902bf719, type: 3}
+      propertyPath: m_collidedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 219db2806e1b5434d9ef6ebde22454c7, type: 2}
+    - target: {fileID: 1708602779098439457, guid: 3342772ce8fef6440bfea3b7902bf719, type: 3}
+      propertyPath: m_destroyedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 834db3b63a9ea8b4bba6bbffb568b922, type: 2}
     - target: {fileID: 6151640895623627702, guid: 3342772ce8fef6440bfea3b7902bf719, type: 3}
       propertyPath: m_LocalPosition.x
       value: 433.63
@@ -4223,6 +4281,10 @@ PrefabInstance:
     - target: {fileID: 6779276855864842508, guid: 3342772ce8fef6440bfea3b7902bf719, type: 3}
       propertyPath: m_Name
       value: pfb_SM_barrel_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 6779276855864842508, guid: 3342772ce8fef6440bfea3b7902bf719, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4325,17 +4387,13 @@ MonoBehaviour:
   m_goldReward: 20
   m_canRespawn: 1
   m_respawnTime: 5
-  m_PrefabRespawnParticle: {fileID: 0}
-  m_damagedParticlePrefabs:
-  - {fileID: 7511328176439486736, guid: b2f9691986e2d7048b48dcf702b763f8, type: 3}
-  m_destroyedParticlePrefabs:
-  - {fileID: 7511328176439486736, guid: b2f9691986e2d7048b48dcf702b763f8, type: 3}
+  m_collisionParticlePrefab: {fileID: 0}
+  m_damagedParticlePrefab: {fileID: 0}
+  m_destroyedParticlePrefab: {fileID: 0}
+  m_respawnParticlePrefab: {fileID: 0}
   m_collidedSFX: {fileID: 0}
   m_damagedSFX: {fileID: 0}
-  m_showPopup: 1
-  m_popupLocation: {fileID: 0}
-  m_popupRandomRange: 2
-  m_fontSize: 5
+  m_destroyedSFX: {fileID: 0}
 --- !u!64 &7665877728545166997
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -5008,9 +5066,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 30.001
       objectReference: {fileID: 0}
+    - target: {fileID: 9193772146669512749, guid: 53b787ab6807f9a438dac36397f4cdf8, type: 3}
+      propertyPath: m_damagedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 3fb34228c27767546ac8e9ccecd7725f, type: 2}
+    - target: {fileID: 9193772146669512749, guid: 53b787ab6807f9a438dac36397f4cdf8, type: 3}
+      propertyPath: m_collidedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 219db2806e1b5434d9ef6ebde22454c7, type: 2}
+    - target: {fileID: 9193772146669512749, guid: 53b787ab6807f9a438dac36397f4cdf8, type: 3}
+      propertyPath: m_destroyedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 834db3b63a9ea8b4bba6bbffb568b922, type: 2}
     - target: {fileID: 9209168681748380290, guid: 53b787ab6807f9a438dac36397f4cdf8, type: 3}
       propertyPath: m_Name
       value: pfb_SM_cart
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209168681748380290, guid: 53b787ab6807f9a438dac36397f4cdf8, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6459,15 +6533,13 @@ MonoBehaviour:
   m_goldReward: 10
   m_canRespawn: 1
   m_respawnTime: 5
-  m_PrefabRespawnParticle: {fileID: 0}
-  m_damagedParticlePrefabs: []
-  m_destroyedParticlePrefabs: []
+  m_collisionParticlePrefab: {fileID: 0}
+  m_damagedParticlePrefab: {fileID: 0}
+  m_destroyedParticlePrefab: {fileID: 0}
+  m_respawnParticlePrefab: {fileID: 0}
   m_collidedSFX: {fileID: 0}
   m_damagedSFX: {fileID: 0}
-  m_showPopup: 1
-  m_popupLocation: {fileID: 0}
-  m_popupRandomRange: 2
-  m_fontSize: 5
+  m_destroyedSFX: {fileID: 0}
 --- !u!1001 &2728746933526370674
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6600,9 +6672,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7045158431556427356}
     m_Modifications:
+    - target: {fileID: -8119564002781499730, guid: 632042ff4e0ae434fa764558cbc2a0f5, type: 3}
+      propertyPath: m_damagedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 3fb34228c27767546ac8e9ccecd7725f, type: 2}
+    - target: {fileID: -8119564002781499730, guid: 632042ff4e0ae434fa764558cbc2a0f5, type: 3}
+      propertyPath: m_collidedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 219db2806e1b5434d9ef6ebde22454c7, type: 2}
+    - target: {fileID: -8119564002781499730, guid: 632042ff4e0ae434fa764558cbc2a0f5, type: 3}
+      propertyPath: m_destroyedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 834db3b63a9ea8b4bba6bbffb568b922, type: 2}
     - target: {fileID: 5091164007577561142, guid: 632042ff4e0ae434fa764558cbc2a0f5, type: 3}
       propertyPath: m_Name
       value: SM_crate_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091164007577561142, guid: 632042ff4e0ae434fa764558cbc2a0f5, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 5615041077881500300, guid: 632042ff4e0ae434fa764558cbc2a0f5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7292,15 +7380,13 @@ MonoBehaviour:
   m_goldReward: 10
   m_canRespawn: 1
   m_respawnTime: 5
-  m_PrefabRespawnParticle: {fileID: 0}
-  m_damagedParticlePrefabs: []
-  m_destroyedParticlePrefabs: []
+  m_collisionParticlePrefab: {fileID: 0}
+  m_damagedParticlePrefab: {fileID: 0}
+  m_destroyedParticlePrefab: {fileID: 0}
+  m_respawnParticlePrefab: {fileID: 0}
   m_collidedSFX: {fileID: 0}
   m_damagedSFX: {fileID: 0}
-  m_showPopup: 1
-  m_popupLocation: {fileID: 0}
-  m_popupRandomRange: 2
-  m_fontSize: 5
+  m_destroyedSFX: {fileID: 0}
 --- !u!4 &6656796951843885865 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8444675294676980370, guid: 22f27660257f60e46bd08f37d3c69498, type: 3}
@@ -8742,6 +8828,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: pfb_Chopped_logs (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2796837420263106058, guid: 87340f8c30046f14c84127a634ca3125, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 3286374818844064944, guid: 87340f8c30046f14c84127a634ca3125, type: 3}
       propertyPath: m_LocalPosition.x
       value: 429.18695
@@ -8782,6 +8872,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6168304748418385185, guid: 87340f8c30046f14c84127a634ca3125, type: 3}
+      propertyPath: m_damagedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 3fb34228c27767546ac8e9ccecd7725f, type: 2}
+    - target: {fileID: 6168304748418385185, guid: 87340f8c30046f14c84127a634ca3125, type: 3}
+      propertyPath: m_collidedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 219db2806e1b5434d9ef6ebde22454c7, type: 2}
+    - target: {fileID: 6168304748418385185, guid: 87340f8c30046f14c84127a634ca3125, type: 3}
+      propertyPath: m_destroyedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 834db3b63a9ea8b4bba6bbffb568b922, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9286,6 +9388,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7045158431556427356}
     m_Modifications:
+    - target: {fileID: 1708602779098439457, guid: 3342772ce8fef6440bfea3b7902bf719, type: 3}
+      propertyPath: m_damagedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 3fb34228c27767546ac8e9ccecd7725f, type: 2}
+    - target: {fileID: 1708602779098439457, guid: 3342772ce8fef6440bfea3b7902bf719, type: 3}
+      propertyPath: m_collidedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 219db2806e1b5434d9ef6ebde22454c7, type: 2}
+    - target: {fileID: 1708602779098439457, guid: 3342772ce8fef6440bfea3b7902bf719, type: 3}
+      propertyPath: m_destroyedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 834db3b63a9ea8b4bba6bbffb568b922, type: 2}
     - target: {fileID: 6151640895623627702, guid: 3342772ce8fef6440bfea3b7902bf719, type: 3}
       propertyPath: m_LocalPosition.x
       value: 433.65036
@@ -9329,6 +9443,10 @@ PrefabInstance:
     - target: {fileID: 6779276855864842508, guid: 3342772ce8fef6440bfea3b7902bf719, type: 3}
       propertyPath: m_Name
       value: pfb_SM_barrel_02 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6779276855864842508, guid: 3342772ce8fef6440bfea3b7902bf719, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9476,6 +9594,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: pfb_Chopped_logs (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2796837420263106058, guid: 87340f8c30046f14c84127a634ca3125, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 3286374818844064944, guid: 87340f8c30046f14c84127a634ca3125, type: 3}
       propertyPath: m_LocalPosition.x
       value: 431.99
@@ -9516,6 +9638,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6168304748418385185, guid: 87340f8c30046f14c84127a634ca3125, type: 3}
+      propertyPath: m_damagedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 3fb34228c27767546ac8e9ccecd7725f, type: 2}
+    - target: {fileID: 6168304748418385185, guid: 87340f8c30046f14c84127a634ca3125, type: 3}
+      propertyPath: m_collidedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 219db2806e1b5434d9ef6ebde22454c7, type: 2}
+    - target: {fileID: 6168304748418385185, guid: 87340f8c30046f14c84127a634ca3125, type: 3}
+      propertyPath: m_destroyedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 834db3b63a9ea8b4bba6bbffb568b922, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10272,6 +10406,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7045158431556427356}
     m_Modifications:
+    - target: {fileID: 1708602779098439457, guid: 3342772ce8fef6440bfea3b7902bf719, type: 3}
+      propertyPath: m_damagedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 3fb34228c27767546ac8e9ccecd7725f, type: 2}
+    - target: {fileID: 1708602779098439457, guid: 3342772ce8fef6440bfea3b7902bf719, type: 3}
+      propertyPath: m_collidedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 219db2806e1b5434d9ef6ebde22454c7, type: 2}
+    - target: {fileID: 1708602779098439457, guid: 3342772ce8fef6440bfea3b7902bf719, type: 3}
+      propertyPath: m_destroyedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 834db3b63a9ea8b4bba6bbffb568b922, type: 2}
     - target: {fileID: 6151640895623627702, guid: 3342772ce8fef6440bfea3b7902bf719, type: 3}
       propertyPath: m_LocalPosition.x
       value: 431.87802
@@ -10315,6 +10461,10 @@ PrefabInstance:
     - target: {fileID: 6779276855864842508, guid: 3342772ce8fef6440bfea3b7902bf719, type: 3}
       propertyPath: m_Name
       value: pfb_SM_barrel_02 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6779276855864842508, guid: 3342772ce8fef6440bfea3b7902bf719, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10792,15 +10942,13 @@ MonoBehaviour:
   m_goldReward: 10
   m_canRespawn: 1
   m_respawnTime: 5
-  m_PrefabRespawnParticle: {fileID: 0}
-  m_damagedParticlePrefabs: []
-  m_destroyedParticlePrefabs: []
+  m_collisionParticlePrefab: {fileID: 0}
+  m_damagedParticlePrefab: {fileID: 0}
+  m_destroyedParticlePrefab: {fileID: 0}
+  m_respawnParticlePrefab: {fileID: 0}
   m_collidedSFX: {fileID: 0}
   m_damagedSFX: {fileID: 0}
-  m_showPopup: 1
-  m_popupLocation: {fileID: 0}
-  m_popupRandomRange: 2
-  m_fontSize: 5
+  m_destroyedSFX: {fileID: 0}
 --- !u!4 &5336790087380935619 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8444675294676980370, guid: 22f27660257f60e46bd08f37d3c69498, type: 3}
@@ -12446,15 +12594,13 @@ MonoBehaviour:
   m_goldReward: 10
   m_canRespawn: 1
   m_respawnTime: 5
-  m_PrefabRespawnParticle: {fileID: 0}
-  m_damagedParticlePrefabs: []
-  m_destroyedParticlePrefabs: []
+  m_collisionParticlePrefab: {fileID: 0}
+  m_damagedParticlePrefab: {fileID: 0}
+  m_destroyedParticlePrefab: {fileID: 0}
+  m_respawnParticlePrefab: {fileID: 0}
   m_collidedSFX: {fileID: 0}
   m_damagedSFX: {fileID: 0}
-  m_showPopup: 1
-  m_popupLocation: {fileID: 0}
-  m_popupRandomRange: 2
-  m_fontSize: 5
+  m_destroyedSFX: {fileID: 0}
 --- !u!4 &4336839536412009463 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8444675294676980370, guid: 22f27660257f60e46bd08f37d3c69498, type: 3}
@@ -13408,6 +13554,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: pfb_Chopped_logs
       objectReference: {fileID: 0}
+    - target: {fileID: 2796837420263106058, guid: 87340f8c30046f14c84127a634ca3125, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 3286374818844064944, guid: 87340f8c30046f14c84127a634ca3125, type: 3}
       propertyPath: m_LocalPosition.x
       value: 431.89
@@ -13448,6 +13598,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6168304748418385185, guid: 87340f8c30046f14c84127a634ca3125, type: 3}
+      propertyPath: m_damagedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 3fb34228c27767546ac8e9ccecd7725f, type: 2}
+    - target: {fileID: 6168304748418385185, guid: 87340f8c30046f14c84127a634ca3125, type: 3}
+      propertyPath: m_collidedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 219db2806e1b5434d9ef6ebde22454c7, type: 2}
+    - target: {fileID: 6168304748418385185, guid: 87340f8c30046f14c84127a634ca3125, type: 3}
+      propertyPath: m_destroyedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 834db3b63a9ea8b4bba6bbffb568b922, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -15379,15 +15541,13 @@ MonoBehaviour:
   m_goldReward: 5
   m_canRespawn: 1
   m_respawnTime: 5
-  m_PrefabRespawnParticle: {fileID: 0}
-  m_damagedParticlePrefabs: []
-  m_destroyedParticlePrefabs: []
+  m_collisionParticlePrefab: {fileID: 0}
+  m_damagedParticlePrefab: {fileID: 0}
+  m_destroyedParticlePrefab: {fileID: 0}
+  m_respawnParticlePrefab: {fileID: 0}
   m_collidedSFX: {fileID: 0}
   m_damagedSFX: {fileID: 0}
-  m_showPopup: 1
-  m_popupLocation: {fileID: 0}
-  m_popupRandomRange: 2
-  m_fontSize: 5
+  m_destroyedSFX: {fileID: 0}
 --- !u!1001 &6503780016233910680
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17782,15 +17942,13 @@ MonoBehaviour:
   m_goldReward: 20
   m_canRespawn: 1
   m_respawnTime: 5
-  m_PrefabRespawnParticle: {fileID: 0}
-  m_damagedParticlePrefabs: []
-  m_destroyedParticlePrefabs: []
+  m_collisionParticlePrefab: {fileID: 0}
+  m_damagedParticlePrefab: {fileID: 0}
+  m_destroyedParticlePrefab: {fileID: 0}
+  m_respawnParticlePrefab: {fileID: 0}
   m_collidedSFX: {fileID: 0}
   m_damagedSFX: {fileID: 0}
-  m_showPopup: 1
-  m_popupLocation: {fileID: 0}
-  m_popupRandomRange: 2
-  m_fontSize: 5
+  m_destroyedSFX: {fileID: 0}
 --- !u!54 &2309824398766848632
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -22215,6 +22373,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7045158431556427356}
     m_Modifications:
+    - target: {fileID: 2264209899532466634, guid: f80c825dbbbb0b0428564cc59a7f33eb, type: 3}
+      propertyPath: m_damagedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 3fb34228c27767546ac8e9ccecd7725f, type: 2}
+    - target: {fileID: 2264209899532466634, guid: f80c825dbbbb0b0428564cc59a7f33eb, type: 3}
+      propertyPath: m_collidedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 219db2806e1b5434d9ef6ebde22454c7, type: 2}
+    - target: {fileID: 2264209899532466634, guid: f80c825dbbbb0b0428564cc59a7f33eb, type: 3}
+      propertyPath: m_destroyedSFX
+      value: 
+      objectReference: {fileID: 11400000, guid: 834db3b63a9ea8b4bba6bbffb568b922, type: 2}
     - target: {fileID: 8641906008480952024, guid: f80c825dbbbb0b0428564cc59a7f33eb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 435.15704
@@ -22258,6 +22428,10 @@ PrefabInstance:
     - target: {fileID: 8981839116813628514, guid: f80c825dbbbb0b0428564cc59a7f33eb, type: 3}
       propertyPath: m_Name
       value: SM_crate_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 8981839116813628514, guid: f80c825dbbbb0b0428564cc59a7f33eb, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
