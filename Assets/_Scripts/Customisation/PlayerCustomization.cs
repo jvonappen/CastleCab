@@ -88,6 +88,12 @@ public class PlayerCustomization : MonoBehaviour
 
     public void StoreCustomizationsToPlayer(bool _storeInactive = false) => StoreCustomizationsToPlayer(m_playerInput, gameObject, _storeInactive);
 
+    /// <summary>
+    /// Deprecated. Prone to bugs
+    /// </summary>
+    /// <param name="_input"></param>
+    /// <param name="_basePlayer"></param>
+    /// <param name="_storeInactive"></param>
     public static void StoreCustomizationsToPlayer(PlayerInput _input, GameObject _basePlayer, bool _storeInactive = false)
     {
         List<ModelCustomization> modelCustomizations = new();
@@ -103,6 +109,23 @@ public class PlayerCustomization : MonoBehaviour
 
         PlayerData data = GameManager.Instance.GetPlayerData(device);
         GameManager.Instance.SetPlayerData(device, new(data.player, data.device, modelCustomizations, GetHorseMat(_basePlayer.GetComponentInChildren<HorseColourSelector>(true)), data.playerUpgradeData));
+    }
+
+    public static void StoreCustomizationsToPlayer(PlayerInput _input, Transform _baseModel)
+    {
+        InputDevice device;
+        if (_input && _input.devices.Count > 0) device = _input.devices[0];
+        else return;
+
+        List<ModelCustomization> modelCustomizations = new();
+        foreach (ModelSelector selector in _baseModel.GetComponentsInChildren<ModelSelector>(true))
+        {
+            selector.Init();
+            modelCustomizations.Add(new(selector));
+        }
+
+        PlayerData data = GameManager.Instance.GetPlayerData(device);
+        GameManager.Instance.SetPlayerData(device, new(data.player, data.device, modelCustomizations, GetHorseMat(_baseModel.GetComponentInChildren<HorseColourSelector>(true)), data.playerUpgradeData));
     }
 
     public static HorseMatInformation GetHorseMat(HorseColourSelector _selector)
