@@ -11,6 +11,11 @@ public class ModelSelector : MonoBehaviour
     [HideInInspector] public MultiColourSelector colourSelector;
 
     List<GameObject> m_selectionlist = new();
+    public int GetCount()
+    {
+        if (m_indexZeroIsNone) return m_selectionlist.Count + 1;
+        else return m_selectionlist.Count;
+    }
 
     GameObject m_previewObject, m_selectedObject;
     public GameObject previewObject { get { return m_previewObject; } }

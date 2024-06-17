@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
@@ -26,6 +27,8 @@ public class CustomisationDisplay : MonoBehaviour
     ModelSelector m_currentModelSelector;
     public void SetModelSelector(ModelSelector _modelSelector) => m_currentModelSelector = _modelSelector;
 
+    public UnityEvent onExitSelector;
+
     private void OnEnable() => m_input.m_playerControls.UI.Cancel.performed += Back;
     private void OnDisable() => m_input.m_playerControls.UI.Cancel.performed -= Back;
 
@@ -41,9 +44,6 @@ public class CustomisationDisplay : MonoBehaviour
 
         if (m_selectedDisplay.TryGetComponent(out SelectorCollection collection)) m_selector = collection.selector;
 
-        //SetSelectedModel();
-        //if (m_selector) m_selector.DisplaySelected();
-
         SelectButton();
     }
 
@@ -53,8 +53,6 @@ public class CustomisationDisplay : MonoBehaviour
         m_categorySelector.SetDyeInteraction(false);
 
         GameObject buttonToSelect = m_selectedDisplay.GetComponentInChildren<Button>().gameObject;
-        DyeCollectionOld dyeCollection = m_selectedDisplay.GetComponent<DyeCollectionOld>();
-        if (dyeCollection) buttonToSelect = dyeCollection.firstSelected;
 
         m_eventSystem.SetSelectedGameObject(buttonToSelect);
     }
@@ -76,5 +74,7 @@ public class CustomisationDisplay : MonoBehaviour
 
         m_categorySelector.SetInteraction(true);
         if (m_eventSystem) m_eventSystem.SetSelectedGameObject(m_categorySelector.m_selectedObject);
+
+        onExitSelector?.Invoke();
     }
 }

@@ -49,6 +49,9 @@ public class HorseColourSelector : ColourSelector
         SetDye("Horse_Pattern", _data.patternDye);
         SetPattern(_data.pattern);
         m_skinSelector.SetSkin(_data.skinData);
+
+        ConfirmPattern();
+        m_skinSelector.ConfirmSkin();
     }
 
     public override void ResetDye(string _colourSegment)
