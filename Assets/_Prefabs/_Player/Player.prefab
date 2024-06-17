@@ -17023,15 +17023,13 @@ MonoBehaviour:
   m_goldReward: 20
   m_canRespawn: 0
   m_respawnTime: 5
-  m_PrefabRespawnParticle: {fileID: 0}
-  m_damagedParticlePrefabs: []
-  m_destroyedParticlePrefabs: []
+  m_collisionParticlePrefab: {fileID: 0}
+  m_damagedParticlePrefab: {fileID: 0}
+  m_destroyedParticlePrefab: {fileID: 0}
+  m_respawnParticlePrefab: {fileID: 0}
   m_collidedSFX: {fileID: 0}
   m_damagedSFX: {fileID: 0}
-  m_showPopup: 1
-  m_popupLocation: {fileID: 5354545354823200387}
-  m_popupRandomRange: 2
-  m_fontSize: 5
+  m_destroyedSFX: {fileID: 0}
   m_healthBar: {fileID: 6945002221866533136}
   m_addHealthPerStat: 10
 --- !u!1 &2610057018796134127
@@ -17176,7 +17174,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3210980722015533313}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.28421503, y: -0.0000000164968, z: 0.0000000048903135, w: 0.95876056}
+  m_LocalRotation: {x: 0.28421503, y: 0.000000016496799, z: -0.000000004890313, w: 0.95876056}
   m_LocalPosition: {x: 0, y: 7.3709984, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -36029,6 +36027,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2416113130360126729, guid: 4cdd0f24e4630c148b886d124baac55c, type: 3}
+      propertyPath: m_health
+      value: 
+      objectReference: {fileID: 8866432535963351058}
     - target: {fileID: 4849031822624801159, guid: 4cdd0f24e4630c148b886d124baac55c, type: 3}
       propertyPath: m_Name
       value: CartMesh

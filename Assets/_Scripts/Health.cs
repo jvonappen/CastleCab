@@ -10,6 +10,9 @@ public class Health : MonoBehaviour
     [SerializeField] protected float m_health = 100;
     [SerializeField] protected int m_dishonourPunishment = 15, m_goldReward = 20;
 
+    public float maxHealth { get { return m_maxHealth; } }
+    public float health { get { return m_health; } }
+
     protected bool m_isInvulnerable;
 
     public Action onDeath;

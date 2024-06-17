@@ -63,7 +63,6 @@ public class VillagerAI : MonoBehaviour
 
     private void Wander()
     {
-        Debug.Log(gameObject);
         RD = this.agent.remainingDistance;
         SD = this.agent.stoppingDistance;
 

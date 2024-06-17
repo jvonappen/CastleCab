@@ -157,7 +157,7 @@ public class GameManager : MonoBehaviour
             transform.parent = null;
             DontDestroyOnLoad(gameObject);
 
-            DontDestroyOnLoad(m_loadingScreen);
+            if (m_loadingScreen) DontDestroyOnLoad(m_loadingScreen);
 
             defaultShader = getUsedRenderPipeline().defaultShader;
         }
@@ -241,21 +241,16 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < m_players.Count; i++)
                 PlayerCustomization.StoreCustomizationsToPlayer(m_players[i].player.GetComponent<PlayerInput>(), m_players[i].player);
         }
-        
-        m_loadingScreen.SetActive(true);
+
+        if (m_loadingScreen) m_loadingScreen.SetActive(true);
 
         TimerManager.RunAfterTime(() => { StartCoroutine(LoadSceneAsyncronously(_sceneName)); }, 0.01f);
-        //TimerManager.RunAfterTime(() => { SceneManager.LoadScene(_sceneName); }, 0.01f);
     }
 
     IEnumerator LoadSceneAsyncronously(string _sceneName)
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync(_sceneName);
-        while (!operation.isDone)
-        {
-            //Debug.Log(operation.progress);
-            yield return null;
-        }
+        while (!operation.isDone) yield return null;
     }
 
     public void OpenCustomization()
@@ -263,14 +258,12 @@ public class GameManager : MonoBehaviour
         FindObjectOfType<PlayerInputManager>().DisableJoining();
 
         for (int i = 0; i < players.Count; i++) players[i].player.GetComponent<CustomisationSpawner>().StartCustomization();
-        //foreach (PlayerData data in players) data.player.GetComponent<CustomisationSpawner>().StartCustomization();
         InputManager.EnableSplitscreen();
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        TimerManager.RunAfterTime(() => { m_loadingScreen.SetActive(false); }, 2f);
-        //m_loadingScreen.SetActive(false);
+        if (m_loadingScreen) TimerManager.RunAfterTime(() => { m_loadingScreen.SetActive(false); }, 2f);
 
         InputManager inputManager = FindObjectOfType<InputManager>();
 
@@ -282,7 +275,6 @@ public class GameManager : MonoBehaviour
             m_players[i] = new(player, m_players[i].device, m_players[i].modelCustomizations, m_players[i].horseMat, m_players[i].playerUpgradeData);
 
             if (m_retainCosmeticsOnSceneLoad) ApplyCustomisationsToPlayer(m_players[i]);
-            //PlayerCustomization.StoreCustomizationsToPlayer(m_players[i].player.GetComponent<PlayerInput>(), m_players[i].player);
         }
     }
 
@@ -316,7 +308,7 @@ public class GameManager : MonoBehaviour
 
     public void ResetGame(bool _retainPlayers = true, bool _retainCosmetics = false)
     {
-        m_loadingScreen.SetActive(true);
+        if (m_loadingScreen) m_loadingScreen.SetActive(true);
 
         WagonData.playerNumber = 0;
 

@@ -13,6 +13,12 @@ public class PlayerHealth : Health
 
     float m_originalMaxHealth;
 
+    float GetMaxHealth()
+    {
+        int healthPoints = GameManager.Instance.GetPlayerData(GetComponentInParent<PlayerInput>().devices[0]).playerUpgradeData.health;
+        return m_originalMaxHealth + (m_addHealthPerStat * healthPoints);
+    }
+
     protected override void Init()
     {
         base.Init();
@@ -35,8 +41,7 @@ public class PlayerHealth : Health
 
     void OnHealthUpgrade() // If upgrade is made after init, call this manually
     {
-        int healthPoints = GameManager.Instance.GetPlayerData(GetComponentInParent<PlayerInput>().devices[0]).playerUpgradeData.health;
-        m_maxHealth = m_originalMaxHealth + (m_addHealthPerStat * healthPoints);
+        m_maxHealth = GetMaxHealth();
         m_health = m_maxHealth;
     }
 
