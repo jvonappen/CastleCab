@@ -92,6 +92,9 @@ public class ModelSelector : MonoBehaviour
     public void PreviewObject(GameObject _obj)
     {
         DeselectAll();
+
+        if (_obj.TryGetComponent(out FakeModel fakeModel)) _obj = fakeModel.m_realModel;
+
         _obj.SetActive(true);
 
         m_previewObject = _obj;
@@ -109,7 +112,11 @@ public class ModelSelector : MonoBehaviour
 
     public void DeselectAll()
     {
-        foreach (GameObject obj in m_selectionlist) obj.SetActive(false);
+        foreach (GameObject obj in m_selectionlist)
+        {
+            if (obj.TryGetComponent(out FakeModel fakeModel)) fakeModel.m_realModel.SetActive(false);
+            else obj.SetActive(false);
+        }
         m_previewObject = null;
     }
 
