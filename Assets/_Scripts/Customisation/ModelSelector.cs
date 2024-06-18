@@ -35,7 +35,8 @@ public class ModelSelector : MonoBehaviour
         foreach (Transform child in transform)
         {
             m_selectionlist.Add(child.gameObject);
-            child.gameObject.AddComponent<ModelSettings>().Init();
+            if (child.TryGetComponent(out FakeModel fakeModel)) fakeModel.m_realModel.AddComponent<ModelSettings>().Init();
+            else child.gameObject.AddComponent<ModelSettings>().Init();
         }
 
         m_selectedObject = transform.GetChild(0).gameObject;

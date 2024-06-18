@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 
 public class ChangeMenu : MonoBehaviour
@@ -18,19 +17,7 @@ public class ChangeMenu : MonoBehaviour
     {
         m_eventSystem ??= m_playerInput.playerInput.uiInputModule.GetComponent<MultiplayerEventSystem>();
 
-        if (m_playerInput.m_playerControls != null)
-        {
-            //m_playerInput.m_playerControls.UI.Next.performed += Next;
-            //m_playerInput.m_playerControls.UI.Previous.performed += Previous;
-        }
-
         onSetMenu?.Invoke();
-    }
-
-    private void OnDisable()
-    {
-        //m_playerInput.m_playerControls.UI.Next.performed -= Next;
-        //m_playerInput.m_playerControls.UI.Previous.performed -= Previous;
     }
 
     public void SetMenu()
@@ -39,11 +26,11 @@ public class ChangeMenu : MonoBehaviour
 
         gameObject.SetActive(true);
         m_eventSystem.SetSelectedGameObject(m_buttonToSelect);
+        TimerManager.RunAfterTime(() => m_eventSystem.SetSelectedGameObject(m_buttonToSelect), 0.1f);
 
         onSetMenu?.Invoke();
     }
 
-    void Next(InputAction.CallbackContext context) => NextMenu();
     public void NextMenu()
     {
         if (m_nextMenu)
@@ -53,7 +40,6 @@ public class ChangeMenu : MonoBehaviour
         }
     }
 
-    void Previous(InputAction.CallbackContext context) => PreviousMenu();
     public void PreviousMenu()
     {
         if (m_previousMenu)

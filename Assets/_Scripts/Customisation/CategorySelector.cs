@@ -32,8 +32,8 @@ public class CategorySelector : MonoBehaviour
         {
             if (m_selectedObject)
             {
-                float selectionDistanceFromPrevious = m_selectedObject.transform.localPosition.y - _obj.transform.localPosition.y;
-                m_tween = transform.DOLocalMoveY(transform.localPosition.y + selectionDistanceFromPrevious, 0.1f);
+                Vector3 selectionDistanceFromPrevious = m_selectedObject.transform.localPosition - _obj.transform.localPosition;
+                m_tween = transform.DOLocalMove(transform.localPosition + selectionDistanceFromPrevious, 0.1f);
                 m_tween.OnKill(() => { m_tween = null; });
 
                 DeselectObject(m_selectedObject);
