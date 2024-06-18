@@ -236,12 +236,6 @@ public class GameManager : MonoBehaviour
     {
         m_retainCosmeticsOnSceneLoad = _retainCosmetics;
         
-        if (SceneManager.GetActiveScene().name != "StartMenu")
-        {
-            for (int i = 0; i < m_players.Count; i++)
-                PlayerCustomization.StoreCustomizationsToPlayer(m_players[i].player.GetComponent<PlayerInput>(), m_players[i].player);
-        }
-
         if (m_loadingScreen) m_loadingScreen.SetActive(true);
 
         TimerManager.RunAfterTime(() => { StartCoroutine(LoadSceneAsyncronously(_sceneName)); }, 0.01f);
@@ -256,9 +250,11 @@ public class GameManager : MonoBehaviour
     public void OpenCustomization()
     {
         FindObjectOfType<PlayerInputManager>().DisableJoining();
-
-        for (int i = 0; i < players.Count; i++) players[i].player.GetComponent<CustomisationSpawner>().StartCustomization();
-        InputManager.EnableSplitscreen();
+        TimerManager.RunAfterTime(() =>
+        {
+            for (int i = 0; i < players.Count; i++) players[i].player.GetComponent<CustomisationSpawner>().StartCustomization();
+            InputManager.EnableSplitscreen();
+        }, 0.05f);
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
