@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using DG.Tweening;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -95,6 +96,7 @@ public class PlayerMovement : MonoBehaviour
         [SerializeField] internal float m_strengthMultiplier;
         [SerializeField] internal float m_startMoveCooldown;
         [SerializeField] internal float m_nextDriftCooldown;
+        [SerializeField] internal float m_tweenDuration;
     }
     float m_currentDriftTurnSpeed = 50;
     bool m_isDrifting, m_attemptingDrift;
@@ -438,14 +440,6 @@ public class PlayerMovement : MonoBehaviour
 
             onDrift?.Invoke();
 
-            // Camera
-            if (!m_isDrifting)
-            {
-                if (m_turnInput < 0) m_cam.m_target.Rotate(Vector3.up * 45);
-                else if (m_turnInput > 0) m_cam.m_target.Rotate(Vector3.up * -45);
-                m_cam.TweenTargetRotation(Vector3.zero, _Drifting.m_nextDriftCooldown);
-            }
-
             m_isAccelerating = true;
 
             m_isDrifting = true;
@@ -458,8 +452,8 @@ public class PlayerMovement : MonoBehaviour
             Vector3 playerRot = rb.transform.eulerAngles;
             Vector3 rotateAmount = new(0, 45, 0);
 
-            if (m_turnInput > 0) rb.transform.rotation = Quaternion.Euler(playerRot.x + rotateAmount.x, playerRot.y + rotateAmount.y, playerRot.z + rotateAmount.z);
-            else if (m_turnInput < 0) rb.transform.rotation = Quaternion.Euler(playerRot.x - rotateAmount.x, playerRot.y - rotateAmount.y, playerRot.z - rotateAmount.z);
+            if (m_turnInput > 0) rb.transform.DOLocalRotate(new(playerRot.x + rotateAmount.x, playerRot.y + rotateAmount.y, playerRot.z + rotateAmount.z), _Drifting.m_tweenDuration);
+            else if (m_turnInput < 0) rb.transform.DOLocalRotate(new(playerRot.x - rotateAmount.x, playerRot.y - rotateAmount.y, playerRot.z - rotateAmount.z), _Drifting.m_tweenDuration);
         }
     }
 
