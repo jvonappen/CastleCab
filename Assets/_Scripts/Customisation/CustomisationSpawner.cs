@@ -32,20 +32,23 @@ public class CustomisationSpawner : MonoBehaviour
 
         PlayerInputHandler customisationInputHandler = m_customizationMenu.GetComponent<PlayerInputHandler>();
         customisationInputHandler.SetPaired(true);
-        m_customizationInput = customisationInputHandler.playerInput;// m_customizationMenu.GetComponent<PlayerInput>();
+        m_customizationInput = customisationInputHandler.playerInput;
 
     }
 
     void OnPlayerPaired()
     {
-        PlayerCustomization.StoreCustomizationsToPlayer(m_customizationInput, gameObject);
+        //PlayerCustomization.StoreCustomizationsToPlayer(m_customizationInput, gameObject);
     }
 
     public void StartCustomization()
     {
-        m_customizationMenu.SetActive(true);
-        InputManager.SwitchPlayerInput(m_playerInputHandler.playerInput, m_customizationInput);
+        if (m_customizationMenu)
+        {
+            m_customizationMenu.SetActive(true);
+            InputManager.SwitchPlayerInput(m_playerInputHandler.playerInput, m_customizationInput);
 
-        m_customizationMenu.GetComponent<SwitchUI2P>().OpenDefaultMenu();
+            m_customizationMenu.GetComponent<SwitchUI2P>().OpenDefaultMenu();
+        }
     }
 }
