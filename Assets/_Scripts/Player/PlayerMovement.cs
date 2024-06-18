@@ -41,6 +41,9 @@ public class PlayerMovement : MonoBehaviour
     bool m_isGrounded;
     public bool isGrounded { get { return m_isGrounded; } }
     [SerializeField] Grounded _Grounded;
+
+    int m_groundLayer;
+    public int groundLayer { get { return m_groundLayer; } }
     #endregion
 
     #region Speed
@@ -635,6 +638,10 @@ public class PlayerMovement : MonoBehaviour
 
     void SetGrounded(RaycastHit _hit)
     {
+        GameObject water = GameObject.Find("Water Plane");
+        if (water && rb.transform.position.y < water.transform.position.y) m_groundLayer = water.layer;
+        else m_groundLayer = _hit.transform.gameObject.layer;
+
         if (!m_isGrounded) OnBeginGrounded();
         m_isGrounded = true;
 
