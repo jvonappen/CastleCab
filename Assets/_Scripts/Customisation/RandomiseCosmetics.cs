@@ -38,8 +38,7 @@ public class RandomiseCosmetics : MonoBehaviour
         m_horseSelector.ConfirmPattern();
         m_horseSelector.skinSelector.ConfirmSkin();
 
-        HorseMatInformation horseMat = PlayerCustomization.GetHorseMat(m_horseSelector);
-        PlayerCustomization.StoreCustomizationsToPlayer(m_input, model);
+        PlayerCustomization.StoreCustomisationsToPlayer(m_input, model);
         m_input.GetComponent<PlayerCustomization>().ApplyCosmeticsToPlayer();
     }
 

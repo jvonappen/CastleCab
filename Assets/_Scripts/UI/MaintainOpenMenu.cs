@@ -7,8 +7,6 @@ public class MaintainOpenMenu : MonoBehaviour
     [SerializeField] ChangeMenu m_activeOnAwake;
     [SerializeField] List<ObjectTwin> m_menus;
 
-    //private void Awake() => OpenMenu();
-
     public void OpenMenu()
     {
         foreach (Transform child in transform) child.gameObject.SetActive(false);

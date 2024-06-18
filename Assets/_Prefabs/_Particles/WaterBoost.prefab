@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 400000}
   - component: {fileID: 19800000}
   - component: {fileID: 19900000}
-  - component: {fileID: 11400000}
+  - component: {fileID: 4528718937657292122}
   m_Layer: 0
   m_Name: WaterBoost
   m_TagString: Untagged
@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5847148, y: 0.4330842, z: 3.2158482}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 400002}
@@ -4727,7 +4727,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &11400000
+--- !u!114 &4528718937657292122
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4736,10 +4736,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fd2e8874f60266498a388d7229a1bac, type: 3}
+  m_Script: {fileID: 11500000, guid: bcd7794c6661fc54c91c12e91b5bd91e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnlyDeactivate: 0
+  m_playerMovement: {fileID: 0}
+  m_requiredLayers:
+    serializedVersion: 2
+    m_Bits: 16
+  m_minSpeedToTrigger: 5
 --- !u!1 &100002
 GameObject:
   m_ObjectHideFlags: 0

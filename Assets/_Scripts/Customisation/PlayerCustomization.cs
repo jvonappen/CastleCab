@@ -6,12 +6,11 @@ using UnityEngine.InputSystem;
 
 public class PlayerCustomization : MonoBehaviour
 {
+    [SerializeField] Transform m_modelBase;
+
     PlayerInput m_playerInput;
     public PlayerInput playerInput { get { return m_playerInput; } }
-    public void SetOtherPlayerInput(PlayerInput _input)
-    {
-        m_playerInput = _input;
-    }
+    public void SetOtherPlayerInput(PlayerInput _input) => m_playerInput = _input;
 
     HorseColourSelector m_horseColourSelector;
 
@@ -26,11 +25,15 @@ public class PlayerCustomization : MonoBehaviour
     private void Start()
     {
         m_horseColourSelector.skinSelector.Init();
-        StoreCustomizationsToPlayer(m_input.playerInput, m_playerInput.gameObject, true);
+        StoreCustomisationsToPlayer(m_input.playerInput, m_playerInput.transform);
         ApplyCosmeticsToPlayer();
     }
 
-    private void OnEnable() => m_input.m_playerControls.UI.Exit.performed += Exit;
+    private void OnEnable()
+    {
+        m_input.m_playerControls.UI.Exit.performed += Exit;
+        ApplyCosmeticsToPlayer();
+    }
     private void OnDisable() => m_input.m_playerControls.UI.Exit.performed -= Exit;
 
     private void Exit(InputAction.CallbackContext context)
@@ -46,8 +49,6 @@ public class PlayerCustomization : MonoBehaviour
     public void SwitchInput()
     {
         InputManager.SwitchPlayerInput(m_input.playerInput, m_playerInput);
-
-        StoreCustomizationsToPlayer(true);
 
         GameManager.Instance.ApplyCustomisationsToPlayer(m_playerInput.gameObject);
 
@@ -111,7 +112,12 @@ public class PlayerCustomization : MonoBehaviour
         GameManager.Instance.SetPlayerData(device, new(data.player, data.device, modelCustomizations, GetHorseMat(_basePlayer.GetComponentInChildren<HorseColourSelector>(true)), data.playerUpgradeData));
     }
 
-    public static void StoreCustomizationsToPlayer(PlayerInput _input, Transform _baseModel)
+    public void StoreCustomisationsToPlayer()
+    {
+        StoreCustomisationsToPlayer(m_input.playerInput, m_modelBase);
+        ApplyCosmeticsToPlayer();
+    }
+    public static void StoreCustomisationsToPlayer(PlayerInput _input, Transform _baseModel)
     {
         InputDevice device;
         if (_input && _input.devices.Count > 0) device = _input.devices[0];

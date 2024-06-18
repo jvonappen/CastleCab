@@ -1,14 +1,21 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    public UnityEvent onPlayScene;
+
     public void PlayScene(string _sceneName)
     {
         GameManager.Instance.OpenCustomization();
         GameManager.Instance.GetComponent<SceneToLoad>().SetSceneToLoad(_sceneName);
 
-        gameObject.SetActive(false);
+        TimerManager.RunAfterTime(() =>
+        {
+            gameObject.SetActive(false);
+            onPlayScene?.Invoke();
+        }, 0.05f);
     }
 
     public void SkipCustomization(int scene)
