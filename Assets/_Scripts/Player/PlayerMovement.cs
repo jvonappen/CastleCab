@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using DG.Tweening;
+using DG.Tweening.Core;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -106,6 +107,8 @@ public class PlayerMovement : MonoBehaviour
     float m_driftTurnInput;
 
     float m_driftBeginMoveCooldownTimer, m_newDriftCooldownTimer;
+
+    TweenerCore<Quaternion, Vector3, DG.Tweening.Plugins.Options.QuaternionOptions> m_driftTween;
 
     public bool isDrifting { get { return m_isDrifting; } }
     [SerializeField] Drifting _Drifting;
@@ -455,8 +458,8 @@ public class PlayerMovement : MonoBehaviour
             Vector3 playerRot = rb.transform.eulerAngles;
             Vector3 rotateAmount = new(0, 45, 0);
 
-            if (m_turnInput > 0) rb.transform.DOLocalRotate(new(playerRot.x + rotateAmount.x, playerRot.y + rotateAmount.y, playerRot.z + rotateAmount.z), _Drifting.m_tweenDuration);
-            else if (m_turnInput < 0) rb.transform.DOLocalRotate(new(playerRot.x - rotateAmount.x, playerRot.y - rotateAmount.y, playerRot.z - rotateAmount.z), _Drifting.m_tweenDuration);
+            if (m_turnInput > 0) m_driftTween = rb.transform.DOLocalRotate(new(playerRot.x + rotateAmount.x, playerRot.y + rotateAmount.y, playerRot.z + rotateAmount.z), _Drifting.m_tweenDuration).OnKill(() => m_driftTween = null);
+            else if (m_turnInput < 0) m_driftTween = rb.transform.DOLocalRotate(new(playerRot.x - rotateAmount.x, playerRot.y - rotateAmount.y, playerRot.z - rotateAmount.z), _Drifting.m_tweenDuration).OnKill(() => m_driftTween = null);
         }
     }
 
@@ -872,8 +875,14 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (m_driftTurnInput != 0)
                 {
-                    if (m_driftTurnInput > 0) dir = Quaternion.AngleAxis(-45, Vector3.up) * rb.transform.forward;
-                    else if (m_driftTurnInput < 0) dir = Quaternion.AngleAxis(45, Vector3.up) * rb.transform.forward;
+                    // Changes drift direction based on tween progress (So it doesn't instantly start moving diagonally,
+                    // otherwise it will move the player in the opposite direction briefly)
+                    float driftTweenProgress = 1;
+                    if (m_driftTween != null && m_driftTween.IsPlaying()) driftTweenProgress = m_driftTween.Elapsed() / m_driftTween.Duration();
+
+                    // Sets drift move direction
+                    if (m_driftTurnInput > 0) dir = Quaternion.AngleAxis(-45 * driftTweenProgress, Vector3.up) * rb.transform.forward;
+                    else if (m_driftTurnInput < 0) dir = Quaternion.AngleAxis(45 * driftTweenProgress, Vector3.up) * rb.transform.forward;
 
                     dir *= _Drifting.m_moveMultiplier;
                 }
