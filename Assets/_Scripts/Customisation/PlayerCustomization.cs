@@ -87,31 +87,6 @@ public class PlayerCustomization : MonoBehaviour
         }
     }
 
-    public void StoreCustomizationsToPlayer(bool _storeInactive = false) => StoreCustomizationsToPlayer(m_playerInput, gameObject, _storeInactive);
-
-    /// <summary>
-    /// Deprecated. Prone to bugs
-    /// </summary>
-    /// <param name="_input"></param>
-    /// <param name="_basePlayer"></param>
-    /// <param name="_storeInactive"></param>
-    public static void StoreCustomizationsToPlayer(PlayerInput _input, GameObject _basePlayer, bool _storeInactive = false)
-    {
-        List<ModelCustomization> modelCustomizations = new();
-        foreach (ModelSelector selector in _basePlayer.GetComponentsInChildren<ModelSelector>(_storeInactive))
-        {
-            selector.Init();
-            modelCustomizations.Add(new(selector));
-        }
-
-        InputDevice device;
-        if (_input && _input.devices.Count > 0) device = _input.devices[0];
-        else device = _basePlayer.GetComponent<PlayerInput>().devices[0];
-
-        PlayerData data = GameManager.Instance.GetPlayerData(device);
-        GameManager.Instance.SetPlayerData(device, new(data.player, data.device, modelCustomizations, GetHorseMat(_basePlayer.GetComponentInChildren<HorseColourSelector>(true)), data.playerUpgradeData));
-    }
-
     public void StoreCustomisationsToPlayer()
     {
         StoreCustomisationsToPlayer(m_input.playerInput, m_modelBase);

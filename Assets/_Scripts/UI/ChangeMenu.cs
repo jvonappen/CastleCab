@@ -22,7 +22,7 @@ public class ChangeMenu : MonoBehaviour
 
     public void SetMenu()
     {
-        m_playerInput.GetComponent<PlayerCustomization>().StoreCustomizationsToPlayer(true);
+        m_playerInput.GetComponent<PlayerCustomization>().StoreCustomisationsToPlayer();
 
         gameObject.SetActive(true);
         m_eventSystem.SetSelectedGameObject(m_buttonToSelect);

@@ -135,7 +135,10 @@ public class ModelSelector : MonoBehaviour
     {
         if (selectedObject)
         {
-            int siblingIndex = selectedObject.transform.GetSiblingIndex();
+            int siblingIndex;
+            if (selectedObject.TryGetComponent(out FakeModel fakeModel)) siblingIndex = fakeModel.m_realModel.transform.GetSiblingIndex();
+            else siblingIndex = selectedObject.transform.GetSiblingIndex();
+            
             if (m_indexZeroIsNone) siblingIndex++;
 
             return siblingIndex;

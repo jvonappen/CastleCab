@@ -69,7 +69,7 @@ public class ReadyUp : MonoBehaviour
     {
         foreach (PlayerCustomization player in FindObjectsOfType<PlayerCustomization>())
         {
-            player.StoreCustomizationsToPlayer(true);
+            player.StoreCustomisationsToPlayer();
             player.GetComponent<PlayerUpgrades>().StoreUpgradeDataToPlayer();
         }
 
