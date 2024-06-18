@@ -47214,6 +47214,34 @@ MonoBehaviour:
   signal: 1
   maxLanes: 4
   nodeInd: 0
+--- !u!1 &1015287689 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1350849252953750397, guid: 05c8b72494dfc094cab0b46e60d5ad0d, type: 3}
+  m_PrefabInstance: {fileID: 1441865465}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1015287691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1015287689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &1019591921
 GameObject:
   m_ObjectHideFlags: 0
@@ -68289,6 +68317,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1779795627}
     m_Modifications:
+    - target: {fileID: 56444350290904390, guid: 05c8b72494dfc094cab0b46e60d5ad0d, type: 3}
+      propertyPath: m_Color.g
+      value: 0.20784314
+      objectReference: {fileID: 0}
+    - target: {fileID: 56444350290904390, guid: 05c8b72494dfc094cab0b46e60d5ad0d, type: 3}
+      propertyPath: m_Color.r
+      value: 0.74509805
+      objectReference: {fileID: 0}
+    - target: {fileID: 56444350290904390, guid: 05c8b72494dfc094cab0b46e60d5ad0d, type: 3}
+      propertyPath: m_Intensity
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1141433318395532196, guid: 05c8b72494dfc094cab0b46e60d5ad0d, type: 3}
       propertyPath: m_Materials.Array.data[3]
       value: 
@@ -68381,6 +68421,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 42b2427ce509c214b936c0e70bdb4462, type: 2}
+    - target: {fileID: 7341044985511626146, guid: 05c8b72494dfc094cab0b46e60d5ad0d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8041917218665370161, guid: 05c8b72494dfc094cab0b46e60d5ad0d, type: 3}
       propertyPath: m_Name
       value: Graveyard Town Area
@@ -68396,7 +68440,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1350849252953750397, guid: 05c8b72494dfc094cab0b46e60d5ad0d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1015287691}
   m_SourcePrefab: {fileID: 100100000, guid: 05c8b72494dfc094cab0b46e60d5ad0d, type: 3}
 --- !u!4 &1441865466 stripped
 Transform:
