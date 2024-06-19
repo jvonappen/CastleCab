@@ -50,7 +50,8 @@ public class SetPositionOnCamera : MonoBehaviour
     }
 
     public void SetPositionReady() => SetPositionAtPoint(new(0.66f, 0.5f, 3));
-    public void SetPosition2pCustomise() => SetPositionAtPoint(new(0.69f, 0.66f, 3));
+    public void SetPosition2pReady() => SetPositionAtPoint(new(0.5f, 0.35f, 3));
+    public void SetPosition2pCustomise() => SetPositionAtPoint(new(0.5f, 0.66f, 3));
     public void SetPositionCentre() => SetPositionAtPoint(new(0.5f, 0.5f, 3));
     public void SetPosition2pUpgrade() => SetPositionAtPoint(new(0.75f, 0.5f, 3));
     public void SetPositionCustomiseCategory() => SetPositionAtPoint(new(0.64f, 0.5f, 3));
