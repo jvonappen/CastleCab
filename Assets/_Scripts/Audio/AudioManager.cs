@@ -36,8 +36,6 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        // Marshall Addding Code, get rid of if it isnt good
-
         // Choose a random song from the musicAudio array
         if (musicAudio.Length > 0)
         {
@@ -45,9 +43,6 @@ public class AudioManager : MonoBehaviour
             string randomSong = musicAudio[randomIndex].audioName; // Assuming AudioDetails has a field or property named audioName
             PlayMusic(randomSong);
         }
-
-        // End of Marshall Code
-
 
         //PlayMusic("Exalted");
         //PlayMusic("TROUBADOUR");

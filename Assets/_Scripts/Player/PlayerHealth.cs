@@ -71,8 +71,9 @@ public class PlayerHealth : Health
 
     public void HealthPickupIncrease(float pickupValue)
     {
+        float prevHealth = m_health;
         m_health = m_health + pickupValue;
         if (m_health > m_maxHealth) m_health = m_maxHealth;
-        UpdateHealthBar();
+        onHealthChanged?.Invoke(prevHealth, m_health);
     }
 }
