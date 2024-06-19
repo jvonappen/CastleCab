@@ -47,6 +47,11 @@ public class WagonData : MonoBehaviour
         m_objectiveArrow.SetTarget(null);
     }
 
+    public void OnPassengerStolen()
+    {
+        m_objectiveArrow.SetTarget(null);
+    }
+
     public void PlayPickUpParticle()
     {
         pickupParticle.SetActive(true);

@@ -272,6 +272,8 @@ public class WagonService : MonoBehaviour
 
         wagonData_B.isOccupied = false;
 
+        wagonData_B.OnPassengerStolen();
+
         SetPassenger();
     }
 
