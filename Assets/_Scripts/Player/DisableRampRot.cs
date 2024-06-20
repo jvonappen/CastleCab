@@ -8,6 +8,8 @@ public class DisableRampRot : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.isTrigger) return;
+
         Rigidbody rb = other.attachedRigidbody;
         if (rb && rb.transform.parent)
         {
@@ -21,6 +23,8 @@ public class DisableRampRot : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        if (other.isTrigger) return;
+
         Rigidbody rb = other.attachedRigidbody;
         if (rb && rb.transform.parent)
         {
