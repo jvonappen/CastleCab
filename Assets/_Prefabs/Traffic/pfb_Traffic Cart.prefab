@@ -9141,6 +9141,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_playerMovement: {fileID: 0}
+  m_requiredLayers:
+    serializedVersion: 2
+    m_Bits: 0
   m_minSpeedToTrigger: 5
 --- !u!1 &3864397786074544501
 GameObject:
@@ -9460,15 +9463,13 @@ MonoBehaviour:
   m_goldReward: 0
   m_canRespawn: 1
   m_respawnTime: 5
-  m_PrefabRespawnParticle: {fileID: 0}
-  m_damagedParticlePrefabs: []
-  m_destroyedParticlePrefabs:
-  - {fileID: 7511328176439486736, guid: b2f9691986e2d7048b48dcf702b763f8, type: 3}
-  sfxAudio: {fileID: 0}
-  m_showPopup: 1
-  m_popupLocation: {fileID: 0}
-  m_popupRandomRange: 2
-  m_fontSize: 5
+  m_collisionParticlePrefab: {fileID: 0}
+  m_damagedParticlePrefab: {fileID: 0}
+  m_destroyedParticlePrefab: {fileID: 0}
+  m_respawnParticlePrefab: {fileID: 0}
+  m_collidedSFX: {fileID: 0}
+  m_damagedSFX: {fileID: 0}
+  m_destroyedSFX: {fileID: 0}
 --- !u!1 &4188301031478523640
 GameObject:
   m_ObjectHideFlags: 0
@@ -12735,15 +12736,13 @@ MonoBehaviour:
   m_goldReward: 0
   m_canRespawn: 1
   m_respawnTime: 5
-  m_PrefabRespawnParticle: {fileID: 0}
-  m_damagedParticlePrefabs: []
-  m_destroyedParticlePrefabs:
-  - {fileID: 7511328176439486736, guid: b2f9691986e2d7048b48dcf702b763f8, type: 3}
-  sfxAudio: {fileID: 0}
-  m_showPopup: 1
-  m_popupLocation: {fileID: 0}
-  m_popupRandomRange: 2
-  m_fontSize: 5
+  m_collisionParticlePrefab: {fileID: 0}
+  m_damagedParticlePrefab: {fileID: 0}
+  m_destroyedParticlePrefab: {fileID: 0}
+  m_respawnParticlePrefab: {fileID: 0}
+  m_collidedSFX: {fileID: 0}
+  m_damagedSFX: {fileID: 0}
+  m_destroyedSFX: {fileID: 0}
 --- !u!1 &6493068564495171664
 GameObject:
   m_ObjectHideFlags: 0
@@ -19111,6 +19110,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_playerMovement: {fileID: 0}
+  m_requiredLayers:
+    serializedVersion: 2
+    m_Bits: 0
   m_minSpeedToTrigger: 5
 --- !u!1 &7726913698600876714
 GameObject:
@@ -20475,6 +20477,7 @@ MonoBehaviour:
   m_collisionLayer:
     serializedVersion: 2
     m_Bits: 4096
+  m_knockbackStrengthMulti: 1
   audioGroup: {fileID: 11400000, guid: 4be96ef8182f4d448a597d6842f7eab1, type: 2}
 --- !u!1 &8811546544570399582
 GameObject:
@@ -20980,4 +20983,4 @@ MonoBehaviour:
   m_force: 13
   m_velY: 5
   m_particle: {fileID: 5880797563127281583, guid: 7bb345d0881810c4ba63d550819f8ba6, type: 3}
-  audioGroup: {fileID: 11400000, guid: 4be96ef8182f4d448a597d6842f7eab1, type: 2}
+  audioGroup: {fileID: 11400000, guid: 97ef6a19b1bce254cbdd5a908c982157, type: 2}
