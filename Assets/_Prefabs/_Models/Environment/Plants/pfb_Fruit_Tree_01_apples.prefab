@@ -178,6 +178,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6419187236850804161}
   - component: {fileID: 2256188382494855856}
+  - component: {fileID: -8003883945632844764}
+  - component: {fileID: 6697212662180915035}
   m_Layer: 0
   m_Name: pfb_Fruit_Tree_01_apples
   m_TagString: Untagged
@@ -230,6 +232,53 @@ LODGroup:
     renderers:
     - renderer: {fileID: 6038074568851490021}
   m_Enabled: 1
+--- !u!114 &-8003883945632844764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5935278547815300987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b2412d7b607ce54290fe5b66608b7d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_health: 10
+  m_dishonourPunishment: 0
+  m_goldReward: 5
+  m_canRespawn: 1
+  m_respawnTime: 15
+  m_collisionParticlePrefab: {fileID: 0}
+  m_damagedParticlePrefab: {fileID: 0}
+  m_destroyedParticlePrefab: {fileID: 0}
+  m_respawnParticlePrefab: {fileID: 0}
+  m_collidedSFX: {fileID: 0}
+  m_damagedSFX: {fileID: 0}
+  m_destroyedSFX: {fileID: 0}
+--- !u!136 &6697212662180915035
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5935278547815300987}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5696954
+  m_Height: 4
+  m_Direction: 1
+  m_Center: {x: -0.05, y: 1.5, z: -0.05}
 --- !u!1 &7513603357302551873
 GameObject:
   m_ObjectHideFlags: 0
