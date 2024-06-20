@@ -50,7 +50,7 @@ public class Health : MonoBehaviour
             }
             else Debug.LogWarning("There is no audio manager in scene!");
 
-            PlayParticle(m_collisionParticlePrefab);
+            PlayParticle(ref m_collisionParticlePrefab);
         }
     }
 
@@ -58,7 +58,7 @@ public class Health : MonoBehaviour
     {
         if (!m_isInvulnerable)
         {
-            PlayParticle(m_damagedParticlePrefab);
+            PlayParticle(ref m_damagedParticlePrefab);
 
             float previousHealth = m_health;
             m_health -= _damageAmount;
@@ -91,7 +91,7 @@ public class Health : MonoBehaviour
     protected virtual void Die(PlayerAttack _player)
     {
         if (m_destroyedSFX != null) AudioManager.Instance.PlaySoundAtLocation(m_destroyedSFX.audioGroupName, transform.position);
-        PlayParticle(m_destroyedParticlePrefab);
+        PlayParticle(ref m_destroyedParticlePrefab);
         GameObject particleParent = GameObject.Find("----Particles");
         if (particleParent && m_destroyedParticlePrefab) m_destroyedParticlePrefab.transform.SetParent(particleParent.transform);
 
@@ -117,7 +117,7 @@ public class Health : MonoBehaviour
 
         TimerManager.RunAfterTime(() =>
         {
-            PlayParticle(m_respawnParticlePrefab);
+            PlayParticle(ref m_respawnParticlePrefab);
             m_health = m_maxHealth;
             gameObject.SetActive(true);
             Init();
@@ -125,7 +125,7 @@ public class Health : MonoBehaviour
         }, m_respawnTime);
     }
 
-    void PlayParticle(GameObject pp)
+    void PlayParticle(ref GameObject pp)
     {
 
         if (pp)
@@ -139,7 +139,7 @@ public class Health : MonoBehaviour
             }
 
             pp.SetActive(true);
-            TimerManager.RunAfterTime(() => { pp.SetActive(false); }, 0.7F);
+            //TimerManager.RunAfterTime(() => { pp.SetActive(false); }, 0.7F);
 
         }
     }

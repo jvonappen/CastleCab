@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1971556705954956000}
+  - component: {fileID: -3152012971854642974}
+  - component: {fileID: 3854437629649666965}
   - component: {fileID: 3239139220617628997}
   - component: {fileID: 799191831180212623}
-  - component: {fileID: 3854437629649666965}
-  - component: {fileID: -3152012971854642974}
   - component: {fileID: 3772691701863257824}
   m_Layer: 0
   m_Name: pfb_tree10_green
@@ -37,6 +37,53 @@ Transform:
   - {fileID: 1300937628923347597}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-3152012971854642974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1159589820403308634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b2412d7b607ce54290fe5b66608b7d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_health: 10
+  m_dishonourPunishment: 0
+  m_goldReward: 5
+  m_canRespawn: 1
+  m_respawnTime: 15
+  m_collisionParticlePrefab: {fileID: 9157105887711914197, guid: 416d2e94eeb15914ebd2d6529a52408e, type: 3}
+  m_damagedParticlePrefab: {fileID: 7511328176439486736, guid: b2f9691986e2d7048b48dcf702b763f8, type: 3}
+  m_destroyedParticlePrefab: {fileID: 2353600328335836179, guid: 1e3d13ea75805a84b885765bab557420, type: 3}
+  m_respawnParticlePrefab: {fileID: 141433446842962269, guid: 9a300ba111052ed4b84133515fa48a6d, type: 3}
+  m_collidedSFX: {fileID: 11400000, guid: 219db2806e1b5434d9ef6ebde22454c7, type: 2}
+  m_damagedSFX: {fileID: 11400000, guid: 396f0ec8eb376d941b57af0b3fda7157, type: 2}
+  m_destroyedSFX: {fileID: 11400000, guid: 834db3b63a9ea8b4bba6bbffb568b922, type: 2}
+--- !u!136 &3854437629649666965
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1159589820403308634}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.31030464
+  m_Height: 9.38375
+  m_Direction: 1
+  m_Center: {x: 0, y: 4.5712943, z: 0.229563}
 --- !u!33 &3239139220617628997
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -88,53 +135,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &3854437629649666965
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1159589820403308634}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.31030464
-  m_Height: 9.38375
-  m_Direction: 1
-  m_Center: {x: 0, y: 4.5712943, z: 0.229563}
---- !u!114 &-3152012971854642974
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1159589820403308634}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b2412d7b607ce54290fe5b66608b7d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_health: 10
-  m_dishonourPunishment: 0
-  m_goldReward: 5
-  m_canRespawn: 1
-  m_respawnTime: 15
-  m_collisionParticlePrefab: {fileID: 0}
-  m_damagedParticlePrefab: {fileID: 0}
-  m_destroyedParticlePrefab: {fileID: 0}
-  m_respawnParticlePrefab: {fileID: 0}
-  m_collidedSFX: {fileID: 11400000, guid: 219db2806e1b5434d9ef6ebde22454c7, type: 2}
-  m_damagedSFX: {fileID: 0}
-  m_destroyedSFX: {fileID: 11400000, guid: 396f0ec8eb376d941b57af0b3fda7157, type: 2}
 --- !u!205 &3772691701863257824
 LODGroup:
   m_ObjectHideFlags: 0

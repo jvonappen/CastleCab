@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6951432926197382349}
+  - component: {fileID: 3024495356208646813}
+  - component: {fileID: 8668721568131147556}
   - component: {fileID: 7394499495415481640}
   - component: {fileID: 980024846930555519}
-  - component: {fileID: 8668721568131147556}
-  - component: {fileID: 3024495356208646813}
   - component: {fileID: 5208479211712847694}
   m_Layer: 0
   m_Name: pfb_cherry_blossom
@@ -36,6 +36,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3024495356208646813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3579092360302620416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b2412d7b607ce54290fe5b66608b7d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_health: 10
+  m_dishonourPunishment: 0
+  m_goldReward: 5
+  m_canRespawn: 1
+  m_respawnTime: 15
+  m_collisionParticlePrefab: {fileID: 9157105887711914197, guid: 416d2e94eeb15914ebd2d6529a52408e, type: 3}
+  m_damagedParticlePrefab: {fileID: 7511328176439486736, guid: b2f9691986e2d7048b48dcf702b763f8, type: 3}
+  m_destroyedParticlePrefab: {fileID: 7511328176439486736, guid: b2f9691986e2d7048b48dcf702b763f8, type: 3}
+  m_respawnParticlePrefab: {fileID: 141433446842962269, guid: 9a300ba111052ed4b84133515fa48a6d, type: 3}
+  m_collidedSFX: {fileID: 11400000, guid: 219db2806e1b5434d9ef6ebde22454c7, type: 2}
+  m_damagedSFX: {fileID: 11400000, guid: 396f0ec8eb376d941b57af0b3fda7157, type: 2}
+  m_destroyedSFX: {fileID: 11400000, guid: 834db3b63a9ea8b4bba6bbffb568b922, type: 2}
+--- !u!136 &8668721568131147556
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3579092360302620416}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 184.87654
+  m_Height: 1327.1775
+  m_Direction: 1
+  m_Center: {x: 38.59391, y: 578.2181, z: -33.317947}
 --- !u!33 &7394499495415481640
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -86,58 +133,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &8668721568131147556
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3579092360302620416}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 184.87654
-  m_Height: 1327.1775
-  m_Direction: 1
-  m_Center: {x: 38.59391, y: 578.2181, z: -33.317947}
---- !u!114 &3024495356208646813
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3579092360302620416}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b2412d7b607ce54290fe5b66608b7d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_health: 10
-  m_dishonourPunishment: 0
-  m_goldReward: 0
-  m_canRespawn: 1
-  m_respawnTime: 5
-  m_PrefabRespawnParticle: {fileID: 4772634663576830964, guid: cc2aff25d415ab943a25bfe12c7787aa, type: 3}
-  m_damagedParticlePrefabs:
-  - {fileID: 2353600328335836179, guid: 184f878599d1da14f833466beb8d9274, type: 3}
-  m_destroyedParticlePrefabs:
-  - {fileID: 7511328176439486736, guid: b2f9691986e2d7048b48dcf702b763f8, type: 3}
-  m_collidedSFX: {fileID: 11400000, guid: 219db2806e1b5434d9ef6ebde22454c7, type: 2}
-  m_damagedSFX: {fileID: 0}
-  m_destroyedSFX: {fileID: 11400000, guid: 396f0ec8eb376d941b57af0b3fda7157, type: 2}
-  m_showPopup: 1
-  m_popupLocation: {fileID: 0}
-  m_popupRandomRange: 2
-  m_fontSize: 5
 --- !u!205 &5208479211712847694
 LODGroup:
   m_ObjectHideFlags: 0
