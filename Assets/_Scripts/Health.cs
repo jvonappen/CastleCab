@@ -138,8 +138,10 @@ public class Health : MonoBehaviour
                // pp.SetActive(false);
             }
 
+            GameObject obj = pp;
+
             pp.SetActive(true);
-            //TimerManager.RunAfterTime(() => { pp.SetActive(false); }, 0.7F);
+            TimerManager.RunAfterTime(() => { obj.SetActive(false); }, 0.7F);
 
         }
     }

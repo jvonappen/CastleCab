@@ -9,12 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2334658923050203493}
+  - component: {fileID: 2523902851440368407}
+  - component: {fileID: 755374475873031734}
   - component: {fileID: 5545321048018872854}
   - component: {fileID: 6898291658552795166}
-  - component: {fileID: 755374475873031734}
-  - component: {fileID: 2523902851440368407}
   m_Layer: 0
-  m_Name: pfb_Large_post_open
+  m_Name: pfb_fence1_large_open
   m_TagString: Fence
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36,6 +36,51 @@ Transform:
   - {fileID: 4985921337599403779}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2523902851440368407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6996945765305958847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b2412d7b607ce54290fe5b66608b7d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_health: 1
+  m_dishonourPunishment: 5
+  m_goldReward: 0
+  m_canRespawn: 1
+  m_respawnTime: 15
+  m_collisionParticlePrefab: {fileID: 9166491292151608625}
+  m_damagedParticlePrefab: {fileID: 5608587317177746046}
+  m_destroyedParticlePrefab: {fileID: 3003235121209584528}
+  m_respawnParticlePrefab: {fileID: 8536385042577609391}
+  m_collidedSFX: {fileID: 11400000, guid: 219db2806e1b5434d9ef6ebde22454c7, type: 2}
+  m_damagedSFX: {fileID: 11400000, guid: 3fb34228c27767546ac8e9ccecd7725f, type: 2}
+  m_destroyedSFX: {fileID: 11400000, guid: cfe2a71bc4fe53d458ae70d976f7073d, type: 2}
+--- !u!65 &755374475873031734
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6996945765305958847}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.20076175, y: 1.072912, z: 9.822682}
+  m_Center: {x: 0, y: 0.47364715, z: 0}
 --- !u!33 &5545321048018872854
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -86,55 +131,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &755374475873031734
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6996945765305958847}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.20076175, y: 1.072912, z: 9.822682}
-  m_Center: {x: 0, y: 0.47364715, z: 0}
---- !u!114 &2523902851440368407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6996945765305958847}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b2412d7b607ce54290fe5b66608b7d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_health: 1
-  m_dishonourPunishment: 5
-  m_goldReward: 0
-  m_canRespawn: 1
-  m_respawnTime: 5
-  m_collisionParticlePrefab: {fileID: 9166491292151608625}
-  m_damagedParticlePrefab: {fileID: 5608587317177746046}
-  m_destroyedParticlePrefab: {fileID: 3003235121209584528}
-  m_respawnParticlePrefab: {fileID: 8536385042577609391}
-  m_collidedSFX: {fileID: 11400000, guid: 219db2806e1b5434d9ef6ebde22454c7, type: 2}
-  m_damagedSFX: {fileID: 11400000, guid: 834db3b63a9ea8b4bba6bbffb568b922, type: 2}
-  m_destroyedSFX: {fileID: 11400000, guid: 834db3b63a9ea8b4bba6bbffb568b922, type: 2}
-  m_showPopup: 0
-  m_popupLocation: {fileID: 0}
-  m_popupRandomRange: 2
-  m_fontSize: 5
 --- !u!1001 &6682401238786665455
 PrefabInstance:
   m_ObjectHideFlags: 0
