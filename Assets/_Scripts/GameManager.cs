@@ -113,6 +113,7 @@ public struct PlayerUpgradeData
 }
 #endregion
 
+[Serializable]
 public struct PlayerData
 {
     #region Constructor
@@ -127,7 +128,7 @@ public struct PlayerData
     #endregion
 
     #region Variables
-    GameObject m_player;
+    [SerializeField] GameObject m_player;
     InputDevice m_device;
     List<ModelCustomization> m_modelCustomizations;
     HorseMatInformation m_horseMat;
@@ -272,6 +273,8 @@ public class GameManager : MonoBehaviour
 
             if (m_retainCosmeticsOnSceneLoad) ApplyCustomisationsToPlayer(m_players[i]);
         }
+
+        onPlayerAdd?.Invoke();
     }
 
     public void ApplyCustomisationsToPlayer(GameObject _player) => ApplyCustomisationsToPlayer(GetPlayerData(_player));
