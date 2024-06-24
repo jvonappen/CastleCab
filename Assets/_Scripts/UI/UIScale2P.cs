@@ -14,8 +14,6 @@ public class UIScale2P : PlayerJoinedNotifier
 
             if (m_playerInputManager.playerCount == 2)
             {
-                Debug.Log(m_canvas.pixelRect.width);
-
                 rt.offsetMin = new Vector2(m_canvas.pixelRect.width / 4, rt.offsetMin.y);
                 rt.offsetMax = new Vector2(-m_canvas.pixelRect.width / 4, rt.offsetMin.y);
             }
