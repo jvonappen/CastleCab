@@ -464,8 +464,8 @@ public class PlayerMovement : MonoBehaviour
             Vector3 playerRot = rb.transform.eulerAngles;
             Vector3 rotateAmount = new(0, 45, 0);
 
-            if (m_turnInput > 0) m_driftTween = rb.transform.DOLocalRotate(new(playerRot.x + rotateAmount.x, playerRot.y + rotateAmount.y, playerRot.z + rotateAmount.z), _Drifting.m_tweenDuration).OnKill(() => m_driftTween = null);
-            else if (m_turnInput < 0) m_driftTween = rb.transform.DOLocalRotate(new(playerRot.x - rotateAmount.x, playerRot.y - rotateAmount.y, playerRot.z - rotateAmount.z), _Drifting.m_tweenDuration).OnKill(() => m_driftTween = null);
+            if (m_turnInput > 0) m_driftTween = rb.transform.DORotate(new(playerRot.x + rotateAmount.x, playerRot.y + rotateAmount.y, playerRot.z + rotateAmount.z), _Drifting.m_tweenDuration).OnKill(() => m_driftTween = null);
+            else if (m_turnInput < 0) m_driftTween = rb.transform.DORotate(new(playerRot.x - rotateAmount.x, playerRot.y - rotateAmount.y, playerRot.z - rotateAmount.z), _Drifting.m_tweenDuration).OnKill(() => m_driftTween = null);
         }
     }
 
