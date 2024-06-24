@@ -76,6 +76,12 @@ public class PlayerMovement : MonoBehaviour
 
     float m_defaultDrag;
 
+    // Used for speed ramps and any other speed-altering environmental structures
+    float m_externalMaxSpeedMulti = 1;
+    public void SetMaxSpeedMulti(float _maxSpeedMulti) => m_externalMaxSpeedMulti = _maxSpeedMulti;
+    float m_externalAccelerationMulti = 1;
+    public void SetAccelerationMulti(float _accelerationMulti) => m_externalAccelerationMulti = _accelerationMulti;
+
     [SerializeField] Speed _Speed;
     #endregion
 
@@ -774,6 +780,9 @@ public class PlayerMovement : MonoBehaviour
             maxSpeed *= statMaxSpeedMulti;
             accelerationRate *= statAccelerationMulti;
 
+            maxSpeed *= m_externalMaxSpeedMulti;
+            accelerationRate *= m_externalAccelerationMulti;
+
             if (currentSpeed < maxSpeed)
             {
                 float accelInput = m_isDrifting ? 1 : m_accelerationInput;
@@ -973,6 +982,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (m_isGrounded)
             {
+                // Sets turn input to either -1 or 1 to lock it as target rotation dir
                 turnInput = m_driftTurnInput;
 
                 if (m_driftBeginMoveCooldownTimer >= _Drifting.m_startMoveCooldown)
@@ -984,9 +994,19 @@ public class PlayerMovement : MonoBehaviour
                     }
                 }
 
+                // Calculates strength of turn based on analogue stick value and makes it keeps it positive
                 float turnStrength = m_turnInput + 1;
                 if (turnInput < 0) turnStrength = Mathf.Abs(m_turnInput - 1);
 
+                if (m_isReversing)
+                {
+                    if ((turnInput < 0 && m_turnInput <= 0) || (turnInput > 0 && m_turnInput >= 0))
+                    {
+                        // Clamps turn stength to max if drifting backwards, as long as it is still going the right direction
+                        turnStrength = 2;
+                    }
+                }
+                
                 turnSpeed = m_currentDriftTurnSpeed * turnStrength * _Drifting.m_strengthMultiplier;
             }
         }
