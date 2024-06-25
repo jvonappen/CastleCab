@@ -23,18 +23,18 @@ public class ArriveAtTarget : MonoBehaviour
         m_wagonContents = m_cartTargetPoint.GetComponentInChildren<WagonService>(); // Returns NPC reference in wagon
         
 
-        if (m_wagonContents.captureFlagToggle == true && m_wagonContents != null && m_wagonContents.destination == this.gameObject)
-        {
-            m_wagonData.score.scoreValue = m_wagonData.score.scoreValue + m_wagonContents.scoreGiven;
-            AudioManager.Instance.PlaySFX("Out");
-            m_wagonContents.transform.parent = null;
-            m_wagonContents.transform.position = exitLocation.transform.position;
-            m_wagonContents.isAtTarget = true;
-            m_wagonData.isOccupied = false;
-            m_wagonData.destinationTarget = null;
-            m_wagonContents.destination = null;          
-            m_wagonContents.gameObject.SetActive(false);
-        }
+        //if (m_wagonContents.captureFlagToggle == true && m_wagonContents != null && m_wagonContents.destination == this.gameObject)
+        //{
+        //    m_wagonData.score.scoreValue = m_wagonData.score.scoreValue + m_wagonContents.scoreGiven;
+        //    AudioManager.Instance.PlaySFX("Out");
+        //    m_wagonContents.transform.parent = null;
+        //    m_wagonContents.transform.position = exitLocation.transform.position;
+        //    m_wagonContents.isAtTarget = true;
+        //    m_wagonData.isOccupied = false;
+        //    m_wagonData.destinationTarget = null;
+        //    m_wagonContents.destination = null;          
+        //    m_wagonContents.gameObject.SetActive(false);
+        //}
 
         if (m_wagonContents.zonedDeliveriesToggle == true && m_wagonContents && m_wagonContents.destination == gameObject)
         {
