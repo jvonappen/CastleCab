@@ -322,13 +322,12 @@ public class WagonService : MonoBehaviour
         this.gameObject.transform.position = og_transform;
         
         isAtTarget = false;
-        wagonData_A = null;
         currentlyInCart = false;
 
         zoneSelect = RandomIntExcept(1, 5, thisZoneNumber);
 
         m_pickupMarker.SetActive(true);
-        StartRefs();
+    
         _animator = this.gameObject.GetComponentInChildren<Animator>();
         
 
