@@ -354,6 +354,8 @@ MonoBehaviour:
   m_collisionLayer:
     serializedVersion: 2
     m_Bits: 4096
+  m_knockbackStrengthMulti: 1
+  audioGroup: {fileID: 0}
 --- !u!1 &5820391185531311141
 GameObject:
   m_ObjectHideFlags: 0
@@ -7019,6 +7021,7 @@ MonoBehaviour:
   searchRange0: 0
   sirenToggle: 0
   inPursuit: 0
+  m_despawnPoofParticle: {fileID: 141433446842962269, guid: 306a8f7fcba0bd2469a17e8d57235f1a, type: 3}
 --- !u!195 &68330297070450344
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -7056,13 +7059,15 @@ MonoBehaviour:
   m_health: 10
   m_dishonourPunishment: 15
   m_goldReward: 20
-  m_damagedParticlePrefabs: []
-  m_destroyedParticlePrefabs:
-  - {fileID: 2040044314665895850, guid: b7c721497d8739843a7ca2240e1453d4, type: 3}
-  m_showPopup: 1
-  m_popupLocation: {fileID: 0}
-  m_popupRandomRange: 2
-  m_fontSize: 5
+  m_canRespawn: 1
+  m_respawnTime: 5
+  m_collisionParticlePrefab: {fileID: 0}
+  m_damagedParticlePrefab: {fileID: 0}
+  m_destroyedParticlePrefab: {fileID: 0}
+  m_respawnParticlePrefab: {fileID: 0}
+  m_collidedSFX: {fileID: 0}
+  m_damagedSFX: {fileID: 0}
+  m_destroyedSFX: {fileID: 0}
 --- !u!1 &9174503304632740346
 GameObject:
   m_ObjectHideFlags: 0

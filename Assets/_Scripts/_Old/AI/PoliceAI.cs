@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using URNTS;
 
 public class PoliceAI : MonoBehaviour
 {
@@ -26,6 +27,10 @@ public class PoliceAI : MonoBehaviour
     [ConditionalHide("m_showDebug")] [SerializeField] private float chasingRange0, chaseSpeed0, searchRange0;
     [ConditionalHide("m_showDebug")] [SerializeField] private bool sirenToggle;
     [ConditionalHide("m_showDebug")] [SerializeField] private bool inPursuit = false;
+
+    [SerializeField] GameObject m_despawnPoofParticle;
+
+    bool m_isAggressive;
 
     private void Awake()
     {
@@ -78,20 +83,69 @@ public class PoliceAI : MonoBehaviour
         agent.speed = chaseSpeed0;
     }
 
-    private void OnEnable()
+    public void SetAggressive(bool _isAggressive)
     {
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(thisTransform.position, out hit, 2, 1))
+        bool willRespawn = false;
+        VehicleController controller = GetComponent<VehicleController>();
+
+        if (m_isAggressive && !_isAggressive) // Stop being aggressive
         {
-            agent.Warp(hit.position);
-            agent.enabled = true;
+            agent.enabled = false;
+            if (controller) willRespawn = true;
         }
+        else if (!m_isAggressive && _isAggressive) // Start being aggresive
+        {
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(thisTransform.position, out hit, 2, 1))
+            {
+                agent.Warp(hit.position);
+                agent.enabled = true;
+            }
+        }
+
+        m_isAggressive = _isAggressive;
+
+        if (willRespawn) RespawnVehicle(controller);
     }
 
-    private void OnDisable() => agent.enabled = false;
+    Transform m_particleParent = null;
+    void RespawnVehicle(VehicleController _controller)
+    {
+        RespawnParticle();
+        _controller.RespawnVehicle();
+    }
+
+    void RespawnParticle()
+    {
+        if (!m_despawnPoofParticle.scene.isLoaded) // is prefab
+        {
+            m_despawnPoofParticle = Instantiate(m_despawnPoofParticle);
+            m_despawnPoofParticle.transform.position = transform.position;
+
+            GameObject go = GameObject.Find("----Particles");
+            if (go) m_particleParent = go.transform;
+        }
+        else
+        {
+            m_despawnPoofParticle.transform.SetParent(m_particleParent);
+            m_despawnPoofParticle.SetActive(true);
+        }
+
+        // Plays despawn particle
+        m_despawnPoofParticle.GetComponent<ParticleSystem>().Play();
+
+        // Resets despawn particle
+        TimerManager.RunAfterTime(() =>
+        {
+            m_despawnPoofParticle.transform.SetParent(transform);
+            m_despawnPoofParticle.transform.position = transform.position;
+        }, 3);
+    }
 
     private void WanderAllOver()
     {
+        //Debug.Log("Wandering");
+
         float RD = agent.remainingDistance;
         float SD = agent.stoppingDistance;
 
@@ -126,6 +180,8 @@ public class PoliceAI : MonoBehaviour
     {
         if (_playerTransform)
         {
+            //Debug.Log("Chasing");
+
             float distance = Vector3.Distance(_playerTransform.position, agent.transform.position);
             if (distance < chasingRange0)
             {

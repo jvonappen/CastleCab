@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace URNTS
@@ -70,6 +71,11 @@ namespace URNTS
             targetPos = Vector3.zero;
         }
 
+        public void RespawnVehicle()
+        {
+            ObjectPooler.instance.StoreVehInPool("Vehicles", gameObject);
+        }
+
         public virtual void Update()
         {
             if (mode == Mode.AI_freeroam)
@@ -87,7 +93,7 @@ namespace URNTS
                     // If the vehicle is out of range from player, store it in pool
                     if (vehicleDist > TrafficManager.instance.spawnEndRadius * TrafficManager.instance.spawnEndRadius + 1000) //instance*
                     {
-                        ObjectPooler.instance.StoreVehInPool("Vehicles", gameObject);
+                        RespawnVehicle();
                     }
                     UpdateTarget();
                     currentVel = Vector3.Dot(rb.velocity, transform.forward);

@@ -25,7 +25,7 @@ public class Dishonour : MonoBehaviour
     {
         m_enemySpawner = FindObjectOfType<EnemySpawner>();
 
-       // m_maxDishonourLevel = m_progress.totalPoints;
+       m_maxDishonourLevel = m_progress.totalPoints;
     }
 
     public void AddDishonour(int _dishonourToAdd)
@@ -84,6 +84,6 @@ public class Dishonour : MonoBehaviour
 
         if (m_currentDishonourLevel == m_maxDishonourLevel) m_currentDishonourPoints = 0;
 
-       // m_progress.SetProgress(m_currentDishonourLevel);
+        m_progress.SetProgress(m_currentDishonourLevel);
     }
 }
