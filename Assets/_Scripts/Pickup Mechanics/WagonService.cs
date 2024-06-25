@@ -5,14 +5,15 @@ using UnityEngine.AI;
 
 using TMPro;
 using UnityEngine.Timeline;
+using static UnityEngine.ParticleSystem;
 
 public class WagonService : MonoBehaviour
 {   
     [SerializeField] public int scoreGiven;
 
-    [Space]
-    [SerializeField] private GameObject[] destinationList;
-    [Space]
+    //[Space]
+    //[SerializeField] private GameObject[] destinationList;
+    //[Space]
 
     [SerializeField] private GameObject m_pickupMarker;
 
@@ -24,18 +25,6 @@ public class WagonService : MonoBehaviour
 
     private GameObject m_wagonSlot;
 
-    //[Header("Timer")]
-    //[SerializeField] private GameObject timerObject;
-    //[SerializeField] private GameTimer timeValue;
-
-    //[Header("Respawn")]
-    ////private Transform _ogTrans;
-    //[SerializeField] private float resetDelay = 5;
-
-    [Header("Capture Flag Toggle")]
-    [SerializeField] public bool captureFlagToggle;
-    [SerializeField] private GameObject[] playerBaseList;
-    private int playerListNumberPos;
 
     [Header("Zoned Deliveries Toggle")]
     [SerializeField] public bool zonedDeliveriesToggle;
@@ -76,7 +65,7 @@ public class WagonService : MonoBehaviour
 
 
     //[Header("Fare")]
-    //[SerializeField] private TextMeshProUGUI fareText;
+    [SerializeField] private Vector3 og_transform;
 
 
 
@@ -96,8 +85,10 @@ public class WagonService : MonoBehaviour
 
     private void Awake()
     {
-        listLength = destinationList.Length;
+        //listLength = destinationList.Length;
         zoneSelect = RandomIntExcept(1, 5, thisZoneNumber);
+
+        og_transform = this.gameObject.transform.position;
     }
     private void Start()
     {
@@ -109,11 +100,11 @@ public class WagonService : MonoBehaviour
 
         _animator = this.gameObject.GetComponentInChildren<Animator>();
         ChangeAnimation(NPC_ATTENTION);
-        if (!captureFlagToggle && !zonedDeliveriesToggle)
-        {
-            int randomDestination = UnityEngine.Random.Range(0, listLength);
-            destination = destinationList[randomDestination];
-        }
+        //if (!captureFlagToggle && !zonedDeliveriesToggle)
+        //{
+        //    int randomDestination = UnityEngine.Random.Range(0, listLength);
+        //    destination = destinationList[randomDestination];
+        //}
 
     }
 
@@ -126,8 +117,8 @@ public class WagonService : MonoBehaviour
         m_wagonSlot = wagonData_A.wagonSlot;
 
         if (zonedDeliveriesToggle == true) { PassengerPickupMode(); }
-        if (zonedDeliveriesToggle == true && canBeStolen == true) { StealPassengerMode(); }
-        if(!zonedDeliveriesToggle && captureFlagToggle == true) { CaptureTheFlagMode(); }
+        else if (zonedDeliveriesToggle == true && canBeStolen == true) { StealPassengerMode(); }
+        //if(!zonedDeliveriesToggle && captureFlagToggle == true) { CaptureTheFlagMode(); }
     }
 
     public void ChangeAnimation(string newAnimation)
@@ -153,6 +144,9 @@ public class WagonService : MonoBehaviour
             {
                 if (particles != null) { particles.SetActive(true); }
                 gameObject.SetActive(false);
+
+                ResetRespawn();
+
             }, m_vanishTimer);
         }
 
@@ -223,20 +217,22 @@ public class WagonService : MonoBehaviour
         bmP4 = DM.beamP4; bmP4.SetActive(false);
     }
 
-    private void CaptureTheFlagMode()
-    {
-        if (captureFlagToggle == true && !wagonData_A.isOccupied) //Capture Flag
-        {
-            destination = playerBaseList[wagonData_A.thisPlayerNumber - 1];
+    //private void CaptureTheFlagMode()
+    //{
+    //    if (captureFlagToggle == true && !wagonData_A.isOccupied) //Capture Flag
+    //    {
+    //        destination = playerBaseList[wagonData_A.thisPlayerNumber - 1];
 
-            PickupObjective();
-        }
-    }
+    //        PickupObjective();
+    //    }
+    //}
 
     private void PassengerPickupMode()
     {
         if (zonedDeliveriesToggle == true && !wagonData_A.isOccupied && !currentlyInCart)
         {
+            Debug.Log("Test");
+
             ZoneSelector(zoneSelect); // Sets destination
 
             PickupObjective();
@@ -251,6 +247,8 @@ public class WagonService : MonoBehaviour
     {
         if (zonedDeliveriesToggle == true && !wagonData_A.isOccupied && currentlyInCart == true)
         {
+            Debug.Log("Stolen");
+
             PickupObjective();
 
             StealPassenger();
@@ -277,7 +275,7 @@ public class WagonService : MonoBehaviour
         SetPassenger();
     }
 
-    void SetPassenger()
+    void SetPassenger() //Pickup Passenger
     {
         AudioManager.Instance.PlaySFX("In");
         currentlyInCart = true;
@@ -302,21 +300,41 @@ public class WagonService : MonoBehaviour
         wagonData_A.OnPickup(destination.transform);
     }
 
-    private void BasicDeliveryMode()
+    //private void BasicDeliveryMode()
+    //{
+    //    if (!wagonData_A.isOccupied && destination != null && !captureFlagToggle)
+    //    {
+    //        m_pickupMarker.SetActive(false);
+
+
+    //        this.transform.parent = m_wagonSlot.transform;
+    //        this.transform.position = this.m_wagonSlot.transform.position;
+    //        transform.rotation = new Quaternion(X, Y, Z, 0);
+
+    //        wagonData_A.destinationTarget = destination;
+
+    //        wagonData_A.isOccupied = true;
+    //    }
+    //}
+
+    private void ResetRespawn()
     {
-        if (!wagonData_A.isOccupied && destination != null && !captureFlagToggle)
-        {
-            m_pickupMarker.SetActive(false);
+        this.gameObject.transform.position = og_transform;
+        
+        isAtTarget = false;
+        wagonData_A = null;
+        currentlyInCart = false;
 
+        zoneSelect = RandomIntExcept(1, 5, thisZoneNumber);
 
-            this.transform.parent = m_wagonSlot.transform;
-            this.transform.position = this.m_wagonSlot.transform.position;
-            transform.rotation = new Quaternion(X, Y, Z, 0);
+        m_pickupMarker.SetActive(true);
+        StartRefs();
+        _animator = this.gameObject.GetComponentInChildren<Animator>();
+        
 
-            wagonData_A.destinationTarget = destination;
+        gameObject.SetActive(true);
 
-            wagonData_A.isOccupied = true;
-        }
+        ChangeAnimation(NPC_ATTENTION);
     }
 }
 
