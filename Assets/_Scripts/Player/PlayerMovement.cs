@@ -418,28 +418,28 @@ public class PlayerMovement : MonoBehaviour
     #endregion
 
     #region Drift
-    bool m_isAggressiveTEMP;
+    //bool m_isAggressiveTEMP;
     void OnDriftPerformed(InputAction.CallbackContext context)
     {
         // Testing - Irrelevant, delete later
-        List<PoliceAI> policeAIs = FindObjectsOfType<PoliceAI>(true).ToList();
-        if (!m_isAggressiveTEMP)
-        {
-            m_isAggressiveTEMP = true;
-            
-            foreach (PoliceAI ai in policeAIs)
-            {
-                ai.SetAggressive(true);
-            }
-        }
-        else
-        {
-            m_isAggressiveTEMP = false;
-            foreach (PoliceAI ai in policeAIs)
-            {
-                ai.SetAggressive(false);
-            }
-        }
+        //List<PoliceAI> policeAIs = FindObjectsOfType<PoliceAI>(true).ToList();
+        //if (!m_isAggressiveTEMP)
+        //{
+        //    m_isAggressiveTEMP = true;
+        //    
+        //    foreach (PoliceAI ai in policeAIs)
+        //    {
+        //        ai.SetAggressive(true);
+        //    }
+        //}
+        //else
+        //{
+        //    m_isAggressiveTEMP = false;
+        //    foreach (PoliceAI ai in policeAIs)
+        //    {
+        //        ai.SetAggressive(false);
+        //    }
+        //}
 
         if (m_isGrounded)
         {
