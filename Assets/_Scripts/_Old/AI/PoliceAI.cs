@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using URNTS;
@@ -5,7 +6,10 @@ using URNTS;
 public class PoliceAI : MonoBehaviour
 {
 #pragma warning disable CS0414
-    [SerializeField] private Transform _playerTransform;
+    [SerializeField] private Transform m_target;
+
+    [Tooltip("Amount the stars required for enemy targetting")]
+    [SerializeField] private int m_dishonourThreshold; 
 
     [Header("Wander")]
     [Tooltip("The center of the wandering radius. Use a fixed object to keep the wander area fixed. Use the object itself, to have complete free roam.")]
@@ -24,64 +28,116 @@ public class PoliceAI : MonoBehaviour
 
     [Header("Debug")]
     [SerializeField] bool m_showDebug;
-    [ConditionalHide("m_showDebug")] [SerializeField] private float chasingRange0, chaseSpeed0, searchRange0;
     [ConditionalHide("m_showDebug")] [SerializeField] private bool sirenToggle;
-    [ConditionalHide("m_showDebug")] [SerializeField] private bool inPursuit = false;
 
     [SerializeField] GameObject m_despawnPoofParticle;
 
     bool m_isAggressive;
 
+    #region Init
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         thisTransform = agent.transform;
         
     }
-    private void Start()
-    {
-        m_manager = GameManager.Instance;
-    }
-
-    void SetPlayerTarget()
-    {
-        Transform closestPlayer = null;
-        float closestDist = float.MaxValue;
-        //foreach (GameObject player in m_manager.players)
-        foreach (PlayerData data in m_manager.players)
-        {
-            Transform horseTransform = data.player.transform.GetChild(1);
-            float playerDist = Vector3.Distance(thisTransform.position, horseTransform.position);
-            if (playerDist < closestDist)
-            {
-                closestDist = playerDist;
-                closestPlayer = horseTransform;
-            }
-        }
-
-        _playerTransform = closestPlayer;
-    }
+    private void Start() => m_manager = GameManager.Instance;
+    #endregion
 
     private void Update()
     {
+        SetTarget();
+        
         if (agent.enabled)
         {
-            DishonourEvaluate();
-            SetPlayerTarget(); // TODO - optimize
+            agent.speed = data.chaseSpeed1;
+            Chase();
         }
     }
 
-
-    private void DishonourEvaluate()
+    void SetTarget()
     {
-        chaseSpeed0 = data.chaseSpeed1;
-        searchRange0 = data.searchRange1;
-        chasingRange0 = data.chasingRange1;
+        #region Optimisations
+        // Checks to optimise performance (The rest of the function doesn't have to run otherwise)
+        if (m_playersInRange.Count == 0)
+        {
+            if (m_isAggressive) SetAggressive(false);
+            m_target = null;
+            return;
+        }
+        if (m_playersInRange.Count == 1 && m_playersInRange[0] == m_target) return;
+        #endregion
 
-        InRange();
+        #region FindTarget
+        float closestTargetDist = float.MaxValue;
+        Transform newTarget = null;
 
-        agent.speed = chaseSpeed0;
+        // Only loops through players in range to avoid looping through other players at the other end of the map for optimisaiton
+        for (int i = 0; i < m_playersInRange.Count; i++)
+        {
+            Dishonour playerDishonour = m_playersInRange[i].GetComponentInParent<Dishonour>();
+
+            // Checks to see if the player has reached minimum dishonour threshold for this enemy
+            if (playerDishonour.currentDishonour >= m_dishonourThreshold)
+            {
+                // Before setting the newTarget, this checks to make sure it is the closest one so far,
+                // (in case there are multiple players that meet the previous requirements in range, and targets the nearest one)
+                // - Might change later on to preference higher dishonour level player, but not currently
+                float targetDist = Vector3.Distance(m_playersInRange[i].position, transform.position);
+                if (targetDist < closestTargetDist)
+                {
+                    closestTargetDist = targetDist;
+                    newTarget = m_playersInRange[i];
+                }
+            }
+        }
+        #endregion
+
+        #region SetTarget
+        // If a target is found
+        if (newTarget)
+        {
+            m_target = newTarget;
+            if (!m_isAggressive) SetAggressive(true);
+        }
+        else
+        {
+            if (m_isAggressive) SetAggressive(false);
+        }
+        #endregion
     }
+
+    #region OnRange
+    [SerializeField] List<Transform> m_playersInRange = new();
+
+    public void OnPlayerEnterRange(Collider _collider)
+    {
+        if (_collider.isTrigger) return;
+
+        Rigidbody rb = _collider.attachedRigidbody;
+        if (rb && rb.transform.tag == "Player")
+        {
+            if (!m_playersInRange.Contains(rb.transform))
+            {
+                m_playersInRange.Add(rb.transform);
+            }
+        }
+    }
+
+    public void OnPlayerExitRange(Collider _collider)
+    {
+        if (_collider.isTrigger) return;
+
+        Rigidbody rb = _collider.attachedRigidbody;
+        if (rb && rb.transform.tag == "Player")
+        {
+            if (m_playersInRange.Contains(rb.transform))
+            {
+                m_playersInRange.Remove(rb.transform);
+            }
+        }
+    }
+    #endregion
 
     public void SetAggressive(bool _isAggressive)
     {
@@ -142,72 +198,56 @@ public class PoliceAI : MonoBehaviour
         }, 3);
     }
 
-    private void WanderAllOver()
-    {
-        //Debug.Log("Wandering");
+    //private void WanderAllOver()
+    //{
+    //    float RD = agent.remainingDistance;
+    //    float SD = agent.stoppingDistance;
+    //
+    //    if (RD <= SD)
+    //    {
+    //        
+    //        Vector3 point;
+    //        if (FindRandomPoint(wanderTransform.position, data.searchRange1, out point)) //pass in centrepoint and radius of area
+    //        {
+    //            agent.SetDestination(point);
+    //            thisTransform.LookAt(point);
+    //            thisTransform.Rotate(point);
+    //            thisTransform.forward = point;
+    //        }
+    //    }
+    //}
 
-        float RD = agent.remainingDistance;
-        float SD = agent.stoppingDistance;
-
-        if (RD <= SD)
-        {
-            
-            Vector3 point;
-            if (FindRandomPoint(wanderTransform.position, searchRange0, out point)) //pass in centrepoint and radius of area
-            {
-                agent.SetDestination(point);
-                thisTransform.LookAt(point);
-                thisTransform.Rotate(point);
-                thisTransform.forward = point;
-            }
-        }
-    }
-
-    bool FindRandomPoint(Vector3 center, float range, out Vector3 result)
-    {
-        Vector3 randomPoint = center + Random.insideUnitSphere * range; //random point in a sphere 
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(randomPoint, out hit, 10.0f, NavMesh.AllAreas))
-        {
-            result = hit.position;
-            return true;
-        }
-
-        result = Vector3.zero;
-        return false;
-    }
+    //bool FindRandomPoint(Vector3 center, float range, out Vector3 result)
+    //{
+    //    Vector3 randomPoint = center + Random.insideUnitSphere * range; //random point in a sphere 
+    //    NavMeshHit hit;
+    //    if (NavMesh.SamplePosition(randomPoint, out hit, 10.0f, NavMesh.AllAreas))
+    //    {
+    //        result = hit.position;
+    //        return true;
+    //    }
+    //
+    //    result = Vector3.zero;
+    //    return false;
+    //}
     private void Chase()
     {
-        if (_playerTransform)
-        {
-            //Debug.Log("Chasing");
+        //if (m_target)
+        //{
+        //    float distance = Vector3.Distance(m_target.position, agent.transform.position);
+        //    if (distance < chasingRange0)
+        //    {
+        //        Vector3 lookAtDonkey = new Vector3(m_target.position.x, agent.transform.position.y, m_target.position.z);
+        //        agent.SetDestination(m_target.position);
+        //
+        //        thisTransform.LookAt(lookAtDonkey);
+        //    }
+        //}
 
-            float distance = Vector3.Distance(_playerTransform.position, agent.transform.position);
-            if (distance < chasingRange0)
-            {
-                Vector3 lookAtDonkey = new Vector3(_playerTransform.position.x, agent.transform.position.y, _playerTransform.position.z);
-                agent.SetDestination(_playerTransform.position);
+        Vector3 lookAtDonkey = new Vector3(m_target.position.x, agent.transform.position.y, m_target.position.z);
+        agent.SetDestination(m_target.position);
 
-                thisTransform.LookAt(lookAtDonkey);
-            }
-        }
-    }
-    private void InRange()
-    {
-        if (_playerTransform)
-        {
-            float distance = Vector3.Distance(_playerTransform.position, transform.position);
-            if (distance < chasingRange0)
-            {
-                Chase();
-                inPursuit = true;
-            }
-            if (distance > chasingRange0)
-            {
-                WanderAllOver();
-                inPursuit = false;
-            }
-        }
+        thisTransform.LookAt(lookAtDonkey);
     }
 
 

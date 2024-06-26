@@ -231,8 +231,6 @@ public class WagonService : MonoBehaviour
     {
         if (zonedDeliveriesToggle == true && !wagonData_A.isOccupied && !currentlyInCart)
         {
-            Debug.Log("Test");
-
             ZoneSelector(zoneSelect); // Sets destination
 
             PickupObjective();
