@@ -167,7 +167,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject m_loadingScreen;
 
-    List<PlayerData> m_players = new();
+    [SerializeField] List<PlayerData> m_players = new();
     public List<PlayerData> players { get { return m_players; } }
     public void ClearPlayers() => m_players.Clear();
 
@@ -235,6 +235,8 @@ public class GameManager : MonoBehaviour
 
     public void LoadScene(string _sceneName, bool _retainCosmetics = false)
     {
+        if (_sceneName == "") _sceneName = SceneManager.GetSceneAt(1).name;
+
         m_retainCosmeticsOnSceneLoad = _retainCosmetics;
         
         if (m_loadingScreen) m_loadingScreen.SetActive(true);
@@ -250,7 +252,8 @@ public class GameManager : MonoBehaviour
 
     public void OpenCustomization()
     {
-        FindObjectOfType<PlayerInputManager>().DisableJoining();
+        //FindObjectOfType<PlayerInputManager>().DisableJoining();
+        FindObjectOfType<InputManager>().SetCanJoin(false);
         TimerManager.RunAfterTime(() =>
         {
             for (int i = 0; i < players.Count; i++) players[i].player.GetComponent<CustomisationSpawner>().StartCustomization();
@@ -267,7 +270,7 @@ public class GameManager : MonoBehaviour
         // Pairs users to existing (or new if neccesary) 'PlayerInput's, and replaces player reference
         for (int i = 0; i < m_players.Count; i++)
         {
-            GameObject player = inputManager.JoinUser(m_players[i].device);
+            GameObject player = inputManager.JoinPlayer(m_players[i].device);//JoinUser(m_players[i].device);
 
             m_players[i] = new(player, m_players[i].device, m_players[i].modelCustomizations, m_players[i].horseMat, m_players[i].playerUpgradeData);
 

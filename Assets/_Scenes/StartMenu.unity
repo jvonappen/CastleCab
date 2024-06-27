@@ -14930,6 +14930,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 2050704964}
     m_Modifications:
     - target: {fileID: -4911133876627330942, guid: 8daf4ce470f2b3e4fafca044cbba3724, type: 3}
+      propertyPath: maxPlayers
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -4911133876627330942, guid: 8daf4ce470f2b3e4fafca044cbba3724, type: 3}
       propertyPath: m_playerPrefab
       value: 
       objectReference: {fileID: 2496256291427695376, guid: a7032b4d356586740bf317764df0be46, type: 3}
@@ -15007,12 +15011,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1835259442248261470, guid: 8daf4ce470f2b3e4fafca044cbba3724, type: 3}
       propertyPath: m_JoinBehavior
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1835259442248261470, guid: 8daf4ce470f2b3e4fafca044cbba3724, type: 3}
       propertyPath: m_PlayerPrefab
       value: 
-      objectReference: {fileID: 2496256291427695376, guid: a7032b4d356586740bf317764df0be46, type: 3}
+      objectReference: {fileID: 7984029797084072976, guid: 57f87e62323ab4e4eaf8ea3848da05b0, type: 3}
     - target: {fileID: 1835259442248261470, guid: 8daf4ce470f2b3e4fafca044cbba3724, type: 3}
       propertyPath: m_JoinAction.m_UseReference
       value: 1
@@ -76532,6 +76536,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_loadingScreen: {fileID: 359747814}
+  m_players: []
   m_gold: 912
   m_affordColour: {r: 0.22554174, g: 1, b: 0.15566039, a: 1}
   m_notAffordColour: {r: 0.8018868, g: 0.07943218, b: 0.07943218, a: 1}
