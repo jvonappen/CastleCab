@@ -15,9 +15,7 @@ public class CustomisationSpawner : MonoBehaviour
     private void OnEnable()
     {
         m_playerInputHandler = GetComponent<PlayerInputHandler>();
-        m_playerInputHandler.onPaired += OnPlayerPaired;
     }
-    private void OnDisable() => m_playerInputHandler.onPaired -= OnPlayerPaired;
 
     private void Start()
     {
@@ -34,11 +32,6 @@ public class CustomisationSpawner : MonoBehaviour
         customisationInputHandler.SetPaired(true);
         m_customizationInput = customisationInputHandler.playerInput;
 
-    }
-
-    void OnPlayerPaired()
-    {
-        //PlayerCustomization.StoreCustomizationsToPlayer(m_customizationInput, gameObject);
     }
 
     public void StartCustomization()

@@ -65,7 +65,7 @@ public class ReadyUp : MonoBehaviour
         StartGame();
     }
 
-    public void StartGame()
+    public static void StartGame()
     {
         foreach (PlayerCustomization player in FindObjectsOfType<PlayerCustomization>())
         {
