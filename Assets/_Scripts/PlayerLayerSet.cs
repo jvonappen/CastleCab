@@ -9,15 +9,18 @@ public class PlayerLayerSet : MonoBehaviour
 
     private void Awake()
     {
-        int layer = 0;
+        TimerManager.RunAfterTime(() =>
+        {
+            int layer = 0;
 
-        int playerIndex = m_input.user.index;
-        if (playerIndex == 1) layer = LayerMask.NameToLayer("P1");
-        if (playerIndex == 2) layer = LayerMask.NameToLayer("P2");
-        if (playerIndex == 3) layer = LayerMask.NameToLayer("P3");
-        if (playerIndex == 4) layer = LayerMask.NameToLayer("P4");
+            int playerIndex = m_input.user.index;
+            if (playerIndex == 0) layer = LayerMask.NameToLayer("P1");
+            if (playerIndex == 1) layer = LayerMask.NameToLayer("P2");
+            if (playerIndex == 2) layer = LayerMask.NameToLayer("P3");
+            if (playerIndex == 3) layer = LayerMask.NameToLayer("P4");
 
-        SetLayerAllChildren(m_input.transform, layer);
+            SetLayerAllChildren(m_input.transform, layer);
+        }, 0.1f);
     }
 
     void SetLayerAllChildren(Transform root, int layer)
