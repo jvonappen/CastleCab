@@ -314,6 +314,9 @@ public class GameManager : MonoBehaviour
 
         WagonData.playerNumber = 0;
 
+        //InputManager.Instance.ClearInputDevices();
+        InputManager.Instance.TempDisableJoining();
+
         if (!_retainPlayers) ClearPlayers();
         LoadScene("StartMenu", _retainCosmetics);
     }

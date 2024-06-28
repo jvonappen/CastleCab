@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
@@ -11,19 +10,26 @@ using URNTS;
 
 public class InputManager : MonoBehaviour
 {
-    [SerializeField] GameObject m_playerPrefab;
+    [SerializeField] GameObject m_menuPlayerPrefab, m_playerPrefab;
+    GameObject GetPlayerPrefab()
+    {
+        if (SceneManager.GetActiveScene().name == "StartMenu") return m_menuPlayerPrefab;
+        else return m_playerPrefab;
+    }
 
     public static Action<PlayerInput, List<PlayerInput>> onPlayerJoined;
     public static Action<PlayerInput, List<PlayerInput>> onPlayerLeft;
 
     [SerializeField] bool m_randomiseSpawnpoint = true;
     [SerializeField] List<Transform> m_remainingSpawnPoints;
+    Spawnpoints m_spawnpoints;
 
-    [SerializeField] TrafficManager m_trafficManager;
+    /*[SerializeField] */TrafficManager m_trafficManager;
     List<PlayerInput> m_players = new();
 
     InputAction joinAction;
     List<InputDevice> inputDevices = new();
+    public void ClearInputDevices() => inputDevices.Clear();
     int joinedCount;
 
     bool m_canJoin = true;
@@ -53,28 +59,69 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    void OnSceneLoaded(Scene _scene, LoadSceneMode _loadSceneMode)
     {
-        // Bind joinAction to any button press.
-        joinAction = new InputAction(binding: "/*/<button>");
+        m_trafficManager = FindObjectOfType<TrafficManager>();
+        m_spawnpoints = FindObjectOfType<Spawnpoints>();
 
-        joinAction.started += OnJoinPressed;
-        BeginJoining();
-    }
-    private void OnDisable()
-    {
-        joinAction.started -= OnJoinPressed;
-        EndJoining();
+        TimerManager.RunAfterTime(() =>
+        {
+            if (_scene.name != "StartMenu") EnableSplitscreen();
+        }, 0.1f);
+
+        ClearInputDevices();
+        GameManager manager = GameManager.Instance;
+        if (manager)
+        {
+            foreach (PlayerData data in manager.players)
+            {
+                inputDevices.Add(data.device);
+            }
+        }
+        //ClearInputDevices();
+
+        m_canJoin = true;
     }
 
-    static bool hasButtonPressedEvent = false;
+    //private void OnEnable()
+    //{
+    //    // Bind joinAction to any button press.
+    //    joinAction = new InputAction(binding: "/*/<button>");
+    //
+    //    joinAction.started += OnJoinPressed;
+    //    BeginJoining();
+    //}
+    //private void OnDisable()
+    //{
+    //    joinAction.started -= OnJoinPressed;
+    //    EndJoining();
+    //}
+
+    public static InputManager Instance;
+
+    //static bool hasButtonPressedEvent = false;
     private void Awake()
     {
-        if (!hasButtonPressedEvent)
+        if (Instance) Destroy(gameObject);
+        else 
         {
-            InputSystem.onEvent.ForDevice<Keyboard>().SelectMany(GetPressedControls).Call(ButtonPressed);
-            hasButtonPressedEvent = true;
+            Instance = this;
+            transform.SetParent(null);
+            DontDestroyOnLoad(gameObject);
+
+            m_trafficManager = FindObjectOfType<TrafficManager>();
+            m_spawnpoints = FindObjectOfType<Spawnpoints>();
+            SceneManager.sceneLoaded += OnSceneLoaded;
+
+            InputSystem.onEvent/*.ForDevice<Keyboard>()*/.SelectMany(GetPressedControls).Call(ButtonPressed);
         }
+
+        //if (!hasButtonPressedEvent)
+        //{
+        //    InputSystem.onEvent/*.ForDevice<Keyboard>()*/.SelectMany(GetPressedControls).Call(ButtonPressed);
+        //    hasButtonPressedEvent = true;
+        //}
+        
     }
     private IEnumerable<InputControl> GetPressedControls(InputEventPtr eventPtr)
     {
@@ -90,37 +137,57 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    public void TempDisableJoining()
+    {
+        m_canJoin = false;
+        //TimerManager.RunAfterTime(() => { m_canJoin = true; Debug.Log("Can join"); }, 0.1f);
+    }
+
     void ButtonPressed(InputControl _inputControl)
     {
-        string keyPressed = _inputControl.path.Replace("/Keyboard/", "");
-        if (keyPressed == "backspace")
+        if (_inputControl.device is Keyboard)
         {
-            GameManager.Instance.ResetGame(false);
-    
-            m_canJoin = false;
-            TimerManager.RunAfterTime(() => m_canJoin = true, 0.1f);
-        }
-        else if (keyPressed == "tab")
-        {
-            if (SceneManager.GetActiveScene().name == "StartMenu")
+            string keyPressed = _inputControl.path.Replace("/Keyboard/", "");
+            if (keyPressed == "backspace")
             {
-                ReadyUp.StartGame();
+                GameManager.Instance.ResetGame(false);
+                Debug.Log("Reset");
+                //m_canJoin = false;
+                //TimerManager.RunAfterTime(() => { m_canJoin = true; Debug.Log("Can join"); }, 0.1f);
             }
-    
-            m_canJoin = false;
-            TimerManager.RunAfterTime(() => m_canJoin = true, 0.1f);
+            else if (keyPressed == "tab")
+            {
+                if (SceneManager.GetActiveScene().name == "StartMenu")
+                {
+                    ReadyUp.StartGame();
+                }
+
+                m_canJoin = false;
+                TimerManager.RunAfterTime(() => m_canJoin = true, 0.1f);
+            }
+            else JoinPlayer(_inputControl.device);
+        }
+        else if (_inputControl.device is Gamepad)
+        {
+            if (!_inputControl.path.Contains("Stick"))
+            {
+                Debug.Log(_inputControl.path);
+                JoinPlayer(_inputControl.device);
+            }
         }
     }
 
-    void BeginJoining() => joinAction.Enable();
-    void EndJoining() => joinAction.Disable();
-    void OnJoinPressed(InputAction.CallbackContext _context)
-    {
-        //if (_context.control.device is Keyboard) ButtonPressed(_context.control);
-        JoinPlayer(_context.control.device);
-    }
+    //void BeginJoining() => joinAction.Enable();
+    //void EndJoining() => joinAction.Disable();
+    //void OnJoinPressed(InputAction.CallbackContext _context)
+    //{
+    //    //if (_context.control.device is Keyboard) ButtonPressed(_context.control);
+    //    JoinPlayer(_context.control.device);
+    //    Debug.Log(_context.control.path);
+    //}
     public GameObject JoinPlayer(InputDevice _device)
     {
+        Debug.Log("Player attempt join | can join: " + m_canJoin);
         if (!m_canJoin) return null;
 
         if (!(_device is Keyboard || _device is Gamepad)) return null;
@@ -136,19 +203,18 @@ public class InputManager : MonoBehaviour
         if (PairDeviceToAvailablePlayer(players, _device, out GameObject existingPlayer)) return existingPlayer;
         
         // Spawns player and pairs input to them
-        PlayerInput newPlayer = /*PlayerInput.*/Instantiate(m_playerPrefab).GetComponent<PlayerInput>();
+        PlayerInput newPlayer = /*PlayerInput.*/Instantiate(GetPlayerPrefab()).GetComponent<PlayerInput>();
         newPlayer.gameObject.name = "Player " + m_players.Count.ToString();
         newPlayer.GetComponent<PlayerInputHandler>().PairDevice(_device);
 
         Vector3 spawnPos = transform.position;
-        if (m_remainingSpawnPoints.Count > 0) spawnPos = GetSpawnPoint();
+        if (m_spawnpoints && m_spawnpoints.remainingSpawnpoints /*m_remainingSpawnPoints*/.Count > 0) spawnPos = GetSpawnPoint();
 
         newPlayer.transform.position = spawnPos;
 
         joinedCount++;
 
-        if (joinedCount == GetComponent<PlayerInputManager>().maxPlayerCount)
-            EndJoining();
+        //if (joinedCount == GetComponent<PlayerInputManager>().maxPlayerCount) EndJoining();
 
         return newPlayer.gameObject;
     }
@@ -275,14 +341,14 @@ public class InputManager : MonoBehaviour
     Vector3 GetSpawnPoint()
     {
         int index = 0;
-        if (m_randomiseSpawnpoint) index = UnityEngine.Random.Range(0, m_remainingSpawnPoints.Count - 1);
+        if (/*m_randomiseSpawnpoint*/m_spawnpoints.randomiseSpawnpoint) index = UnityEngine.Random.Range(0, m_spawnpoints.remainingSpawnpoints/*m_remainingSpawnPoints*/.Count - 1);
 
         Vector3 spawnPos;
-        if (m_remainingSpawnPoints[index])
+        if (/*m_remainingSpawnPoints*/m_spawnpoints.remainingSpawnpoints[index])
         {
-            spawnPos = m_remainingSpawnPoints[index].position;
-            m_remainingSpawnPoints[index].gameObject.SetActive(false);
-            m_remainingSpawnPoints.RemoveAt(index);
+            spawnPos = /*m_remainingSpawnPoints*/m_spawnpoints.remainingSpawnpoints[index].position;
+            /*m_remainingSpawnPoints*/ m_spawnpoints.remainingSpawnpoints[index].gameObject.SetActive(false);
+            /*m_remainingSpawnPoints*/ m_spawnpoints.remainingSpawnpoints.RemoveAt(index);
         }
         else spawnPos = transform.position;
 

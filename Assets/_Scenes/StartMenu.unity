@@ -14934,10 +14934,6 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -4911133876627330942, guid: 8daf4ce470f2b3e4fafca044cbba3724, type: 3}
-      propertyPath: m_playerPrefab
-      value: 
-      objectReference: {fileID: 2496256291427695376, guid: a7032b4d356586740bf317764df0be46, type: 3}
-    - target: {fileID: -4911133876627330942, guid: 8daf4ce470f2b3e4fafca044cbba3724, type: 3}
       propertyPath: m_trafficManager
       value: 
       objectReference: {fileID: 110964422}
@@ -33760,6 +33756,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 631950564}
+  - component: {fileID: 631950565}
   m_Layer: 0
   m_Name: ----Spawnpoints
   m_TagString: Untagged
@@ -33785,6 +33782,23 @@ Transform:
   - {fileID: 1710868149}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &631950565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 631950563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b35132033b7a0488f8d40b156228e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_remainingSpawnPoints:
+  - {fileID: 373808460}
+  - {fileID: 1210525802}
+  - {fileID: 1710868149}
+  m_randomiseSpawnpoint: 0
 --- !u!1 &633663881
 GameObject:
   m_ObjectHideFlags: 0
@@ -80454,6 +80468,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2050704964}
     m_Modifications:
+    - target: {fileID: 3196947711040522689, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.053
+      objectReference: {fileID: 0}
+    - target: {fileID: 3196947711040522689, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3196947711040522689, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.053
+      objectReference: {fileID: 0}
+    - target: {fileID: 6924842047874219622, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.053
+      objectReference: {fileID: 0}
+    - target: {fileID: 6924842047874219622, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8991266044593003406, guid: 49500840cbaaa2647825cddb72c4697d, type: 3}
       propertyPath: m_Name
       value: AudioManager
