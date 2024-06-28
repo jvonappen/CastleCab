@@ -1,7 +1,9 @@
 using UnityEngine;
 
 public class WagonService : MonoBehaviour
-{   
+{
+    #region Variables
+
     [SerializeField] public int scoreGiven;
 
     //[Space]
@@ -76,6 +78,11 @@ public class WagonService : MonoBehaviour
 
     public bool isAtTarget = false;
 
+    #endregion
+
+
+
+    #region Init
     private void Awake()
     {
         //listLength = destinationList.Length;
@@ -100,25 +107,9 @@ public class WagonService : MonoBehaviour
         //}
 
     }
+    #endregion
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag != "Wagon") return;
-        if (isAtTarget) return;
-        WagonData collidingWagon = other.GetComponent<WagonData>();
-
-        if (!collidingWagon.isOccupied)
-        {
-            if (zonedDeliveriesToggle == true)
-            {
-                if (currentlyInCart && canBeStolen) StealPassengerMode(collidingWagon);
-                else if (!currentlyInCart) PassengerPickupMode(collidingWagon);
-            }
-
-            //if(!zonedDeliveriesToggle && captureFlagToggle == true) { CaptureTheFlagMode(collidingWagon); }
-        }
-    }
-
+    #region Animation
     public void ChangeAnimation(string newAnimation)
     {
         //prevents interupting the animation
@@ -127,31 +118,9 @@ public class WagonService : MonoBehaviour
         _animator.Play(newAnimation);
         _currentAnimation = newAnimation;
     }
+    #endregion
 
-    public void OnDropOff(GameObject particles)
-    {
-        transform.parent = null;
-        isAtTarget = true;
-        destination = null;
-
-        ChangeAnimation("Dance");
-
-        if (m_canVanish)
-        {
-            TimerManager.RunAfterTime(() =>
-            {
-                if (particles != null) { particles.SetActive(true); }
-                gameObject.SetActive(false);
-
-                ResetRespawn();
-
-            }, m_vanishTimer);
-        }
-
-        currentWagonData.OnDropOff();
-    }
-
-
+    #region Markers/Zones
     private int RandomIntExcept(int min, int max, int except)
     {
         int result = Random.Range(min, max - 1);
@@ -215,24 +184,56 @@ public class WagonService : MonoBehaviour
         bmP4 = DM.beamP4; bmP4.SetActive(false);
     }
 
-    //private void CaptureTheFlagMode(WagonData _wagon)
-    //{
-    //    destination = playerBaseList[_wagon.thisPlayerNumber - 1];
-    //
-    //    PickupObjective();
-    //}
+    #endregion
 
-    private void PassengerPickupMode(WagonData _wagon)
+
+
+    #region Callbacks
+    private void OnTriggerEnter(Collider other)
     {
-        ZoneSelector(zoneSelect); // Sets destination
+        if (other.tag != "Wagon") return;
+        if (isAtTarget) return;
+        WagonData collidingWagon = other.GetComponent<WagonData>();
 
-        PickupObjective(_wagon);
+        if (!collidingWagon.isOccupied)
+        {
+            if (zonedDeliveriesToggle == true)
+            {
+                if (currentlyInCart && canBeStolen) StealPassengerMode(collidingWagon);
+                else if (!currentlyInCart) PassengerPickupMode(collidingWagon);
+            }
 
-        ChangeAnimation(NPC_FLAP);
-
-        SetPassenger();
+            //if(!zonedDeliveriesToggle && captureFlagToggle == true) { CaptureTheFlagMode(collidingWagon); }
+        }
     }
 
+    public void OnDropOff(GameObject particles)
+    {
+        transform.parent = null;
+        isAtTarget = true;
+        destination = null;
+
+        ChangeAnimation("Dance");
+
+        if (m_canVanish)
+        {
+            TimerManager.RunAfterTime(() =>
+            {
+                if (particles != null) { particles.SetActive(true); }
+                gameObject.SetActive(false);
+
+                ResetRespawn();
+
+            }, m_vanishTimer);
+        }
+
+        currentWagonData.OnDropOff();
+    }
+    #endregion
+
+    #region PassengerPickup
+
+    #region PassengerSteal
     private void StealPassengerMode(WagonData _wagon)
     {
         PickupObjective(_wagon);
@@ -250,6 +251,18 @@ public class WagonService : MonoBehaviour
         previousWagonData.isOccupied = false;
 
         previousWagonData.OnPassengerStolen();
+
+        SetPassenger();
+    }
+    #endregion
+
+    private void PassengerPickupMode(WagonData _wagon)
+    {
+        ZoneSelector(zoneSelect); // Sets destination
+
+        PickupObjective(_wagon);
+
+        ChangeAnimation(NPC_FLAP);
 
         SetPassenger();
     }
@@ -282,23 +295,15 @@ public class WagonService : MonoBehaviour
         currentWagonData.OnPickup(destination.transform);
     }
 
-    //private void BasicDeliveryMode()
+    //private void CaptureTheFlagMode(WagonData _wagon)
     //{
-    //    if (!wagonData_A.isOccupied && destination != null && !captureFlagToggle)
-    //    {
-    //        m_pickupMarker.SetActive(false);
-
-
-    //        this.transform.parent = m_wagonSlot.transform;
-    //        this.transform.position = this.m_wagonSlot.transform.position;
-    //        transform.rotation = new Quaternion(X, Y, Z, 0);
-
-    //        wagonData_A.destinationTarget = destination;
-
-    //        wagonData_A.isOccupied = true;
-    //    }
+    //    destination = playerBaseList[_wagon.thisPlayerNumber - 1];
+    //
+    //    PickupObjective();
     //}
+    #endregion
 
+    #region Respawn
     private void ResetRespawn()
     {
         transform.position = og_transform;
@@ -319,6 +324,7 @@ public class WagonService : MonoBehaviour
 
         ChangeAnimation(NPC_ATTENTION);
     }
+    #endregion
 }
 
 
