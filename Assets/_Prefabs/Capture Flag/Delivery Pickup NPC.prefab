@@ -265,18 +265,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a4d795f6c17efb42bc3582d92002c8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreGiven: 420
-  destinationList: []
+  scoreGiven: 25
   m_pickupMarker: {fileID: 7239108386775033835}
-  captureFlagToggle: 0
-  playerBaseList: []
   zonedDeliveriesToggle: 1
-  canSteal: 1
   thisZoneNumber: 1
+  m_stolenCoolDownTimer: 5
   currentlyInCart: 0
   currentPlayer: 0
   m_canVanish: 1
-  m_vanishParticles: {fileID: 5018747821138996047}
   m_vanishTimer: 10
   DM: {fileID: 0}
   thisPlayerMarker: {fileID: 0}
@@ -286,6 +282,8 @@ MonoBehaviour:
   X: 0
   Y: 180
   Z: 0
+  og_transform: {x: 0, y: 0, z: 0}
+  canBeStolen: 1
   isAtTarget: 0
 --- !u!135 &2837503809567405402
 SphereCollider:
@@ -5932,11 +5930,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a300ba111052ed4b84133515fa48a6d, type: 3}
---- !u!1 &5018747821138996047 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 141433446842962269, guid: 9a300ba111052ed4b84133515fa48a6d, type: 3}
-  m_PrefabInstance: {fileID: 4922527258468317714}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5018747821138996080 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 141433446842962274, guid: 9a300ba111052ed4b84133515fa48a6d, type: 3}
@@ -5950,33 +5943,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4086968467600769476}
     m_Modifications:
-    - target: {fileID: 3740738777964045395, guid: c536d1fabe43fb64b970eea467f4356d, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3740738777964045395, guid: c536d1fabe43fb64b970eea467f4356d, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3740738777964045395, guid: c536d1fabe43fb64b970eea467f4356d, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3740738777964045395, guid: c536d1fabe43fb64b970eea467f4356d, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8771972552251130939, guid: c536d1fabe43fb64b970eea467f4356d, type: 3}
-      propertyPath: m_Intensity
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8771972552311404736, guid: c536d1fabe43fb64b970eea467f4356d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8771972552311404736, guid: c536d1fabe43fb64b970eea467f4356d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.818
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8771972552311404736, guid: c536d1fabe43fb64b970eea467f4356d, type: 3}
       propertyPath: m_LocalPosition.z
