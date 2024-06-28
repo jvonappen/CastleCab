@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ObjectiveArrow : MonoBehaviour
 {
     [SerializeField] float m_distanceFromPlayer = 175;
-    [SerializeField] Transform m_horse;
+    [SerializeField] Transform m_origin;
 
     [SerializeField] RectTransform m_rotatePoint;
     [SerializeField] Transform m_target;
@@ -24,10 +24,10 @@ public class ObjectiveArrow : MonoBehaviour
         {
             m_image.enabled = true;
 
-            Vector3 dir = m_target.position - m_horse.position;
+            Vector3 dir = m_target.position - m_origin.position;
             //m_distance = dir.magnitude;
 
-            Vector3 localDir = m_horse.worldToLocalMatrix.MultiplyVector(dir);
+            Vector3 localDir = m_origin.worldToLocalMatrix.MultiplyVector(dir);
             Vector2 screenDir = new(localDir.x, localDir.z);
             screenDir.Normalize();
 
