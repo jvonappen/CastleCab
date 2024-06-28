@@ -217,7 +217,7 @@ public class WagonService : MonoBehaviour
 
     //private void CaptureTheFlagMode(WagonData _wagon)
     //{
-    //    destination = playerBaseList[wagonData_A.thisPlayerNumber - 1]; // due to recent change, wagondata_a is currentData and it isnt set until AFTER PickupObjective()
+    //    destination = playerBaseList[_wagon.thisPlayerNumber - 1];
     //
     //    PickupObjective();
     //}
