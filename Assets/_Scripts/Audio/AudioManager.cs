@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
@@ -83,12 +84,16 @@ public class AudioManager : MonoBehaviour
         if (audio == null) { Debug.Log("Audio not found"); }
         else
         {
-            int randomVal = UnityEngine.Random.Range(0, audio.audioClips.Length);
-            sfxSource.clip = audio.audioClips[randomVal];
+            // Only plays sound on menu if bool is true on AudioGroupDetails SO
+            if (audio.playOnMenu || SceneManager.GetActiveScene().name != "StartMenu")
+            {
+                int randomVal = UnityEngine.Random.Range(0, audio.audioClips.Length);
+                sfxSource.clip = audio.audioClips[randomVal];
 
-            float volume = Mathf.Clamp(1 - (_distance/ m_soundRange), 0, 1); // Sets volume based on distance and max range
+                float volume = Mathf.Clamp(1 - (_distance / m_soundRange), 0, 1); // Sets volume based on distance and max range
 
-            sfxSource.PlayOneShot(audio.audioClips[randomVal], volume * audio.audioGroupVolume);
+                sfxSource.PlayOneShot(audio.audioClips[randomVal], volume * audio.audioGroupVolume);
+            }
         }
     }
 
