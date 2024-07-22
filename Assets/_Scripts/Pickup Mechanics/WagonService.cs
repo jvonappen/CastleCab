@@ -205,6 +205,10 @@ public class WagonService : MonoBehaviour
 
             //if(!zonedDeliveriesToggle && captureFlagToggle == true) { CaptureTheFlagMode(collidingWagon); }
         }
+        else
+        {
+            collidingWagon.playerHealth.transform.parent.GetComponentInChildren<PopupText>(true).DisplayText("Cart is already occupied!");
+        }
     }
 
     public void OnDropOff(GameObject particles)
