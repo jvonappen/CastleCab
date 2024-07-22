@@ -66,7 +66,7 @@ public class PaintYeWagon : MonoBehaviour
             AudioManager.Instance.PlaySFX("PaintYeWagon");
             DishonourOld.dishonourLevel = 0;
             DollarDisplay.dollarValue = DollarDisplay.dollarValue - _removeDishonourCost;
-            AchievementManager.Instance.SmoothCriminal();
+            AchievementManagerOld.Instance.SmoothCriminal();
         }
         if (DishonourOld.dishonourLevel >= DishonourOld._oneStar && DollarDisplay.dollarValue >= _removeDishonourCost)
         {
