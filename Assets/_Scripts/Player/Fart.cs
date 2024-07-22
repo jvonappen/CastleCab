@@ -8,6 +8,12 @@ public class Fart : MonoBehaviour
 {
     [SerializeField] ParticleSystem m_fart, m_megaFart;
 
+    [Header("Cooldown")]
+    [SerializeField] int m_fartAmountBuffer = 10;
+    [SerializeField] float m_fartAmountAddTime = 12, m_fartCooldown = 0.3f;
+
+    bool m_onCooldown = false;
+
     PlayerInputHandler m_inputHandler;
     private void Awake() => m_inputHandler = GetComponent<PlayerInputHandler>();
 
@@ -28,15 +34,33 @@ public class Fart : MonoBehaviour
 
     public void NormalFart()
     {
-        m_fart.gameObject.SetActive(true);
-        m_fart.Play();
-        AudioManager.Instance.PlaySoundAtLocation("FartsShort", transform.GetChild(0).position);
+        if (m_fartAmountBuffer > 0 && !m_onCooldown)
+        {
+            m_onCooldown = true;
+            m_fartAmountBuffer--;
+
+            m_fart.gameObject.SetActive(true);
+            m_fart.Play();
+            AudioManager.Instance.PlaySoundAtLocation("FartsShort", transform.GetChild(0).position);
+
+            TimerManager.RunAfterTime(() => m_onCooldown = false, m_fartCooldown);
+            TimerManager.RunAfterTime(() => m_fartAmountBuffer++, m_fartAmountAddTime);
+        }
     }
 
     public void MegaFart()
     {
-        m_megaFart.gameObject.SetActive(true);
-        m_megaFart.Play();
-        AudioManager.Instance.PlaySoundAtLocation("FartsLong", transform.GetChild(0).position);
+        if (m_fartAmountBuffer > 0 && !m_onCooldown)
+        {
+            m_onCooldown = true;
+            m_fartAmountBuffer--;
+
+            m_megaFart.gameObject.SetActive(true);
+            m_megaFart.Play();
+            AudioManager.Instance.PlaySoundAtLocation("FartsLong", transform.GetChild(0).position);
+
+            TimerManager.RunAfterTime(() => m_onCooldown = false, m_fartCooldown);
+            TimerManager.RunAfterTime(() => m_fartAmountBuffer++, m_fartAmountAddTime);
+        }
     }
 }
