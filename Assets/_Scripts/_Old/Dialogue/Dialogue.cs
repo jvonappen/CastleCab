@@ -27,7 +27,6 @@ public class Dialogue : MonoBehaviour
         StartDialogue();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(_playerInput._playerControls.Controls.Interact.WasPressedThisFrame() /*Input.GetKeyUp(KeyCode.T*/)
