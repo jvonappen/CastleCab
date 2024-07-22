@@ -211,10 +211,11 @@ public class GameManager : MonoBehaviour
         onGoldChanged?.Invoke(oldVal, m_gold);
     }
 
-    
-
     public Action<int, int> onGoldChanged;
+
+
     #endregion
+
 
     public Color m_affordColour, m_notAffordColour;
 
