@@ -219,6 +219,11 @@ public class GameManager : MonoBehaviour
 
     public Color m_affordColour, m_notAffordColour;
 
+
+    [Header("QuestLog Debug")]
+    public Quest quest;
+
+
     private void OnValidate()
     {
         onGoldChanged?.Invoke(m_gold, m_gold);
