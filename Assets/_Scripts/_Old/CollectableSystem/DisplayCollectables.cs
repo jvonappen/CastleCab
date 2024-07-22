@@ -60,8 +60,8 @@ public class DisplayCollectables : MonoBehaviour
                 _collectables[i].GetComponent<TextMeshProUGUI>().color = _collectedColour;
                 Coroutine letter = StartCoroutine(CollectableTween(_collectables[i]));
 
-                AchievementManager.spellingTracker = AchievementManager.spellingTracker + 1;
-                AchievementManager.Instance.SpellingBee();
+                AchievementManagerOld.spellingTracker = AchievementManagerOld.spellingTracker + 1;
+                AchievementManagerOld.Instance.SpellingBee();
             }
         }
     }

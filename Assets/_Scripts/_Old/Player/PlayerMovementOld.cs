@@ -438,8 +438,8 @@ public class PlayerMovementOld : MonoBehaviour
                 _backflipComplete = true;
 
                 //add points to system
-                AchievementManager.airTrickTracker = AchievementManager.airTrickTracker + 1;
-                AchievementManager.Instance.Pegasus();
+                AchievementManagerOld.airTrickTracker = AchievementManagerOld.airTrickTracker + 1;
+                AchievementManagerOld.Instance.Pegasus();
 
                 _canBackflip = false;
             }
@@ -457,8 +457,8 @@ public class PlayerMovementOld : MonoBehaviour
                 _barrelrollComplete = true;
 
                 //add points to system
-                AchievementManager.airTrickTracker = AchievementManager.airTrickTracker + 1;
-                AchievementManager.Instance.Pegasus();
+                AchievementManagerOld.airTrickTracker = AchievementManagerOld.airTrickTracker + 1;
+                AchievementManagerOld.Instance.Pegasus();
 
                 _canBarrelroll = false;
             }
