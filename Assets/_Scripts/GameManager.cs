@@ -220,7 +220,7 @@ public class GameManager : MonoBehaviour
     public Color m_affordColour, m_notAffordColour;
 
 
-    [Header("QuestLog Debug")]
+    [Header("Quest Debug")]
     public Quest quest;
 
 

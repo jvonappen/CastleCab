@@ -11,4 +11,11 @@ public class Quest
     public string  questDescription;
     public int goldReward;
     public int itemReward;
+
+    public QuestObjectives questObjectives;
+
+    public void QuestComplete()
+    {
+        isActive = false;
+    }
 }
