@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public enum Statistic
@@ -8,19 +9,19 @@ public enum Statistic
     DistanceTraveled,
     ObjectsDestroyed,
     PigsExploded,
-    PassengersDelivered,
-    PassengersStolen,
-    TimesFarted,
-    TotalAirFlips,
-    TimeInAir,
-    DistanceDrifted,
-    TimesKnockedBack,
-    CartsFixed,
+    WagonsDestroyed,
     GravesRobbed,
     FencesBreached,
     TreesChopped,
 
-    [HideInInspector] Count
+    // WIP - Coming soon
+    //PassengersDelivered,
+    //PassengersStolen,
+    //TimesFarted,
+    //TotalAirFlips,
+    //TimeInAir,
+    //DistanceDrifted,
+    //TimesKnockedBack,
 }
 
 /// <summary>
@@ -49,7 +50,8 @@ public class GameStatistics : MonoBehaviour
 
     void Init()
     {
-        for (int i = 0; i < (int)Statistic.Count; i++) m_statDict.Add((Statistic)i, new());
+        int enumCount = Enum.GetNames(typeof(Statistic)).Length;
+        for (int i = 0; i < enumCount; i++) m_statDict.Add((Statistic)i, new());
     }
 
     /// <summary>
