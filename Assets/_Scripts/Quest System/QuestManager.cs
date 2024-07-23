@@ -21,8 +21,10 @@ public class QuestManager : MonoBehaviour
     [Header("Quest Debug")]
     public Quest quest;
 
+
+
     [Header("Quest Enemy Index List")]
-    public string[] enemies;
+    public QuestTarget[] enemies;
     [Header("Quest Item Index List")]
     public string[] gatherItems;
 

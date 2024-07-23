@@ -646,7 +646,9 @@ MonoBehaviour:
       targetsIndexNumber: 0
       amountRequired: 0
       current: 0
-  enemies: []
+  enemies:
+  - {fileID: 1239413425}
+  - {fileID: 0}
   gatherItems: []
 --- !u!4 &13837552
 Transform:
@@ -55794,6 +55796,54 @@ MonoBehaviour:
   signal: 1
   maxLanes: 4
   nodeInd: 0
+--- !u!1 &1239413424
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1239413426}
+  - component: {fileID: 1239413425}
+  m_Layer: 0
+  m_Name: TEST - Quest Target
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1239413425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1239413424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1414c4c3e8ecb394a9891f6d38c8396b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questTargetType: 0
+  targetName: Poo McGoo
+  m_indexNumber: 0
+  target: {fileID: 0}
+--- !u!4 &1239413426
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1239413424}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -663.81744, y: -686.7386, z: 40.202183}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1239732880
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -97706,3 +97756,4 @@ SceneRoots:
   - {fileID: 486282704}
   - {fileID: 13837552}
   - {fileID: 219757041}
+  - {fileID: 1239413426}
