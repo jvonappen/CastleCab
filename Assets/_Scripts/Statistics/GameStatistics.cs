@@ -30,19 +30,30 @@ public enum Statistic
 /// 
 /// Step 2. Wherever the statistic is altered (e.g. 'objects destroyed' in health script), add value to it (e.g. GameStatistics.GetStat(Statistic.ObjectsDestroyed).Value += 1) |
 /// 
-/// Step 3. Access it wherever using GameStatistics.GetStat(Statistic.StatisticName).value or get a callback with GameStatistics.GetStat(Statistic.StatisticName).changed += FunctionName (Function will need to take parameters (float oldVal, float newVal)
+/// Step 3. Access it wherever using GameStatistics.GetStat(Statistic.StatisticName).value or get a callback with GameStatistics.GetStat(Statistic.StatisticName).changed += FunctionName (Function will need to take parameters (object _object, Observable<float>.ChangedEventArgs _args)) _args contains oldVal and newVal
 /// </summary>
 public class GameStatistics : MonoBehaviour
 {
+    public static GameStatistics Instance;
+
     public static Dictionary<Statistic, Observable<float>> m_statDict = new();
 
     private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            Init();
+        }
+    }
+
+    void Init()
     {
         for (int i = 0; i < (int)Statistic.Count; i++) m_statDict.Add((Statistic)i, new());
     }
 
     /// <summary>
-    /// Returns a reference type observable float. Val.Changed<float 'oldval', float 'newVal'> callback will be called every time value is changed.
+    /// Returns a reference type observable float. Val.Changed<object 'object', Observable<float>.ChangedEventArgs 'args'> callback will be called every time value is changed.
     /// </summary>
     /// <param name="_type"></param>
     /// <returns></returns>

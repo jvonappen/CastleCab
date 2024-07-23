@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-struct TrackInfo
+public struct TrackInfo
 {
     [SerializeField] float m_valueToAdd;
     [SerializeField] Statistic m_statistic;
@@ -23,7 +23,9 @@ public class StatisticTracker : MonoBehaviour
     {
         foreach (TrackInfo trackInfo in m_statisticsToTrack)
         {
-            GameStatistics.GetStat(trackInfo.Statistic).Value += trackInfo.ValueToAdd;
+            GameStatistics.GetStat(trackInfo.Statistic).Value += GetValueToAdd(trackInfo);
         }
     }
+
+    public virtual float GetValueToAdd(TrackInfo _trackInfo) => _trackInfo.ValueToAdd;
 }
