@@ -51,8 +51,6 @@ public class GameStatistics : MonoBehaviour
     private void Update()
     {
         UpdateStats();
-
-        Debug.Log("Objects Destroyed: " + GetStat(Statistic.ObjectsDestroyed).Value);
     }
 
     void UpdateStats()
