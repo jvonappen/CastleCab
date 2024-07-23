@@ -19,7 +19,7 @@ public class QuestObjectives
     public int amountRequired;
     public int current;
 
-    private string[] indexList;
+    private string[] indexArray;
 
     public bool IsReached()   { return (current >= amountRequired); }
 
@@ -27,7 +27,7 @@ public class QuestObjectives
     {
         if(questType == QuestType.Kill)
         {
-            indexList = QuestManager.Instance.enemies;
+            //indexArray = QuestManager.Instance.enemies.;
 
             
 
