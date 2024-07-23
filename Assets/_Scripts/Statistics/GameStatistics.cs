@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public enum Statistic
 {
     TimePlayed,
+
     DistanceTraveled,
+
     ObjectsDestroyed,
     PigsExploded,
     WagonsDestroyed,
@@ -35,10 +36,8 @@ public enum Statistic
 /// </summary>
 public class GameStatistics : MonoBehaviour
 {
+    #region Singleton
     public static GameStatistics Instance;
-
-    public static Dictionary<Statistic, Observable<float>> m_statDict = new();
-
     private void Awake()
     {
         if (Instance == null)
@@ -47,6 +46,9 @@ public class GameStatistics : MonoBehaviour
             Init();
         }
     }
+    #endregion
+
+    public static Dictionary<Statistic, Observable<float>> m_statDict = new();
 
     void Init()
     {
@@ -61,6 +63,7 @@ public class GameStatistics : MonoBehaviour
     /// <returns></returns>
     public static Observable<float> GetStat(Statistic _type) => m_statDict[_type];
 
+    #region Update
     private void Update()
     {
         UpdateStats();
@@ -70,6 +73,7 @@ public class GameStatistics : MonoBehaviour
     {
         GetStat(Statistic.TimePlayed).Value += Time.deltaTime; // Increases TimePlayed statistic
     }
+    #endregion
 }
 
 #region Observable<T>
