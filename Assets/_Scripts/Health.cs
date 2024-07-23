@@ -100,7 +100,10 @@ public class Health : MonoBehaviour
         {
             if (_player.TryGetComponent(out Dishonour dishonour)) dishonour.AddDishonour(m_dishonourPunishment);
         }
-        
+
+        // If not player, increase destroyed object statistic count
+        if (gameObject.layer != LayerMask.NameToLayer("Player")) GameStatistics.GetStat(Statistic.ObjectsDestroyed).Value++;
+
         onDeath?.Invoke();
         //Destroy();
         gameObject.SetActive(false);

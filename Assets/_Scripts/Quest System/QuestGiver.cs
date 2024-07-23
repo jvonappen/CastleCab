@@ -29,6 +29,7 @@ public class QuestGiver : MonoBehaviour
     {
         questWindow.SetActive(false);
         quest.isActive = true;
+        QuestManager.Instance.quest = quest;
     }
 
 
