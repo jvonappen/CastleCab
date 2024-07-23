@@ -29,7 +29,7 @@ public class QuestGiver : MonoBehaviour
     {
         questWindow.SetActive(false);
         quest.isActive = true;
-        GameManager.Instance.quest = quest;
+        QuestManager.Instance.quest = quest;
     }
 
 
