@@ -28,7 +28,7 @@ public class AchievementManager : MonoBehaviour
     //    GameStatistics.distanceTraveled.Value++;
     //}
     //
-    //void OnValueChanged(object _target, Observable<int>.ChangedEventArgs _args)
+    //void OnValueChanged(object _target, Observable<float>.ChangedEventArgs _args)
     //{
     //    Debug.Log("Distance Traveled = " + _args.NewValue);
     //}

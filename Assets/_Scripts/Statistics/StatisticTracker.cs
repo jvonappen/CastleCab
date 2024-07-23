@@ -2,28 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-struct TrackInfo
-{
-    [SerializeField] float m_valueToAdd;
-    [SerializeField] Statistic m_statistic;
-
-    public float ValueToAdd { get { return m_valueToAdd; } }
-    public Statistic Statistic { get { return m_statistic; } }
-}
-
 public class StatisticTracker : MonoBehaviour
 {
-    [SerializeField] List<TrackInfo> m_statisticsToTrack;
+    [SerializeField] Statistic m_statisticToTrack;
+    [ConditionalEnumHide("m_statisticToTrack", 1, Enum1Inverse = true)] [SerializeField] protected float m_valueToAdd = 1;
 
     /// <summary>
-    /// Adds 'ValueToAdd' of each statistic in list to its respective value in GameStatistics. 
+    /// Adds 'm_valueToAdd' of statistic in GameStatistics. 
     /// </summary>
     public virtual void UpdateStatistic()
     {
-        foreach (TrackInfo trackInfo in m_statisticsToTrack)
-        {
-            GameStatistics.GetStat(trackInfo.Statistic).Value += trackInfo.ValueToAdd;
-        }
+        GameStatistics.GetStat(m_statisticToTrack).Value += m_valueToAdd;
     }
 }
