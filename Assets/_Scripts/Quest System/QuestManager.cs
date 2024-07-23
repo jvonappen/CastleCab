@@ -21,8 +21,19 @@ public class QuestManager : MonoBehaviour
     [Header("Quest Debug")]
     public Quest quest;
 
+    [Header("Quest Enemy Index List")]
+    public string[] enemies;
+    [Header("Quest Item Index List")]
+    public string[] gatherItems;
+
     private void Awake()
     {
         CreateSingleton();
     }
 }
+
+
+
+//List of Enemies
+//List of Gather Items
+//List or Reward Items - Cosmetic/Dye/PowerUP/???
