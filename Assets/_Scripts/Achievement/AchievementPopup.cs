@@ -11,6 +11,8 @@ public class AchievementPopup : MonoBehaviour
 
     [SerializeField] float m_timeBeforeFade = 2.5f, m_fadeDuration = 0.4f;
 
+    private void Start() => m_alphaController.SetAlpha(0);
+
     public void Display(string _text, Sprite _icon)
     {
         m_achievementNotifierText.text = _text;

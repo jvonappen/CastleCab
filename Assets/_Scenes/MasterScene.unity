@@ -71771,6 +71771,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1563813487}
   - component: {fileID: 1563813488}
+  - component: {fileID: 1563813489}
   m_Layer: 5
   m_Name: ----AchievementPopup
   m_TagString: Untagged
@@ -71822,6 +71823,23 @@ MonoBehaviour:
   m_images:
   - {fileID: 848303674}
   - {fileID: 2141558564}
+--- !u!114 &1563813489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563813486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54d005c57ca447642839458f49764771, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_alphaController: {fileID: 1563813488}
+  m_achievementNotifierText: {fileID: 808188986}
+  m_achievementNotifierIcon: {fileID: 2141558564}
+  m_timeBeforeFade: 2.5
+  m_fadeDuration: 0.4
 --- !u!1 &1568570356
 GameObject:
   m_ObjectHideFlags: 0
@@ -97834,26 +97852,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3244555134013670084, guid: 3089af1e3b3e5784bbbc35e22ce6f6a6, type: 3}
-      propertyPath: m_achievementNotifier
-      value: 
-      objectReference: {fileID: 1563813487}
-    - target: {fileID: 3244555134013670084, guid: 3089af1e3b3e5784bbbc35e22ce6f6a6, type: 3}
-      propertyPath: m_achievementNotifierIcon
-      value: 
-      objectReference: {fileID: 2141558564}
-    - target: {fileID: 3244555134013670084, guid: 3089af1e3b3e5784bbbc35e22ce6f6a6, type: 3}
-      propertyPath: m_achievementNotifierText
-      value: 
-      objectReference: {fileID: 808188986}
-    - target: {fileID: 3244555134013670084, guid: 3089af1e3b3e5784bbbc35e22ce6f6a6, type: 3}
-      propertyPath: m_achievements.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3244555134013670084, guid: 3089af1e3b3e5784bbbc35e22ce6f6a6, type: 3}
-      propertyPath: m_achievements.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: b2ea748fb0090d14da5a5830044616fa, type: 2}
     - target: {fileID: 3544277920414265906, guid: 3089af1e3b3e5784bbbc35e22ce6f6a6, type: 3}
       propertyPath: m_Name
       value: AchievementManager
