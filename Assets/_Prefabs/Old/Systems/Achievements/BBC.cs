@@ -16,31 +16,31 @@ public class BBC : MonoBehaviour
     {
         if(other.gameObject.tag == "Player" && _BBC == true)
         {
-            AchievementManager.Instance.BBC();
+            AchievementManagerOld.Instance.BBC();
         }
         if (other.gameObject.tag == "Player" && _spaDay == true)
         {
-            AchievementManager.Instance.SpaDay();
+            AchievementManagerOld.Instance.SpaDay();
         }
         if(other.gameObject.tag == "Player" && _partyGoblins == true)
         {
-            AchievementManager.Instance.PartyGoblin();
+            AchievementManagerOld.Instance.PartyGoblin();
         }
         if(other.gameObject.tag == "Player" && _oldSpice == true)
         {
-            AchievementManager.Instance.OldSpice();
+            AchievementManagerOld.Instance.OldSpice();
         }
         if(other.gameObject.tag == "Player" && _theColonel == true)
         {
-            AchievementManager.Instance.Colonel();
+            AchievementManagerOld.Instance.Colonel();
         }
         if(other.gameObject.tag == "Player" && _hayMan == true)
         {
-            AchievementManager.Instance.HayMan();
+            AchievementManagerOld.Instance.HayMan();
         }
         if(other.gameObject.tag == "Player" && _funnyGuy == true)
         {
-            AchievementManager.Instance.FunnyGuy();
+            AchievementManagerOld.Instance.FunnyGuy();
         }
     }
 }

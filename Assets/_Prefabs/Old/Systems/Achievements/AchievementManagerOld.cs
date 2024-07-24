@@ -5,7 +5,7 @@ using TMPro;
 using DG.Tweening;
 
 
-public class AchievementManager : MonoBehaviour
+public class AchievementManagerOld : MonoBehaviour
 {
 #pragma warning disable CS0414
     /* 
@@ -25,7 +25,7 @@ Achievements
     [SerializeField] private PlayerInputOld _playerInput;
     [SerializeField] private GameObject _achievementGameObject;
 
-    public static AchievementManager Instance;
+    public static AchievementManagerOld Instance;
 
     [SerializeField] private Canvas _achievementCanvas;
     [SerializeField] private TextMeshProUGUI _achievementText;

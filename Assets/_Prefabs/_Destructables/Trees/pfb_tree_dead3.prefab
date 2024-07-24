@@ -9,8 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6866259617146722778}
-  - component: {fileID: 2983829424239346611}
-  - component: {fileID: 8586317077654848469}
   - component: {fileID: 2517762669571101880}
   - component: {fileID: 6832822009581866254}
   m_Layer: 0
@@ -35,53 +33,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4909677608568297648}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2983829424239346611
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4686551258678134054}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b2412d7b607ce54290fe5b66608b7d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_health: 10
-  m_dishonourPunishment: 0
-  m_goldReward: 5
-  m_canRespawn: 1
-  m_respawnTime: 15
-  m_collisionParticlePrefab: {fileID: 9157105887711914197, guid: 416d2e94eeb15914ebd2d6529a52408e, type: 3}
-  m_damagedParticlePrefab: {fileID: 7511328176439486736, guid: b2f9691986e2d7048b48dcf702b763f8, type: 3}
-  m_destroyedParticlePrefab: {fileID: 7511328176439486736, guid: b2f9691986e2d7048b48dcf702b763f8, type: 3}
-  m_respawnParticlePrefab: {fileID: 141433446842962269, guid: 9a300ba111052ed4b84133515fa48a6d, type: 3}
-  m_collidedSFX: {fileID: 11400000, guid: 219db2806e1b5434d9ef6ebde22454c7, type: 2}
-  m_damagedSFX: {fileID: 11400000, guid: 396f0ec8eb376d941b57af0b3fda7157, type: 2}
-  m_destroyedSFX: {fileID: 11400000, guid: 396f0ec8eb376d941b57af0b3fda7157, type: 2}
---- !u!136 &8586317077654848469
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4686551258678134054}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.6917095
-  m_Height: 5.674658
-  m_Direction: 1
-  m_Center: {x: 0.06792474, y: -0.7074833, z: 0.01730597}
 --- !u!33 &2517762669571101880
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -141,6 +92,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4909677608568297648}
+  - component: {fileID: 2404746810732016217}
+  - component: {fileID: 2482175759455406967}
+  - component: {fileID: -2220564861074277948}
   m_Layer: 0
   m_Name: pfb_tree_dead3
   m_TagString: Untagged
@@ -164,3 +118,64 @@ Transform:
   - {fileID: 6866259617146722778}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &2404746810732016217
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5722242692127605258}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.6917095
+  m_Height: 5.674658
+  m_Direction: 1
+  m_Center: {x: 0.06792474, y: 2.58, z: 0.01730597}
+--- !u!114 &2482175759455406967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5722242692127605258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b2412d7b607ce54290fe5b66608b7d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_health: 10
+  m_dishonourPunishment: 0
+  m_goldReward: 5
+  m_canRespawn: 1
+  m_respawnTime: 15
+  m_collisionParticlePrefab: {fileID: 9157105887711914197, guid: 416d2e94eeb15914ebd2d6529a52408e, type: 3}
+  m_damagedParticlePrefab: {fileID: 7511328176439486736, guid: b2f9691986e2d7048b48dcf702b763f8, type: 3}
+  m_destroyedParticlePrefab: {fileID: 7511328176439486736, guid: b2f9691986e2d7048b48dcf702b763f8, type: 3}
+  m_respawnParticlePrefab: {fileID: 141433446842962269, guid: 9a300ba111052ed4b84133515fa48a6d, type: 3}
+  m_collidedSFX: {fileID: 11400000, guid: 219db2806e1b5434d9ef6ebde22454c7, type: 2}
+  m_damagedSFX: {fileID: 11400000, guid: 396f0ec8eb376d941b57af0b3fda7157, type: 2}
+  m_destroyedSFX: {fileID: 11400000, guid: 396f0ec8eb376d941b57af0b3fda7157, type: 2}
+--- !u!114 &-2220564861074277948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5722242692127605258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fd91fcbf6233314096ee9d12b344538, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_statisticToTrack: 7
+  m_valueToAdd: 1

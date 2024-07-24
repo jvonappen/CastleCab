@@ -14,9 +14,12 @@ public class TimerManager : MonoBehaviour
         {
             if (m_instance == null)
             {
-                m_instance = new GameObject("TimerManager").AddComponent<TimerManager>();
+                if (Application.isPlaying)
+                {
+                    m_instance = new GameObject("TimerManager").AddComponent<TimerManager>();
 
-                DontDestroyOnLoad(m_instance.gameObject);
+                    DontDestroyOnLoad(m_instance.gameObject);
+                }
             }
 
             return m_instance;
