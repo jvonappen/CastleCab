@@ -4,14 +4,13 @@ using UnityEngine;
 
 public enum AchievementType
 {
-    Statistic
+    Statistic,
+    LocationTrigger,
 }
 
 [CreateAssetMenu(menuName = "Achievement", fileName = "Achievement")]
 public class SO_Achievement : ScriptableObject
 {
-    public int ID = 0;
-
     [Header("Completion Requirements")]
     public AchievementType AchievementType;
 

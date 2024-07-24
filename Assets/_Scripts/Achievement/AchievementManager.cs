@@ -22,7 +22,10 @@ public class AchievementManager : MonoBehaviour
     
     public List<SO_Achievement> m_achievements;
 
-    List<AchievementStatTracker> m_trackers = new();
+    List<AchievementStatTracker> m_statTrackers = new();
+
+    List<SO_Achievement> m_completedAchievements = new();
+    public bool IsAchievementCompleted(SO_Achievement _achievement) => m_completedAchievements.Contains(_achievement);
 
     private void Start()
     {
@@ -30,7 +33,7 @@ public class AchievementManager : MonoBehaviour
         {
             if (achievement.AchievementType == AchievementType.Statistic)
             {
-                m_trackers.Add(new(achievement));
+                m_statTrackers.Add(new(achievement));
             }
         }
     }
@@ -42,7 +45,8 @@ public class AchievementManager : MonoBehaviour
         {
             m_achievementNotifier.Display(_achievement.DisplayName, _achievement.Icon);
         }
-        
+
+        m_completedAchievements.Add(_achievement);
         Debug.Log("Completed Achievement: '" + _achievement.DisplayName + "'");
     }
 }
