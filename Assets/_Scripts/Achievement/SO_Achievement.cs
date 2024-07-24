@@ -29,5 +29,5 @@ public class SO_Achievement : ScriptableObject
     public string DisplayName = "{Achievement Name}";
     public string Description = "Go to ___ and ___";
 
-    public Texture2D Icon;
+    public Sprite Icon;
 }

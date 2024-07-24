@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,12 +10,16 @@ public class AchievementManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+
+            transform.SetParent(null);
             DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
     }
     #endregion
 
+    AchievementPopup m_achievementNotifier;
+    
     public List<SO_Achievement> m_achievements;
 
     List<AchievementStatTracker> m_trackers = new();
@@ -30,6 +33,15 @@ public class AchievementManager : MonoBehaviour
                 m_trackers.Add(new(achievement));
             }
         }
+    }
+
+    public void AchievementCompleted(SO_Achievement _achievement)
+    {
+        m_achievementNotifier = m_achievementNotifier != null ? m_achievementNotifier : FindObjectOfType<AchievementPopup>();
+
+        m_achievementNotifier.Display(_achievement.DisplayName, _achievement.Icon);
+
+        Debug.Log("Completed Achievement: '" + _achievement.DisplayName + "'");
     }
 }
 
@@ -52,6 +64,6 @@ public class AchievementStatTracker
     void CompleteAchievement()
     {
         GameStatistics.GetStat(m_data.Statistic).Changed -= OnStatChanged;
-        Debug.Log("Completed Achievement: '" + m_data.DisplayName + "'");
+        AchievementManager.Instance.AchievementCompleted(m_data);
     }
 }
