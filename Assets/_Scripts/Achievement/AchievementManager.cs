@@ -38,9 +38,11 @@ public class AchievementManager : MonoBehaviour
     public void AchievementCompleted(SO_Achievement _achievement)
     {
         m_achievementNotifier = m_achievementNotifier != null ? m_achievementNotifier : FindObjectOfType<AchievementPopup>();
-
-        m_achievementNotifier.Display(_achievement.DisplayName, _achievement.Icon);
-
+        if (m_achievementNotifier)
+        {
+            m_achievementNotifier.Display(_achievement.DisplayName, _achievement.Icon);
+        }
+        
         Debug.Log("Completed Achievement: '" + _achievement.DisplayName + "'");
     }
 }
