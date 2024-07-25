@@ -33,11 +33,17 @@ public class Health : MonoBehaviour
     [SerializeField] protected AudioGroupDetails m_damagedSFX;
     [SerializeField] protected AudioGroupDetails m_destroyedSFX;
 
+    [Header("Debug")]
+    [SerializeField] private string m_name;
+
     private void Awake() => Init();
     protected virtual void Init()
     {
         m_manager = FindObjectOfType<GameManager>();
         m_maxHealth = m_health;
+
+        if(GetComponentInParent<QuestTarget>() != null) { m_name = GetComponentInParent<QuestTarget>().targetName; }
+        
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -94,6 +100,9 @@ public class Health : MonoBehaviour
         PlayParticle(ref m_destroyedParticlePrefab);
         GameObject particleParent = GameObject.Find("----Particles");
         if (particleParent && m_destroyedParticlePrefab) m_destroyedParticlePrefab.transform.SetParent(particleParent.transform);
+
+        QuestManager.Instance.quest.questObjectives.ObjectiveKilled(m_name);
+
 
         m_manager.AddGold(m_goldReward);
         if (_player)

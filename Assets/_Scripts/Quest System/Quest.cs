@@ -10,7 +10,7 @@ public class Quest
     public string  questTitle;
     public string  questDescription;
     public int goldReward;
-    public int itemReward;
+    public int itemReward;  //to change from int to 'SO_reward' or something
 
     public QuestObjectives questObjectives;
 
