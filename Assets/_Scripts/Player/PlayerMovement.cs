@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using DG.Tweening;
 using DG.Tweening.Core;
-using System.Linq;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -221,6 +220,15 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
 
+    #region Upgrades
+
+    PlayerUpgradeData m_data;
+
+    float m_maxSpeedStatMulti = 1, m_accelerationStatMulti = 1;
+    float m_stamCostPerSec;
+
+    #endregion
+
     #endregion
 
     #region Start/Update
@@ -235,6 +243,9 @@ public class PlayerMovement : MonoBehaviour
         m_cam = GetComponentInChildren<CameraFollow>();
 
         m_defaultDrag = wagon.drag;
+
+        m_data = GameManager.Instance.GetPlayerData(m_playerInput.playerInput.devices[0]).playerUpgradeData;
+        UpdateStats();
 
         #region Delegates
         m_playerInput.m_playerControls.Controls.Acceleration.performed += OnAccelerate;
@@ -261,6 +272,18 @@ public class PlayerMovement : MonoBehaviour
         m_playerInput.m_playerControls.Controls.AirControl.performed += OnAirControlPerformed;
         m_playerInput.m_playerControls.Controls.AirControl.canceled += OnAirControlCanceled;
         #endregion
+    }
+
+    void UpdateStats()
+    {
+        // Alters speed based on stat upgrades
+        if (m_data.speed > 0)
+        {
+            m_maxSpeedStatMulti = (m_data.speed * _Speed.m_maxSpeedMultiPerStatPoint) + 1;
+            m_accelerationStatMulti = (m_data.speed * _Speed.m_accelerationMultiPerStatPoint) + 1;
+        }
+
+        m_stamCostPerSec = _Boost.m_staminaCostPerSec - (m_data.stamina * (_Boost.m_staminaCostPerSec * (_Stamina.m_decreasePercentPerStatPoint / 100)));
     }
 
     private void FixedUpdate()
@@ -731,26 +754,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (!m_isGrounded) return;
 
-        // Move outside this function on awake if performance issues, this just means updating playerdata during play will need to call a function to manually update it
-        PlayerUpgradeData data = new();
-        try
-        {
-            data = GameManager.Instance.GetPlayerData(m_playerInput.playerInput.devices[0]).playerUpgradeData;
-        }
-        catch { return; }
-
         #region CalculateSpeed
-
-        // Alters speed based on stat upgrades
-        float statMaxSpeedMulti = 1;
-        float statAccelerationMulti = 1;
-        if (data.speed > 0)
-        {
-            statMaxSpeedMulti = (data.speed * _Speed.m_maxSpeedMultiPerStatPoint) + 1;
-            statAccelerationMulti = (data.speed * _Speed.m_accelerationMultiPerStatPoint) + 1;
-        }
-
-
 
         if (m_staminaBar && m_isBoosting)
         {
@@ -795,12 +799,12 @@ public class PlayerMovement : MonoBehaviour
                 accelerationRate = m_inSlipstream ? _Boost.m_accelerationRate * _Slipstream.accelerationMulti : _Boost.m_accelerationRate;
 
                 // Updates stamina from boost
-                float staminaCostPerSec = _Boost.m_staminaCostPerSec - (data.stamina * (_Boost.m_staminaCostPerSec * (_Stamina.m_decreasePercentPerStatPoint / 100)));
-                m_staminaBar.progress -= Time.fixedDeltaTime * staminaCostPerSec;
+                //float staminaCostPerSec = _Boost.m_staminaCostPerSec - (m_data.stamina * (_Boost.m_staminaCostPerSec * (_Stamina.m_decreasePercentPerStatPoint / 100)));
+                m_staminaBar.progress -= Time.fixedDeltaTime * m_stamCostPerSec;// staminaCostPerSec;
                 m_staminaBar.UpdateProgress();
             }
-            maxSpeed *= statMaxSpeedMulti;
-            accelerationRate *= statAccelerationMulti;
+            maxSpeed *= m_maxSpeedStatMulti;
+            accelerationRate *= m_accelerationStatMulti;
 
             maxSpeed *= m_externalMaxSpeedMulti;
             accelerationRate *= m_externalAccelerationMulti;
@@ -878,7 +882,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (m_staminaBar)
             {
-                float staminaCostPerSec = _Hurricane.m_staminaCostPerSec - (data.stamina * (_Hurricane.m_staminaCostPerSec * (_Stamina.m_decreasePercentPerStatPoint / 100)));
+                float staminaCostPerSec = _Hurricane.m_staminaCostPerSec - (m_data.stamina * (_Hurricane.m_staminaCostPerSec * (_Stamina.m_decreasePercentPerStatPoint / 100)));
 
                 float staminaCostThisFrame = staminaCostPerSec * Time.fixedDeltaTime;
 
