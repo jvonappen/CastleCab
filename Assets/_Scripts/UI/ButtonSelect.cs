@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class ButtonSelectColourChange : MonoBehaviour
+public class ButtonSelect : MonoBehaviour
 {
     TextMeshProUGUI m_display;
 
@@ -14,6 +14,11 @@ public class ButtonSelectColourChange : MonoBehaviour
     {
         m_display = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         m_originalColour = m_display.color;
+    }
+
+    public void PlaySFX(AudioGroupDetails _audio)
+    {
+        AudioManager.Instance.PlaySoundAtDistance(_audio, 0);
     }
 
     public void ChangeTextColour()

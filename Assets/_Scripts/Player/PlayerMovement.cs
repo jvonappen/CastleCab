@@ -673,8 +673,14 @@ public class PlayerMovement : MonoBehaviour
     #region GroundCheck
     private void GroundCheck()
     {
+        //m_isGrounded = true;
         RaycastHit hit;
         if (Physics.Raycast(_Grounded.m_raycastPoint.position, Vector3.down, out hit, _Grounded.m_groundDist, _Grounded.m_groundLayer)) SetGrounded(hit);
+        //else
+        //{
+        //    if (m_isGrounded) OnExitGrounded();
+        //    m_isGrounded = false;
+        //}
         else
         {
             if (Physics.Raycast(_Grounded.m_secondaryPoint.position, Vector3.down, out hit, _Grounded.m_groundDist, _Grounded.m_groundLayer)) SetGrounded(hit);
@@ -692,9 +698,12 @@ public class PlayerMovement : MonoBehaviour
 
     void SetGrounded(RaycastHit _hit)
     {
-        GameObject water = GameObject.Find("Water Plane");
-        if (water && rb.transform.position.y < water.transform.position.y) m_groundLayer = water.layer;
-        else m_groundLayer = _hit.transform.gameObject.layer;
+        // This good-for-nothing piece-of-shit code tanked the frames by a good 20fps. Kept here as a reminder of my past failures.
+        //GameObject water = GameObject.Find("Water Plane");
+        //if (water && rb.transform.position.y < water.transform.position.y) m_groundLayer = water.layer;
+        //else m_groundLayer = _hit.transform.gameObject.layer;
+        //
+        m_groundLayer = _hit.transform.gameObject.layer;
 
         if (!m_isGrounded) OnBeginGrounded();
         m_isGrounded = true;
