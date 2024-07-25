@@ -96,12 +96,16 @@ public class Health : MonoBehaviour
 
     protected virtual void Die(PlayerAttack _player)
     {
+        //Double Check name
+        if (GetComponentInParent<QuestTarget>() != null) { m_name = GetComponentInParent<QuestTarget>().targetName; }
+
         if (m_destroyedSFX != null) AudioManager.Instance.PlaySoundAtLocation(m_destroyedSFX.audioGroupName, transform.position);
         PlayParticle(ref m_destroyedParticlePrefab);
         GameObject particleParent = GameObject.Find("----Particles");
         if (particleParent && m_destroyedParticlePrefab) m_destroyedParticlePrefab.transform.SetParent(particleParent.transform);
 
-        QuestManager.Instance.quest.questObjectives.ObjectiveKilled(m_name);
+        if(QuestManager.Instance.quest.questObjectives.questTarget != null) { QuestManager.Instance.quest.questObjectives.ObjectiveKilled(m_name); }
+        
 
 
         m_manager.AddGold(m_goldReward);

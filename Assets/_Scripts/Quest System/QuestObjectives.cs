@@ -5,7 +5,8 @@ using UnityEngine;
 public enum QuestType
 {
     Kill,
-    Gather
+    Gather,
+    DestroyGeneric
 }
 
 
@@ -21,10 +22,11 @@ public class QuestObjectives
 
     public void ObjectiveKilled(string targetName)
     {
-        if(questType == QuestType.Kill && questTarget.targetName == targetName)
+        if (questType == QuestType.Kill && questTarget.targetName == targetName)
         {
             current++;
         }
+        
     }
 
     public void ObjectiveGathered()
@@ -32,6 +34,14 @@ public class QuestObjectives
         if (questType == QuestType.Gather)
         {
             current++;
+        }
+    }
+
+    public void ObjectiveDestroyGeneric() 
+    { 
+        if (questType == QuestType.DestroyGeneric) 
+        {
+            //Statistic code goes here
         }
     }
 }
