@@ -21,12 +21,10 @@ public class QuestManager : MonoBehaviour
     [Header("Quest Debug")]
     public Quest quest;
 
-
-
-    [Header("Quest Enemy Index List")]
-    public QuestTarget[] enemies;
-    [Header("Quest Item Index List")]
-    public string[] gatherItems;
+    //[Header("Quest Enemy Index List")]
+    //public QuestTargetDetails[] enemies;
+    //[Header("Quest Item Index List")]
+    //public string[] gatherItems;
 
     private void Awake()
     {
