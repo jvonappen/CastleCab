@@ -104,9 +104,12 @@ public class Health : MonoBehaviour
         GameObject particleParent = GameObject.Find("----Particles");
         if (particleParent && m_destroyedParticlePrefab) m_destroyedParticlePrefab.transform.SetParent(particleParent.transform);
 
-        if(QuestManager.Instance.quest.questObjectives.questTarget != null) { QuestManager.Instance.quest.questObjectives.ObjectiveKilled(m_name); }
+        // Tsk tsk tsk Jacob.......Had to add a null check or 3. No idea which one it was, but you're welcome.
+        if (QuestManager.Instance != null && QuestManager.Instance.quest != null && QuestManager.Instance.quest.questObjectives != null) 
+        {
+            if (QuestManager.Instance.quest.questObjectives.questTarget != null) { QuestManager.Instance.quest.questObjectives.ObjectiveKilled(m_name); }
+        }
         
-
 
         m_manager.AddGold(m_goldReward);
         if (_player)
