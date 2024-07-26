@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class DishonourReductionPickup : MonoBehaviour
 {
-    [SerializeField] private int healthIncrease = 1;
+    [SerializeField] private int dishonourDecrease = 100;
 
     [SerializeField] private float spinValue = 5;
     [SerializeField] private float respawnTime = 3;
 
-
-
     private WagonData m_wagonData;
-    private PlayerHealth m_playerHealth;
 
     private void Update()
     {
@@ -21,11 +18,15 @@ public class DishonourReductionPickup : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if(other.tag == "Player")
+        {
+            other.GetComponentInParent<Dishonour>().DecreaseDishonour(dishonourDecrease);
+        }
+        
         if (other.tag == "Wagon")
         {
             m_wagonData = other.GetComponent<WagonData>();
-            m_wagonData.playerHealth.HealthPickupIncrease(healthIncrease);
-            AudioManager.Instance.PlaySFX("HealthPickup");
+            AudioManager.Instance.PlaySFX("DishonourDecrease");
             gameObject.SetActive(false);
             m_wagonData.PlayPickUpParticle();
             TimerManager.RunAfterTime(() => { gameObject.SetActive(true); }, respawnTime);
