@@ -70,15 +70,19 @@ public class PlayerCustomization : MonoBehaviour
 
             PlayerData data = GameManager.Instance.GetPlayerData(m_playerInput.gameObject);
 
+            // Loops through all model selectors on player (Hat, Cart, Wheel, etc)
             foreach (ModelSelector modelSelector in gameObject.GetComponentsInChildren<ModelSelector>(true))
             {
                 modelSelector.Init();
 
+                // Finds the player's stored data of the same model
                 ModelCustomization foundItem = data.modelCustomizations.FirstOrDefault(item => item.typeIndex == modelSelector.m_typeIndex);
 
+                // Previews and selects the stored model
                 modelSelector.PreviewObjectByIndex(foundItem.index);
                 modelSelector.SelectObject();
 
+                // Sets the dyes to the correct stored dyes
                 if (foundItem.mat.mainDye.colour != null) modelSelector.colourSelector.SetDye("Main", foundItem.mat.mainDye);
                 if (foundItem.mat.secondaryDye.colour != null) modelSelector.colourSelector.SetDye("Secondary", foundItem.mat.secondaryDye);
                 if (foundItem.mat.tertiaryDye.colour != null) modelSelector.colourSelector.SetDye("Tertiary", foundItem.mat.tertiaryDye);
