@@ -118,14 +118,11 @@ public class Health : MonoBehaviour
         if (gameObject.layer != LayerMask.NameToLayer("Player")) GameStatistics.GetStat(Statistic.ObjectsDestroyed).Value++;
 
         onDeath?.Invoke();
-        //Destroy();
-        gameObject.SetActive(false);
+        Destroy();
         RespawnObject();
     }
 
-    protected virtual void Destroy() => Destroy(gameObject);
-
-
+    protected virtual void Destroy() => gameObject.SetActive(false);
 
     private void RespawnObject()
     {

@@ -13,6 +13,9 @@ public class PlayerHealth : Health
 
     float m_originalMaxHealth;
 
+    [Header("Destroyed")]
+    [SerializeField] GameObject m_repairNeededObject;
+
     float GetMaxHealth()
     {
         int healthPoints = GameManager.Instance.GetPlayerData(GetComponentInParent<PlayerInput>().devices[0]).playerUpgradeData.health;
@@ -62,6 +65,7 @@ public class PlayerHealth : Health
     protected override void Destroy()
     {
         //gameObject.SetActive(false);
+        m_repairNeededObject.SetActive(true);
     }
 
     public override void DealDamage(float _damageAmount, PlayerAttack _player)
@@ -75,8 +79,22 @@ public class PlayerHealth : Health
     public void HealthPickupIncrease(float pickupValue)
     {
         float prevHealth = m_health;
-        m_health = m_health + pickupValue;
-        if (m_health > m_maxHealth) m_health = m_maxHealth;
+        if (prevHealth <= 0)
+        {
+            OnRevived();
+        }
+        else
+        {
+            m_health = m_health + pickupValue;
+            if (m_health > m_maxHealth) m_health = m_maxHealth;
+        }
+        
         onHealthChanged?.Invoke(prevHealth, m_health);
+    }
+
+    public void OnRevived()
+    {
+        m_health = m_maxHealth;
+        m_repairNeededObject?.SetActive(false);
     }
 }
