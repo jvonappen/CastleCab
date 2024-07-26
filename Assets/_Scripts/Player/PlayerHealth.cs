@@ -59,7 +59,10 @@ public class PlayerHealth : Health
         m_healthBar.UpdateProgress();
     }
 
-    protected override void Destroy() => gameObject.SetActive(false);
+    protected override void Destroy()
+    {
+        //gameObject.SetActive(false);
+    }
 
     public override void DealDamage(float _damageAmount, PlayerAttack _player)
     {
