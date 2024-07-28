@@ -9,6 +9,8 @@ public class AchievementPopup : MonoBehaviour
     [SerializeField] TextMeshProUGUI m_achievementNotifierText;
     [SerializeField] Image m_achievementNotifierIcon;
 
+    [SerializeField] AudioGroupDetails m_sfx;
+
     [SerializeField] float m_timeBeforeFade = 2.5f, m_fadeDuration = 0.4f;
 
     private void Start() => m_alphaController.SetAlpha(0);
@@ -20,8 +22,10 @@ public class AchievementPopup : MonoBehaviour
 
         m_alphaController.SetAlpha(1);
 
-        transform.localScale = Vector3.one;
-        transform.DOScale(Vector3.one * 1.2f, 0.3f);
+        transform.localScale = Vector3.one * 0.8f;
+        transform.DOScale(Vector3.one, 0.3f);
+
+        AudioManager.Instance.PlaySoundAtDistance(m_sfx, 0);
 
         TimerManager.RunAfterTime(() =>
         {

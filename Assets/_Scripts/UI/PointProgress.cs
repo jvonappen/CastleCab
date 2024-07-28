@@ -5,13 +5,20 @@ using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using DG.Tweening;
 
+public enum ProgressDisplayType
+{
+    SpriteSwap,
+    ColourChange
+}
+
 public class PointProgress : MonoBehaviour
 {
     [SerializeField] protected int m_progress;
     public int progress { get { return m_progress; } }
-    
 
-    [SerializeField] Color m_progressColour, m_defaultColour;
+    [SerializeField] ProgressDisplayType m_progressDisplayType;
+    [SerializeField][ConditionalEnumHide("m_progressDisplayType", 0)] Sprite m_progressSprite, m_defaultSprite;
+    [SerializeField] [ConditionalEnumHide("m_progressDisplayType", 1)] Color m_progressColour, m_defaultColour;
 
     protected List<Image> m_points = new();
     public int totalPoints { get { return m_points.Count; } }
@@ -75,7 +82,10 @@ public class PointProgress : MonoBehaviour
         {
             if (i < m_progress)
             {
-                m_points[i].color = m_progressColour;
+                if (m_progressDisplayType == ProgressDisplayType.SpriteSwap)
+                    m_points[i].sprite = m_progressSprite;
+                else if (m_progressDisplayType == ProgressDisplayType.ColourChange)
+                    m_points[i].color = m_progressColour;
 
                 // Updates last selected point for custom functionality
                 if (i+1 == m_progress) UpdateLastSelectedPoint(m_points[i]);
@@ -83,7 +93,11 @@ public class PointProgress : MonoBehaviour
             }
             else
             {
-                m_points[i].color = m_defaultColour;
+                if (m_progressDisplayType == ProgressDisplayType.SpriteSwap) 
+                    m_points[i].sprite = m_defaultSprite;
+                else if (m_progressDisplayType == ProgressDisplayType.ColourChange) 
+                    m_points[i].color = m_defaultColour;
+
                 ResetScale(m_points[i]);
             }
         }

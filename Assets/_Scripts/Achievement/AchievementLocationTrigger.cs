@@ -21,7 +21,7 @@ public class AchievementLocationTrigger : MonoBehaviour
         {
             if (!AchievementManager.Instance.IsAchievementCompleted(m_achievementToTrigger))
             {
-                AchievementManager.Instance.AchievementCompleted(m_achievementToTrigger);
+                AchievementManager.Instance.CompleteAchievement(m_achievementToTrigger);
             }
         }
     }

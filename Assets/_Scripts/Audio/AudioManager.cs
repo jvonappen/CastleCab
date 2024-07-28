@@ -77,27 +77,28 @@ public class AudioManager : MonoBehaviour
 
     }
 
-    public void PlaySoundAtDistance(string _soundName, float _distance)
+    public void PlaySoundAtDistance(string _soundName, float _distance) => PlaySoundAtDistance(Array.Find(audioGroups, x => x.audioGroupName == _soundName), _distance);
+    public void PlaySoundAtDistance(AudioGroupDetails _audio, float _distance)
     {
         // Play group audio
-        AudioGroupDetails audio = Array.Find(audioGroups, x => x.audioGroupName == _soundName);
-        if (audio == null) { Debug.Log("Audio not found"); }
+        if (_audio == null) { Debug.Log("Audio not found"); }
         else
         {
             // Only plays sound on menu if bool is true on AudioGroupDetails SO
-            if (audio.playOnMenu || SceneManager.GetActiveScene().name != "StartMenu")
+            if (_audio.playOnMenu || SceneManager.GetActiveScene().name != "StartMenu")
             {
-                int randomVal = UnityEngine.Random.Range(0, audio.audioClips.Length);
-                sfxSource.clip = audio.audioClips[randomVal];
+                int randomVal = UnityEngine.Random.Range(0, _audio.audioClips.Length);
+                sfxSource.clip = _audio.audioClips[randomVal];
 
                 float volume = Mathf.Clamp(1 - (_distance / m_soundRange), 0, 1); // Sets volume based on distance and max range
 
-                sfxSource.PlayOneShot(audio.audioClips[randomVal], volume * audio.audioGroupVolume);
+                sfxSource.PlayOneShot(_audio.audioClips[randomVal], volume * _audio.audioGroupVolume);
             }
         }
     }
 
-    public void PlaySoundAtLocation(string _soundName, Vector3 _worldPos)
+    public void PlaySoundAtLocation(string _soundName, Vector3 _worldPos) => PlaySoundAtLocation(Array.Find(audioGroups, x => x.audioGroupName == _soundName), _worldPos);
+    public void PlaySoundAtLocation(AudioGroupDetails _audio, Vector3 _worldPos)
     {
         // Gets closest player distance and plays sound loudness accordingly
         Transform closestPlayer = players.OrderBy(player =>
@@ -105,10 +106,9 @@ public class AudioManager : MonoBehaviour
             if (player) return (player.position - _worldPos).sqrMagnitude;
             else return float.MaxValue;
         }).FirstOrDefault();
-        if (closestPlayer) PlaySoundAtDistance(_soundName, Vector3.Distance(_worldPos, closestPlayer.position));
+        if (closestPlayer) PlaySoundAtDistance(_audio, Vector3.Distance(_worldPos, closestPlayer.position));
     }
 
-    
     public void StopMusic(string name)
     {
         AudioDetails audio = Array.Find(musicAudio, x => x.audioName == name);

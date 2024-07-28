@@ -33,11 +33,17 @@ public class Health : MonoBehaviour
     [SerializeField] protected AudioGroupDetails m_damagedSFX;
     [SerializeField] protected AudioGroupDetails m_destroyedSFX;
 
+    [Header("Debug")]
+    [SerializeField] private string m_name;
+
     private void Awake() => Init();
     protected virtual void Init()
     {
         m_manager = FindObjectOfType<GameManager>();
         m_maxHealth = m_health;
+
+        if(GetComponentInParent<QuestTarget>() != null) { m_name = GetComponentInParent<QuestTarget>().targetName; }
+        
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -90,10 +96,20 @@ public class Health : MonoBehaviour
 
     protected virtual void Die(PlayerAttack _player)
     {
+        //Double Check name
+        if (GetComponentInParent<QuestTarget>() != null) { m_name = GetComponentInParent<QuestTarget>().targetName; }
+
         if (m_destroyedSFX != null) AudioManager.Instance.PlaySoundAtLocation(m_destroyedSFX.audioGroupName, transform.position);
         PlayParticle(ref m_destroyedParticlePrefab);
         GameObject particleParent = GameObject.Find("----Particles");
         if (particleParent && m_destroyedParticlePrefab) m_destroyedParticlePrefab.transform.SetParent(particleParent.transform);
+
+        // Tsk tsk tsk Jacob.......Had to add a null check or 3. No idea which one it was, but you're welcome.
+        if (QuestManager.Instance != null && QuestManager.Instance.quest != null && QuestManager.Instance.quest.questObjectives != null) 
+        {
+            if (QuestManager.Instance.quest.questObjectives.questTarget != null) { QuestManager.Instance.quest.questObjectives.ObjectiveKilled(m_name); }
+        }
+        
 
         m_manager.AddGold(m_goldReward);
         if (_player)
@@ -105,14 +121,11 @@ public class Health : MonoBehaviour
         if (gameObject.layer != LayerMask.NameToLayer("Player")) GameStatistics.GetStat(Statistic.ObjectsDestroyed).Value++;
 
         onDeath?.Invoke();
-        //Destroy();
-        gameObject.SetActive(false);
+        Destroy();
         RespawnObject();
     }
 
-    protected virtual void Destroy() => Destroy(gameObject);
-
-
+    protected virtual void Destroy() => gameObject.SetActive(false);
 
     private void RespawnObject()
     {

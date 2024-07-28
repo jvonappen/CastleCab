@@ -34,6 +34,12 @@ public class Dishonour : MonoBehaviour
         UpdateDishonourProgress();
     }
 
+    public void DecreaseDishonour(int _dishonourToAdd)
+    {
+        m_currentDishonourPoints -= _dishonourToAdd;
+        UpdateDishonourProgress();
+    }
+
     void OnDishonourChanged()
     {
         if (m_enemySpawner) m_enemySpawner.UpdateEnemies();

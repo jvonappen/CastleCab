@@ -38,7 +38,7 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
-    public void AchievementCompleted(SO_Achievement _achievement)
+    public void CompleteAchievement(SO_Achievement _achievement)
     {
         m_achievementNotifier = m_achievementNotifier != null ? m_achievementNotifier : FindObjectOfType<AchievementPopup>();
         if (m_achievementNotifier)
@@ -47,7 +47,6 @@ public class AchievementManager : MonoBehaviour
         }
 
         m_completedAchievements.Add(_achievement);
-        Debug.Log("Completed Achievement: '" + _achievement.DisplayName + "'");
     }
 }
 
@@ -70,6 +69,6 @@ public class AchievementStatTracker
     void CompleteAchievement()
     {
         GameStatistics.GetStat(m_data.Statistic).Changed -= OnStatChanged;
-        AchievementManager.Instance.AchievementCompleted(m_data);
+        AchievementManager.Instance.CompleteAchievement(m_data);
     }
 }

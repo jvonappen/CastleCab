@@ -22,7 +22,7 @@ public class QuestGiver : MonoBehaviour
         questTitleText.text = quest.questTitle;
         questDescriptionText.text= quest.questDescription;
         goldRewardText.text = quest.goldReward.ToString();
-        itemRewardText.text= quest.itemReward.ToString(); /// need to change to int description later
+        itemRewardText.text= quest.itemReward.ToString(); 
     }
 
     public void AcceptQuest()
