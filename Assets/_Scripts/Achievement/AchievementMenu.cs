@@ -8,11 +8,6 @@ public class AchievementMenu : MonoBehaviour
 
     List<SO_Achievement> m_achievements;
     List<GameObject> m_achievementDisplays = new();
-    private void Start()
-    {
-        m_achievements = AchievementManager.Instance.m_achievements;
-        DisplayAchievements();
-    }
 
     private void OnEnable()
     {

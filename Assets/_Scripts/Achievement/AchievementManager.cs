@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class AchievementManager : MonoBehaviour
@@ -26,6 +27,12 @@ public class AchievementManager : MonoBehaviour
 
     List<SO_Achievement> m_completedAchievements = new();
     public bool IsAchievementCompleted(SO_Achievement _achievement) => m_completedAchievements.Contains(_achievement);
+    public float GetAchievementProgress(SO_Achievement _achievement)
+    {
+        AchievementStatTracker tracker = m_statTrackers.FirstOrDefault(t => t.data == _achievement);
+        if (tracker != null) return tracker.lastVal;
+        else return 0;
+    }
 
     private void Start()
     {
@@ -52,23 +59,25 @@ public class AchievementManager : MonoBehaviour
 
 public class AchievementStatTracker
 {
-    SO_Achievement m_data;
+    public SO_Achievement data { get; private set; }
+    public float lastVal { get; private set; }
 
     public AchievementStatTracker(SO_Achievement _achievement)
     {
-        m_data = _achievement;
+        data = _achievement;
 
-        GameStatistics.GetStat(m_data.Statistic).Changed += OnStatChanged;
+        GameStatistics.GetStat(data.Statistic).Changed += OnStatChanged;
     }
 
     void OnStatChanged(object _obj, Observable<float>.ChangedEventArgs _args)
     {
-        if (m_data.AmountForCompletion <= _args.NewValue) CompleteAchievement();
+        lastVal = _args.NewValue;
+        if (data.AmountForCompletion <= _args.NewValue) CompleteAchievement();
     }
 
     void CompleteAchievement()
     {
-        GameStatistics.GetStat(m_data.Statistic).Changed -= OnStatChanged;
-        AchievementManager.Instance.CompleteAchievement(m_data);
+        GameStatistics.GetStat(data.Statistic).Changed -= OnStatChanged;
+        AchievementManager.Instance.CompleteAchievement(data);
     }
 }

@@ -10,7 +10,7 @@ public class OpenAchievementMenu : MonoBehaviour
     GameObject m_achievementMenu;
     private void Start()
     {
-        m_achievementMenu = FindObjectOfType<AchievementMenu>(true).transform.parent.parent.parent.parent.gameObject;
+        m_achievementMenu = FindObjectOfType<AchievementMenu>(true).transform.parent/*.parent.parent.parent*/.gameObject;
 
         m_playerInput.m_playerControls.Controls.StatsMenu.performed += ToggleMenu;
     }
