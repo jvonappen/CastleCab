@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6744099385115547952}
   - component: {fileID: 8823446540844461562}
   - component: {fileID: 1303258612808352706}
+  - component: {fileID: 4929694662344827784}
   m_Layer: 0
   m_Name: pfb_SM_shelf
   m_TagString: Untagged
@@ -105,3 +106,28 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.61789, y: 2.1332052, z: 0.78597534}
   m_Center: {x: 0.0000005364418, y: 1.042437, z: 0.005120054}
+--- !u!114 &4929694662344827784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7022186666563554351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b2412d7b607ce54290fe5b66608b7d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_health: 10
+  m_dishonourPunishment: 15
+  m_goldReward: 20
+  m_canRespawn: 1
+  m_respawnTime: 5
+  m_collisionParticlePrefab: {fileID: 0}
+  m_damagedParticlePrefab: {fileID: 7511328176439486736, guid: b2f9691986e2d7048b48dcf702b763f8, type: 3}
+  m_destroyedParticlePrefab: {fileID: 7511328176439486736, guid: b2f9691986e2d7048b48dcf702b763f8, type: 3}
+  m_respawnParticlePrefab: {fileID: 141433446842962269, guid: 9a300ba111052ed4b84133515fa48a6d, type: 3}
+  m_collidedSFX: {fileID: 11400000, guid: 219db2806e1b5434d9ef6ebde22454c7, type: 2}
+  m_damagedSFX: {fileID: 11400000, guid: 3fb34228c27767546ac8e9ccecd7725f, type: 2}
+  m_destroyedSFX: {fileID: 11400000, guid: 3fb34228c27767546ac8e9ccecd7725f, type: 2}
+  m_name: 
