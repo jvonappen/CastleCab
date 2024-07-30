@@ -1,0 +1,108 @@
+﻿__________________________________________________________________________________________
+
+Package "Eyes Animator"
+Version 2.0.3.2
+
+Made by FImpossible Creations - Filip Moeglich
+https://www.FilipMoeglich.pl
+Mail: FImpossibleGames@Gmail.com or Filip.Moeglich@Gmail.com
+
+__________________________________________________________________________________________
+
+Unity Connect: https://connect.unity.com/u/5b2e9407880c6425c117fab1
+Youtube: https://www.youtube.com/fimpossiblegames
+Facebook: https://www.facebook.com/FImpossibleCreations
+Twitter (@FimpossibleC): https://twitter.com/FImpossibleC
+Google+: https://plus.google.com/u/3/115325467674876785237
+
+__________________________________________________________________________________________
+Description:
+
+Eyes Animator is component which will animate eye spheres to behave like real or to behave more cartoon like, it's up to you!
+
+Eye movement is a small detail thing, but when it suddenly appear in your project, you can feel that it was truly missing.
+Component have intuitive settings which you can use to design your custom movement for eyes.
+Animation is procedural and constatly random - no repetitions, it's only using game object's rotation.
+
+Algorithm is simulating eyes point of interest lag for more realism, which effect you can adjust with simple slider.
+There is also random eyes movement simulation, with different presets: 
+From calm through nervous to psychical cues - movement of eyes when someone is lying / trying to remember sound etc.
+
+All you need to have are eyes sphere models or eye bones in your 3D model.
+
+Main features:
+-Includes interactive demo scenes
+-Includes full source code with detailed commentary
+
+- Quickly setup component with custom inspector
+- Easily change target objects to follow by eyes
+- Blend eye animation and effects you apply in component
+- Easily set clamp ranges with inspector visualization
+
+__________________________________________________________________________________________
+Changelog:
+
+v2.0.3.2
+- added possiblity to use additional blenshapes for blinking
+- support for look angles at any head orientation (like upside down) for blendshape driven look animation
+- fix: when eye was clamped, the lag was sometimes calculating its animation with delay
+- Look start position is now calculated along with head position (Corrections -> Static Look Start Position)
+
+v2.0.3.1
+- There was found issue with weird eye rotations when using Eyes Lag and rotating character quickly
+so Lag feature is using now different code
+
+v2.0.3
+- Added Blendshapes Support
+- Added individual clamping support
+
+v2.0.2
+- Added Bones_Positions blinking mode
+- Added Bones_Scale blinking mode
+
+v2.0.1
+- Updated implementation with look animator (check "Look Animator Implementation.txt")
+- Changed how "EyesAnimatorAmount" parameter works - it disables all eyes animator features (including blinking)
+- Eyes follow behaviour blend separated onto "Follow Target Amount" parameter. Now "Stop Look Above" have influence only on this (it will not disable random eyes movement)
+- Demo scenes packed into .unitypackage
+- Directories managed to work with assembly definitions also included .unitypackage with assembly definitions
+- Fixed few logics with out of range detection
+- Added "Go Out" factor for "Max Distance" parameter to avoid instant disabling/enabling eyes follow behaviour
+
+v2.0.0
+- Upgraded inspector GUI
+- Removed Eyes Animator Blinking component, instead of it blinking is additional module to enable within Eyes Animator
+If you was using blinking component, open "/Eyes Animator/Packages/" directory then import package, on top of your blinking package
+will appear button "Convert to Eyes Animator V2" please do it on every blinking component you use and 
+then you can remove "FEyesAnimatorBlinking.cs" file and "Eyes Animator/Editor/FEyesAnimatorBlinking_Editor.cs" file
+- Upgraded implementation with my other package "Look Animator"
+You just need to have look animator in project to make implementation appear in Eyes Animator inspector window
+
+v1.0.7
+- Added support to animate blinking with blenshapes on skinned mesh renderer
+- Few upgrades and new parameter "Hold Closed Time"
+- Added field "Optimizer with renderer" to stop EyesAnimator from computing algorithm when choosed renderer is not visible in camera view
+
+v1.0.6
+- Fixes for inspector window
+- Now 'Auto Find' will not only try to find head bone but also eye bones and eyelids
+- Variable 'RootFixer' removed because new rotation fixing algorithm is working universally
+
+V1.0.5
+- Some fixes for inspector window
+- "EyeLids" list now will be automatically filled with objects from "Upper Eyelids" and "Lower Eyelids" lists
+- Added button "Focus On Close Rotations" to help adjusting eyelids close rotations
+- Added variable "Min Open Value" to blinking component so you can close character's eyes a little as default eyes pose
+- Added guide gizmo arrows to help debug algorithm
+
+V1.0.3
+- Added 'Additional Eyelids Motion' for FEyesAnimatorBlinking component, so you can controll eyelids' opening a little when character is looking up and closing a bit when looking down - it gives more natural effect
+- Added 'LagStiffness' variable for some more controll over lag effect
+
+V1.0.2
+- Added icon on the right inside hierarchy to easily find objects with attached EyesAnimator
+- Added component menu so you will find Eyes Animator components also under "Add Component" > "FImpossible Creations" > "Eyes Animator"
+
+V1.0.1
+- Added prefabs for single eye setups of eye animator
+- Few fixes for inspector windows
