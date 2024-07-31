@@ -44,4 +44,13 @@ public class BaseAlphaController : MonoBehaviour
             m_images[i].color = new Color(m_images[i].color.r, m_images[i].color.g, m_images[i].color.b, m_alpha);
         }
     }
+
+    public void FadeOut(float _duration)
+    {
+        TimerManager.RunUntilTime((float counter, float duration) =>
+        {
+            SetAlpha(1 - (counter/duration));
+            if (counter >= duration) SetAlpha(0);
+        }, _duration);
+    }
 }
