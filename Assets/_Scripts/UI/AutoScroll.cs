@@ -16,6 +16,7 @@ public class AutoScroll : MonoBehaviour
         {
             foreach (Transform child in transform) m_selectables.Add(child.gameObject);
             transform.parent.localPosition = Vector3.zero;
+            m_listPos = 1;
         }, 0.05f);
     }
 
