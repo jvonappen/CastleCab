@@ -27,15 +27,17 @@ public class DestinationManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            gameObject.transform.SetParent(null);
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        //if (Instance == null)
+        //{
+        //    Instance = this;
+        //    gameObject.transform.SetParent(null);
+        //    DontDestroyOnLoad(gameObject);
+        //}
+        //else
+        //{
+        //    Destroy(gameObject);
+        //}
+
+        Instance = this;
     }
 }
