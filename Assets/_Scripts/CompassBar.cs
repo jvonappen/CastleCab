@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class CompassBar : PlayerJoinedNotifier
 {
+    [SerializeField] float m_squashDivider = 3;
+
     [SerializeField] private RectTransform compassTransform;
     [SerializeField] private RectTransform objectiveMarkerTransform;
     [SerializeField] private RectTransform northMarkerTransform;
@@ -123,7 +125,7 @@ public class CompassBar : PlayerJoinedNotifier
     {
             Vector3 directionToTarget = worldPos - cameraObjectTransform.position;
             float angle = Vector2.SignedAngle(new Vector2(directionToTarget.x, directionToTarget.z), new Vector2(cameraObjectTransform.transform.forward.x, cameraObjectTransform.transform.forward.z));
-            float compassPosX = Mathf.Clamp(2 * angle / m_cam.fieldOfView, -1, 1);
+            float compassPosX = Mathf.Clamp((2 * angle / m_cam.fieldOfView) / m_squashDivider, -1, 1);
             markerTransform.anchoredPosition = new Vector2(compassTransform.rect.width / 2 * compassPosX, 0);
     }
 }
