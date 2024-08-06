@@ -9,6 +9,7 @@ public class AutoScroll : MonoBehaviour
     GameObject m_previousSelectable, m_currentSelectable;
 
     int m_moveHistory = 0; // -1 = down, 1 = up
+    int m_listPos = 1;
 
     private void OnEnable()
     {
@@ -34,23 +35,37 @@ public class AutoScroll : MonoBehaviour
         int currIndex = m_currentSelectable.transform.GetSiblingIndex();
         if (prevIndex < currIndex) // If moving down
         {
-            if (m_moveHistory <= 0) // If was moving down
-            {
-                m_moveHistory--;
-                if (Mathf.Abs(m_moveHistory) >= m_displayCount) MoveContent();
-            }
-            else if (m_moveHistory > 0) // If was moving up
-                m_moveHistory = -1;
+            if (m_listPos < m_displayCount) m_listPos++;
+            else MoveContent();
+
+            //if (m_moveHistory <= 0) // If was moving down
+            //{
+            //    if (m_listPos < m_displayCount) m_listPos++;
+            //    m_moveHistory--;
+            //    if (Mathf.Abs(m_moveHistory) >= m_displayCount) MoveContent();
+            //}
+            //else if (m_moveHistory > 0) // If was moving up
+            //{
+            //    m_moveHistory = -1;
+            //    m_listPos++;
+            //}
         }
         else if (prevIndex > currIndex) // If moving up
         {
-            if (m_moveHistory >= 0) // If was moving up
-            {
-                m_moveHistory++;
-                if (Mathf.Abs(m_moveHistory) >= m_displayCount) MoveContent();
-            }
-            else if (m_moveHistory < 0) // If was moving down
-                m_moveHistory = 1;
+            if (m_listPos > 1) m_listPos--;
+            else MoveContent();
+
+            //if (m_moveHistory >= 0) // If was moving up
+            //{
+            //    if (m_listPos > 1) m_listPos--;
+            //    m_moveHistory++;
+            //    if (Mathf.Abs(m_moveHistory) >= m_displayCount) MoveContent();
+            //}
+            //else if (m_moveHistory < 0) // If was moving down
+            //{
+            //    m_moveHistory = 1;
+            //    m_listPos--;
+            //}
         }
     }
 
