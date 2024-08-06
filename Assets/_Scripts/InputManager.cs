@@ -124,7 +124,6 @@ public class InputManager : MonoBehaviour
     void EndJoining() => joinAction.Disable();
     void OnJoinPressed(InputAction.CallbackContext _context)
     {
-        Debug.Log("Joined");
         //if (_context.control.device is Keyboard) ButtonPressed(_context.control);
         JoinPlayer(_context.control.device);
     }
