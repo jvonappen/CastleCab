@@ -21,6 +21,7 @@ public class InputManager : MonoBehaviour
     [SerializeField] TrafficManager m_trafficManager;
     List<PlayerInput> m_players = new();
 
+    [SerializeField] InputActionReference m_inputActionRef;
     InputAction joinAction;
     List<InputDevice> inputDevices = new();
     int joinedCount;
@@ -55,7 +56,12 @@ public class InputManager : MonoBehaviour
     private void OnEnable()
     {
         // Bind joinAction to any button press.
-        joinAction = new InputAction(binding: "/*/<button>");
+        //joinAction =  new InputAction(binding: "/*/<button>");
+
+        // Creates new InputAction with bindings copied from m_inputActionRef
+        // (May cause an issue on switch when adding keyboard binding, we will find out when we test on dev kit)
+        joinAction = new InputAction();
+        foreach (InputBinding binding in m_inputActionRef.action.bindings) joinAction.AddBinding(binding);
 
         joinAction.started += OnJoinPressed;
         BeginJoining();
@@ -92,29 +98,33 @@ public class InputManager : MonoBehaviour
     void ButtonPressed(InputControl _inputControl)
     {
         string keyPressed = _inputControl.path.Replace("/Keyboard/", "");
-        if (keyPressed == "backspace")
+        if (keyPressed == "rightBracket")
         {
             GameManager.Instance.ResetGame(false);
-    
-            m_canJoin = false;
-            TimerManager.RunAfterTime(() => m_canJoin = true, 0.1f);
+            StartJoinCooldown(0.1f);
+        }
+        else if (keyPressed == "leftBracket")
+        {
+            GameManager.Instance.ResetGame(true, true);
+            StartJoinCooldown(0.1f);
         }
         else if (keyPressed == "tab")
         {
-            if (SceneManager.GetActiveScene().name == "StartMenu")
-            {
-                ReadyUp.StartGame();
-            }
-    
-            m_canJoin = false;
-            TimerManager.RunAfterTime(() => m_canJoin = true, 0.1f);
+            if (SceneManager.GetActiveScene().name == "StartMenu") ReadyUp.StartGame();
+            StartJoinCooldown(0.1f);
         }
+    }
+    void StartJoinCooldown(float _time)
+    {
+        m_canJoin = false;
+        TimerManager.RunAfterTime(() => m_canJoin = true, _time);
     }
 
     void BeginJoining() => joinAction.Enable();
     void EndJoining() => joinAction.Disable();
     void OnJoinPressed(InputAction.CallbackContext _context)
     {
+        Debug.Log("Joined");
         //if (_context.control.device is Keyboard) ButtonPressed(_context.control);
         JoinPlayer(_context.control.device);
     }

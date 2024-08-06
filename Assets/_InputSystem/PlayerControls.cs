@@ -136,15 +136,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""ReturnMenu"",
-                    ""type"": ""Button"",
-                    ""id"": ""1e55bb8b-12f6-45bf-820e-0d025477dd6a"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Fart"",
                     ""type"": ""Button"",
                     ""id"": ""c8a5e6c7-5087-4bed-85a7-8ea941e3150d"",
@@ -590,28 +581,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""JoinGame"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""5acf8985-0d46-4ef6-81a2-d6f69fb20048"",
-                    ""path"": ""<Keyboard>/backspace"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""ReturnMenu"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""6d6b1c59-77d1-4908-a2ab-a238fffde948"",
-                    ""path"": ""<Gamepad>/rightStickPress"",
-                    ""interactions"": ""Hold(duration=1)"",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""ReturnMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1418,7 +1387,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Controls_Achievement = m_Controls.FindAction("Achievement", throwIfNotFound: true);
         m_Controls_StatsMenu = m_Controls.FindAction("StatsMenu", throwIfNotFound: true);
         m_Controls_JoinGame = m_Controls.FindAction("JoinGame", throwIfNotFound: true);
-        m_Controls_ReturnMenu = m_Controls.FindAction("ReturnMenu", throwIfNotFound: true);
         m_Controls_Fart = m_Controls.FindAction("Fart", throwIfNotFound: true);
         m_Controls_MegaFart = m_Controls.FindAction("MegaFart", throwIfNotFound: true);
         // UI
@@ -1510,7 +1478,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Controls_Achievement;
     private readonly InputAction m_Controls_StatsMenu;
     private readonly InputAction m_Controls_JoinGame;
-    private readonly InputAction m_Controls_ReturnMenu;
     private readonly InputAction m_Controls_Fart;
     private readonly InputAction m_Controls_MegaFart;
     public struct ControlsActions
@@ -1529,7 +1496,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Achievement => m_Wrapper.m_Controls_Achievement;
         public InputAction @StatsMenu => m_Wrapper.m_Controls_StatsMenu;
         public InputAction @JoinGame => m_Wrapper.m_Controls_JoinGame;
-        public InputAction @ReturnMenu => m_Wrapper.m_Controls_ReturnMenu;
         public InputAction @Fart => m_Wrapper.m_Controls_Fart;
         public InputAction @MegaFart => m_Wrapper.m_Controls_MegaFart;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
@@ -1577,9 +1543,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @JoinGame.started += instance.OnJoinGame;
             @JoinGame.performed += instance.OnJoinGame;
             @JoinGame.canceled += instance.OnJoinGame;
-            @ReturnMenu.started += instance.OnReturnMenu;
-            @ReturnMenu.performed += instance.OnReturnMenu;
-            @ReturnMenu.canceled += instance.OnReturnMenu;
             @Fart.started += instance.OnFart;
             @Fart.performed += instance.OnFart;
             @Fart.canceled += instance.OnFart;
@@ -1626,9 +1589,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @JoinGame.started -= instance.OnJoinGame;
             @JoinGame.performed -= instance.OnJoinGame;
             @JoinGame.canceled -= instance.OnJoinGame;
-            @ReturnMenu.started -= instance.OnReturnMenu;
-            @ReturnMenu.performed -= instance.OnReturnMenu;
-            @ReturnMenu.canceled -= instance.OnReturnMenu;
             @Fart.started -= instance.OnFart;
             @Fart.performed -= instance.OnFart;
             @Fart.canceled -= instance.OnFart;
@@ -1834,7 +1794,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnAchievement(InputAction.CallbackContext context);
         void OnStatsMenu(InputAction.CallbackContext context);
         void OnJoinGame(InputAction.CallbackContext context);
-        void OnReturnMenu(InputAction.CallbackContext context);
         void OnFart(InputAction.CallbackContext context);
         void OnMegaFart(InputAction.CallbackContext context);
     }
