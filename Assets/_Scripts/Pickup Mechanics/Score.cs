@@ -7,21 +7,18 @@ public class Score : MonoBehaviour
 {
     public int scoreValue = 0;
 
-    [SerializeField] private TextMeshProUGUI _scoreText;
+    [SerializeField] private List<TextMeshProUGUI> _scoreDisplays;
     private int _startValue = 0;
 
-    private void Awake()
+    private void Awake() => scoreValue = _startValue;
+    void Start() => UpdateDisplay();
+    private void Update() => UpdateDisplay();
+    
+    void UpdateDisplay()
     {
-        scoreValue = _startValue;
+        foreach (TextMeshProUGUI display in _scoreDisplays)
+        {
+            display.text = scoreValue.ToString();
+        }
     }
-    void Start()
-    {
-        _scoreText.text = scoreValue.ToString();
-    }
-
-    private void FixedUpdate()
-    {
-        _scoreText.text = scoreValue.ToString();
-    }
-          
 }
