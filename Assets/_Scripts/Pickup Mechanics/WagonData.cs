@@ -32,7 +32,7 @@ public class WagonData : MonoBehaviour
         wagonSlot = wagonSlotPoint;
         playerNumber = playerNumber + 1;
         thisPlayerNumber = playerNumber;
-        score.scoreValue = playerNumber;
+        //score.scoreValue = playerNumber;
        
         MapScreenLocation.Instance.MapPosUpdate();  
     }
